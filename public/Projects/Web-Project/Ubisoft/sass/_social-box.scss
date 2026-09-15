@@ -1,0 +1,48 @@
+.social-box {
+  width: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  position: relative;
+  .text-in-social-box {
+    width: 65%;
+    p {
+      font-size: 18px;
+      color: rgb(144, 144, 144);
+    }
+  }
+  .icon-social {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    a i {
+      font-size: 28px;
+      color: black;
+      background-color: white;
+      padding: 5px;
+      border-radius: 50%;
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .text-in-social-box {
+    width: 85% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .text-in-social-box {
+    display: none;
+  }
+  .icon-social {
+    width: 90%;
+  }
+}

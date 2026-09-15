@@ -1,0 +1,60 @@
+{
+  "laptopCategory": [
+    {
+      "id": 1,
+      "title": "لپ تاپ 15.6 اینچی ایسوس مدل Vivobook Pro 15 Q533MJ-U73050-Core Ultra 7 155H-16GB DDR5 5600MHz-1TB SSD-RTX3050 6GB-OLED-W",
+      "image": "/backend/offer all products/offer box img (5).jpg",
+      "price": 139400000,
+      "originalPrice": 156128000,
+      "discount": 11
+    },
+    {
+      "id": 2,
+      "title": "لپ تاپ 15.6 اینچی ایسوس مدل TUF Gaming A15 FA506NCR-WH71-R7 7435HS-8GB DDR5-512GB SSD-RTX3050-FHD-W",
+      "image": "/backend/offer all products/offer box img (6).jpg",
+      "price": 103500000,
+      "originalPrice": 119000000,
+      "discount": 13
+    },
+    {
+      "id": 3,
+      "title": "لپ تاپ 15.6 اینچی ایسوس مدل TUF Gaming F15 FX507VV-LP312-i7 13620H-RTX4060 8GB-16GB DDR5 4800MHz-512GB SSD-FHD 144Hz",
+      "image": "/backend/offer all products/offer box img (7).jpg",
+      "price": 185000000,
+      "originalPrice": 212000000,
+      "discount": 13
+    },
+    {
+      "id": 4,
+      "title": "لپ تاپ 15.6 اینچی اچ‌ پی مدل Victus 15-fa1657nr-i7 13620H-16GB DDR4-512GB SSD-RTX4060-FHD-W",
+      "image": "/backend/offer all products/offer box img (8).jpg",
+      "price": 164800000,
+      "originalPrice": 188000000,
+      "discount": 12
+    },
+    {
+      "id": 5,
+      "title": "لپ تاپ ۱۵.۶ اینچی ایسر مدل Aspire 5 A515-58T",
+      "image": "/backend/offer products/1.jpg",
+      "price": 32490000,
+      "originalPrice": 43320000,
+      "discount": 25
+    },
+    {
+      "id": 6,
+      "title": "لپ تاپ لنوو مدل IdeaPad 3",
+      "image": "/backend/offer products/9.jpg",
+      "price": 9000000,
+      "originalPrice": 12000000,
+      "discount": 25
+    },
+    {
+      "id": 7,
+      "title": "لپ تاپ گیمینگ ایسوس TUF",
+      "image": "/backend/offer products/20.jpg",
+      "price": 37800000,
+      "originalPrice": 42000000,
+      "discount": 10
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+.second-game-slider {
+  width: 100%;
+  margin: 150px auto 50px auto;
+  height: fit-content;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+  background-repeat: no-repeat;
+  .title-in-second-game-slider-and-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 65%;
+    .title-in-second-game-slider {
+      font-size: 24px;
+      color: white;
+      position: relative;
+    }
+    .arrow-in-second-game-slider {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .spans-in-game-slider {
+        span {
+          display: inline-block;
+          width: 20px;
+          height: 5px;
+          border-radius: 4px;
+          background-color: white;
+        }
+      }
+      i {
+        font-size: 42px;
+        padding: 5px;
+        color: white;
+        cursor: pointer;
+        transition: all 200ms ease;
+        &:hover {
+          color: rgb(200, 200, 200);
+        }
+      }
+    }
+  }
+  .second-games-slider-root-section {
+    display: flex;
+    align-items: start;
+    justify-content: flex-start;
+    gap: 25px;
+    overflow-x: hidden;
+    width: 65%;
+    padding: 15px;
+    .second-games-slider-root {
+      display: flex;
+      align-items: start;
+      justify-content: flex-start;
+      gap: 25px;
+      transition: all 340ms ease;
+      .second-game-card {
+        flex-shrink: 0;
+        width: 243px;
+        height: fit-content;
+        padding-bottom: 25px;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        position: relative;
+        flex-direction: column;
+        border-radius: 8px;
+        background-color: $boxBack;
+        overflow: hidden;
+        transition: all 280ms ease;
+        text-wrap: nowrap;
+        text-overflow: hidden;
+        img {
+          width: 100%;
+          height: auto;
+          transition: all 280ms ease;
+        }
+        .game-name {
+          font-size: 20px;
+          margin-left: 15px;
+          margin-top: 10px;
+          color: white;
+        }
+        .game-description {
+          font-size: 17px;
+          margin-left: 15px;
+          margin-top: 5px;
+          color: rgb(169, 169, 169);
+        }
+        .original-price {
+          font-size: 17px;
+          margin-left: 72%;
+          margin-top: 15px;
+          color: rgb(169, 169, 169);
+          text-decoration: line-through;
+        }
+        .all-price {
+          display: flex;
+          align-items: end;
+          justify-content: center;
+          flex-direction: column;
+          margin-left: 40%;
+          .discount-and-price {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            gap: 10px;
+            margin-top: 5px;
+            .price {
+              font-size: 17px;
+              color: white;
+            }
+            .discount {
+              background-color: orangered;
+              padding: 5px;
+              border-radius: 6px;
+            }
+          }
+        }
+        &:hover img {
+          transform: scale(1.04);
+        }
+        &:hover {
+          background-color: rgb(41, 15, 0);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .second-game-slider {
+    margin: 350px auto 60px auto;
+    width: 100% !important;
+    .title-in-second-game-slider-and-arrows {
+      width: 85%;
+    }
+    .second-games-slider-root-section {
+      width: 86% !important;
+      padding: 0 !important;
+      .second-games-slider-root {
+        .second-game-card {
+          width: 187px !important;
+          img {
+            width: 187px !important;
+            height: auto;
+            transition: all 280ms ease;
+          }
+          .game-name {
+            font-size: 17px !important;
+          }
+          .game-description {
+            font-size: 15px !important;
+          }
+          .all-price {
+            margin-left: 30% !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .second-game-slider {
+    margin: 270px auto 50px auto;
+    padding: 0;
+    .title-in-second-game-slider-and-arrows {
+      .arrow-in-second-game-slider {
+        display: none;
+      }
+    }
+      .second-games-slider-root-section {
+        overflow-x: scroll;
+      }
+  }
+}
+
+
+@media (max-width: 450px) {
+  .second-game-slider{
+    margin-top: 350px;
+  }
+}

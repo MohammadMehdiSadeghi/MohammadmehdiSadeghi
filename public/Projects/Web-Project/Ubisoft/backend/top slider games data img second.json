@@ -1,0 +1,66 @@
+[
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (8).jpg",
+    "title": "For Honor",
+    "description": "Standard Edition",
+    "originalPrice": "109.99",
+    "discountPercent": "-95%",
+    "finalPrice": "5.50"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (7).jpg",
+    "title": "Assassin's Creed Origins",
+    "description": "Standard Edition",
+    "originalPrice": "179.99",
+    "discountPercent": "-85%",
+    "finalPrice": "27.00"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (6).jpg",
+    "title": "Skull and Bones",
+    "description": "Standard Edition",
+    "originalPrice": "109.99",
+    "discountPercent": "-80%",
+    "finalPrice": "22.00"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (5).jpg",
+    "title": "Far Cry 5",
+    "description": "Standard Edition",
+    "originalPrice": "179.99",
+    "discountPercent": "-85%",
+    "finalPrice": "27.00"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (4).jpg",
+    "title": "Watch Dogs Legion",
+    "description": "Standard Edition",
+    "originalPrice": "199.99",
+    "discountPercent": "-85%",
+    "finalPrice": "30.00"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (3).jpg",
+    "title": "Assassin's Creed Unity",
+    "description": "Standard Edition",
+    "originalPrice": "59.99",
+    "discountPercent": "-75%",
+    "finalPrice": "15.00"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (2).jpg",
+    "title": "Tom Clancy's Ghost Recon Breakpoint",
+    "description": "Standard Edition",
+    "originalPrice": "179.00",
+    "discountPercent": "-80%",
+    "finalPrice": "35.80"
+  },
+  {
+    "image": "/backend/top slider games data img second/secend game slider img (1).jpg",
+    "title": "Ghost Recon Wildlands",
+    "description": "Standard Edition",
+    "originalPrice": "149.99",
+    "discountPercent": "-80%",
+    "finalPrice": "30.00"
+  }
+]

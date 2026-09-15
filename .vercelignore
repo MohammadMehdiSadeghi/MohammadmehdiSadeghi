@@ -1,0 +1,10 @@
+# CLI deploys upload the working directory — keep runtime secrets and
+# heavy local-only media out of the upload (env vars supply admin config).
+data/
+dist/
+node_modules/
+.git/
+.vercel/
+public/assets/Music/
+public/Projects/Web-Project/porskad-dist/
+*.log

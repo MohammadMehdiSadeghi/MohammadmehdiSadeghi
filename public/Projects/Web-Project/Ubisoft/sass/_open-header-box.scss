@@ -1,0 +1,210 @@
+.open-modal-header-section {
+  background-color: white;
+  width: 95%;
+  top: -130%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: 0 0 12px 12px;
+  transition: all 380ms ease;
+  .row-one-in-modal-section {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: 0 40px 0 40px;
+    width: 100%;
+    .div-one-in-row-one-in-modal-header {
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      flex-direction: column;
+      gap: 50px;
+      ul {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        li {
+          font-size: 16px;
+          font-family: "UbisoftFont-regular";
+          h2 {
+            color: black;
+            padding-bottom: 10px;
+            padding-right: 180px;
+            border-bottom: 1px solid black;
+            font-family: "UbisoftFont-bold" !important;
+            font-size: 16px;
+            word-spacing: 0.1px;
+          }
+          a {
+            color: black;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    .div-two-in-row-one-in-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ul {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        gap: 30px;
+        li {
+          font-size: 16px;
+          font-family: "UbisoftFont-regular";
+          h2 {
+            color: black;
+            padding-bottom: 10px;
+            padding-right: 180px;
+            border-bottom: 1px solid black;
+            font-family: "UbisoftFont-bold" !important;
+            font-size: 16px;
+            word-spacing: 0.1px;
+          }
+          a {
+            color: black;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    .div-three-in-row-one-in-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ul {
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        gap: 15px;
+        li:nth-child(1) {
+          h2 {
+            color: black;
+            padding-bottom: 10px;
+            padding-right: 180px;
+            border-bottom: 1px solid black;
+            font-family: "UbisoftFont-bold" !important;
+            font-size: 16px;
+            word-spacing: 0.1px;
+          }
+        }
+        li {
+          .game-card-in-modal-boxs {
+            display: flex;
+            align-items: start;
+            justify-content: center;
+            gap: 50px;
+            .game-card-in-modal {
+              display: flex;
+              align-items: start;
+              justify-content: center;
+              flex-direction: column;
+              gap: 10px;
+              border-radius: 4px;
+              border: 1px solid rgba(0, 0, 0, 0.11);
+              padding: 10px;
+              transition: all 180ms ease;
+              &:hover {
+                box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+              }
+              img {
+                background-color: rgb(196, 196, 196);
+                padding: 20px;
+                width: 280px;
+                height: auto;
+              }
+              h2 {
+                color: black;
+                font-size: 16px;
+                margin-top: 10px;
+              }
+              p {
+                color: rgb(55, 55, 55);
+                font-size: 14px;
+                font-family: "UbisoftFont-regular";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .link-to-other-page {
+    width: 50%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    button {
+      border: none;
+      padding: 15px 45px;
+      font-size: 18px;
+      background-color: palevioletred;
+      border-radius: 12px;
+      transition: all 280ms ease;
+      color: white;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(216, 112, 147, 0);
+        color: black;
+        border: 1px solid black;
+      }
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .open-modal-header-section {
+    padding: 15px !important;
+    .row-one-in-modal-section {
+      text-wrap: nowrap;
+      padding: 0 30px 0 30px;
+      gap: 45px;
+      .div-one-in-row-one-in-modal-header {
+        h2 {
+          font-size: 15px !important;
+          padding-right: 200px !important;
+        }
+        a {
+          font-size: 14px !important;
+        }
+      }
+    }
+  }
+  .div-three-in-row-one-in-modal-header {
+    top: -150% !important;
+    .game-card-in-modal-boxs {
+      justify-content: start !important;
+      flex-wrap: wrap;
+      .game-card-in-modal {
+        align-items: center !important;
+        img {
+          width: 180px !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .open-modal-header-section {
+    display: none;
+  }
+}

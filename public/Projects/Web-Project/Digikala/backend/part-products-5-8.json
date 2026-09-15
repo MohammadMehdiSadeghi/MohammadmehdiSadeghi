@@ -1,0 +1,68 @@
+{
+  "productsPartImg": [
+    {
+      "id": 1,
+      "image": "/backend/part products 5-8/cl1 (1).jpg"
+    },
+    {
+      "id": 2,
+      "image": "/backend/part products 5-8/cl1 (2).jpg"
+    },
+    {
+      "id": 3,
+      "image": "/backend/part products 5-8/cl1 (3).jpg"
+    },
+    {
+      "id": 4,
+      "image": "/backend/part products 5-8/cl1 (4).jpg"
+    },
+    {
+      "id": 5,
+      "image": "/backend/part products 5-8/cl2 (1).jpg"
+    },
+    {
+      "id": 6,
+      "image": "/backend/part products 5-8/cl2 (2).jpg"
+    },
+    {
+      "id": 7,
+      "image": "/backend/part products 5-8/cl2 (3).jpg"
+    },
+    {
+      "id": 8,
+      "image": "/backend/part products 5-8/cl2 (4).jpg"
+    },
+    {
+      "id": 9,
+      "image": "/backend/part products 5-8/cl3 (1).jpg"
+    },
+    {
+      "id": 10,
+      "image": "/backend/part products 5-8/cl3 (2).jpg"
+    },
+    {
+      "id": 11,
+      "image": "/backend/part products 5-8/cl3 (3).jpg"
+    },
+    {
+      "id": 12,
+      "image": "/backend/part products 5-8/cl3 (4).jpg"
+    },
+    {
+      "id": 13,
+      "image": "/backend/part products 5-8/cl4 (1).jpg"
+    },
+    {
+      "id": 14,
+      "image": "/backend/part products 5-8/cl4 (2).jpg"
+    },
+    {
+      "id": 15,
+      "image": "/backend/part products 5-8/cl4 (3).jpg"
+    },
+    {
+      "id": 16,
+      "image": "/backend/part products 5-8/cl4 (4).jpg"
+    }
+  ]
+}

@@ -1,0 +1,2882 @@
+{
+  "message": "دوره‌ها با موفقیت دریافت شدند",
+  "items": [
+    {
+      "id": 103,
+      "slug": "n8n",
+      "title": "آموزش جامع و پروژه محور n8n",
+      "description": "در این دوره یاد می‌گیرید بدون کدنویسی، کارهای تکراری را خودکار کنید و بین سرویس‌ها اتوماسیون‌های حرفه‌ای بسازید. همه مفاهیم با تمرین و پروژه‌های واقعی آموزش داده می‌شود و در پایان می‌توانید برای کسب‌وکارها اتوماسیون‌های کاربردی طراحی کنید.",
+      "subtitle": "در این دوره یاد می‌گیرید بدون کدنویسی، کارهای تکراری را خودکار کنید و بین سرویس‌ها اتوماسیون‌های حرفه‌ای بسازید. همه مفاهیم با تمرین و پروژه‌های واقعی آموزش داده می‌شود و در پایان می‌توانید برای کسب‌وکارها اتوماسیون‌های کاربردی طراحی کنید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع و پروژه محور n8n"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62036,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 138,
+      "original_price": 4000000,
+      "discounted_price": 1200000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 102,
+      "slug": "nuxtjs",
+      "title": "آموزش جامع NuxtJs",
+      "description": "در دوره آموزش جامع Nuxt.js به صورت پروژه‌محور، از صفر تا سطح حرفه‌ای SSR، سئو، مدیریت داده، API و ساخت چند پروژه واقعی را یاد می‌گیرید. مناسب بازار کار.",
+      "subtitle": "در دوره آموزش جامع Nuxt.js به صورت پروژه‌محور، از صفر تا سطح حرفه‌ای SSR، سئو، مدیریت داده، API و ساخت چند پروژه واقعی را یاد می‌گیرید. مناسب بازار کار.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع NuxtJs"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99319,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 55,
+      "original_price": 4500000,
+      "discounted_price": 1350000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 101,
+      "slug": "flutter",
+      "title": "آموزش جامع فریمورک Flutter",
+      "description": "دوره آموزش جامع فلاتر سبزلرن، یادگیری Flutter از صفر تا ساخت اپلیکیشن‌های واقعی. آموزش پروژه‌محور با پشتیبانی مدرس و آماده‌سازی برای بازار کار برنامه‌نویسی موبایل.",
+      "subtitle": "دوره آموزش جامع فلاتر سبزلرن، یادگیری Flutter از صفر تا ساخت اپلیکیشن‌های واقعی. آموزش پروژه‌محور با پشتیبانی مدرس و آماده‌سازی برای بازار کار برنامه‌نویسی موبایل.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع فریمورک Flutter"
+      },
+      "teacher": {
+        "name": "میلاد رشیدی زاده",
+        "slug": "milad_dev",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/f8b8e4cb36daeccbf685e535cde21f8b?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "میلاد رشیدی زاده"
+        },
+        "stack": "برنامه نویس فلاتر",
+        "stats": {
+          "students": 26,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 14,
+      "original_price": 5500000,
+      "discounted_price": 1650000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 100,
+      "slug": "csharp",
+      "title": "آموزش جامع زبان سی شارپ",
+      "description": "در این دوره جامع C#، برنامه‌نویسی را از پایه تا سطح حرفه‌ای یاد می‌گیرید و با مفاهیم مهمی مثل شی‌ءگرایی، کار با داده‌ها و ساخت پروژه‌های عملی آشنا می‌شوید. هدف دوره این است که بتوانید پس از پایان آن، نرم‌افزارهای کاربردی بسازید و برای ورود به بازار کار آماده شوید.",
+      "subtitle": "در این دوره جامع C#، برنامه‌نویسی را از پایه تا سطح حرفه‌ای یاد می‌گیرید و با مفاهیم مهمی مثل شی‌ءگرایی، کار با داده‌ها و ساخت پروژه‌های عملی آشنا می‌شوید. هدف دوره این است که بتوانید پس از پایان آن، نرم‌افزارهای کاربردی بسازید و برای ورود به بازار کار آماده شوید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع زبان سی شارپ"
+      },
+      "teacher": {
+        "name": "مهدی شمس",
+        "slug": "mahdishamsdev",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5ff7e5d2cc20a94da6e70fc599e7655a?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهدی شمس"
+        },
+        "stack": "مهندس نرم افزار در اسنپ فود",
+        "stats": {
+          "students": 61,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 45,
+      "original_price": 3500000,
+      "discounted_price": 1050000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 99,
+      "slug": "network-plus",
+      "title": "آموزش جامع نتورک پلاس",
+      "description": "در این دوره، مفاهیم پایه‌ای تا ضروری شبکه را به‌صورت کاملاً کاربردی یاد می‌گیرید و با ساختار شبکه‌ها، تجهیزات، پروتکل‌ها و شیوه‌های عیب‌یابی استاندارد آشنا می‌شوید. این آموزش شما را برای ورود به مسیر تخصصی شبکه و ادامه‌ی مسیر در امنیت، سیستم، و دوره‌های پیشرفته‌تر آماده می‌کند.",
+      "subtitle": "در این دوره، مفاهیم پایه‌ای تا ضروری شبکه را به‌صورت کاملاً کاربردی یاد می‌گیرید و با ساختار شبکه‌ها، تجهیزات، پروتکل‌ها و شیوه‌های عیب‌یابی استاندارد آشنا می‌شوید. این آموزش شما را برای ورود به مسیر تخصصی شبکه و ادامه‌ی مسیر در امنیت، سیستم، و دوره‌های پیشرفته‌تر آماده می‌کند.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع نتورک پلاس"
+      },
+      "teacher": {
+        "name": "حسین پاکدامن",
+        "slug": "hoseinsp",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/20634d3c7ca3f43518bc018366f4fccc?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حسین پاکدامن"
+        },
+        "stack": "کارشناس شبکه و امنیت سایبری",
+        "stats": {
+          "students": 178,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 34,
+      "original_price": 2000000,
+      "discounted_price": 600000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 98,
+      "slug": "into-the-sec-world",
+      "title": "پیش نیازهای ورود دنیای هک و امنیت",
+      "description": "در این بخش، مهم‌ترین مفاهیم و مهارت‌هایی را که برای ورود اصولی به دنیای امنیت و شروع مسیر تخصصی سایبر نیاز دارید، به‌صورت ساده و کاربردی یاد می‌گیرید. این پیش‌نیازها پایه‌ای محکم برای درک بهتر مباحث امنیت، تحلیل تهدیدات و یادگیری دوره‌های پیشرفته‌تر فراهم می‌کنند.",
+      "subtitle": "در این بخش، مهم‌ترین مفاهیم و مهارت‌هایی را که برای ورود اصولی به دنیای امنیت و شروع مسیر تخصصی سایبر نیاز دارید، به‌صورت ساده و کاربردی یاد می‌گیرید. این پیش‌نیازها پایه‌ای محکم برای درک بهتر مباحث امنیت، تحلیل تهدیدات و یادگیری دوره‌های پیشرفته‌تر فراهم می‌کنند.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "پیش نیازهای ورود دنیای هک و امنیت"
+      },
+      "teacher": {
+        "name": "حسین پاکدامن",
+        "slug": "hoseinsp",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/20634d3c7ca3f43518bc018366f4fccc?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حسین پاکدامن"
+        },
+        "stack": "کارشناس شبکه و امنیت سایبری",
+        "stats": {
+          "students": 178,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 166,
+      "original_price": 1500000,
+      "discounted_price": 450000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 97,
+      "slug": "web-pentesting",
+      "title": "آموزش جامع تست نفوذ وب",
+      "description": "در دوره جامع تست نفوذ وب در سبزلرن یاد بگیرید چگونه در محیط‌های امن ضعف‌ها را شناسایی، تحلیل و گزارش کنید. پروژه‌محور، قانونی و مناسب ورود به بازار کار امنیت وب.",
+      "subtitle": "در دوره جامع تست نفوذ وب در سبزلرن یاد بگیرید چگونه در محیط‌های امن ضعف‌ها را شناسایی، تحلیل و گزارش کنید. پروژه‌محور، قانونی و مناسب ورود به بازار کار امنیت وب.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع تست نفوذ وب"
+      },
+      "teacher": {
+        "name": "احسان نیک آور",
+        "slug": "nikavar",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/4ee2dbda6d441b5223a40a92899738a2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "احسان نیک آور"
+        },
+        "stack": "کارشناس و مشاوره امنیت و تست نفوذ",
+        "stats": {
+          "students": 1206,
+          "courses": 3
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 58,
+      "original_price": 4500000,
+      "discounted_price": 1350000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 96,
+      "slug": "vuejs",
+      "title": "آموزش جامع VueJs",
+      "description": "در این دوره Vue.js را از پایه تا سطح پیشرفته به‌صورت کاملاً عملی یاد می‌گیرید، با انجام چند پروژه واقعی، روی ساخت رابط‌های مدرن وب مسلط می‌شوید. در پایان می‌توانید یک اپ حرفه‌ای با Vue بسازید و وارد بازار کار شوید.",
+      "subtitle": "در این دوره Vue.js را از پایه تا سطح پیشرفته به‌صورت کاملاً عملی یاد می‌گیرید، با انجام چند پروژه واقعی، روی ساخت رابط‌های مدرن وب مسلط می‌شوید. در پایان می‌توانید یک اپ حرفه‌ای با Vue بسازید و وارد بازار کار شوید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع VueJs"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99319,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 81,
+      "original_price": 3600000,
+      "discounted_price": 1080000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 95,
+      "slug": "alpinejs",
+      "title": "آموزش جامع فریمورک Alpine.js",
+      "description": "دوره آموزش پروژه‌محور Alpine.js سبزلرن، روشی سریع و ساده برای یادگیری تعاملی‌سازی صفحات وب. با ساخت پروژه واقعی، Alpine را از صفر تا تسلط یاد بگیرید.",
+      "subtitle": "دوره آموزش پروژه‌محور Alpine.js سبزلرن، روشی سریع و ساده برای یادگیری تعاملی‌سازی صفحات وب. با ساخت پروژه واقعی، Alpine را از صفر تا تسلط یاد بگیرید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع فریمورک Alpine.js"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99319,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 66,
+      "original_price": 900000,
+      "discounted_price": 270000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 94,
+      "slug": "clean-architecture-flutter",
+      "title": "clean architecture در فلاتر",
+      "description": "دوره آموزش Clean Architecture در فلاتر سبزلرن، روشی اصولی برای ساخت اپلیکیشن‌های تمیز، تست‌پذیر و مقیاس‌پذیر. معماری تمیز را به‌صورت پروژه‌محور در Flutter یاد بگیرید و کدنویسی حرفه‌ای را تجربه کنید.",
+      "subtitle": "دوره آموزش Clean Architecture در فلاتر سبزلرن، روشی اصولی برای ساخت اپلیکیشن‌های تمیز، تست‌پذیر و مقیاس‌پذیر. معماری تمیز را به‌صورت پروژه‌محور در Flutter یاد بگیرید و کدنویسی حرفه‌ای را تجربه کنید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "clean architecture در فلاتر"
+      },
+      "teacher": {
+        "name": "میلاد رشیدی زاده",
+        "slug": "milad_dev",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/f8b8e4cb36daeccbf685e535cde21f8b?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "میلاد رشیدی زاده"
+        },
+        "stack": "برنامه نویس فلاتر",
+        "stats": {
+          "students": 26,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 18,
+      "original_price": 900000,
+      "discounted_price": 270000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 93,
+      "slug": "telegram-bot-csharp",
+      "title": "آموزش ساخت ربات تلگرام با سی شارپ",
+      "description": "دوره آموزش ربات تلگرام با C# سبزلرن، به‌صورت پروژه‌محور از سطح مقدماتی تا ساخت ربات‌های حرفه‌ای. یاد بگیرید چطور با C# و API تلگرام، ربات‌های هوشمند بسازید و وارد بازار کار شوید.",
+      "subtitle": "دوره آموزش ربات تلگرام با C# سبزلرن، به‌صورت پروژه‌محور از سطح مقدماتی تا ساخت ربات‌های حرفه‌ای. یاد بگیرید چطور با C# و API تلگرام، ربات‌های هوشمند بسازید و وارد بازار کار شوید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش ساخت ربات تلگرام با سی شارپ"
+      },
+      "teacher": {
+        "name": "مهدی شمس",
+        "slug": "mahdishamsdev",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5ff7e5d2cc20a94da6e70fc599e7655a?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهدی شمس"
+        },
+        "stack": "مهندس نرم افزار در اسنپ فود",
+        "stats": {
+          "students": 61,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 26,
+      "original_price": 1200000,
+      "discounted_price": 360000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 92,
+      "slug": "golang",
+      "title": "آموزش جامع زبان GO",
+      "description": "دوره آموزش گولنگ (Go) سبزلرن، مسیری سریع و پروژه‌محور برای یادگیری یکی از زبان‌های قدرتمند دنیا. از مفاهیم پایه تا ساخت سرویس‌های بک‌اند را با پشتیبانی مدرس متخصص یاد بگیرید و برای ورود به بازار کار آماده شوید.",
+      "subtitle": "دوره آموزش گولنگ (Go) سبزلرن، مسیری سریع و پروژه‌محور برای یادگیری یکی از زبان‌های قدرتمند دنیا. از مفاهیم پایه تا ساخت سرویس‌های بک‌اند را با پشتیبانی مدرس متخصص یاد بگیرید و برای ورود به بازار کار آماده شوید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع زبان GO"
+      },
+      "teacher": {
+        "name": "عرفان تقی نیا",
+        "slug": "erfan_taghinia",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/4d390c12ab7d4a038f1c86203ba63e76?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "عرفان تقی نیا"
+        },
+        "stack": "مهندس نرم افزار در شرکت شیپور",
+        "stats": {
+          "students": 33,
+          "courses": 1
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 34,
+      "original_price": 6000000,
+      "discounted_price": 1800000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 91,
+      "slug": "web-design-with-wp",
+      "title": "آموزش طراحی سایت با وردپرس | بدون کدنویسی",
+      "description": "دوره آموزش طراحی سایت با وردپرس سبزلرن یک مسیر کامل و پروژه‌محور برای یادگیری طراحی سایت بدون نیاز به کدنویسی است. در این دوره از نصب وردپرس روی هاست تا طراحی سایت‌های شخصی، شرکتی و فروشگاهی با صفحه‌ساز المنتور آموزش داده می‌شود.",
+      "subtitle": "دوره آموزش طراحی سایت با وردپرس سبزلرن یک مسیر کامل و پروژه‌محور برای یادگیری طراحی سایت بدون نیاز به کدنویسی است. در این دوره از نصب وردپرس روی هاست تا طراحی سایت‌های شخصی، شرکتی و فروشگاهی با صفحه‌ساز المنتور آموزش داده می‌شود.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش طراحی سایت با وردپرس | بدون کدنویسی"
+      },
+      "teacher": {
+        "name": "امیر طاهرخانی",
+        "slug": "amirtaher69",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ff3366b27b6302db25734fd7675d8dc3?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "امیر طاهرخانی"
+        },
+        "stack": "توسعه دهنده وردپرس | برنامه نویس فول استک حوزه وب",
+        "stats": {
+          "students": 250,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 51,
+      "original_price": 3500000,
+      "discounted_price": 1050000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 90,
+      "slug": "c-lang",
+      "title": "آموزش جامع زبان C",
+      "description": "دوره آموزش C سبزلرن یک دوره‌ی جامع و پروژه‌محور برای یادگیری زبان برنامه‌نویسی C از صفر تا سطح پیشرفته است. این دوره برای کسانی طراحی شده که می‌خواهند درک عمیق از برنامه‌نویسی سطح پایین و عملکرد سخت‌افزار داشته باشند و توانایی نوشتن کدهای امن و بهینه برای نرم‌افزارها و سیستم‌های تعبیه‌شده را پیدا کنند.",
+      "subtitle": "دوره آموزش C سبزلرن یک دوره‌ی جامع و پروژه‌محور برای یادگیری زبان برنامه‌نویسی C از صفر تا سطح پیشرفته است. این دوره برای کسانی طراحی شده که می‌خواهند درک عمیق از برنامه‌نویسی سطح پایین و عملکرد سخت‌افزار داشته باشند و توانایی نوشتن کدهای امن و بهینه برای نرم‌افزارها و سیستم‌های تعبیه‌شده را پیدا کنند.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع زبان C"
+      },
+      "teacher": {
+        "name": "مهدی شریفی",
+        "slug": "devraymondsh",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ba099c01feb16a72736a9604a30cc500?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهدی شریفی"
+        },
+        "stack": "مهدی شریفی، مهندس نرم‌افزار با تخصص در توسعه سیستم‌های توزیع‌شده، بهینه‌سازی عملکرد، و معماری چندزبانه، همراه با مهارت در برنامه‌نویسی سطح پایین و بهینه‌سازی سیستم.",
+        "stats": {
+          "students": 527,
+          "courses": 3
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 41,
+      "original_price": 3200000,
+      "discounted_price": 960000,
+      "discount_percentage": 70,
+      "is_free": false,
+      "special_sale_ends_at": 1779395400,
+      "tags": []
+    },
+    {
+      "id": 88,
+      "slug": "start-programming",
+      "title": "سکوی پرتاب به دنیای برنامه نویسی",
+      "description": "در دوره «سکوی پرتاب به دنیای برنامه‌نویسی» قراره بدون اصطلاحات پیچیده و با زبانی ساده، واقعیت‌های دنیای کدنویسی رو از نزدیک بشناسید. این دوره به شما کمک می‌کنه بفهمید آیا برنامه‌نویسی مسیر مناسب شماست یا نه و چطور می‌تونید با اطمینان قدم اول رو بردارید. همه‌چیز به‌صورت کاربردی، روشن و مخصوص افراد مبتدی طراحی شده تا سردرگمی شروع رو برای همیشه کنار بگذارید.",
+      "subtitle": "در دوره «سکوی پرتاب به دنیای برنامه‌نویسی» قراره بدون اصطلاحات پیچیده و با زبانی ساده، واقعیت‌های دنیای کدنویسی رو از نزدیک بشناسید. این دوره به شما کمک می‌کنه بفهمید آیا برنامه‌نویسی مسیر مناسب شماست یا نه و چطور می‌تونید با اطمینان قدم اول رو بردارید. همه‌چیز به‌صورت کاربردی، روشن و مخصوص افراد مبتدی طراحی شده تا سردرگمی شروع رو برای همیشه کنار بگذارید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "سکوی پرتاب به دنیای برنامه نویسی"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99319,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 8340,
+      "original_price": 1000000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276284772,
+      "tags": []
+    },
+    {
+      "id": 87,
+      "slug": "telegram-bot-python",
+      "title": "آموزش ساخت ربات تلگرام با پایتون",
+      "description": "آیا تا به حال به این فکر کرده‌اید که یک دستیار ربات تلگرامی مخصوص خودتان داشته باشید که کارها را خودکار انجام دهد و در وقتتان صرفه‌جویی کند؟ از پاسخگویی به پیام‌ها گرفته تا مدیریت گروه‌ها و اجرای دستورات پیچیده، ربات‌های تلگرامی یک ابزار قدرتمند در دنیای دیجیتال هستند […]",
+      "subtitle": "آیا تا به حال به این فکر کرده‌اید که یک دستیار ربات تلگرامی مخصوص خودتان داشته باشید که کارها را خودکار انجام دهد و در وقتتان صرفه‌جویی کند؟ از پاسخگویی به پیام‌ها گرفته تا مدیریت گروه‌ها و اجرای دستورات پیچیده، ربات‌های تلگرامی یک ابزار قدرتمند در دنیای دیجیتال هستند […]",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش ساخت ربات تلگرام با پایتون"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 435,
+      "original_price": 2720000,
+      "discounted_price": 1360000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": [
+        {
+          "name": "بک اند",
+          "slug": "backend",
+          "scope": "global"
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "slug": "linux",
+      "title": "آموزش جامع لینوکس برای برنامه نویسان",
+      "description": "لینوکس یک سیستم‌عامل قدرتمند، امن و متن‌باز است که در سرورها، توسعه نرم‌افزار، امنیت سایبری و سرویس‌های ابری به‌طور گسترده‌ای کاربرد دارد. بنابراین همه برنامه‌نویسان و کسانی‌که می‌خواهند در حوزه IT سرعت پیشرفت خود را افزایش دهند، باید با لینوکس آشنا باشند. دوره آموزش جامع لینوکس برای برنامه‌نویسان...",
+      "subtitle": "لینوکس یک سیستم‌عامل قدرتمند، امن و متن‌باز است که در سرورها، توسعه نرم‌افزار، امنیت سایبری و سرویس‌های ابری به‌طور گسترده‌ای کاربرد دارد. بنابراین همه برنامه‌نویسان و کسانی‌که می‌خواهند در حوزه IT سرعت پیشرفت خود را افزایش دهند، باید با لینوکس آشنا باشند. دوره آموزش جامع لینوکس برای برنامه‌نویسان...",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع لینوکس برای برنامه نویسان"
+      },
+      "teacher": {
+        "name": "مهدی شریفی",
+        "slug": "devraymondsh",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ba099c01feb16a72736a9604a30cc500?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهدی شریفی"
+        },
+        "stack": "مهدی شریفی، مهندس نرم‌افزار با تخصص در توسعه سیستم‌های توزیع‌شده، بهینه‌سازی عملکرد، و معماری چندزبانه، همراه با مهارت در برنامه‌نویسی سطح پایین و بهینه‌سازی سیستم.",
+        "stats": {
+          "students": 530,
+          "courses": 3
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 405,
+      "original_price": 3230000,
+      "discounted_price": 1615000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 85,
+      "slug": "wp-expert",
+      "title": "آموزش جامع توسعه وردپرس",
+      "description": "آموزش وردپرس یکی از بهترین مسیرها برای ورود به دنیای طراحی سایت است، چرا که وردپرس پرکاربردترین و محبوب‌ترین سیستم مدیریت محتوا است که در دنیای طراحی سایت حرف اول را می‌زند. بنابراین یادگیری تخصصی آن می‌تواند درهای بسیاری از فرصت‌های شغلی را به روی شما باز کند. البته اگر دانش شما در زمینه توسعه سایت فراتر از مبانی ابتدایی وردپرس باشد، می‌توانید سایت‌های پیشرفته‌تری طراحی […]",
+      "subtitle": "آموزش وردپرس یکی از بهترین مسیرها برای ورود به دنیای طراحی سایت است، چرا که وردپرس پرکاربردترین و محبوب‌ترین سیستم مدیریت محتوا است که در دنیای طراحی سایت حرف اول را می‌زند. بنابراین یادگیری تخصصی آن می‌تواند درهای بسیاری از فرصت‌های شغلی را به روی شما باز کند. البته اگر دانش شما در زمینه توسعه سایت فراتر از مبانی ابتدایی وردپرس باشد، می‌توانید سایت‌های پیشرفته‌تری طراحی […]",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع توسعه وردپرس"
+      },
+      "teacher": {
+        "name": "امیر طاهرخانی",
+        "slug": "amirtaher69",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ff3366b27b6302db25734fd7675d8dc3?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "امیر طاهرخانی"
+        },
+        "stack": "توسعه دهنده وردپرس | برنامه نویس فول استک حوزه وب",
+        "stats": {
+          "students": 248,
+          "courses": 2
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 214,
+      "original_price": 7500000,
+      "discounted_price": 3750000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 84,
+      "slug": "bash-script",
+      "title": "آموزش کاربردی Bash Script",
+      "description": "اگر به‌عنوان یک برنامه‌نویس از اجرای دستورات تکراری برای تست برنامه‌های خود خسته شده‌اید، وقت آن رسیده که اسکریپت نویسی با Bash را یاد بگیرید. بش یک زبان اختصاصی برای نوشتن اسکریپت است. زبان Bash ابزاری قدرتمند و ساده برای اتوماتیک‌سازی وظایف، مدیریت سرورها و تعامل با سیستم‌عامل‌های لینوکس […]",
+      "subtitle": "اگر به‌عنوان یک برنامه‌نویس از اجرای دستورات تکراری برای تست برنامه‌های خود خسته شده‌اید، وقت آن رسیده که اسکریپت نویسی با Bash را یاد بگیرید. بش یک زبان اختصاصی برای نوشتن اسکریپت است. زبان Bash ابزاری قدرتمند و ساده برای اتوماتیک‌سازی وظایف، مدیریت سرورها و تعامل با سیستم‌عامل‌های لینوکس […]",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش کاربردی Bash Script"
+      },
+      "teacher": {
+        "name": "مهدی شریفی",
+        "slug": "devraymondsh",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ba099c01feb16a72736a9604a30cc500?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهدی شریفی"
+        },
+        "stack": "مهدی شریفی، مهندس نرم‌افزار با تخصص در توسعه سیستم‌های توزیع‌شده، بهینه‌سازی عملکرد، و معماری چندزبانه، همراه با مهارت در برنامه‌نویسی سطح پایین و بهینه‌سازی سیستم.",
+        "stats": {
+          "students": 530,
+          "courses": 3
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 167,
+      "original_price": 680000,
+      "discounted_price": 340000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 83,
+      "slug": "english-learning-for-programmers",
+      "title": "آموزش جامع زبان انگلیسی",
+      "description": "با دوره جامع آموزش زبان انگلیسی سبزلرن، زبان انگلیسی را برای پیشرفت در برنامه‌نویسی حرفه‌ای یاد بگیرید و مهارت‌های خود را در کوتاه‌ترین زمان تقویت کنید!",
+      "subtitle": "با دوره جامع آموزش زبان انگلیسی سبزلرن، زبان انگلیسی را برای پیشرفت در برنامه‌نویسی حرفه‌ای یاد بگیرید و مهارت‌های خود را در کوتاه‌ترین زمان تقویت کنید!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع زبان انگلیسی"
+      },
+      "teacher": {
+        "name": "بهادر عرب",
+        "slug": "bahador_arab",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/dd1d82a558433af5b7a491f2ebc3ebb9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "بهادر عرب"
+        },
+        "stack": "مدرس زبان انگلیسی",
+        "stats": {
+          "students": 71,
+          "courses": 1
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 71,
+      "original_price": 13200000,
+      "discounted_price": 6600000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 82,
+      "slug": "contract-writing-techniques-for-programmers",
+      "title": "تکنیک های قرارداد نویسی برای برنامه نویسان",
+      "description": "دوره تکنیک‌های قرارداد نویسی سبزلرن، مهارت‌های تنظیم قراردادهای حرفه‌ای را به برنامه‌نویسان و فریلنسرها آموزش می‌دهد تا شرایط همکاری را به‌طور شفاف و حرفه‌ای مشخص کنند.",
+      "subtitle": "دوره تکنیک‌های قرارداد نویسی سبزلرن، مهارت‌های تنظیم قراردادهای حرفه‌ای را به برنامه‌نویسان و فریلنسرها آموزش می‌دهد تا شرایط همکاری را به‌طور شفاف و حرفه‌ای مشخص کنند.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "تکنیک های قرارداد نویسی برای برنامه نویسان"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 294,
+      "original_price": 1360000,
+      "discounted_price": 680000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 81,
+      "slug": "game-dev-js",
+      "title": "بازی سازی تحت وب با JS",
+      "description": "دوره بازی‌سازی با جاوااسکریپت در سبزلرن به شما ساخت بازی‌های آنلاین را با استفاده از CSS، HTML و JavaScript آموزش می‌دهد. مناسب کسانی است که به ساخت بازی‌های تحت وب علاقه دارند.",
+      "subtitle": "دوره بازی‌سازی با جاوااسکریپت در سبزلرن به شما ساخت بازی‌های آنلاین را با استفاده از CSS، HTML و JavaScript آموزش می‌دهد. مناسب کسانی است که به ساخت بازی‌های تحت وب علاقه دارند.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "بازی سازی تحت وب با JS"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 138,
+      "original_price": 2040000,
+      "discounted_price": 1020000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 80,
+      "slug": "eslint",
+      "title": "آموزش کاربردی ESlint",
+      "description": "ESLint برای برنامه‌نویسان جاوااسکریپت طراحی شده تا با این ابزار، کدهایی بهینه و بدون خطا بنویسند. نحوه پیکربندی و استفاده از آن در پروژه‌های مختلف آموزش داده می‌شود.",
+      "subtitle": "ESLint برای برنامه‌نویسان جاوااسکریپت طراحی شده تا با این ابزار، کدهایی بهینه و بدون خطا بنویسند. نحوه پیکربندی و استفاده از آن در پروژه‌های مختلف آموزش داده می‌شود.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش کاربردی ESlint"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 382,
+      "original_price": 595000,
+      "discounted_price": 297500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 79,
+      "slug": "three-js",
+      "title": "آموزش انیمیشن سازی برای فرانت‌اند با GSAP و Three.js",
+      "description": "دوره Three.js سبزلرن به شما یاد می‌دهد چطور گرافیک‌های سه‌بعدی جذاب با استفاده از این کتابخانه بسازید. این دوره به شما کمک می‌کند به سادگی انیمیشن‌ها و طراحی‌های تعاملی ایجاد کنید.",
+      "subtitle": "دوره Three.js سبزلرن به شما یاد می‌دهد چطور گرافیک‌های سه‌بعدی جذاب با استفاده از این کتابخانه بسازید. این دوره به شما کمک می‌کند به سادگی انیمیشن‌ها و طراحی‌های تعاملی ایجاد کنید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش انیمیشن سازی برای فرانت‌اند با GSAP و Three.js"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 376,
+      "original_price": 2380000,
+      "discounted_price": 1190000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 78,
+      "slug": "leaflet-js",
+      "title": "نمایش نقشه‌های تعاملی با Leaflet.js",
+      "description": "دوره Leaflet.JS به شما یاد می‌دهد چگونه نقشه‌های تعاملی سبک و جذاب بسازید. این دوره پروژه‌محور است و از مبتدی تا پیشرفته، شما را با تمامی ویژگی‌های این کتابخانه کاربردی آشنا می‌کند",
+      "subtitle": "دوره Leaflet.JS به شما یاد می‌دهد چگونه نقشه‌های تعاملی سبک و جذاب بسازید. این دوره پروژه‌محور است و از مبتدی تا پیشرفته، شما را با تمامی ویژگی‌های این کتابخانه کاربردی آشنا می‌کند",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "نمایش نقشه‌های تعاملی با Leaflet.js"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 273,
+      "original_price": 1530000,
+      "discounted_price": 765000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 77,
+      "slug": "design-pattern",
+      "title": "آموزش جامع دیزاین پترن ها برای برنامه نویسان",
+      "description": "دوره دیزاین پترن به شما کمک می‌کند کدهای خوانا و مقیاس‌پذیر بنویسید و با یادگیری الگوهای استاندارد، به یک برنامه نویس داناتر تبدیل شوید و شانس استخدام خود را افزایش دهید.",
+      "subtitle": "دوره دیزاین پترن به شما کمک می‌کند کدهای خوانا و مقیاس‌پذیر بنویسید و با یادگیری الگوهای استاندارد، به یک برنامه نویس داناتر تبدیل شوید و شانس استخدام خود را افزایش دهید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع دیزاین پترن ها برای برنامه نویسان"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 344,
+      "original_price": 2040000,
+      "discounted_price": 1020000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 75,
+      "slug": "php",
+      "title": "آموزش جامع PHP از صفر + پروژه محور",
+      "description": "دوره آموزش PHP یک برنامه جامع و کاربردیست و برای افرادی طراحی شده که میخواهند مهارت‌های خود را در زمینه برنامه‌نویسی با زبان PHP به سطح حرفه‌ای برسانند و وارد بازارکار شوند.",
+      "subtitle": "دوره آموزش PHP یک برنامه جامع و کاربردیست و برای افرادی طراحی شده که میخواهند مهارت‌های خود را در زمینه برنامه‌نویسی با زبان PHP به سطح حرفه‌ای برسانند و وارد بازارکار شوند.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع PHP از صفر + پروژه محور"
+      },
+      "teacher": {
+        "name": "آرمین هوشمند",
+        "slug": "mrhex",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5b737424b7709b6c40f7164914c08cf2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "آرمین هوشمند"
+        },
+        "stack": "برنامه نویس ارشد وب",
+        "stats": {
+          "students": 15642,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 144,
+      "original_price": 6000000,
+      "discounted_price": 3000000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 74,
+      "slug": "electronjs",
+      "title": "آموزش پروژه محور Electron JS",
+      "description": "الکترون جی‌اس (Electron.js) یک فریم‌ورک متن‌باز و رایگان است که به شما این امکان را می‌دهد تا با استفاده از زبان‌های سمت وب مانند HTML، CSS و JavaScript، برنامه‌های دسکتاپ برای سیستم‌عامل‌های مختلف (ویندوز، مک و لینوکس) بسازید.",
+      "subtitle": "الکترون جی‌اس (Electron.js) یک فریم‌ورک متن‌باز و رایگان است که به شما این امکان را می‌دهد تا با استفاده از زبان‌های سمت وب مانند HTML، CSS و JavaScript، برنامه‌های دسکتاپ برای سیستم‌عامل‌های مختلف (ویندوز، مک و لینوکس) بسازید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پروژه محور Electron JS"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 113,
+      "original_price": 4800000,
+      "discounted_price": 2400000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 73,
+      "slug": "redis",
+      "title": "آموزش Redis برای توسعه دهندگان بک اند",
+      "description": "ردیس یا Redis (مخفف Remote Dictionary Server) نوعی سیستم ذخیره‌سازی متن‌باز مبتنی بر کلید-مقدار (key-Value) NoSQL است که از حافظه RAM استفاده میکند",
+      "subtitle": "ردیس یا Redis (مخفف Remote Dictionary Server) نوعی سیستم ذخیره‌سازی متن‌باز مبتنی بر کلید-مقدار (key-Value) NoSQL است که از حافظه RAM استفاده میکند",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش Redis برای توسعه دهندگان بک اند"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 307,
+      "original_price": 2210000,
+      "discounted_price": 1105000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 72,
+      "slug": "nestjs",
+      "title": "آموزش پروژه محور NestJS از صفر!",
+      "description": "NestJS یه فریم‌ورک توسعه سمت سرور وب با TypeScript برای ساخت برنامه‌های مبتنی بر Node.js هست. نست بر پایه الگوی معماری ماژولار پیاده سازی شده و میتونیم باهاش برنامه‌هایی با خوانایی بسیار بالا بسازیم",
+      "subtitle": "NestJS یه فریم‌ورک توسعه سمت سرور وب با TypeScript برای ساخت برنامه‌های مبتنی بر Node.js هست. نست بر پایه الگوی معماری ماژولار پیاده سازی شده و میتونیم باهاش برنامه‌هایی با خوانایی بسیار بالا بسازیم",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پروژه محور NestJS از صفر!"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 912,
+      "original_price": 4420000,
+      "discounted_price": 2210000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 71,
+      "slug": "telegram-bot-nodejs",
+      "title": "ساخت ربات تلگرام با NodeJS",
+      "description": "دوره ربات تلگرام با Nodejs یه فرصت فوق‌العاده برای یادگیری نحوه‌ی ساخت ربات‌های تلگرامی با استفاده از یکی از قدرتمندترین فریم‌ورک‌های جاوااسکریپت، یعنی Node.js هست.",
+      "subtitle": "دوره ربات تلگرام با Nodejs یه فرصت فوق‌العاده برای یادگیری نحوه‌ی ساخت ربات‌های تلگرامی با استفاده از یکی از قدرتمندترین فریم‌ورک‌های جاوااسکریپت، یعنی Node.js هست.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "ساخت ربات تلگرام با NodeJS"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 786,
+      "original_price": 2465000,
+      "discounted_price": 1232500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 70,
+      "slug": "fastify",
+      "title": "آموزش پروژه محور فریمورک Fastify",
+      "description": "Fastify یه فریمورک وب سریع و کم‌ حجم برای ساخت برنامه‌های تحت وب با Node.js هست.Fastify یکی از فریم‌ورک‌های جدید در صنعت توسعه وب هست که با ویژگی‌های قدرتمندش تونسته محوبیت خوبی رو بدست بیاره!",
+      "subtitle": "Fastify یه فریمورک وب سریع و کم‌ حجم برای ساخت برنامه‌های تحت وب با Node.js هست.Fastify یکی از فریم‌ورک‌های جدید در صنعت توسعه وب هست که با ویژگی‌های قدرتمندش تونسته محوبیت خوبی رو بدست بیاره!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پروژه محور فریمورک Fastify"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 668,
+      "original_price": 1530000,
+      "discounted_price": 765000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 69,
+      "slug": "zero-api",
+      "title": "درک عمیق مفاهیم API از صفر مطلق",
+      "description": "تو این دوره، دانشجو ها با مفاهیم پایه و اساسی API آشنا میشن و روش های مختلف استفاده از اون رو یاد میگیرن. همینطور مفاهیمی مثل انواع API ها، نکات پیشرفته api نویسی و.. مورد بررسی قرار میگیرن",
+      "subtitle": "تو این دوره، دانشجو ها با مفاهیم پایه و اساسی API آشنا میشن و روش های مختلف استفاده از اون رو یاد میگیرن. همینطور مفاهیمی مثل انواع API ها، نکات پیشرفته api نویسی و.. مورد بررسی قرار میگیرن",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "درک عمیق مفاهیم API از صفر مطلق"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 19305,
+      "original_price": 400000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276297837,
+      "tags": []
+    },
+    {
+      "id": 68,
+      "slug": "php-api-dev",
+      "title": "آموزش جامع api نویسی با PHP",
+      "description": "API یکی از پر کاربردترین اجزای نرم افزاریه که حتما باید بلد باشی! توی این دوره قراره api نویسی رو با زبان PHP یاد بگیریم.",
+      "subtitle": "API یکی از پر کاربردترین اجزای نرم افزاریه که حتما باید بلد باشی! توی این دوره قراره api نویسی رو با زبان PHP یاد بگیریم.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع api نویسی با PHP"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 183,
+      "original_price": 4420000,
+      "discounted_price": 2210000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 67,
+      "slug": "laravel-reverb",
+      "title": "وب سوکت در لاراول با Reverb",
+      "description": "وب سوکت یکی از نیازهای رایجِ نرم‌افزارهای مدرن است و حالا، به لطف Reverb شما این امکان را خواهید داشت که ارتباط بلادرنگ بین کلاینت و سرور خود را به راحتی آب خوردن برقرار کنید.",
+      "subtitle": "وب سوکت یکی از نیازهای رایجِ نرم‌افزارهای مدرن است و حالا، به لطف Reverb شما این امکان را خواهید داشت که ارتباط بلادرنگ بین کلاینت و سرور خود را به راحتی آب خوردن برقرار کنید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "وب سوکت در لاراول با Reverb"
+      },
+      "teacher": {
+        "name": "آرمین هوشمند",
+        "slug": "mrhex",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5b737424b7709b6c40f7164914c08cf2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "آرمین هوشمند"
+        },
+        "stack": "برنامه نویس ارشد وب",
+        "stats": {
+          "students": 15642,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 12429,
+      "original_price": 350000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276298376,
+      "tags": []
+    },
+    {
+      "id": 66,
+      "slug": "webpack",
+      "title": "آموزش جامع webpack",
+      "description": "فرقی نمی‌کند که شما یک برنامه نویس تازه کار و یا حرفه‌ای باشید؛ در هرصورت به وب‌پک نیاز خواهید داشت. وب‌پک یکی از ابزارهای حیاتی در توسعه نرم‌افزارهای تحت‌وب می‌باشد که در این دوره به طور کامل مورد بحث و بررسی قرار خواهد گرفت.",
+      "subtitle": "فرقی نمی‌کند که شما یک برنامه نویس تازه کار و یا حرفه‌ای باشید؛ در هرصورت به وب‌پک نیاز خواهید داشت. وب‌پک یکی از ابزارهای حیاتی در توسعه نرم‌افزارهای تحت‌وب می‌باشد که در این دوره به طور کامل مورد بحث و بررسی قرار خواهد گرفت.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع webpack"
+      },
+      "teacher": {
+        "name": "آرمین هوشمند",
+        "slug": "mrhex",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5b737424b7709b6c40f7164914c08cf2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "آرمین هوشمند"
+        },
+        "stack": "برنامه نویس ارشد وب",
+        "stats": {
+          "students": 15642,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 288,
+      "original_price": 1870000,
+      "discounted_price": 935000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 65,
+      "slug": "docker",
+      "title": "آموزش Docker از صفر مطلق!",
+      "description": "داکر یک پلتفرم متن باز برای طراحی؛ انتقال؛ استقرار و اجرای نرم افزار ها تحت مفهومی به نام Container می‌باشد، در این دوره به صورت تخصصی مفاهیم و مباحث داکر را فرا خواهیم گرفت.",
+      "subtitle": "داکر یک پلتفرم متن باز برای طراحی؛ انتقال؛ استقرار و اجرای نرم افزار ها تحت مفهومی به نام Container می‌باشد، در این دوره به صورت تخصصی مفاهیم و مباحث داکر را فرا خواهیم گرفت.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش Docker از صفر مطلق!"
+      },
+      "teacher": {
+        "name": "آرمین هوشمند",
+        "slug": "mrhex",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5b737424b7709b6c40f7164914c08cf2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "آرمین هوشمند"
+        },
+        "stack": "برنامه نویس ارشد وب",
+        "stats": {
+          "students": 15642,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 386,
+      "original_price": 3315000,
+      "discounted_price": 1657500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": [
+        {
+          "name": "بک اند",
+          "slug": "backend",
+          "scope": "global"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "slug": "websocket",
+      "title": "آموزش پروژه محور WebSocket",
+      "description": "با Socket می‌تونی مثل تلگرام یا سایت های ارز دیجیتال یه ارتباط Realtime بسازی و بدون نیاز به ارسال یه گونی رکوئست به Api جدیدترین اطلاعات رو تو کلاینت داشته باشی.",
+      "subtitle": "با Socket می‌تونی مثل تلگرام یا سایت های ارز دیجیتال یه ارتباط Realtime بسازی و بدون نیاز به ارسال یه گونی رکوئست به Api جدیدترین اطلاعات رو تو کلاینت داشته باشی.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پروژه محور WebSocket"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1054,
+      "original_price": 3060000,
+      "discounted_price": 1530000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 61,
+      "slug": "graphql",
+      "title": "آموزش جامع پروژه محور GraphQL",
+      "description": "واسه حرفه‌ای‌تر شدن و استخدام تو شرکت های بزرگ با حقوق های بالا باید Graph رو بلد باشی. تو دوره آموزش graphql به صورت جامع و پروژه محور یاد می‌گیری چطور یه Api گراف بنویسی و باهاش کار کنی",
+      "subtitle": "واسه حرفه‌ای‌تر شدن و استخدام تو شرکت های بزرگ با حقوق های بالا باید Graph رو بلد باشی. تو دوره آموزش graphql به صورت جامع و پروژه محور یاد می‌گیری چطور یه Api گراف بنویسی و باهاش کار کنی",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع پروژه محور GraphQL"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 754,
+      "original_price": 2890000,
+      "discounted_price": 1445000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 60,
+      "slug": "javascript-library-development",
+      "title": "توسعه کتابخانه با جاوااسکریپت",
+      "description": "توسعه کتابخانه، نمونه کاری قوی برای رزومه شما است و این دوره آموزشی یادگیری چنین مهارتی رو با نکات کاربردی و کد نویسی و همچنین ساخت مستندات جامع و پروژه عملی فراهم میکند",
+      "subtitle": "توسعه کتابخانه، نمونه کاری قوی برای رزومه شما است و این دوره آموزشی یادگیری چنین مهارتی رو با نکات کاربردی و کد نویسی و همچنین ساخت مستندات جامع و پروژه عملی فراهم میکند",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "توسعه کتابخانه با جاوااسکریپت"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 166,
+      "original_price": 4080000,
+      "discounted_price": 2040000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 59,
+      "slug": "browser-extension-with-js",
+      "title": "توسعه افزونه مرورگر با جاوااسکریپت",
+      "description": "ما در این دوره، توسعه افزونه های مرورگر رو با پیاده سازی پروژه های کاربردی با دانش فرانت اند مون از طریق زبان های HTML CSS JS یاد میگریم",
+      "subtitle": "ما در این دوره، توسعه افزونه های مرورگر رو با پیاده سازی پروژه های کاربردی با دانش فرانت اند مون از طریق زبان های HTML CSS JS یاد میگریم",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "توسعه افزونه مرورگر با جاوااسکریپت"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 195,
+      "original_price": 3315000,
+      "discounted_price": 1657500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 58,
+      "slug": "master-freelance",
+      "title": "مستر فریلنس - هنر همکاری موفق با کارفرماها",
+      "description": "موفق بودن یک وکیل به تعداد بالای پرونده هاش نیست. بلکه به تعداد کیفیت پرونده هاییه که حل کرده. یک برنامه نویس هم برای رشد و ترقی نیاز به هزار کارفرما نداره. بلکه نیاز به چند کارفرمای با کیفیت داره !",
+      "subtitle": "موفق بودن یک وکیل به تعداد بالای پرونده هاش نیست. بلکه به تعداد کیفیت پرونده هاییه که حل کرده. یک برنامه نویس هم برای رشد و ترقی نیاز به هزار کارفرما نداره. بلکه نیاز به چند کارفرمای با کیفیت داره !",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "مستر فریلنس - هنر همکاری موفق با کارفرماها"
+      },
+      "teacher": {
+        "name": "قدیر یلمه",
+        "slug": "qadiryolme",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/213e0cf344b8c216b7048477622c195a?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "قدیر یلمه"
+        },
+        "stack": "بنیان‌گذار پلتفرم سبزلرن",
+        "stats": {
+          "students": 59228,
+          "courses": 5
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 3248,
+      "original_price": 9100000,
+      "discounted_price": 9100000,
+      "discount_percentage": null,
+      "is_free": false,
+      "special_sale_ends_at": null,
+      "tags": []
+    },
+    {
+      "id": 57,
+      "slug": "livewire",
+      "title": "دوره پروژه محور لایووایر (Livewire Master)",
+      "description": "دوره لایووایر مستر (Livewire Master) یک دوره‌ی تمام عیار برای فول‌استک فریمورکِ لایووایر است که هدف آن آموزش قدم به قدم، عمیق و مفهومی (Conceptional) تکنولوژی لایووایر می‌باشد.",
+      "subtitle": "دوره لایووایر مستر (Livewire Master) یک دوره‌ی تمام عیار برای فول‌استک فریمورکِ لایووایر است که هدف آن آموزش قدم به قدم، عمیق و مفهومی (Conceptional) تکنولوژی لایووایر می‌باشد.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "دوره پروژه محور لایووایر (Livewire Master)"
+      },
+      "teacher": {
+        "name": "آرمین هوشمند",
+        "slug": "mrhex",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5b737424b7709b6c40f7164914c08cf2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "آرمین هوشمند"
+        },
+        "stack": "برنامه نویس ارشد وب",
+        "stats": {
+          "students": 15642,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 131,
+      "original_price": 1530000,
+      "discounted_price": 765000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 55,
+      "slug": "dashboard-with-css-js",
+      "title": "پیاده سازی داشبورد های حرفه ای با CSS و JS",
+      "description": "این دوره فرصتی فوق‌العاده برای ارتقاء مهارت‌های فرانت اند شماست. با یادگیری از جدیدترین تکنیک‌ها، انیمیشن‌ها ، ابزارهای پیشرفته و کتابخونه ها، به دنیای داشبوردهای شگفت‌آور با HTML، CSS و JavaScript",
+      "subtitle": "این دوره فرصتی فوق‌العاده برای ارتقاء مهارت‌های فرانت اند شماست. با یادگیری از جدیدترین تکنیک‌ها، انیمیشن‌ها ، ابزارهای پیشرفته و کتابخونه ها، به دنیای داشبوردهای شگفت‌آور با HTML، CSS و JavaScript",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "پیاده سازی داشبورد های حرفه ای با CSS و JS"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 712,
+      "original_price": 3060000,
+      "discounted_price": 1530000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 54,
+      "slug": "telegram-bot-php",
+      "title": "آموزش ساخت ربات تلگرام با PHP",
+      "description": "توی دوره فوق‌العاده جذاب و کاربردی ساخت ربات تلگرام با php، به دنیای عجیب و جذاب ربات نویسی به طرز کاملا متفاوتی وارد میشین؛ این دوره با ارائه سرفصل‌های جذاب و پروژه‌های عملی، منتظر شماست!",
+      "subtitle": "توی دوره فوق‌العاده جذاب و کاربردی ساخت ربات تلگرام با php، به دنیای عجیب و جذاب ربات نویسی به طرز کاملا متفاوتی وارد میشین؛ این دوره با ارائه سرفصل‌های جذاب و پروژه‌های عملی، منتظر شماست!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش ساخت ربات تلگرام با PHP"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31723,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 596,
+      "original_price": 1870000,
+      "discounted_price": 935000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 53,
+      "slug": "algorithm",
+      "title": "آموزش الگوریتم و ساختمان داده به زبان ساده",
+      "description": "ساختمان داده و الگوریتم، یک مهارت ضروری برای ورود به دنیای برنامه نویسیه که دیدگاه شما رو به مسائل مختلف عوض میکنه. این مهارت، قدرت حل مسئله اتون رو بالا میره و میتونید کدهای بهینه تری بنویسید. تو این دوره، ما الگوریتم رو به زبان ساده، مصور و کاربردی بهتون آموزش میدیم.",
+      "subtitle": "ساختمان داده و الگوریتم، یک مهارت ضروری برای ورود به دنیای برنامه نویسیه که دیدگاه شما رو به مسائل مختلف عوض میکنه. این مهارت، قدرت حل مسئله اتون رو بالا میره و میتونید کدهای بهینه تری بنویسید. تو این دوره، ما الگوریتم رو به زبان ساده، مصور و کاربردی بهتون آموزش میدیم.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش الگوریتم و ساختمان داده به زبان ساده"
+      },
+      "teacher": {
+        "name": "رضا دولتی",
+        "slug": "rezadolati01",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ac7287d085cde5ec1b40baa3a395b82d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "رضا دولتی"
+        },
+        "stack": "عاشق برنامه نویسی و هوش مصنوعی!",
+        "stats": {
+          "students": 96871,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 745,
+      "original_price": 4800000,
+      "discounted_price": 2400000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 52,
+      "slug": "applied-projects-with-php",
+      "title": "پروژه های کاربردی با PHP",
+      "description": "\"مینی پروژه‌های کاربری با PHP\" یه دوره آموزشی گام به گام هست که برای توسعه‌دهندگان وب، به ویژه کسایی که میخوان مهارت‌های برنامه‌نویسی PHP خودشونو تقویت کنن و تجربه‌های عملی کسب کنن، مناسبه",
+      "subtitle": "\"مینی پروژه‌های کاربری با PHP\" یه دوره آموزشی گام به گام هست که برای توسعه‌دهندگان وب، به ویژه کسایی که میخوان مهارت‌های برنامه‌نویسی PHP خودشونو تقویت کنن و تجربه‌های عملی کسب کنن، مناسبه",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "پروژه های کاربردی با PHP"
+      },
+      "teacher": {
+        "name": "معین باغشیخی",
+        "slug": "moein123",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/1a7a0b04750b5b7b236b81c7f2adb5f9?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "معین باغشیخی"
+        },
+        "stack": "برنامه نویس بک اند",
+        "stats": {
+          "students": 31724,
+          "courses": 9
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 24039,
+      "original_price": 1054000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276287922,
+      "tags": []
+    },
+    {
+      "id": 50,
+      "slug": "clean-code-for-js",
+      "title": "Clean Code برای برنامه نویسان JS",
+      "description": "فرق بین یه برنامه‌نویس تازه‌کار و حرفه‌ای نوع دیدگاه و طرز کدنویسیشونه. برنامه‌نویس حرفه‌ای کدی رو می‌نویسه که تست‌پذیر باشه، گسترش‌پذیر باشه، دیباگش راحت باشه، درکش راحت باشه",
+      "subtitle": "فرق بین یه برنامه‌نویس تازه‌کار و حرفه‌ای نوع دیدگاه و طرز کدنویسیشونه. برنامه‌نویس حرفه‌ای کدی رو می‌نویسه که تست‌پذیر باشه، گسترش‌پذیر باشه، دیباگش راحت باشه، درکش راحت باشه",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "Clean Code برای برنامه نویسان JS"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 627,
+      "original_price": 2465000,
+      "discounted_price": 1232500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 49,
+      "slug": "ex-project-with-css",
+      "title": "مینی پروژه های تخصصی با Html، Css + دیزاین اختصاصی",
+      "description": "عنوان دوره گویای همه چی هست اما نیازه برخی موارد گفته بشه تا بتونید با دید بهتری تو این دوره شرکت کنید و هدف دوره رو بهتر بتونید درک کنید. افراد بعد از یادگیری Css نیازه که مینی پروژه های مختلفی رو بزنن و تا بتونن با مهارت های خامی که با […]",
+      "subtitle": "عنوان دوره گویای همه چی هست اما نیازه برخی موارد گفته بشه تا بتونید با دید بهتری تو این دوره شرکت کنید و هدف دوره رو بهتر بتونید درک کنید. افراد بعد از یادگیری Css نیازه که مینی پروژه های مختلفی رو بزنن و تا بتونن با مهارت های خامی که با […]",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "مینی پروژه های تخصصی با Html، Css + دیزاین اختصاصی"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99468,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1590,
+      "original_price": 2040000,
+      "discounted_price": 1020000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 47,
+      "slug": "tailwind-css",
+      "title": "آموزش جامع و پروژه محور Tailwind Css + دیزاین فروشگاه قهوه",
+      "description": "tailwind css یک فریمورک Utility First هست، این فریمورک متشکل از یکسری کلاس های آماده ای هست که شما برای پیاده سازی هرگونه دیزاینی میتونید ازش بهره ببرید. توجه کنید که tailwind css هیچ کامپوننت اماده ای در خود ندارد. و در این دوره قراره به صورت جامع این فریمورک رو بررسی کنیم و در نهایت یک پروژه فروشگاهی کاملا استاندارد پیاده سازی میکنیم. برای اینکه بیشتر راجب دوره بدونید ویدیو معرفی رو حتما مشاهده کنید.",
+      "subtitle": "tailwind css یک فریمورک Utility First هست، این فریمورک متشکل از یکسری کلاس های آماده ای هست که شما برای پیاده سازی هرگونه دیزاینی میتونید ازش بهره ببرید. توجه کنید که tailwind css هیچ کامپوننت اماده ای در خود ندارد. و در این دوره قراره به صورت جامع این فریمورک رو بررسی کنیم و در نهایت یک پروژه فروشگاهی کاملا استاندارد پیاده سازی میکنیم. برای اینکه بیشتر راجب دوره بدونید ویدیو معرفی رو حتما مشاهده کنید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جامع و پروژه محور Tailwind Css + دیزاین فروشگاه قهوه"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99468,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 2938,
+      "original_price": 3060000,
+      "discounted_price": 1530000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 46,
+      "slug": "20-lib-reactjs",
+      "title": "آموزش ۲۰ کتابخانه کاربردی ReactJS برای بازارکار",
+      "description": "‌کتابخانه‌ها باعث افزایش سرعت کدنویسی میشن. در حدی که تو بازار کار هم از کتابخانه های مختلفی برای توسعه پروژه‌ها استفاده میشه. تو این دوره 20 کتابخانه پرکاربرد و پراستفاده ری‌اکت که تو بازار کار برای توسعه پروژه های مختلفی استفاده میشه رو بصورت پروژه محور یاد میگیری. این موضوع هم سرعت کدنویسی شما رو افزایش میده، هم دستتون تو کدنویسی بازتره و هم شانس استخدامیتون رو بالا می‌بره.",
+      "subtitle": "‌کتابخانه‌ها باعث افزایش سرعت کدنویسی میشن. در حدی که تو بازار کار هم از کتابخانه های مختلفی برای توسعه پروژه‌ها استفاده میشه. تو این دوره 20 کتابخانه پرکاربرد و پراستفاده ری‌اکت که تو بازار کار برای توسعه پروژه های مختلفی استفاده میشه رو بصورت پروژه محور یاد میگیری. این موضوع هم سرعت کدنویسی شما رو افزایش میده، هم دستتون تو کدنویسی بازتره و هم شانس استخدامیتون رو بالا می‌بره.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش ۲۰ کتابخانه کاربردی ReactJS برای بازارکار"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1917,
+      "original_price": 1275000,
+      "discounted_price": 637500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 45,
+      "slug": "redux",
+      "title": "آموزش تخصصی Redux مقدماتی تا پیشرفته",
+      "description": "ریداکس یه کتابخونه پراستفاده واسه مدیریت حالت های مختلف یه برنامه جاوا اسکریپتیه که تو بازار کار ری‌اکت یکی از مهم‌ترین تکنولوژی‌ها واسه توسعه دهنده های فرانت‌اند به حساب میاد. از اونجایی که تو اکثر دوره‌ها ریداکس فقط در کنار ری‌اکت تدریس میشه، خیلی از افراد فکر می‌کنن ریداکس خیلی سخته و به این راحتیا نمیشه اونو یاد گرفت. تو این دوره کتابخونه ریداکس رو از صفر مطلق شروع می‌کنیم و ازش در پروژه های جاوا اسکریپت خام استفاده می‌کنیم و بعد از این که به خودِ ریداکس مسلط شدین، با آمادگی و قدرت بالا ریداکس رو تو پروژه ری‌اکتی استفاده می‌کنیم.",
+      "subtitle": "ریداکس یه کتابخونه پراستفاده واسه مدیریت حالت های مختلف یه برنامه جاوا اسکریپتیه که تو بازار کار ری‌اکت یکی از مهم‌ترین تکنولوژی‌ها واسه توسعه دهنده های فرانت‌اند به حساب میاد. از اونجایی که تو اکثر دوره‌ها ریداکس فقط در کنار ری‌اکت تدریس میشه، خیلی از افراد فکر می‌کنن ریداکس خیلی سخته و به این راحتیا نمیشه اونو یاد گرفت. تو این دوره کتابخونه ریداکس رو از صفر مطلق شروع می‌کنیم و ازش در پروژه های جاوا اسکریپت خام استفاده می‌کنیم و بعد از این که به خودِ ریداکس مسلط شدین، با آمادگی و قدرت بالا ریداکس رو تو پروژه ری‌اکتی استفاده می‌کنیم.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش تخصصی Redux مقدماتی تا پیشرفته"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1680,
+      "original_price": 3060000,
+      "discounted_price": 1530000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 44,
+      "slug": "next-js",
+      "title": "آموزش Next.js بصورت پروژه محور",
+      "description": "نکست یه فریمورک مبتنی بر ری‌اکت هست که امروزه تو بازار کار یکی از مهم‌ترین تکنولوژی‌ها برای توسعه دهنده های ری‌اکت به حساب میاد. نکست رو میشه مکمل ری‌اکت دونست. یعنی هر چی که ری‌اکت داره نکست هم داره، بعلاوه چند قابلیت مهم و کاربردی دیگه. عمدتا از نکست با هدف بهبود سئوی اپلیکیشن های ری‌اکتی استفاده میشه و بعنوان توسعه‌ دهنده ری‌اکت، باید نکست رو بخوبی بلد باشین. تو این دوره فریمورک محبوب نکست رو بصورت پروژه محور و عملی یاد می‌گیرین.",
+      "subtitle": "نکست یه فریمورک مبتنی بر ری‌اکت هست که امروزه تو بازار کار یکی از مهم‌ترین تکنولوژی‌ها برای توسعه دهنده های ری‌اکت به حساب میاد. نکست رو میشه مکمل ری‌اکت دونست. یعنی هر چی که ری‌اکت داره نکست هم داره، بعلاوه چند قابلیت مهم و کاربردی دیگه. عمدتا از نکست با هدف بهبود سئوی اپلیکیشن های ری‌اکتی استفاده میشه و بعنوان توسعه‌ دهنده ری‌اکت، باید نکست رو بخوبی بلد باشین. تو این دوره فریمورک محبوب نکست رو بصورت پروژه محور و عملی یاد می‌گیرین.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش Next.js بصورت پروژه محور"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 2356,
+      "original_price": 6825000,
+      "discounted_price": 3412500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 43,
+      "slug": "pwa",
+      "title": "آموزش PWA بصورت پروژه محور",
+      "description": "کلمه PWA مخفف Progressive Web App بوده و یه تکنولوژی تقریبا جدیده که میتونیم بهمون اجازه میده وب‌سایتی که توسعه دادیم رو به شکل یه اپلیکیشن دربیاریم که روی اندروید، IOS، ویندوز، مک و ... قابل نصبه. امروزه Pwa بازار کار قابل قبول و خوبی رو داره و در حال رشده و بهترین زمان واسه یادگیریشه. واسه ساخت اپ Pwa نیاز نیست از نو کدنویسی کنین، همون وب‌سایت که توسعه دادین رو به شکل اپلیکیشن قابل نصب درمیارین، به همین راحتی و خوشمزگی.",
+      "subtitle": "کلمه PWA مخفف Progressive Web App بوده و یه تکنولوژی تقریبا جدیده که میتونیم بهمون اجازه میده وب‌سایتی که توسعه دادیم رو به شکل یه اپلیکیشن دربیاریم که روی اندروید، IOS، ویندوز، مک و ... قابل نصبه. امروزه Pwa بازار کار قابل قبول و خوبی رو داره و در حال رشده و بهترین زمان واسه یادگیریشه. واسه ساخت اپ Pwa نیاز نیست از نو کدنویسی کنین، همون وب‌سایت که توسعه دادین رو به شکل اپلیکیشن قابل نصب درمیارین، به همین راحتی و خوشمزگی.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش PWA بصورت پروژه محور"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 830,
+      "original_price": 3774000,
+      "discounted_price": 1887000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 42,
+      "slug": "git-github",
+      "title": "آموزش git و github",
+      "description": "گیت یه Version Controller هست که نسخه های مختلف پروژه هامون رو مدیریت و نگهداری میکنن. گیت یکی از پراستفاده ترین و محبوب ترین ابزار هایی هست که عمدتا در شرکت‌ها و تیم های برنامه نویسی استفاده میشه و تقریبا بدون گیت خبری از استخدام و بازار کار آنچنانی نیست. چون یادگیریش جز ملزوماتی هست که شما باید براش وقت بزارید و هدف دوره اینه که عزیزانی که در یکی از حوزه های مربوط به برنامه نویسی کار میکنن بتونن یه تیم برنامه نویسی رو از لحاظ ورژن و کدنویسی مدیریت کنن. پس فرقی نمیکنه شما با کدوم یک از تکنولوژی های برنامه نویسی کار می‌کنین. با گذروندن دوره آموزش گیت میتونین تو حوزه کاریتون با گیت کار کنین و بازدهی خودتونو تو تیم های برنامه نویسی افزایش بدین.",
+      "subtitle": "گیت یه Version Controller هست که نسخه های مختلف پروژه هامون رو مدیریت و نگهداری میکنن. گیت یکی از پراستفاده ترین و محبوب ترین ابزار هایی هست که عمدتا در شرکت‌ها و تیم های برنامه نویسی استفاده میشه و تقریبا بدون گیت خبری از استخدام و بازار کار آنچنانی نیست. چون یادگیریش جز ملزوماتی هست که شما باید براش وقت بزارید و هدف دوره اینه که عزیزانی که در یکی از حوزه های مربوط به برنامه نویسی کار میکنن بتونن یه تیم برنامه نویسی رو از لحاظ ورژن و کدنویسی مدیریت کنن. پس فرقی نمیکنه شما با کدوم یک از تکنولوژی های برنامه نویسی کار می‌کنین. با گذروندن دوره آموزش گیت میتونین تو حوزه کاریتون با گیت کار کنین و بازدهی خودتونو تو تیم های برنامه نویسی افزایش بدین.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش git و github"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 2285,
+      "original_price": 2210000,
+      "discounted_price": 1105000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 40,
+      "slug": "typescript",
+      "title": "آموزش کاربردی Typescript بصورت پروژه محور",
+      "description": "تایپ اسکریپت یه زبون برنامه نویسیه که توسط مایکروسافت ارائه شده و یسری قابلیت و فیچر های جدید رو با هدف افزایش پرفورمنس و کاهش احتمال خطا به جاوا اسکریپت اضافه کرده. بنا به آمار استک‌اور‌فلو و بازار کار جاوا اسکریت، امروزه تایپ اسکریپت به یکی از زبان های مهم، پراستفاده و محبوب تبدیل شده. به طوری که هر برنامه نویس که با جاوا اسکریپت سر و کار داشته باشه (چه فرانت‌اند و چه بک‌اند)، برای ورود به بازار کار و افزایش قدرت کدنویسی حتما باید تایپ اسکریپت رو بلد باشه. پس فرقی نمی‌کنه شما با کدوم یک از تکنولوژی های ری‌اکت، ویو، نود‌جی‌اس و ... کار میکنین، اگر برنامه نویس جاوا اسکریپت هستین، حتما باید تایپ اسکریپت رو در رودمپ خودتون قرار بدین.",
+      "subtitle": "تایپ اسکریپت یه زبون برنامه نویسیه که توسط مایکروسافت ارائه شده و یسری قابلیت و فیچر های جدید رو با هدف افزایش پرفورمنس و کاهش احتمال خطا به جاوا اسکریپت اضافه کرده. بنا به آمار استک‌اور‌فلو و بازار کار جاوا اسکریت، امروزه تایپ اسکریپت به یکی از زبان های مهم، پراستفاده و محبوب تبدیل شده. به طوری که هر برنامه نویس که با جاوا اسکریپت سر و کار داشته باشه (چه فرانت‌اند و چه بک‌اند)، برای ورود به بازار کار و افزایش قدرت کدنویسی حتما باید تایپ اسکریپت رو بلد باشه. پس فرقی نمی‌کنه شما با کدوم یک از تکنولوژی های ری‌اکت، ویو، نود‌جی‌اس و ... کار میکنین، اگر برنامه نویس جاوا اسکریپت هستین، حتما باید تایپ اسکریپت رو در رودمپ خودتون قرار بدین.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش کاربردی Typescript بصورت پروژه محور"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 972,
+      "original_price": 4992000,
+      "discounted_price": 2496000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 39,
+      "slug": "node-ex",
+      "title": "آموزش حرفه ای NodeJS بدون پیش نیاز",
+      "description": "الان و امروز کمتر کسی هست که از بازار کار داغ نود جی اس با خبر نباشه و یکی از دلایل استفاده از این تکنولوژی فارغ از یه خیلی از مزایاش برای برنامه نویسا(کسب و کار ها به کنار) همین بازار کارشه و ما توی این دوره از نقطه منفی صفر حتی اگه جاوااسکریپت بلد نباشید هم بهتون یادش میدیم و بعد میریم سراغ مباحث خود نود جی اس و اینقدر باهم پروژه میزنیم و تعامل میکنیم و یه خیلی نکته رو بهتون منتقل میکنیم تا به پختگی قابل قبولی برسید و درنهایت بتونید وارد بازار کار بشید. فارغ از همه این موارد ما توی این دوره علاوه بر اینکه مباحث فنی رو پوشش میدیم، بهتون یاد میدیم چطور از مهارتی که بدست میارید کسب درآمد کنید. برای مثال راجب چالشای استخدام به عنوان نود جی اس دولوپر، رزومه نویسی، بایدها و نباید های قرارداد نویسی، نکات مفید و کاربردی راجب نمونه کار زدن و... یه خیلی از مباحث دیگه بهتون آموزش داده میشه",
+      "subtitle": "الان و امروز کمتر کسی هست که از بازار کار داغ نود جی اس با خبر نباشه و یکی از دلایل استفاده از این تکنولوژی فارغ از یه خیلی از مزایاش برای برنامه نویسا(کسب و کار ها به کنار) همین بازار کارشه و ما توی این دوره از نقطه منفی صفر حتی اگه جاوااسکریپت بلد نباشید هم بهتون یادش میدیم و بعد میریم سراغ مباحث خود نود جی اس و اینقدر باهم پروژه میزنیم و تعامل میکنیم و یه خیلی نکته رو بهتون منتقل میکنیم تا به پختگی قابل قبولی برسید و درنهایت بتونید وارد بازار کار بشید. فارغ از همه این موارد ما توی این دوره علاوه بر اینکه مباحث فنی رو پوشش میدیم، بهتون یاد میدیم چطور از مهارتی که بدست میارید کسب درآمد کنید. برای مثال راجب چالشای استخدام به عنوان نود جی اس دولوپر، رزومه نویسی، بایدها و نباید های قرارداد نویسی، نکات مفید و کاربردی راجب نمونه کار زدن و... یه خیلی از مباحث دیگه بهتون آموزش داده میشه",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش حرفه ای NodeJS بدون پیش نیاز"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1564,
+      "original_price": 6450000,
+      "discounted_price": 3225000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 38,
+      "slug": "business-for-programmers",
+      "title": "راه اندازی کسب و کار شخصی برای برنامه نویسان",
+      "description": "تو این وبینار من تجربیات خودم رو از راه اندازی یک کسب و کار تا رسوندن اون به درامد حداقل ماهانه ۳۰ الی ۵۰ میلیون تومن رو در اختیار شما قرار دادم و مواردی همچون پیش نیاز ها. مسیر رسیدن به درامد. استخدام و چالش های مدیریت منابع انسانی و جذب سرمایه گذار خردمند صحبت کردم و این وبینار مناسب افرادیه که دوست دارن یه کسب و کار شخصی برای خودشون راه اندازی کنن ولی نمیدونن تو مسیرشون چه چالش هایی رو پیش و رو دارن!",
+      "subtitle": "تو این وبینار من تجربیات خودم رو از راه اندازی یک کسب و کار تا رسوندن اون به درامد حداقل ماهانه ۳۰ الی ۵۰ میلیون تومن رو در اختیار شما قرار دادم و مواردی همچون پیش نیاز ها. مسیر رسیدن به درامد. استخدام و چالش های مدیریت منابع انسانی و جذب سرمایه گذار خردمند صحبت کردم و این وبینار مناسب افرادیه که دوست دارن یه کسب و کار شخصی برای خودشون راه اندازی کنن ولی نمیدونن تو مسیرشون چه چالش هایی رو پیش و رو دارن!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "راه اندازی کسب و کار شخصی برای برنامه نویسان"
+      },
+      "teacher": {
+        "name": "قدیر یلمه",
+        "slug": "qadiryolme",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/213e0cf344b8c216b7048477622c195a?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "قدیر یلمه"
+        },
+        "stack": "بنیان‌گذار پلتفرم سبزلرن",
+        "stats": {
+          "students": 59228,
+          "courses": 5
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 36873,
+      "original_price": 9500000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276287922,
+      "tags": []
+    },
+    {
+      "id": 37,
+      "slug": "django-ex",
+      "title": "آموزش جنگو به صورت پروژه محور",
+      "description": "از ویژگی های مهم دوره آموزش جنگو میتونیم به توضیح کامل مفاهیم پایه و ساختاری، کامل بودن و توجه به جزئیات، بررسی روش های مختلف حل مسئله و انتخاب بهترین روش ممکن، رعایت اصول کدنویسی، توجه به داکیومنت خوانی، بررسی خطاهای احتمالی و پشتیبانی اختصاصی اشاره کرد.",
+      "subtitle": "از ویژگی های مهم دوره آموزش جنگو میتونیم به توضیح کامل مفاهیم پایه و ساختاری، کامل بودن و توجه به جزئیات، بررسی روش های مختلف حل مسئله و انتخاب بهترین روش ممکن، رعایت اصول کدنویسی، توجه به داکیومنت خوانی، بررسی خطاهای احتمالی و پشتیبانی اختصاصی اشاره کرد.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جنگو به صورت پروژه محور"
+      },
+      "teacher": {
+        "name": "رضا دولتی",
+        "slug": "rezadolati01",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ac7287d085cde5ec1b40baa3a395b82d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "رضا دولتی"
+        },
+        "stack": "عاشق برنامه نویسی و هوش مصنوعی!",
+        "stats": {
+          "students": 96871,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1538,
+      "original_price": 6825000,
+      "discounted_price": 3412500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 36,
+      "slug": "data-visualization-with-python",
+      "title": "Data Visualization با پایتون",
+      "description": "ما تو دنیایی زندگی میکنیم که همه چیز به سمت سریع تر شدن حرکت میکنه. برای ذهن انسان درک اشکال خیلی راحت تر از اعداد و ارقام هست چون ذهن برای درک اعداد به پردازش بیشتری نسبت به اشکال نیاز داره. مثلا درک بلندی و کوتاهی قد دو نفر با چشم خیلی ساده تر و سریع‌تر انجام میشه تا دیدن ارقام مربوط به اعداد قد اونها. حتی ممکنه گاهی مقیاس‌های اندازه‌گیری هم با همدیگه متفاوت باشند و درک این موضوع سخت تر هم بشه!",
+      "subtitle": "ما تو دنیایی زندگی میکنیم که همه چیز به سمت سریع تر شدن حرکت میکنه. برای ذهن انسان درک اشکال خیلی راحت تر از اعداد و ارقام هست چون ذهن برای درک اعداد به پردازش بیشتری نسبت به اشکال نیاز داره. مثلا درک بلندی و کوتاهی قد دو نفر با چشم خیلی ساده تر و سریع‌تر انجام میشه تا دیدن ارقام مربوط به اعداد قد اونها. حتی ممکنه گاهی مقیاس‌های اندازه‌گیری هم با همدیگه متفاوت باشند و درک این موضوع سخت تر هم بشه!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "Data Visualization با پایتون"
+      },
+      "teacher": {
+        "name": "رضا دولتی",
+        "slug": "rezadolati01",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ac7287d085cde5ec1b40baa3a395b82d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "رضا دولتی"
+        },
+        "stack": "عاشق برنامه نویسی و هوش مصنوعی!",
+        "stats": {
+          "students": 96871,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 715,
+      "original_price": 1360000,
+      "discounted_price": 680000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 35,
+      "slug": "freelance-project-price",
+      "title": "تکنیک های قیمت گذاری پروژه های فریلنسری",
+      "description": "تو این دوره ‌5 پروژه فریلنسری از سایت های مختلف رو همراه با فیچرهایی که دارن و شرایط پروژه به طور کامل آنالیز و تعیین قیمت میکنیم تا بعد از گذروندن دوره هر پروژه‌ای که تو حوزه فریلنسری گرفتین رو به راحتی بتونین تعیین قیمت کرده و با بهترین قیمت انجامش بدین.",
+      "subtitle": "تو این دوره ‌5 پروژه فریلنسری از سایت های مختلف رو همراه با فیچرهایی که دارن و شرایط پروژه به طور کامل آنالیز و تعیین قیمت میکنیم تا بعد از گذروندن دوره هر پروژه‌ای که تو حوزه فریلنسری گرفتین رو به راحتی بتونین تعیین قیمت کرده و با بهترین قیمت انجامش بدین.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "تکنیک های قیمت گذاری پروژه های فریلنسری"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 896,
+      "original_price": 884000,
+      "discounted_price": 442000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 34,
+      "slug": "team-experience",
+      "title": "تجربیات طلایی من در کار تیمی",
+      "description": "در ساده ترین حالت شما اگه تو یک شرکت برنامه نویسی استخدام بشین، وارد تیم اون شرکت میشین و باید مهارت هایی رو در زمینه کار تیمی داشته باشین تا دچار یسری اذیت‌ها و مشکلات نشین. و این دوره برای تمامی افرادی که در یک حوزه مربوط به برنامه نویسی فعالیت میکنن پیشنهاد میشه تا بتونن عملکردشون رو در کار تیمی بهبود و افزایش بدن",
+      "subtitle": "در ساده ترین حالت شما اگه تو یک شرکت برنامه نویسی استخدام بشین، وارد تیم اون شرکت میشین و باید مهارت هایی رو در زمینه کار تیمی داشته باشین تا دچار یسری اذیت‌ها و مشکلات نشین. و این دوره برای تمامی افرادی که در یک حوزه مربوط به برنامه نویسی فعالیت میکنن پیشنهاد میشه تا بتونن عملکردشون رو در کار تیمی بهبود و افزایش بدن",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "تجربیات طلایی من در کار تیمی"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 519,
+      "original_price": 1105000,
+      "discounted_price": 552500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 33,
+      "slug": "js-exp-project",
+      "title": "پروژه های تخصصی با جاوا اسکریپت برای بازار کار",
+      "description": "هیچ فرقی نمیکنه شما با چه کتابخونه یا فریمورکی کار میکنین. تو این دوره یاد میگیری به عنوان یه برنامه نویس فرانت‌اند چطور یه پروژه بزرگ و واقعی رو منیج کنی. حالا این پروژه میتونه با ویو، ری‌اکت یا حتی جاوا اسکریپت خام باشه.",
+      "subtitle": "هیچ فرقی نمیکنه شما با چه کتابخونه یا فریمورکی کار میکنین. تو این دوره یاد میگیری به عنوان یه برنامه نویس فرانت‌اند چطور یه پروژه بزرگ و واقعی رو منیج کنی. حالا این پروژه میتونه با ویو، ری‌اکت یا حتی جاوا اسکریپت خام باشه.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "پروژه های تخصصی با جاوا اسکریپت برای بازار کار"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1886,
+      "original_price": 4335000,
+      "discounted_price": 2167500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 32,
+      "slug": "api-dev-with-nodejs",
+      "title": "Api نویسی با Nodejs",
+      "description": "شما بعد از گذروندن این دوره میتونین واسه پروژه هایی که تو زمینه فرانت‌اند توسعه میدین، هر Api که نیاز بود رو بنویسین و بدون این که نیازی به برنامه نویس بک‌اند داشته باشین، کلی نمونه کار واقعی با لاجیک و عملکرد کامل تو رزومتون داشته باشین.",
+      "subtitle": "شما بعد از گذروندن این دوره میتونین واسه پروژه هایی که تو زمینه فرانت‌اند توسعه میدین، هر Api که نیاز بود رو بنویسین و بدون این که نیازی به برنامه نویس بک‌اند داشته باشین، کلی نمونه کار واقعی با لاجیک و عملکرد کامل تو رزومتون داشته باشین.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "Api نویسی با Nodejs"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 721,
+      "original_price": 1955000,
+      "discounted_price": 977500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 29,
+      "slug": "python-code-optimization",
+      "title": "بهینه نویسی کد ها در پایتون",
+      "description": "همه میدونیم که زبان برنامه نویسی پایتون یه زبان خیلی جذاب، راحت و همینطور کاربردیه.  قبل از اینکه بخواین این دوره رو ببینید اگر دوره آموزش پایتون رو ندیدین حتما دوره رو ببینید که خیلی خیلی بهتون کمک خواهد کرد .به خودی خود اگه کد های پایتون رو با سایز زبان های برنامه نویسی مثل cpp یا java مقایسه کنید میبینید که چقدر کد های پایتون کوتاه تر هستند و همین بیشتر از پیش جذابیت های پایتون رو به رخ میکشه. اما اگه بگم حتی خیلی وقت ها این کد های کوتاه رو باز هم میشه کوتاه تر نوشت چی؟ یا اگه بگم برای خیلی از تکه کد های طولانی که توی پایتون مینویسیم یک مسیر کوتاه یک خطی و کوتاه تر وجود داره چی؟ توی این دوره  نسبتا کوتاه شما یاد میگیرید پایتون رو کوتاه تر و جذاب تر و بهینه تز از قبل کد بزنید! راستی حرف از بهینگی شد. ترفند ها همشون برای کوتاه نویسی نیستند‌.  ما یک سری ترفند هایی رو یاد میگیریم که باعث میشه کد هامون رو سریع تر اجرا کنیم یا اینکه میزان حافظه مصرفی کمتری داشته باشیم. که این هم قطعا برای بهینه بودن پروژه های ما مفید خواهد بود!",
+      "subtitle": "همه میدونیم که زبان برنامه نویسی پایتون یه زبان خیلی جذاب، راحت و همینطور کاربردیه.  قبل از اینکه بخواین این دوره رو ببینید اگر دوره آموزش پایتون رو ندیدین حتما دوره رو ببینید که خیلی خیلی بهتون کمک خواهد کرد .به خودی خود اگه کد های پایتون رو با سایز زبان های برنامه نویسی مثل cpp یا java مقایسه کنید میبینید که چقدر کد های پایتون کوتاه تر هستند و همین بیشتر از پیش جذابیت های پایتون رو به رخ میکشه. اما اگه بگم حتی خیلی وقت ها این کد های کوتاه رو باز هم میشه کوتاه تر نوشت چی؟ یا اگه بگم برای خیلی از تکه کد های طولانی که توی پایتون مینویسیم یک مسیر کوتاه یک خطی و کوتاه تر وجود داره چی؟ توی این دوره  نسبتا کوتاه شما یاد میگیرید پایتون رو کوتاه تر و جذاب تر و بهینه تز از قبل کد بزنید! راستی حرف از بهینگی شد. ترفند ها همشون برای کوتاه نویسی نیستند‌.  ما یک سری ترفند هایی رو یاد میگیریم که باعث میشه کد هامون رو سریع تر اجرا کنیم یا اینکه میزان حافظه مصرفی کمتری داشته باشیم. که این هم قطعا برای بهینه بودن پروژه های ما مفید خواهد بود!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "بهینه نویسی کد ها در پایتون"
+      },
+      "teacher": {
+        "name": "رضا دولتی",
+        "slug": "rezadolati01",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ac7287d085cde5ec1b40baa3a395b82d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "رضا دولتی"
+        },
+        "stack": "عاشق برنامه نویسی و هوش مصنوعی!",
+        "stats": {
+          "students": 96871,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1159,
+      "original_price": 1445000,
+      "discounted_price": 722500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 28,
+      "slug": "applied-projects-with-python",
+      "title": "پروژه های کاربردی با پایتون",
+      "description": "قبل از اینکه بخواین این دوره رو ببینید اگر دوره آموزش پایتون رو ندیدین حتما دوره رو ببینید که خیلی خیلی بهتون کمک خواهد کرد یکی از مهم ترین کار هایی که باید برا یادگیری و تسلط بیشتر به یک زبان برنامه نویسی انجام بشه، تمرین، تمرین و تمرینه. متاسفانه در بسیاری از مواقع دانشجوها فقط کار کد هارو میفهمند و وقتی موقع کار عملی میشه به مشکل میخورند. توی این دوره ما با انجام پروژه های کوچیک و بزرگ زیادی سعی میکنیم تسلط شما رو به زبان برنامه نویسی پایتون بیشتر کنیم  تا درک درست و خوبی از کد ها و همینطور روش های مختلف حل مسئله داشته باشید.",
+      "subtitle": "قبل از اینکه بخواین این دوره رو ببینید اگر دوره آموزش پایتون رو ندیدین حتما دوره رو ببینید که خیلی خیلی بهتون کمک خواهد کرد یکی از مهم ترین کار هایی که باید برا یادگیری و تسلط بیشتر به یک زبان برنامه نویسی انجام بشه، تمرین، تمرین و تمرینه. متاسفانه در بسیاری از مواقع دانشجوها فقط کار کد هارو میفهمند و وقتی موقع کار عملی میشه به مشکل میخورند. توی این دوره ما با انجام پروژه های کوچیک و بزرگ زیادی سعی میکنیم تسلط شما رو به زبان برنامه نویسی پایتون بیشتر کنیم  تا درک درست و خوبی از کد ها و همینطور روش های مختلف حل مسئله داشته باشید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "پروژه های کاربردی با پایتون"
+      },
+      "teacher": {
+        "name": "رضا دولتی",
+        "slug": "rezadolati01",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ac7287d085cde5ec1b40baa3a395b82d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "رضا دولتی"
+        },
+        "stack": "عاشق برنامه نویسی و هوش مصنوعی!",
+        "stats": {
+          "students": 96871,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 2361,
+      "original_price": 2210000,
+      "discounted_price": 1105000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 27,
+      "slug": "canvas",
+      "title": "آموزش Canvas برای برنامه نویسان فرانت‌اند",
+      "description": "Canvas عمدتا برای پیاده سازی و رسم نمودار های مختلف جهت تحلیل اطلاعات، بک‌گراندها و افکت های متنی انیمیشنی، شکل های گرافیکی مختلف، بازی سازی و ... استفاده میشه. اما حجم کدی که با Canvas مینویسین در مقایسه با Css به شدت کمتر خواهد بود و این موضوع هم سرعت توسعه شما رو افزایش میده و هم حجم سورس کد رو کاهش میده (اعصاب خوردی و باگ رو هم کاهش میده :D) و در نهایت باعث بهبود لود وب سایت و سئو هم میشه.",
+      "subtitle": "Canvas عمدتا برای پیاده سازی و رسم نمودار های مختلف جهت تحلیل اطلاعات، بک‌گراندها و افکت های متنی انیمیشنی، شکل های گرافیکی مختلف، بازی سازی و ... استفاده میشه. اما حجم کدی که با Canvas مینویسین در مقایسه با Css به شدت کمتر خواهد بود و این موضوع هم سرعت توسعه شما رو افزایش میده و هم حجم سورس کد رو کاهش میده (اعصاب خوردی و باگ رو هم کاهش میده :D) و در نهایت باعث بهبود لود وب سایت و سئو هم میشه.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش Canvas برای برنامه نویسان فرانت‌اند"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 757,
+      "original_price": 1232500,
+      "discounted_price": 616250,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 26,
+      "slug": "javascript-interview-questions",
+      "title": "بررسی تخصصی سوالات مصاحبه‌ای JS",
+      "description": "تو این دوره انواع مصاحبه، سوالات پرتکرار هر نوع مصاحبه، نحوه آماده شدن برای مصاحبه و ... برای شما عزیزان آموزش داده میشه تا بعد از گذروندن این دوره کاملا آماده هر نوع مصاحبه در زمینه جاوا اسکریپت باشین و هیچ نوع استرسی برای حاضر شدن در جلسه مصاحبه نداشته باشین.",
+      "subtitle": "تو این دوره انواع مصاحبه، سوالات پرتکرار هر نوع مصاحبه، نحوه آماده شدن برای مصاحبه و ... برای شما عزیزان آموزش داده میشه تا بعد از گذروندن این دوره کاملا آماده هر نوع مصاحبه در زمینه جاوا اسکریپت باشین و هیچ نوع استرسی برای حاضر شدن در جلسه مصاحبه نداشته باشین.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "بررسی تخصصی سوالات مصاحبه‌ای JS"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 972,
+      "original_price": 1530000,
+      "discounted_price": 765000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 25,
+      "slug": "python",
+      "title": "آموزش پایتون مقدماتی تا پیشرفته + پروژه های جذاب",
+      "description": "دوره آموزش پایتون سبزلرن با رویکردی پروژه‌محور و پشتیبانی دائمی، شما را از صفر تا حرفه‌ای پیش می‌برد. با انجام پروژه‌های عملی و یادگیری کاربردی، مهارت لازم برای ورود به بازار کار، ساخت نرم‌افزار، وب، هوش مصنوعی و حتی بازی‌سازی را به‌دست می‌آورید.",
+      "subtitle": "دوره آموزش پایتون سبزلرن با رویکردی پروژه‌محور و پشتیبانی دائمی، شما را از صفر تا حرفه‌ای پیش می‌برد. با انجام پروژه‌های عملی و یادگیری کاربردی، مهارت لازم برای ورود به بازار کار، ساخت نرم‌افزار، وب، هوش مصنوعی و حتی بازی‌سازی را به‌دست می‌آورید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پایتون مقدماتی تا پیشرفته + پروژه های جذاب"
+      },
+      "teacher": {
+        "name": "رضا دولتی",
+        "slug": "rezadolati01",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/ac7287d085cde5ec1b40baa3a395b82d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "رضا دولتی"
+        },
+        "stack": "عاشق برنامه نویسی و هوش مصنوعی!",
+        "stats": {
+          "students": 96871,
+          "courses": 6
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 96346,
+      "original_price": 9000000,
+      "discounted_price": 4500000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 24,
+      "slug": "pwk",
+      "title": "تست نفوذ با کالی لینوکس - PWK [سناریو محور]",
+      "description": "ما در دوره pwk قرار هست که kali linux رو با یک دیدگاه متفاوت. بصورت عملی و کاملا سناریو محور به شما آموزش بدیم. این به این معنی هست که صرفا قرار نیست کورکورانه با ابزارها کار کنیم و یا اسیب پذیری های مختلفی رو تست کنیم. بلکه در ابتدا سناریو های مختلفی رو مطرح میکنیم و چرایی به وجود اومدن اسیب پذیری ها و چگونگی سو استفاده مهاجمین و.. رو شرح میدیم و بعد با یک منطق متفاوت. سراغ کار با ابزار ها میرویم",
+      "subtitle": "ما در دوره pwk قرار هست که kali linux رو با یک دیدگاه متفاوت. بصورت عملی و کاملا سناریو محور به شما آموزش بدیم. این به این معنی هست که صرفا قرار نیست کورکورانه با ابزارها کار کنیم و یا اسیب پذیری های مختلفی رو تست کنیم. بلکه در ابتدا سناریو های مختلفی رو مطرح میکنیم و چرایی به وجود اومدن اسیب پذیری ها و چگونگی سو استفاده مهاجمین و.. رو شرح میدیم و بعد با یک منطق متفاوت. سراغ کار با ابزار ها میرویم",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "تست نفوذ با کالی لینوکس - PWK [سناریو محور]"
+      },
+      "teacher": {
+        "name": "احسان نیک آور",
+        "slug": "nikavar",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/4ee2dbda6d441b5223a40a92899738a2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "احسان نیک آور"
+        },
+        "stack": "کارشناس و مشاوره امنیت و تست نفوذ",
+        "stats": {
+          "students": 1208,
+          "courses": 3
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 704,
+      "original_price": 3400000,
+      "discounted_price": 1700000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 19,
+      "slug": "creative-projects-with-html-css",
+      "title": "پروژه های خلاقانه با Html و Css(آپدیت  ۲۰۲۳)",
+      "description": "دوره  پروژه خلاقانه با HTML, CSS  با هدف تقویت CSS شما, با آموزش پروژه‌های پیشرفته و سطح بالا , طراحی شده تا دغدغه افرادی که می‌خواهند در حوزه Front-end مهارت خود را بهبود بخشند را حل کند.  اما توجه داشته باشید که برای استفاده از این آموزش با پروژه‌های پیشرفته، بایستی با یک سری مهارت‌ها قبلی آشنا باشید.",
+      "subtitle": "دوره  پروژه خلاقانه با HTML, CSS  با هدف تقویت CSS شما, با آموزش پروژه‌های پیشرفته و سطح بالا , طراحی شده تا دغدغه افرادی که می‌خواهند در حوزه Front-end مهارت خود را بهبود بخشند را حل کند.  اما توجه داشته باشید که برای استفاده از این آموزش با پروژه‌های پیشرفته، بایستی با یک سری مهارت‌ها قبلی آشنا باشید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "پروژه های خلاقانه با Html و Css(آپدیت  ۲۰۲۳)"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 51524,
+      "original_price": 600000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276290122,
+      "tags": []
+    },
+    {
+      "id": 18,
+      "slug": "advance-template-design-with-html-css-flexbox",
+      "title": "آموزش حرفه ای طراحی قالب با Html Css FlexBox از صفر",
+      "description": "بعد از یادگیری Html,Css  افراد با یک چالش بزرگی رو به رو میشن، اونم اینه که نمیتونن توسط دانشی که یادگرفتن یک طرحی رو از صفر به کد تبدیل کنن و وبسایتی رو پیاده سازی کنن، توی این دوره به شما از صفر اصول طراحی قالب و همچنین اصول طراحی واکنش گرا گفته میشه. آموزش Html",
+      "subtitle": "بعد از یادگیری Html,Css  افراد با یک چالش بزرگی رو به رو میشن، اونم اینه که نمیتونن توسط دانشی که یادگرفتن یک طرحی رو از صفر به کد تبدیل کنن و وبسایتی رو پیاده سازی کنن، توی این دوره به شما از صفر اصول طراحی قالب و همچنین اصول طراحی واکنش گرا گفته میشه. آموزش Html",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش حرفه ای طراحی قالب با Html Css FlexBox از صفر"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99468,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 3613,
+      "original_price": 3400000,
+      "discounted_price": 1700000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 17,
+      "slug": "reactjs",
+      "title": "آموزش ری اکت (ReactJS) از صفر تا ورود به بازار کار",
+      "description": "شما در دوره آموزش ری اکت ReactJS ، این کتابخانه قدرتمند و پر استفاده جاوا اسکریپت را به صورت کاملا پروژه محور و کاربردی یاد میگیرید! ری اکت گل سرسبد فرانت اند محسوب میشود،اگر دوره react را ببینید، بازار کار فرانت اند پیشنهادهای بسیار شگفت انگیزی برای شما خواهد داشت! در این دوره شما آموزش ری اکت رابر اساس تجربیات مدرس در دنیای واقعی و کار با شرکت های مختلف ایرانی یاد می گیرید و در دوره اموزش ری اکت مدرس دوره از نقطه صفر تا رسیدن شما به مرحله پیاده سازی نمونه کار، طراحی رزومه و ... استخدام همراه شما خواهد بود. (به این معنی که تا پس از این دوره استخدام نشوید، ما شما را رها نمیکنیم!) آموزش ری اکت و نمونه کارها و رزومه شما و خیلی از موارد دیگه توسط مدرس بررسی، راهنمایی و رفع اشکال خواهد شد تا شما عزیزان بتوانید نهایت خروجی را از این دوره به دست آورده و بعد از گذروندن این دوره وارد بازار کار شده و کسب درآمد کنید. پس اگر به HTML,CSS و Javascript تسلط داری، وقتشه که با آموزش ری اکت تیرخلاص رو بزنی و خودتو به همه اثبات کنی! برو بریم",
+      "subtitle": "شما در دوره آموزش ری اکت ReactJS ، این کتابخانه قدرتمند و پر استفاده جاوا اسکریپت را به صورت کاملا پروژه محور و کاربردی یاد میگیرید! ری اکت گل سرسبد فرانت اند محسوب میشود،اگر دوره react را ببینید، بازار کار فرانت اند پیشنهادهای بسیار شگفت انگیزی برای شما خواهد داشت! در این دوره شما آموزش ری اکت رابر اساس تجربیات مدرس در دنیای واقعی و کار با شرکت های مختلف ایرانی یاد می گیرید و در دوره اموزش ری اکت مدرس دوره از نقطه صفر تا رسیدن شما به مرحله پیاده سازی نمونه کار، طراحی رزومه و ... استخدام همراه شما خواهد بود. (به این معنی که تا پس از این دوره استخدام نشوید، ما شما را رها نمیکنیم!) آموزش ری اکت و نمونه کارها و رزومه شما و خیلی از موارد دیگه توسط مدرس بررسی، راهنمایی و رفع اشکال خواهد شد تا شما عزیزان بتوانید نهایت خروجی را از این دوره به دست آورده و بعد از گذروندن این دوره وارد بازار کار شده و کسب درآمد کنید. پس اگر به HTML,CSS و Javascript تسلط داری، وقتشه که با آموزش ری اکت تیرخلاص رو بزنی و خودتو به همه اثبات کنی! برو بریم",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش ری اکت (ReactJS) از صفر تا ورود به بازار کار"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 3147,
+      "original_price": 9375000,
+      "discounted_price": 4687500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 16,
+      "slug": "regex",
+      "title": "آموزش اصولی RegEX برای تمام برنامه نویسان",
+      "description": "RegEx یک زبان یا فریمورک جدا از زبان برنامه نویسی نیست. بلکه یک تکنولوژی و سینتکس ثابتی است که در اکثر زبان های برنامه نویسی مثل جاوا اسکریپت، PHP، سی شارپ، پایتون و … وجود دارد و فارغ از هر زبان تقریبا در تمام حوزه های برنامه نویسی نقش پر رنگی داشته و مورد استفاده قرار می گیرد. پس می توان گفت پیش نیاز این دوره کار با یک زبان برنامه نویسی است و تفاوتی ندارد که زبان و حوزه مورد نظر شما چه زبان و حوزه ای باشد.",
+      "subtitle": "RegEx یک زبان یا فریمورک جدا از زبان برنامه نویسی نیست. بلکه یک تکنولوژی و سینتکس ثابتی است که در اکثر زبان های برنامه نویسی مثل جاوا اسکریپت، PHP، سی شارپ، پایتون و … وجود دارد و فارغ از هر زبان تقریبا در تمام حوزه های برنامه نویسی نقش پر رنگی داشته و مورد استفاده قرار می گیرد. پس می توان گفت پیش نیاز این دوره کار با یک زبان برنامه نویسی است و تفاوتی ندارد که زبان و حوزه مورد نظر شما چه زبان و حوزه ای باشد.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش اصولی RegEX برای تمام برنامه نویسان"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 1630,
+      "original_price": 799000,
+      "discounted_price": 399500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 15,
+      "slug": "npm-tutorial",
+      "title": "آموزش NPM برای جاوااسکریپت کارها",
+      "description": "به صورت خلاصه، NPM یک پکیج منیجر است. در اصل نود جی اس یک پکیج منیجر به اسم NPM دارد. زمانی که شما Node Js را نصب می کنید، علاوه بر Node یک پکیج منیجر به اسم NPM نیز در اختیار شما قرار می‌گیرد که می توانید برای مدیریت پکیج های یک پروژه جاوا اسکریپتی از آن استفاده کنید.",
+      "subtitle": "به صورت خلاصه، NPM یک پکیج منیجر است. در اصل نود جی اس یک پکیج منیجر به اسم NPM دارد. زمانی که شما Node Js را نصب می کنید، علاوه بر Node یک پکیج منیجر به اسم NPM نیز در اختیار شما قرار می‌گیرد که می توانید برای مدیریت پکیج های یک پروژه جاوا اسکریپتی از آن استفاده کنید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش NPM برای جاوااسکریپت کارها"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 29837,
+      "original_price": 500000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276298307,
+      "tags": []
+    },
+    {
+      "id": 14,
+      "slug": "vscode-tutorial",
+      "title": "آموزش کاربردی Vscode | مقدماتی تا پیشرفته",
+      "description": "یکی از دلایل محبوبیت وی اس کد، حجم پایین، داشتن اکستنشن های کاربردی مختلف، پشتیبانی از گیت، کراس پلتفرم بودن و … است. یعنی اگر شما سیستم ضعیفی برای کدنویسی داشته باشید باز هم وی اس کد کار شما را بدون هیچ مشکل و اذیتی راه می اندازد. پس چه بهتر که برای کد نویسی از ادیتور VsCode استفاده کنید.در این دوره آموزش vscode، نحوه کار با این ادیتور از صفر تا نزدیک های صد به شما آموزش داده می شود.",
+      "subtitle": "یکی از دلایل محبوبیت وی اس کد، حجم پایین، داشتن اکستنشن های کاربردی مختلف، پشتیبانی از گیت، کراس پلتفرم بودن و … است. یعنی اگر شما سیستم ضعیفی برای کدنویسی داشته باشید باز هم وی اس کد کار شما را بدون هیچ مشکل و اذیتی راه می اندازد. پس چه بهتر که برای کد نویسی از ادیتور VsCode استفاده کنید.در این دوره آموزش vscode، نحوه کار با این ادیتور از صفر تا نزدیک های صد به شما آموزش داده می شود.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش کاربردی Vscode | مقدماتی تا پیشرفته"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 40440,
+      "original_price": 300000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276298307,
+      "tags": []
+    },
+    {
+      "id": 13,
+      "slug": "css-grid",
+      "title": "آموزش پروژه محور CSS Grid + پروژه لندینگ رستوران",
+      "description": "Css grid یک ماژول مربوط به css است . کارکردن با این ماژول بسیار جذاب است و با امکانات و پراپرتی هایی که در اختیار ما قرار میدهد نه تنها مشکلات گذشته در طراحی و ریسپانسیو را نخواهیم داشت بلکه میتوانیم خیلی راحت تر از قبل کد بزنیم و لذت ببریم. پس یادتان باشد با کمک css grid میتوانیم صفحات وب سایت خود را به آسانی پیاده سازی کنیم.",
+      "subtitle": "Css grid یک ماژول مربوط به css است . کارکردن با این ماژول بسیار جذاب است و با امکانات و پراپرتی هایی که در اختیار ما قرار میدهد نه تنها مشکلات گذشته در طراحی و ریسپانسیو را نخواهیم داشت بلکه میتوانیم خیلی راحت تر از قبل کد بزنیم و لذت ببریم. پس یادتان باشد با کمک css grid میتوانیم صفحات وب سایت خود را به آسانی پیاده سازی کنیم.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پروژه محور CSS Grid + پروژه لندینگ رستوران"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 45835,
+      "original_price": 600000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276296132,
+      "tags": []
+    },
+    {
+      "id": 11,
+      "slug": "ceh-v11",
+      "title": "دوره هکرقانونمند با دیدگاهی متفاوت و تجربی | CEH V13",
+      "description": "یکی از دوره هایی که در مسیر یادگیری هک و امنیت باید بهش مراجعه کنید. \"دوره ceh\" هست ! CEH مخفف Certificate Ethical Hacking هستش و در این دوره شما بر اساس یک سری استاندارد ها نه تنها با یک سری از مفاهیم پایه اشنا میشید. بلکه با یادگیری سناریو های مختلف بصورت تجربی. اون هم به زبان ساده. دیدگاه فوق العاده ای رو از سبک تفکر و منش یک هکر در فرایند پیاده سازی حملات مختلف رو بدست میارید",
+      "subtitle": "یکی از دوره هایی که در مسیر یادگیری هک و امنیت باید بهش مراجعه کنید. \"دوره ceh\" هست ! CEH مخفف Certificate Ethical Hacking هستش و در این دوره شما بر اساس یک سری استاندارد ها نه تنها با یک سری از مفاهیم پایه اشنا میشید. بلکه با یادگیری سناریو های مختلف بصورت تجربی. اون هم به زبان ساده. دیدگاه فوق العاده ای رو از سبک تفکر و منش یک هکر در فرایند پیاده سازی حملات مختلف رو بدست میارید",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "دوره هکرقانونمند با دیدگاهی متفاوت و تجربی | CEH V13"
+      },
+      "teacher": {
+        "name": "احسان نیک آور",
+        "slug": "nikavar",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/4ee2dbda6d441b5223a40a92899738a2?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "احسان نیک آور"
+        },
+        "stack": "کارشناس و مشاوره امنیت و تست نفوذ",
+        "stats": {
+          "students": 1208,
+          "courses": 3
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 991,
+      "original_price": 5850000,
+      "discounted_price": 2925000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 9,
+      "slug": "flex-box",
+      "title": "آموزش FlexBox پروژه محور + پروژه سایت هاستینگ",
+      "description": "اگر شما به حوزه طراحی و برنامه نویسی وب علاقه داشته باشید قطعا در مورد صفحه آرایی، ریسپانسیو سازی، فلکس باکس و ... شنیده اید. در این دوره قصد داریم ماژول فلکس باکس را به صورت پروژه محور و از صفر تا صد به شما آموزش دهیم.",
+      "subtitle": "اگر شما به حوزه طراحی و برنامه نویسی وب علاقه داشته باشید قطعا در مورد صفحه آرایی، ریسپانسیو سازی، فلکس باکس و ... شنیده اید. در این دوره قصد داریم ماژول فلکس باکس را به صورت پروژه محور و از صفر تا صد به شما آموزش دهیم.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش FlexBox پروژه محور + پروژه سایت هاستینگ"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99468,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 45789,
+      "original_price": 550000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276296134,
+      "tags": []
+    },
+    {
+      "id": 8,
+      "slug": "black-py",
+      "title": "آموزش پایتون با گرایش امنیت | پایتون سیاه",
+      "description": "زبان برنامه نویسی پایتون بخاطر سادگی. قدرت. و جامعه اماری بالایی که داره تونسته جز محبوب ترین زبان های برنامه نویسی هکرها قرار بگیره.و تا به امروز ابزار های قدرتمندی در زمینه هک و امنیت با پایتون توسعه داده شده که این ابزار ها تونستن کمک شایانی رو به دنیای سایبری بکنن ! و من در این دوره آموزشی همراه شما هستم تا پایتون رو از صفر با دیدگاه یک هکر آموزش بدم. تا در انتها بتونید ابزار های مختلفی رو در زمینه هک و امنیت توسعه بدید و از طریق ارائه اون ها کسب درامد و یا رزومه سازی کنید قبل از اینکه بخواین این دوره رو ببینید اگر دوره آموزش پایتون رو ندیدین حتما دوره رو ببینید که خیلی خیلی بهتون کمک خواهد کرد",
+      "subtitle": "زبان برنامه نویسی پایتون بخاطر سادگی. قدرت. و جامعه اماری بالایی که داره تونسته جز محبوب ترین زبان های برنامه نویسی هکرها قرار بگیره.و تا به امروز ابزار های قدرتمندی در زمینه هک و امنیت با پایتون توسعه داده شده که این ابزار ها تونستن کمک شایانی رو به دنیای سایبری بکنن ! و من در این دوره آموزشی همراه شما هستم تا پایتون رو از صفر با دیدگاه یک هکر آموزش بدم. تا در انتها بتونید ابزار های مختلفی رو در زمینه هک و امنیت توسعه بدید و از طریق ارائه اون ها کسب درامد و یا رزومه سازی کنید قبل از اینکه بخواین این دوره رو ببینید اگر دوره آموزش پایتون رو ندیدین حتما دوره رو ببینید که خیلی خیلی بهتون کمک خواهد کرد",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش پایتون با گرایش امنیت | پایتون سیاه"
+      },
+      "teacher": {
+        "name": "قدیر یلمه",
+        "slug": "qadiryolme",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/213e0cf344b8c216b7048477622c195a?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "قدیر یلمه"
+        },
+        "stack": "بنیان‌گذار پلتفرم سبزلرن",
+        "stats": {
+          "students": 59228,
+          "courses": 5
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 2147,
+      "original_price": 1955000,
+      "discounted_price": 977500,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 6,
+      "slug": "bootstrap5",
+      "title": "آموزش بوت استرپ 5 مقدماتی تا پیشرفته (2023)",
+      "description": "خوش اومدین به آموزش بوت استرپ 5 سبزلرن! حتما تا الان html و css رو کامل بلدی و گذرت به اینجا افتاده. اول از همه میخوام بهت تبریک بگم که تا اینجای مسیر برنامه نویسی پیش اومدی. دست مریزاد! یک قدم خیلی مهم توی مسیر یادگیری طرحی وبسایت، یادگیری بوت استرپ هست. الان وقتشه که بوت استرپ رو یاد بگیری تا شیرینی برنامه نویسی وبسایتو کامل درک کنی! بوت استرپ یه فریم ورک هست که بهت کمک میکنه وبسایتتو مثل آب خوردن ریسپانسیو کنی. یعنی هم توی وبسایت تمیز و قشنگ نشون بده، هم توی موبایل و تبلت! بوت استرپ برای بازار کار برنامه نویسی وبسایت، اهمیت زیادی داره. درواقع یکی از لازمه ها ی ورود به بازار کار طراحی سایت اینه که بوت استرپ 5 رو بلد باشید. نگران نباش. خوب جایی رو انتخاب کردی. ما توی سبزلرن صفر تا صد بوت استرپ رو آموزش دادیم :) با سبزلرن، خیالت از یادگیری برنامه نویسی راحته!",
+      "subtitle": "خوش اومدین به آموزش بوت استرپ 5 سبزلرن! حتما تا الان html و css رو کامل بلدی و گذرت به اینجا افتاده. اول از همه میخوام بهت تبریک بگم که تا اینجای مسیر برنامه نویسی پیش اومدی. دست مریزاد! یک قدم خیلی مهم توی مسیر یادگیری طرحی وبسایت، یادگیری بوت استرپ هست. الان وقتشه که بوت استرپ رو یاد بگیری تا شیرینی برنامه نویسی وبسایتو کامل درک کنی! بوت استرپ یه فریم ورک هست که بهت کمک میکنه وبسایتتو مثل آب خوردن ریسپانسیو کنی. یعنی هم توی وبسایت تمیز و قشنگ نشون بده، هم توی موبایل و تبلت! بوت استرپ برای بازار کار برنامه نویسی وبسایت، اهمیت زیادی داره. درواقع یکی از لازمه ها ی ورود به بازار کار طراحی سایت اینه که بوت استرپ 5 رو بلد باشید. نگران نباش. خوب جایی رو انتخاب کردی. ما توی سبزلرن صفر تا صد بوت استرپ رو آموزش دادیم :) با سبزلرن، خیالت از یادگیری برنامه نویسی راحته!",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش بوت استرپ 5 مقدماتی تا پیشرفته (2023)"
+      },
+      "teacher": {
+        "name": "مهرشاد براتی",
+        "slug": "mehrshad_b",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/597980f98a372b658b24996aa34ff1d5?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "مهرشاد براتی"
+        },
+        "stack": "برنامه نویس فول استک وب ،موبایل ،دستکاپ ،کارشناس ارشد مهندسی کامپیوتر نرم افزار",
+        "stats": {
+          "students": 62121,
+          "courses": 12
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 3106,
+      "original_price": 1190000,
+      "discounted_price": 595000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 4,
+      "slug": "java-script-zero-to-hero",
+      "title": "آموزش جاوا اسکریپت مقدماتی تا پیشرفته + مینی پروژه",
+      "description": "آموزش جاوا اسکریپت برای تمامی افرادی ک قصد ورود به زبان برنامه نویسی دارند مناسب می باشد . خصوصا برای علاقه مندان به حوزه فرانت همان طور که می دانید جاوا اسکریپت یکی از زبان های برنامه نویسی محبوب و پر طرفدار است که بازار کار فوق العاده ای دارد. آموزش جاوا اسکریپت برای شما عزیزان آماده شده است. جاوا اسکریپت ابتدا با هدف استفاده در ظاهر وب سایت ایجاد شد اما با پیشرفت چشمگیری که داشته، امروزه برای توسعه اپلیکیشن های اندروید، IOS، سمت سرور و… استفاده می شود.اگر می خواهید جاوا اسکریپت را از صفر تا صد یاد بگیرید، دوره آموزش javascript سبزلرن را از دست ندهید.",
+      "subtitle": "آموزش جاوا اسکریپت برای تمامی افرادی ک قصد ورود به زبان برنامه نویسی دارند مناسب می باشد . خصوصا برای علاقه مندان به حوزه فرانت همان طور که می دانید جاوا اسکریپت یکی از زبان های برنامه نویسی محبوب و پر طرفدار است که بازار کار فوق العاده ای دارد. آموزش جاوا اسکریپت برای شما عزیزان آماده شده است. جاوا اسکریپت ابتدا با هدف استفاده در ظاهر وب سایت ایجاد شد اما با پیشرفت چشمگیری که داشته، امروزه برای توسعه اپلیکیشن های اندروید، IOS، سمت سرور و… استفاده می شود.اگر می خواهید جاوا اسکریپت را از صفر تا صد یاد بگیرید، دوره آموزش javascript سبزلرن را از دست ندهید.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش جاوا اسکریپت مقدماتی تا پیشرفته + مینی پروژه"
+      },
+      "teacher": {
+        "name": "محمدامین سعیدی راد",
+        "slug": "ce01010101it",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/50db59beddbfed36a1646dae99ca7b2d?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "محمدامین سعیدی راد"
+        },
+        "stack": "توسعه دهنده استک MERN",
+        "stats": {
+          "students": 89332,
+          "courses": 29
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 2274,
+      "original_price": 6000000,
+      "discounted_price": 3000000,
+      "discount_percentage": 50,
+      "is_free": false,
+      "special_sale_ends_at": 1782073800,
+      "tags": []
+    },
+    {
+      "id": 2,
+      "slug": "html-tutorial",
+      "title": "آموزش HTML رایگان مقدماتی تا پیشرفته",
+      "description": "آموزش HTML، اولین قدم شروع طراحی وبسایت است. HTML یه زبان نشانه گذاری هست که با کمک اون میتونی تگ هایی بنویسی تا سایت رو روی اون تگ ها پیاده کنی. همونجوری که هیچ موجودی نمیتونه بدون اسکلت زندگی کنه، هیچ وبسایتی هم نمیتونه بدون HTML لود بشه. با یادگیری HTML خیلی راحت و قشنگ میتونی یه اسکلت سفت و سخت برای وبسایتت درست کنی. نگران یادگیریشم نباش. ما تو سبزلرن به صورت کاملا رایگان یه دوره مقدماتی تا پیشرفته HTML تدارک دیدیم، تا بدون دغدغه مسیر طراحی سایت رو شروع کنی.این آموزش به صورت کاملا عملی و پروژه محور هست، طوری که بعد از چند جلسه به راحتی میتونی یه فرم ثبت نام با کمک HTML طراحی کنی. از اضافه کردن یه عکس به سایت گرفته، تا دسته بندی کردن مطالب و ساختار بندی هر بخش سایت، همرو میتونی با دوره آموزش HTML سبزلرن پیاده کنی.",
+      "subtitle": "آموزش HTML، اولین قدم شروع طراحی وبسایت است. HTML یه زبان نشانه گذاری هست که با کمک اون میتونی تگ هایی بنویسی تا سایت رو روی اون تگ ها پیاده کنی. همونجوری که هیچ موجودی نمیتونه بدون اسکلت زندگی کنه، هیچ وبسایتی هم نمیتونه بدون HTML لود بشه. با یادگیری HTML خیلی راحت و قشنگ میتونی یه اسکلت سفت و سخت برای وبسایتت درست کنی. نگران یادگیریشم نباش. ما تو سبزلرن به صورت کاملا رایگان یه دوره مقدماتی تا پیشرفته HTML تدارک دیدیم، تا بدون دغدغه مسیر طراحی سایت رو شروع کنی.این آموزش به صورت کاملا عملی و پروژه محور هست، طوری که بعد از چند جلسه به راحتی میتونی یه فرم ثبت نام با کمک HTML طراحی کنی. از اضافه کردن یه عکس به سایت گرفته، تا دسته بندی کردن مطالب و ساختار بندی هر بخش سایت، همرو میتونی با دوره آموزش HTML سبزلرن پیاده کنی.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش HTML رایگان مقدماتی تا پیشرفته"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99468,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 87338,
+      "original_price": 600000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2273955286,
+      "tags": []
+    },
+    {
+      "id": 1,
+      "slug": "css-tutorial",
+      "title": "آموزش Css رایگان مقدماتی تا پیشرفته",
+      "description": "حالا وقتشه که با دوره آموزش CSS به اسکلتی که با html ساختی پوست و گوشت بدی تا تبدیل به یه موجود زیبا بشه. توی دوره مقدماتی تا پیشرفته Css یاد میگیری چطوری به المانای خشک و بی جون HTML زیبایی ببخشی. اینجا ما از رنگی کردن متن و دکمه ها میگیم تا پیاده سازی یه لندینگ پیج خفن و دلنشین با css. کاملا رایگان! بهت تضمین میدم محتوای این دوره به حدی شیرینه که بعد از این دوره استایل اطرافیانتو به صورت کد css میبینی نکته: اگه HTML رو هنوز یاد نگرفتی برگرد کامل یادش بگیر چون لازمه css اینه که با html آشنا باشی.",
+      "subtitle": "حالا وقتشه که با دوره آموزش CSS به اسکلتی که با html ساختی پوست و گوشت بدی تا تبدیل به یه موجود زیبا بشه. توی دوره مقدماتی تا پیشرفته Css یاد میگیری چطوری به المانای خشک و بی جون HTML زیبایی ببخشی. اینجا ما از رنگی کردن متن و دکمه ها میگیم تا پیاده سازی یه لندینگ پیج خفن و دلنشین با css. کاملا رایگان! بهت تضمین میدم محتوای این دوره به حدی شیرینه که بعد از این دوره استایل اطرافیانتو به صورت کد css میبینی نکته: اگه HTML رو هنوز یاد نگرفتی برگرد کامل یادش بگیر چون لازمه css اینه که با html آشنا باشی.",
+      "thumbnail": {
+        "url": "./assets/Image/course-thumbs/course-cover.jpg",
+        "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+        "alt": "آموزش Css رایگان مقدماتی تا پیشرفته"
+      },
+      "teacher": {
+        "name": "حمیدرضا عبادی",
+        "slug": "hamidrezaebadi",
+        "avatar": {
+          "url": "https://secure.gravatar.com/avatar/5872841a47b10069777793cbce83eacf?s=96&d=mp&r=g",
+          "blurhash": "L9AB*A~q00kC4nj[9FkC00ay-;kC",
+          "alt": "حمیدرضا عبادی"
+        },
+        "stack": "طراح محصول و توسعه دهنده فرانت اند سبزلرن",
+        "stats": {
+          "students": 99468,
+          "courses": 10
+        }
+      },
+      "rating_score": 5,
+      "students_enrolled": 75034,
+      "original_price": 400000,
+      "discounted_price": 0,
+      "discount_percentage": 100,
+      "is_free": true,
+      "special_sale_ends_at": 2276288198,
+      "tags": []
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "last_page": 6,
+    "per_page": 15,
+    "total": 84,
+    "from": 1,
+    "to": 15,
+    "has_more_pages": true
+  }
+}

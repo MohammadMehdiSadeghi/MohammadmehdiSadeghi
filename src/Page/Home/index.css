@@ -1,0 +1,20 @@
+.home-page-div {
+  background-image: url("/assets/Images/background\ blurs.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+}
+
+@media (min-width: 1024px) {
+  .home-page-div {
+    background-size: 45%;
+  }
+}
+
+.box-3d {
+  box-shadow:
+    0 20px 40px -12px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

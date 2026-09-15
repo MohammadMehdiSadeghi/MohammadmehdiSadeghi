@@ -1,0 +1,126 @@
+/* ---------- reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- fonts ---------- */
+@font-face {
+  font-family: "Quicksand";
+  src: url("../assets/Quicksand-SemiBold.ttf");
+}
+@font-face {
+  font-family: "Quicksand-regular";
+  src: url("../assets/Quicksand-Regular.ttf");
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1c1f26;
+  font-family: "Quicksand-regular", sans-serif;
+  padding: 20px;
+}
+
+/* ---------- card ---------- */
+.card {
+  width: 100%;
+  max-width: 380px;
+  background-color: #2a2e37;
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- timer display ---------- */
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-size: 36px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.timer p {
+  color: #6c7280;
+}
+
+.seconds-speed {
+  color: #6c7280;
+  font-size: 24px;
+}
+
+/* ---------- buttons ---------- */
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btns button {
+  flex: 1 1 calc(50% - 12px);
+  min-width: 80px;
+  padding: 12px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: "Quicksand", sans-serif;
+  cursor: pointer;
+  background-color: #454b58;
+  transition: opacity 0.15s ease;
+}
+
+.btns button:hover {
+  opacity: 0.85;
+}
+
+.start {
+  background-color: #2e9e5b;
+}
+
+.stop {
+  background-color: #d64545;
+}
+
+/* ---------- laps ---------- */
+.lap-box {
+  margin-top: 25px;
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lap-text {
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #454b58;
+  color: #fff;
+  text-align: center;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 420px) {
+  .timer {
+    font-size: 28px;
+  }
+
+  .seconds-speed {
+    font-size: 18px;
+  }
+
+  .btns button {
+    font-size: 16px;
+    padding: 10px;
+  }
+}

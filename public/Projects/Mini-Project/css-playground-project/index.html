@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B0D12'/%3E%3Cpath d='M11 10L6 16L11 22' stroke='%23E8A33D' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M21 10L26 16L21 22' stroke='%2337C2B0' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<title>CSS Playground — Animation Library</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="logo"><span class="mark">{ }</span> CSS Playground</div>
+    <div class="top-count" id="visibleCount">31 animations</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="eyebrow">CSS Animation Reference</p>
+    <h1>Every effect you need, <span>ready to copy</span></h1>
+    <p class="lead">31 real CSS animations, categorized and copy-ready. Hover to preview, click to grab the code.</p>
+    <div class="hero-stats">
+      <div class="stat"><b>31</b><span>ANIMATIONS</span></div>
+      <div class="stat"><b>6</b><span>CATEGORIES</span></div>
+      <div class="stat"><b>0</b><span>DEPENDENCIES</span></div>
+    </div>
+  </section>
+
+  <nav class="filters" id="filters">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="buttons">Buttons &amp; Cards</button>
+    <button class="chip" data-filter="loaders">Loaders</button>
+    <button class="chip" data-filter="motion">Motion</button>
+    <button class="chip" data-filter="text">Text</button>
+    <button class="chip" data-filter="background">Background</button>
+  </nav>
+
+  <!-- ================= BUTTONS & CARDS ================= -->
+  <p class="section-title" data-cat="buttons">Buttons &amp; Cards</p>
+  <div class="grid" data-group="buttons">
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.glow-btn</span><button class="btn-glow">Send</button></div>
+      <div class="card-foot"><h3>Glow Button</h3><button class="copy-btn" data-id="glow-btn">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.scale-card</span><div class="mini-card">Hover me</div></div>
+      <div class="card-foot"><h3>Scale Card</h3><button class="copy-btn" data-id="scale-card">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.u-link</span><a class="u-link" href="#!">Sliding Underline</a></div>
+      <div class="card-foot"><h3>Sliding Underline</h3><button class="copy-btn" data-id="u-link">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.morph</span>
+        <div class="morph"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card-foot"><h3>Icon Morph</h3><button class="copy-btn" data-id="morph">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.tilt-card</span>
+        <div class="tilt-wrap"><div class="tilt-card">Hover me</div></div>
+      </div>
+      <div class="card-foot"><h3>Tilt Card</h3><button class="copy-btn" data-id="tilt-card">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview"><span class="tag">.glass-card</span>
+        <div class="glass-wrap"><div class="glass-card">Glassy</div></div>
+      </div>
+      <div class="card-foot"><h3>Glass Card</h3><button class="copy-btn" data-id="glass-card">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.flip-card</span>
+        <div class="flip-outer"><div class="flip-inner">
+          <div class="flip-face flip-front">Front</div>
+          <div class="flip-face flip-back">Back</div>
+        </div></div>
+      </div>
+      <div class="card-foot"><h3>Flip Card</h3><button class="copy-btn" data-id="flip-card">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="buttons">
+      <div class="preview dotgrid"><span class="tag">.btn-shine</span><button class="btn-shine">Hover me</button></div>
+      <div class="card-foot"><h3>Shine Sweep</h3><button class="copy-btn" data-id="btn-shine">Copy ⧉</button></div>
+    </article>
+  </div>
+
+  <!-- ================= LOADERS ================= -->
+  <p class="section-title" data-cat="loaders">Loaders</p>
+  <div class="grid" data-group="loaders">
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.spinner</span><div class="spinner"></div></div>
+      <div class="card-foot"><h3>Spinner</h3><button class="copy-btn" data-id="spinner">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.dots</span><div class="dots"><span></span><span></span><span></span></div></div>
+      <div class="card-foot"><h3>Dot Pulse</h3><button class="copy-btn" data-id="dots">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.bar-track</span><div class="bar-track"><div class="bar-fill"></div></div></div>
+      <div class="card-foot"><h3>Progress Bar</h3><button class="copy-btn" data-id="bar-track">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.ring-wrap</span>
+        <div class="ring-wrap"><div class="ring"></div><div class="core"></div></div>
+      </div>
+      <div class="card-foot"><h3>Pulse Ring</h3><button class="copy-btn" data-id="ring-wrap">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.skeleton</span>
+        <div class="skeleton-wrap"><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+      </div>
+      <div class="card-foot"><h3>Skeleton</h3><button class="copy-btn" data-id="skeleton">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.ring-svg</span>
+        <svg class="ring-svg" width="60" height="60" viewBox="0 0 60 60">
+          <circle class="ring-bg" cx="30" cy="30" r="25"></circle>
+          <circle class="ring-fg" cx="30" cy="30" r="25"></circle>
+        </svg>
+      </div>
+      <div class="card-foot"><h3>Circular Progress</h3><button class="copy-btn" data-id="ring-svg">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="loaders">
+      <div class="preview dotgrid"><span class="tag">.check</span>
+        <svg width="60" height="60" viewBox="0 0 60 60">
+          <circle class="check-circle" cx="30" cy="30" r="24"></circle>
+          <path class="check-mark" d="M18 31 L26 39 L42 21"></path>
+        </svg>
+      </div>
+      <div class="card-foot"><h3>Success Check</h3><button class="copy-btn" data-id="check">Copy ⧉</button></div>
+    </article>
+  </div>
+
+  <!-- ================= MOTION ================= -->
+  <p class="section-title" data-cat="motion">Motion</p>
+  <div class="grid" data-group="motion">
+
+    <article class="card" data-cat="motion">
+      <div class="preview dotgrid"><span class="tag">.bounce-el</span><div class="bounce-el"></div></div>
+      <div class="card-foot"><h3>Bounce In</h3><button class="copy-btn" data-id="bounce-el">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="motion">
+      <div class="preview dotgrid"><span class="tag">.float-el</span><div class="float-el"></div></div>
+      <div class="card-foot"><h3>Float</h3><button class="copy-btn" data-id="float-el">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="motion">
+      <div class="preview dotgrid"><span class="tag">.shake-box</span><div class="shake-box">Hover me</div></div>
+      <div class="card-foot"><h3>Shake</h3><button class="copy-btn" data-id="shake-box">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="motion">
+      <div class="preview dotgrid"><span class="tag">.err-input</span><div class="err-input">Invalid email</div></div>
+      <div class="card-foot"><h3>Error Shake</h3><button class="copy-btn" data-id="err-input">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="motion">
+      <div class="preview dotgrid"><span class="tag">.wave</span><div class="wave"><span></span><span></span><span></span><span></span><span></span></div></div>
+      <div class="card-foot"><h3>Wave Bars</h3><button class="copy-btn" data-id="wave">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="motion">
+      <div class="preview dotgrid"><span class="tag">.cycle-el</span><div class="cycle-el"></div></div>
+      <div class="card-foot"><h3>Color Cycle</h3><button class="copy-btn" data-id="cycle-el">Copy ⧉</button></div>
+    </article>
+  </div>
+
+  <!-- ================= TEXT ================= -->
+  <p class="section-title" data-cat="text">Text</p>
+  <div class="grid" data-group="text">
+
+    <article class="card" data-cat="text">
+      <div class="preview dotgrid"><span class="tag">.grad-text</span><div class="grad-text">Gradient</div></div>
+      <div class="card-foot"><h3>Gradient Text</h3><button class="copy-btn" data-id="grad-text">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="text">
+      <div class="preview dotgrid"><span class="tag">.type-line</span><div class="type-line" id="typeTarget"><span class="txt"></span><span class="caret"></span></div></div>
+      <div class="card-foot"><h3>Typing</h3><button class="copy-btn" data-id="type-line">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="text">
+      <div class="preview"><span class="tag">.neon-text</span><div class="neon-text">Neon</div></div>
+      <div class="card-foot"><h3>Neon Glow</h3><button class="copy-btn" data-id="neon-text">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="text">
+      <div class="preview dotgrid"><span class="tag">.wave-text</span>
+        <div class="wave-text" id="waveTextTarget"></div>
+      </div>
+      <div class="card-foot"><h3>Text Wave</h3><button class="copy-btn" data-id="wave-text">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="text">
+      <div class="preview dotgrid"><span class="tag">.ants</span>
+        <div style="position:relative;">
+          <svg class="ants-svg" width="120" height="46" style="position:absolute; inset:0;"><rect x="1" y="1" width="118" height="44" rx="10"></rect></svg>
+          <div class="ants-badge">Marching Ants</div>
+        </div>
+      </div>
+      <div class="card-foot"><h3>Marching Ants</h3><button class="copy-btn" data-id="ants">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="text">
+      <div class="preview dotgrid"><span class="tag">.field</span>
+        <div class="field"><input type="text" placeholder=" " /><label>Your email</label></div>
+      </div>
+      <div class="card-foot"><h3>Floating Label</h3><button class="copy-btn" data-id="field">Copy ⧉</button></div>
+    </article>
+  </div>
+
+  <!-- ================= BACKGROUND ================= -->
+  <p class="section-title" data-cat="background">Background</p>
+  <div class="grid" data-group="background">
+
+    <article class="card" data-cat="background">
+      <div class="preview"><span class="tag">.mesh</span>
+        <div class="mesh"><i></i><i></i><i></i></div>
+      </div>
+      <div class="card-foot"><h3>Gradient Mesh</h3><button class="copy-btn" data-id="mesh">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="background">
+      <div class="preview dotgrid"><span class="tag">.aura-box</span><div class="aura-box"></div></div>
+      <div class="card-foot"><h3>Aura Pulse</h3><button class="copy-btn" data-id="aura-box">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="background">
+      <div class="preview"><span class="tag">.noise</span>
+        <div class="noise-wrap"><div class="grain"></div><span class="noise-label">Noise</span></div>
+      </div>
+      <div class="card-foot"><h3>Noise Texture</h3><button class="copy-btn" data-id="noise">Copy ⧉</button></div>
+    </article>
+
+    <article class="card" data-cat="background">
+      <div class="preview dotgrid"><span class="tag">.glow-border</span>
+        <div class="glow-border-wrap"><div class="glow-border-inner">Glowing</div></div>
+      </div>
+      <div class="card-foot"><h3>Rotating Glow</h3><button class="copy-btn" data-id="glow-border">Copy ⧉</button></div>
+    </article>
+  </div>
+
+  <footer>Built with HTML, CSS &amp; a bit of JavaScript — zero dependencies</footer>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

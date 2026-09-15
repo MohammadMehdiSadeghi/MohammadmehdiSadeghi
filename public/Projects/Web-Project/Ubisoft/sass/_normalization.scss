@@ -1,0 +1,26 @@
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "UbisoftFont-bold";
+}
+
+a {
+  color: white;
+}
+
+body {
+  // background-color: rgb(20, 20, 20);
+  background-image: url(/assets/img/Untitled-1\ copy.jpg);
+  background-size: 100%;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 768px) {
+  div,
+  section {
+    overflow-x: auto !important;
+  }
+}

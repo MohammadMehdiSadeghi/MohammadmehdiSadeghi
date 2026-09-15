@@ -1,0 +1,64 @@
+.hide-box {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  z-index: -1;
+  display: none !important;
+}
+
+.select-box {
+  background-color: rgb(62, 62, 62) !important;
+  color: rgb(193, 193, 193);
+  transform: scale(1.02);
+}
+
+.back-color-span-for-slider {
+  background-color: rgb(101, 101, 101) !important;
+}
+
+.transform-for-modal-box {
+  top: calc(0% + 60px) !important;
+}
+
+.iconDeg {
+  transform: rotate(180deg) !important;
+}
+
+.transform-game-slider {
+  transform: translateX(-51%);
+}
+
+.transform-game-slider-second {
+  transform: translateX(-25%);
+}
+
+.fit-content-height {
+  height: 100px !important;
+  padding-bottom: 15px;
+  margin-top: 15px;
+}
+
+.rotate-arrow {
+  transform: rotate(180deg);
+}
+
+.show-humbergur-menu {
+  left: 0 !important;
+}
+
+.disabled-span {
+  display: none !important;
+}
+
+.rotate-first-span {
+  transform: rotate(45deg);
+  position: absolute;
+}
+
+.rotate-last-span {
+  transform: rotate(-45deg);
+  position: absolute;
+}
+
+.body-overflow{
+  overflow: hidden !important;
+}

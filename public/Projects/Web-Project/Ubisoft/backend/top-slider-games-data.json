@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "image": "/backend/top slider games data img/game banner (12).jpg",
+    "title": "Rayman",
+    "description": "Edición 30° aniversario",
+    "originalPrice": null,
+    "discountPercent": null,
+    "finalPrice": "19.99€"
+  },
+  {
+    "id": 2,
+    "image": "/backend/top slider games data img/game banner (11).jpg",
+    "title": "Assassin's Creed Shadows",
+    "description": "Standard Edition",
+    "originalPrice": "69.99€",
+    "discountPercent": "-50%",
+    "finalPrice": "34.99€"
+  },
+  {
+    "id": 3,
+    "image": "/backend/top slider games data img/game banner (10).jpg",
+    "title": "Anno 117: Pax Romana",
+    "description": "Standard Edition",
+    "originalPrice": "59.99€",
+    "discountPercent": "-25%",
+    "finalPrice": "44.99€"
+  },
+  {
+    "id": 4,
+    "image": "/backend/top slider games data img/game banner (9).jpg",
+    "title": "Avatar: Frontiers of Pandora",
+    "description": "El juego",
+    "originalPrice": "29.99€",
+    "discountPercent": "-35%",
+    "finalPrice": "19.49€"
+  },
+  {
+    "id": 5,
+    "image": "/backend/top slider games data img/game banner (8).jpg",
+    "title": "Star Wars Outlaws",
+    "description": "Standard Edition",
+    "originalPrice": "69.99€",
+    "discountPercent": "-70%",
+    "finalPrice": "21.00€"
+  },
+  {
+    "id": 6,
+    "image": "/backend/top slider games data img/game banner (7).jpg",
+    "title": "Assassin's Creed Valhalla",
+    "description": "Standard Edition",
+    "originalPrice": "59.99€",
+    "discountPercent": "-75%",
+    "finalPrice": "15.00€"
+  },
+  {
+    "id": 7,
+    "image": "/backend/top slider games data img/game banner (6).jpg",
+    "title": "Assassin's Creed Mirage",
+    "description": "Standard Edition",
+    "originalPrice": "49.99€",
+    "discountPercent": "-60%",
+    "finalPrice": "20.00€"
+  },
+  {
+    "id": 8,
+    "image": "/backend/top slider games data img/game banner (5).jpg",
+    "title": "Assassin's Creed Odyssey",
+    "description": "Standard Edition",
+    "originalPrice": "59.99€",
+    "discountPercent": "-80%",
+    "finalPrice": "12.00€"
+  },
+  {
+    "id": 9,
+    "image": "/backend/top slider games data img/game banner (4).jpg",
+    "title": "The Crew Motorfest",
+    "description": "Standard Edition",
+    "originalPrice": "69.99€",
+    "discountPercent": "-80%",
+    "finalPrice": "14.00€"
+  },
+  {
+    "id": 10,
+    "image": "/backend/top slider games data img/game banner (3).jpg",
+    "title": "Tom Clancy's Rainbow Six Siege",
+    "description": "Elite Edition",
+    "originalPrice": "19.99€",
+    "discountPercent": "-50%",
+    "finalPrice": "9.99€"
+  },
+  {
+    "id": 11,
+    "image": "/backend/top slider games data img/game banner (2).jpg",
+    "title": "Anno 1800",
+    "description": "Standard Edition",
+    "originalPrice": "59.99€",
+    "discountPercent": "-75%",
+    "finalPrice": "15.00€"
+  },
+  {
+    "id": 12,
+    "image": "/backend/top slider games data img/game banner (1).jpg",
+    "title": "Riders Republic",
+    "description": "Standard Edition",
+    "originalPrice": "59.99€",
+    "discountPercent": "-73%",
+    "finalPrice": "10.00€"
+  }
+]

@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Large media files (keep local)
+public/assets/Music/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+public/Projects/Web-Project/rokad-web/.next/
+
+# Node backend runtime data (visits/messages/clicks/config secrets)
+data/
+
+# Vercel CLI
+.vercel/
+
+# telegram bot secrets
+data/telegram.json
+
+# Audio files anywhere — never push (GitHub blocks >100MB)
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.ogg
+*.opus
+*.aac

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <rect width="600" height="400" fill="#1D293D"/>
+  <rect x="200" y="140" width="200" height="120" rx="12" fill="#314158"/>
+  <circle cx="300" cy="185" r="20" fill="#615FFF"/>
+  <polygon points="295,175 295,195 312,185" fill="#fff"/>
+  <text x="300" y="290" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#90A1B9">سبز لرن</text>
+</svg>

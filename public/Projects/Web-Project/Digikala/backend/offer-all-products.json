@@ -1,0 +1,148 @@
+{
+  "allOfferProducts": [
+    {
+      "id": 1,
+      "title": "جوراب ساق بلند مردانه سیرداش مدل 308 بسته 3 عددی",
+      "image": "/backend/offer all products/offer box img (1).jpg",
+      "price": 429000,
+      "originalPrice": 1389000,
+      "discount": 69
+    },
+    {
+      "id": 2,
+      "title": "جوراب ساق بلند مردانه سیرداش مدل 394 بسته 3 عددی",
+      "image": "/backend/offer all products/offer box img (2).jpg",
+      "price": 429000,
+      "originalPrice": 1389000,
+      "discount": 69
+    },
+    {
+      "id": 3,
+      "title": "جوراب ساق بلند مردانه سیرداش مدل 397 بسته 3 عددی",
+      "image": "/backend/offer all products/offer box img (3).jpg",
+      "price": 429000,
+      "originalPrice": 1389000,
+      "discount": 69
+    },
+    {
+      "id": 4,
+      "title": "جوراب ساق بلند مردانه سیرداش مدل 393 بسته 3 عددی",
+      "image": "/backend/offer all products/offer box img (4).jpg",
+      "price": 429000,
+      "originalPrice": 1389000,
+      "discount": 69
+    },
+    {
+      "id": 5,
+      "title": "لپ تاپ 15.6 اینچی ایسوس مدل Vivobook Pro 15 Q533MJ-U73050-Core Ultra 7 155H-16GB DDR5 5600MHz-1TB SSD-RTX3050 6GB-OLED-W",
+      "image": "/backend/offer all products/offer box img (5).jpg",
+      "price": 139400000,
+      "originalPrice": 156128000,
+      "discount": 11
+    },
+    {
+      "id": 6,
+      "title": "لپ تاپ 15.6 اینچی ایسوس مدل TUF Gaming A15 FA506NCR-WH71-R7 7435HS-8GB DDR5-512GB SSD-RTX3050-FHD-W",
+      "image": "/backend/offer all products/offer box img (6).jpg",
+      "price": 103500000,
+      "originalPrice": 119000000,
+      "discount": 13
+    },
+    {
+      "id": 7,
+      "title": "لپ تاپ 15.6 اینچی ایسوس مدل TUF Gaming F15 FX507VV-LP312-i7 13620H-RTX4060 8GB-16GB DDR5 4800MHz-512GB SSD-FHD 144Hz",
+      "image": "/backend/offer all products/offer box img (7).jpg",
+      "price": 185000000,
+      "originalPrice": 212000000,
+      "discount": 13
+    },
+    {
+      "id": 8,
+      "title": "لپ تاپ 15.6 اینچی اچ‌ پی مدل Victus 15-fa1657nr-i7 13620H-16GB DDR4-512GB SSD-RTX4060-FHD-W",
+      "image": "/backend/offer all products/offer box img (8).jpg",
+      "price": 164800000,
+      "originalPrice": 188000000,
+      "discount": 12
+    },
+    {
+      "id": 9,
+      "title": "کابل اتصال باتری به باتری خودرو مدل Clip 900A-3m مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (9).jpg",
+      "price": 448000,
+      "originalPrice": 4290000,
+      "discount": 90
+    },
+    {
+      "id": 10,
+      "title": "کابل اتصال باتری به باتری خودرو مدل Clip 900A-2m مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (10).jpg",
+      "price": 399500,
+      "originalPrice": 3755000,
+      "discount": 89
+    },
+    {
+      "id": 11,
+      "title": "کابل اتصال باتری به باتری خودرو مدل Clip 850A-2m مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (11).jpg",
+      "price": 398000,
+      "originalPrice": 3500000,
+      "discount": 89
+    },
+    {
+      "id": 12,
+      "title": "کابل اتصال باتری به باتری خودرو مدل Infiniti 1100A-3m",
+      "image": "/backend/offer all products/offer box img (12).jpg",
+      "price": 740500,
+      "originalPrice": 6500000,
+      "discount": 89
+    },
+    {
+      "id": 13,
+      "title": "اسپری پولیش و خوشبوکننده داشبورد دوپلی کالر مدل amor blue حجم 400 میلی لیتر مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (13).jpg",
+      "price": 315000,
+      "originalPrice": 700000,
+      "discount": 55
+    },
+    {
+      "id": 14,
+      "title": "اسپری پولیش و خوشبوکننده داشبورد دوپلی کالر مدل belle amore حجم 400 میلی لیتر مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (14).jpg",
+      "price": 315000,
+      "originalPrice": 700000,
+      "discount": 55
+    },
+    {
+      "id": 15,
+      "title": "اسپری پولیش و خوشبوکننده داشبورد دوپلی کالر مدل crush حجم 400 میلی لیتر مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (15).jpg",
+      "price": 315000,
+      "originalPrice": 700000,
+      "discount": 55
+    },
+    {
+      "id": 16,
+      "title": "اسپری پولیش و خوشبوکننده داشبورد دوپلی کالر مدل sauvage crush حجم 400 میلی لیتر مجموعه 2 عددی",
+      "image": "/backend/offer all products/offer box img (16).jpg",
+      "price": 315000,
+      "originalPrice": 700000,
+      "discount": 55
+    },
+    {
+      "id": 17,
+      "title": "تی‌شرت آستین کوتاه مردانه کروم مدل یقه گرد 2610601",
+      "image": "/backend/offer all products/offer box img (17).jpg",
+      "price": 1466700,
+      "originalPrice": 4889000,
+      "discount": 70
+    },
+    {
+      "id": 18,
+      "title": "تی‌شرت آستین کوتاه مردانه برهان تن پوش مدل نخ پنبه کد 1020",
+      "image": "/backend/offer all products/offer box img (18).jpg",
+      "price": 269000,
+      "originalPrice": 857000,
+      "discount": 69
+    }
+  ]
+}

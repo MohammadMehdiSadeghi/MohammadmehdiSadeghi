@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "HTML", "img": "/assets/Images/html_1051277.png" },
+  { "id": 2, "name": "CSS", "img": "/assets/Images/css_919826.png" },
+  { "id": 3, "name": "JavaScript", "img": "/assets/Images/js_5968292.png" },
+  { "id": 4, "name": "React", "img": "/assets/Images/react.png" },
+  { "id": 5, "name": "Tailwind CSS", "img": "/assets/Images/tailwind.png" },
+  { "id": 6, "name": "TypeScript", "img": "/assets/Images/typescript.png" },
+  { "id": 7, "name": "WordPress", "img": "/assets/Images/wordpress_174881.png" }
+]

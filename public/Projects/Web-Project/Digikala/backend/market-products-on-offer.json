@@ -1,0 +1,34 @@
+{
+  "marketProducts": [
+    {
+      "id": 1,
+      "image": "/backend/offer products on market/1.jpg",
+      "discount": 30
+    },
+    {
+      "id": 2,
+      "image": "/backend/offer products on market/2.jpg",
+      "discount": 30
+    },
+    {
+      "id": 3,
+      "image": "/backend/offer products on market/3.jpg",
+      "discount": 30
+    },
+    {
+      "id": 4,
+      "image": "/backend/offer products on market/4.jpg",
+      "discount": 30
+    },
+    {
+      "id": 5,
+      "image": "/backend/offer products on market/5.jpg",
+      "discount": 30
+    },
+    {
+      "id": 6,
+      "image": "/backend/offer products on market/6.jpg",
+      "discount": 30
+    }
+  ]
+}

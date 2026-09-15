@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "url": "../Projects/Mini-Project/Calculator/index.html",
+    "title": "Calculator",
+    "description": "A clean, responsive calculator built with React. Features basic arithmetic operations, keyboard support, and a modern minimal UI design.",
+    "category": [
+      "React"
+    ],
+    "image": "/assets/previews/Calculator.png",
+    "githubUrl": null
+  },
+  {
+    "id": 2,
+    "url": "../Projects/Mini-Project/timer/index.html",
+    "title": "Timer",
+    "description": "A countdown and stopwatch timer with start, pause, and reset controls. Built with clean HTML, CSS, and vanilla JavaScript.",
+    "category": [
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "image": "/assets/previews/timer.png",
+    "githubUrl": null
+  },
+  {
+    "id": 3,
+    "url": "../Projects/Mini-Project/currency-converter/",
+    "title": "Currency Converter",
+    "description": "A clean, fully offline currency converter built with React and TypeScript. Supports 20+ major world currencies plus Iranian Toman, with a searchable dropdown, manual exchange rate input, and live-as-you-type conversion.",
+    "category": [
+      "React",
+      "TypeScript"
+    ],
+    "image": "/assets/previews/currency-converter.png",
+    "githubUrl": null
+  },
+  {
+    "id": 4,
+    "url": "../Projects/Mini-Project/css-playground-project/",
+    "title": "CSS Playground",
+    "description": "A collection of 31 pure CSS animations — buttons, cards, loaders, motion, text effects, and backgrounds. Copy any snippet and use it anywhere.",
+    "category": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "image": "/assets/previews/css-playground.png",
+    "githubUrl": null
+  }
+]
