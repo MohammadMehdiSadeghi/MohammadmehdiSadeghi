@@ -15,7 +15,6 @@ export function slugify(s) {
     .replace(/^-+|-+$/g, "")
     .slice(0, 60);
 }
-const b = 5;
 
 function safeJoin(root, target) {
   const resolved = path.resolve(root, target);
