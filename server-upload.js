@@ -15,6 +15,7 @@ export function slugify(s) {
     .replace(/^-+|-+$/g, "")
     .slice(0, 60);
 }
+const b = 5;
 
 function safeJoin(root, target) {
   const resolved = path.resolve(root, target);
@@ -22,7 +23,10 @@ function safeJoin(root, target) {
   return resolved;
 }
 
-export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }) {
+export function registerUploadRoutes(
+  app,
+  { PUBLIC_DIR, requireAuthAsync, wrap },
+) {
   const TMP = path.join(PUBLIC_DIR, ".upload-tmp");
   fs.mkdirSync(TMP, { recursive: true });
 
@@ -35,8 +39,10 @@ export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }
         const full = path.join(TMP, n);
         fs.stat(full, (e, s) => {
           if (e) return;
-          if (s.isFile() && s.mtimeMs < cutoff) fs.rm(full, { force: true }, () => {});
-          if (s.isDirectory() && s.mtimeMs < cutoff) fs.rm(full, { recursive: true, force: true }, () => {});
+          if (s.isFile() && s.mtimeMs < cutoff)
+            fs.rm(full, { force: true }, () => {});
+          if (s.isDirectory() && s.mtimeMs < cutoff)
+            fs.rm(full, { recursive: true, force: true }, () => {});
         });
       }
     });
@@ -46,12 +52,16 @@ export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }
     storage: multer.diskStorage({
       destination: (_req, _file, cb) => cb(null, TMP),
       filename: (_req, file, cb) =>
-        cb(null, `${Date.now()}-${Math.round(Math.random() * 1e6)}${path.extname(file.originalname).toLowerCase()}`),
+        cb(
+          null,
+          `${Date.now()}-${Math.round(Math.random() * 1e6)}${path.extname(file.originalname).toLowerCase()}`,
+        ),
     }),
     limits: { fileSize: MAX_BYTES, files: 1 },
     fileFilter: (_req, file, cb) => {
       const ext = path.extname(file.originalname).toLowerCase();
-      if (ext !== ".zip") return cb(new Error("only .zip archives are accepted"));
+      if (ext !== ".zip")
+        return cb(new Error("only .zip archives are accepted"));
       cb(null, true);
     },
   });
@@ -67,9 +77,15 @@ export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }
         return;
       }
       const file = req.file;
-      if (!file) return res.status(400).json({ error: "no archive uploaded (field name: archive)" });
+      if (!file)
+        return res
+          .status(400)
+          .json({ error: "no archive uploaded (field name: archive)" });
 
-      const type = String(req.body.type || "web").toLowerCase() === "mini" ? "Mini-Project" : "Web-Project";
+      const type =
+        String(req.body.type || "web").toLowerCase() === "mini"
+          ? "Mini-Project"
+          : "Web-Project";
       let slug = slugify(req.body.slug || req.body.title || "");
       if (!slug) {
         fs.unlink(file.path, () => {});
@@ -77,7 +93,10 @@ export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }
       }
 
       const destRoot = path.join(PUBLIC_DIR, "Projects", type, slug);
-      const extractDir = path.join(TMP, `extract-${Date.now()}-${Math.round(Math.random() * 1e6)}`);
+      const extractDir = path.join(
+        TMP,
+        `extract-${Date.now()}-${Math.round(Math.random() * 1e6)}`,
+      );
 
       try {
         const zip = new AdmZip(file.path);
@@ -93,12 +112,18 @@ export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }
         }
 
         // 1) extract into a TEMP dir first — old deployment stays live on any failure
-        let hasIndex = false, written = 0;
+        let hasIndex = false,
+          written = 0;
         for (const entry of entries) {
           let rel = entry.entryName;
           if (prefix && rel.startsWith(prefix)) rel = rel.slice(prefix.length);
           rel = rel.replace(/\\/g, "/");
-          if (!rel || rel.split("/").includes("__MACOSX") || path.basename(rel).startsWith(".")) continue;
+          if (
+            !rel ||
+            rel.split("/").includes("__MACOSX") ||
+            path.basename(rel).startsWith(".")
+          )
+            continue;
           const target = safeJoin(extractDir, rel);
           if (!target) continue; // zip-slip guard
           if (/(^|\/)index\.html$/i.test(rel)) hasIndex = true;
@@ -118,7 +143,9 @@ export function registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap }
         res.json({ ok: true, slug, type, files: written, url });
       } catch (err) {
         // only clean the TEMP dir — a previously deployed version is never destroyed
-        await fsp.rm(extractDir, { recursive: true, force: true }).catch(() => {});
+        await fsp
+          .rm(extractDir, { recursive: true, force: true })
+          .catch(() => {});
         res.status(400).json({ error: err.message || "upload failed" });
       } finally {
         fs.unlink(file.path, () => {});
