@@ -32,7 +32,7 @@ export default function Project() {
         }
         setProjects(data);
       } catch (err) {
-        console.error("خطا در دریافت پروژه‌ها:", err);
+        console.error("Error fetching projects:", err);
       } finally {
         setLoading(false);
       }

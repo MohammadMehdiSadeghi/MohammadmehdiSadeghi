@@ -13,11 +13,7 @@ const RANGES = [
   { key: "all", label: "all-time", color: "#90A1B9" },
 ];
 
-function shortHour(h) {
-  // "2026-09-10 14:00" → "14:00"
-  const m = /\s(\d{2}:\d{2})$/.exec(h || "");
-  return m ? m[1] : h;
-}
+
 
 function StatCard({ label, value, accent, icon, delta, small }) {
   const isPositive = delta && delta > 0;
@@ -68,18 +64,25 @@ function StatCard({ label, value, accent, icon, delta, small }) {
   );
 }
 
-function shortDate(d) {
-  const [, m, day] = d.split("-");
-  return `${m}/${day}`;
+function formatChartDate(d) {
+  if (!d) return "";
+  const [, m, day] = (d || "").split("-");
+  return m && day ? `${m}/${day}` : d;
 }
 
-function shortMonth(m) {
-  const [, mm] = m.split("-");
+function formatChartMonth(m) {
+  if (!m) return "";
+  const [, mm] = (m || "").split("-");
   const names = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
   ];
   return names[parseInt(mm, 10) - 1] || m;
+}
+
+function formatChartHour(h) {
+  const m = /\s(\d{2}:\d{2})$/.exec(h || "");
+  return m ? m[1] : h;
 }
 
 export default function StatsPage() {
@@ -296,64 +299,64 @@ export default function StatsPage() {
                     label: d.hour,
                     value: d.total,
                   }))}
-                  formatLabel={shortHour}
+                  formatLabel={formatChartHour}
                   color="#4ADE80"
                 />
               )}
               {range === "7d" && (
                 <LineChart
-                  data={data.last7Days.map((d) => ({
+                  data={(data.last7Days || []).map((d) => ({
                     label: d.date,
                     value: d.total,
                   }))}
-                  formatLabel={shortDate}
+                  formatLabel={formatChartDate}
                   color="#615FFF"
                   showValues
                 />
               )}
               {range === "30d" && (
                 <LineChart
-                  data={data.last30Days.map((d) => ({
+                  data={(data.last30Days || []).map((d) => ({
                     label: d.date,
                     value: d.total,
                   }))}
-                  formatLabel={shortDate}
+                  formatLabel={formatChartDate}
                   color="#C27AFF"
                 />
               )}
               {range === "90d" && (
                 <LineChart
-                  data={data.last90Days.map((d) => ({
+                  data={(data.last90Days || []).map((d) => ({
                     label: d.date,
                     value: d.total,
                   }))}
-                  formatLabel={shortDate}
+                  formatLabel={formatChartDate}
                   color="#FFB86A"
                 />
               )}
               {range === "180d" && (
                 <LineChart
-                  data={data.last180Days.map((d) => ({
+                  data={(data.last180Days || []).map((d) => ({
                     label: d.date,
                     value: d.total,
                   }))}
-                  formatLabel={shortDate}
+                  formatLabel={formatChartDate}
                   color="#FF6B6B"
                 />
               )}
               {range === "12m" && (
                 <BarChart
-                  data={data.monthly.map((d) => ({
+                  data={(data.monthly || []).map((d) => ({
                     label: d.month,
                     value: d.total,
                   }))}
-                  formatLabel={shortMonth}
+                  formatLabel={formatChartMonth}
                   color="#FFB86A"
                 />
               )}
               {range === "all" && (
                 <BarChart
-                  data={data.yearly.map((d) => ({
+                  data={(data.yearly || []).map((d) => ({
                     label: d.year,
                     value: d.total,
                   }))}
@@ -362,13 +365,13 @@ export default function StatsPage() {
                 />
               )}
               {range === "custom" && (
-                data.custom && data.custom.days.length ? (
+                data.custom && data.custom.days && data.custom.days.length ? (
                   <LineChart
                     data={data.custom.days.map((d) => ({
                       label: d.date,
                       value: d.total,
                     }))}
-                    formatLabel={shortDate}
+                    formatLabel={formatChartDate}
                     color="#615FFF"
                     showValues={data.custom.days.length <= 14}
                   />

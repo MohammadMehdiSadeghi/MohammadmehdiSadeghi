@@ -34,7 +34,7 @@ function stripServerSources() {
       if (!fs.existsSync(out)) return;
       walk(out);
       for (const p of kill) {
-        try { fs.rmSync(p); } catch {}
+        try { fs.rmSync(p); } catch { /* best-effort cleanup */ }
       }
       console.log(`[strip-server-sources] removed ${kill.length} server-side files from dist`);
     },
@@ -44,6 +44,10 @@ function stripServerSources() {
 // https://vite.dev/config/
 export default defineConfig({
   base: './',
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+  },
   plugins: [
     react(),
     tailwindcss(),

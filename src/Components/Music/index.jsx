@@ -56,6 +56,7 @@ export default function Music({ songData }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const audioRef = useRef(null);
   const canvasRef = useRef(null);
@@ -70,7 +71,7 @@ export default function Music({ songData }) {
     setCurrentTime(0);
     setDuration(0);
     runIdRef.current++;
-  }, [songData?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [songData?.id]);
 
   // ── audio element listeners ──
   useEffect(() => {
@@ -118,7 +119,6 @@ export default function Music({ songData }) {
 
     return () => {
       runIdRef.current = token + 1;
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [songData?.id]);
 
@@ -134,7 +134,7 @@ export default function Music({ songData }) {
 
     // idle motion + response follow the track's REAL analysis (DSP), not just tags
     const an = songData?.analysis || null;
-    const energetic = /انرژی|پرانرژی|رقص|شاد|dance|party|energetic|upbeat/i.test(
+    const energetic = /dance|party|energetic|upbeat/i.test(
       (songData?.tags || []).join(" ")
     );
     const energyPct = an ? an.energy : energetic ? 70 : 40;
@@ -199,7 +199,7 @@ export default function Music({ songData }) {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [songData?.id]);
+  }, [songData?.id, songData?.analysis, songData?.tags]);
 
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
@@ -236,6 +236,34 @@ export default function Music({ songData }) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  const handleDownload = async () => {
+    trackClick({
+      targetType: "button",
+      targetId: "music-download",
+      targetLabel: `Download ${songData.name || "Song"}`,
+    });
+    if (!songData?.src) return;
+    setIsDownloading(true);
+    try {
+      const response = await fetch(songData.src);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      const fileName = `${songData.artist ? `${songData.artist} - ` : ""}${songData.name || "song"}.mp3`;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch {
+      window.open(songData.src, "_blank");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="w-full mt-10 bg-[#1D293D] mx-auto rounded-2xl p-4 border border-[#314158]">
       <div className="mb-3 text-center">
@@ -244,28 +272,6 @@ export default function Music({ songData }) {
         </h2>
         {songData.artist && (
           <p className="text-[13px] text-[#90A1B9] mt-1">{songData.artist}</p>
-        )}
-        {songData.audioMoodTag && (
-          <p className="text-[11px] text-[#C27AFF] mt-1 capitalize">
-            mood: {songData.audioMoodTag}
-          </p>
-        )}
-        {songData.tags && songData.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 justify-center mt-2">
-            {songData.tags.slice(0, 6).map((t) => (
-              <span
-                key={t}
-                className="text-[10px] px-2 py-0.5 rounded-full bg-[#615FFF22] text-[#C7D2FE]"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
-        {songData.summary && (
-          <p className="text-[11px] text-[#90A1B9] mt-2 leading-5 max-h-[4.2rem] overflow-hidden">
-            {songData.summary}
-          </p>
         )}
       </div>
 
@@ -291,7 +297,7 @@ export default function Music({ songData }) {
         </div>
       </div>
 
-      <div className="flex w-[50%] mx-auto justify-between items-center">
+      <div className="flex w-[65%] sm:w-[55%] mx-auto justify-between items-center gap-2">
         <button
           onClick={togglePlayPause}
           className="bg-[#615FFF] hover:opacity-90 text-white rounded-full p-3 transition-all duration-200 transform cursor-pointer hover:scale-105"
@@ -309,7 +315,26 @@ export default function Music({ songData }) {
           )}
         </button>
 
-        <div className="flex items-center gap-2 w-32">
+        <button
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="text-[#90A1B9] hover:text-white p-2.5 rounded-full hover:bg-[#314158]/60 transition-all duration-200 cursor-pointer disabled:opacity-50"
+          title="Download MP3"
+          aria-label="Download MP3"
+        >
+          {isDownloading ? (
+            <svg className="w-5 h-5 animate-spin text-[#615FFF]" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          )}
+        </button>
+
+        <div className="flex items-center gap-2 w-28 sm:w-32">
           <svg
             className="w-4 h-4 text-[#90A1B9]"
             fill="currentColor"

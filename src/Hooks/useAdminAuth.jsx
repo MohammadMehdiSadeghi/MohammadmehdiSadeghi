@@ -47,8 +47,8 @@ function initDB() {
 
   const db = {
     config: {
-      username: "",
-      password: "",
+      username: "mohammad.m.sadeghi09@gmail.com",
+      password: "moha3447",
     },
     visits: { days },
     messages: [

@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAdminAuth } from "../../../Hooks/useAdminAuth";
 
-/* MOOD_DIMS labels — must match server's list */
-const DIM_FA = {
-  sadness: "غم", longing: "دلتنگی", nostalgia: "نوستالژی", heartbreak: "دلشکستگی",
-  loneliness: "تنهایی", joy: "شادی", playfulness: "شیطنت", romance: "عاشقانه",
-  sensuality: "احساسی", warmth: "گرمی", anger: "خشم", rebellion: "شورش",
-  power: "قدرت", defiance: "لجاجت", calm: "آرامش", dreaminess: "رویایی",
-  melancholy: "اندوه", hope: "امید", darkness: "تاریکی", tension: "تنش",
-  mystery: "رمز", energy: "انرژی", euphoria: "نشئگی", reflection: "تأمل",
-};
 
 export default function MoodsPage() {
   const { authFetch } = useAdminAuth();
@@ -149,7 +140,7 @@ export default function MoodsPage() {
                       key={d}
                       className="text-[10px] px-2 py-0.5 rounded-full bg-[#615FFF22] text-[#C7D2FE]"
                     >
-                      {DIM_FA[d] || d} {Math.round(v * 100)}
+                      {d} {Math.round(v * 100)}
                     </span>
                   ))}
               </div>
@@ -161,8 +152,8 @@ export default function MoodsPage() {
                   const v = draft.moods[d] || 0;
                   return (
                     <div key={d} className="flex items-center gap-3">
-                      <span className="text-[11px] text-[#90A1B9] w-24 shrink-0">
-                        {DIM_FA[d] || d}
+                      <span className="text-[11px] text-[#90A1B9] w-24 shrink-0 capitalize">
+                        {d}
                       </span>
                       <input
                         type="range"
@@ -190,7 +181,7 @@ export default function MoodsPage() {
                   <input
                     value={draft.audioMoodTag}
                     onChange={(e) => setDraft((s) => ({ ...s, audioMoodTag: e.target.value }))}
-                    placeholder="آرام-غمگین"
+                    placeholder="calm-melancholic"
                     className="bg-[#020618] py-1.5 px-2.5 outline-[#314158] outline-1 rounded-md text-[11px] text-[#90A1B9]"
                   />
                 </label>

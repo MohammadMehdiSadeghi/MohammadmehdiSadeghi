@@ -36,7 +36,7 @@ data/
 # telegram bot secrets
 data/telegram.json
 
-# Audio files anywhere — never push (GitHub blocks >100MB)
+# Audio files anywhere — never push (keep local / serve via VITE_MUSIC_BASE)
 *.mp3
 *.wav
 *.m4a

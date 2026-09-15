@@ -28,6 +28,7 @@ export default function Cursor() {
     let ty = y;
     let scale = 1;
     let targetScale = 1;
+    let angle = 0;
     let raf = 0;
 
     const show = () => {
@@ -79,7 +80,9 @@ export default function Cursor() {
       const vy = y - py;
       const speed = Math.hypot(vx, vy);
       const stretch = 1 + Math.min(speed * 0.09, 0.9);
-      const angle = (Math.atan2(vy, vx) * 180) / Math.PI;
+      if (speed > 0.3) {
+        angle = (Math.atan2(vy, vx) * 180) / Math.PI;
+      }
 
       // the bead never escapes the glass disc: clamp it to the inner edge
       const odx = dx - x;
@@ -94,7 +97,7 @@ export default function Cursor() {
       dot.style.transform = `translate3d(${dx}px, ${dy}px, 0) translate(-50%, -50%)`;
       ring.style.transform =
         `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) ` +
-        `rotate(${angle}deg) scale(${(scale * stretch).toFixed(3)}, ${(scale / Math.sqrt(stretch)).toFixed(3)})`;
+        `rotate(${angle.toFixed(1)}deg) scale(${(scale * stretch).toFixed(3)}, ${(scale / Math.sqrt(stretch)).toFixed(3)})`;
     };
 
     hide();

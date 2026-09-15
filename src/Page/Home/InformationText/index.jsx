@@ -17,7 +17,7 @@ export default function InformationText() {
   const { withTracking } = useClickTrack();
   // TypeIt instances must NOT be destroyed manually here — typeit-react cleans up
   // on unmount; destroying inside afterComplete crashed React on fast navigation.
-  const onTyped = (next) => (instance) => {
+  const onTyped = (next) => (_instance) => {
     if (mountedRef.current) setStep(next);
   };
   return (

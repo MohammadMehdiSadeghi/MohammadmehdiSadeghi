@@ -1,11 +1,9 @@
 import {
-  requireAuth,
   readStore,
   writeStore,
   withLock,
   rateCheck,
   dstr,
-  daysAgo,
 } from "../_lib.js";
 
 export default async function handler(req, res) {

@@ -8,7 +8,9 @@ const RAW_BASE = import.meta.env.VITE_MUSIC_BASE || "";
 
 export function musicUrl(src) {
   if (!src) return src;
-  if (!RAW_BASE) return src;
-  const file = String(src).split("/").pop() || "";
-  return `${RAW_BASE.replace(/\/+$/, "")}/${encodeURIComponent(file)}`;
+  if (RAW_BASE) {
+    const file = String(src).split("/").pop() || "";
+    return `${RAW_BASE.replace(/\/+$/, "")}/${encodeURIComponent(file)}`;
+  }
+  return String(src).replace(/^\.\.\//, "/");
 }

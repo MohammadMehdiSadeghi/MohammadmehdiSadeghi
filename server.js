@@ -586,7 +586,7 @@ async function extractQueryMoodLLM(query) {
 async function getQueryMood(query) {
   // 1) cache
   let cache = {};
-  try { cache = JSON.parse(await fs.promises.readFile(MOOD_QCACHE, "utf-8")); } catch {}
+  try { cache = JSON.parse(await fs.promises.readFile(MOOD_QCACHE, "utf-8")); } catch { /* cache miss or unreadable */ }
   const k = query.trim().toLowerCase();
   if (cache[k]) return cache[k];
   // 2) LLM
@@ -601,7 +601,7 @@ async function getQueryMood(query) {
   if (qm.valence === "positive") qm.moods.joy = Math.max(qm.moods.joy || 0, 0.3);
   if (qm.valence === "negative") qm.moods.sadness = Math.max(qm.moods.sadness || 0, 0.3);
   cache[k] = qm;
-  try { await withLock("mood-queries", async () => { await writeJSON(MOOD_QCACHE, cache); }); } catch {}
+  try { await withLock("mood-queries", async () => { await writeJSON(MOOD_QCACHE, cache); }); } catch { /* best-effort cache write */ }
   return qm;
 }
 
@@ -715,7 +715,7 @@ app.get("/api/mood-search", wrap(async (req, res) => {
       log.entries = log.entries.slice(0, 500);
       await writeJSON(FLOG, log);
     });
-  } catch {}
+  } catch { /* best-effort log write */ }
 
   res.json({
     found: results.length > 0,
@@ -1391,8 +1391,9 @@ app.get("/api/admin/stats", wrap(async (req, res) => {
 
   /* hourly visits for the last 24 hours (visits.days[d].hours) */
   const hourly24 = [];
+  const now = new Date();
   for (let i = 23; i >= 0; i--) {
-    const h = new Date(today.getTime() - i * 3600 * 1000);
+    const h = new Date(now.getTime() - i * 3600 * 1000);
     const dk = dstr(h);
     const hk = pad(h.getHours());
     const dayInfo = days[dk];
