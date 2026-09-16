@@ -216,7 +216,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             />
             <p className="text-[10px] text-[#4B576D]">
               // blank line = new paragraph · «- » = bullet · «1. » = numbered · «## » =
-              heading · Persian text is auto right-aligned
+              heading · right-to-left text is aligned automatically
             </p>
           </label>
 
