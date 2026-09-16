@@ -1458,6 +1458,152 @@ export function mockApiHandler(req, res, next) {
     return;
   }
 
+  // ── Blog (posts + covers) — same shape as api/_blog.js ──
+  if (endpoint === "blog" && !isAdmin && req.method === "GET") {
+    const blogFile = join(process.cwd(), "public", "api", "blog.json");
+    const all = readJSON(blogFile, []);
+    const posts = (Array.isArray(all) ? all : [])
+      .filter((p) => p && p.published !== false)
+      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+    const slug = url.searchParams.get("slug");
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
+    if (slug) {
+      const post = posts.find((p) => p.slug === slug);
+      if (!post) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ found: false, error: "post not found" }));
+        return;
+      }
+      res.end(JSON.stringify({ found: true, post }));
+      return;
+    }
+    res.end(
+      JSON.stringify({
+        found: true,
+        total: posts.length,
+        posts: posts.map((p) => ({
+          id: p.id,
+          slug: p.slug,
+          title: p.title,
+          excerpt: p.excerpt || "",
+          cover: p.cover || "",
+          coverAlt: p.coverAlt || "",
+          tags: p.tags || [],
+          date: p.date || "",
+        })),
+      })
+    );
+    return;
+  }
+
+  // ── Blog Admin — parity with api/admin/_blog-admin.js ──
+  if (endpoint === "blog-admin") {
+    const blogFile = join(process.cwd(), "public", "api", "blog.json");
+    const posts = readJSON(blogFile, []);
+
+    const slugify = (s) =>
+      String(s || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}]+/gu, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 70) || `post-${Date.now()}`;
+    const uniqueSlug = (wanted, ignoreId = null) => {
+      let slug = slugify(wanted);
+      let n = 2;
+      while (posts.some((p) => p.slug === slug && String(p.id) !== String(ignoreId))) {
+        slug = `${slugify(wanted)}-${n++}`;
+      }
+      return slug;
+    };
+    const asTags = (v) =>
+      (Array.isArray(v) ? v : String(v || "").split(","))
+        .map((t) => String(t).trim())
+        .filter(Boolean)
+        .slice(0, 8);
+
+    if (req.method === "GET") {
+      const sorted = [...posts].sort((a, b) =>
+        String(b.date || "").localeCompare(String(a.date || "")),
+      );
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ posts: sorted }));
+      return;
+    }
+
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      try {
+        const payload = JSON.parse(body || "{}");
+        const json = (code, obj) => {
+          res.writeHead(code, { "Content-Type": "application/json" });
+          res.end(JSON.stringify(obj));
+        };
+
+        if (req.method === "POST" && url.searchParams.get("publish") != null) {
+          const p = posts.find((x) => String(x.id) === String(payload.id));
+          if (!p) return json(404, { error: "post not found" });
+          p.published = url.searchParams.get("publish") === "1";
+          writeJSON(blogFile, posts);
+          return json(200, { ok: true, post: p });
+        }
+
+        if (req.method === "POST") {
+          const title = String(payload.title || "").trim();
+          if (!title) return json(400, { error: "title is required" });
+          const entry = {
+            id: posts.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0) + 1,
+            slug: uniqueSlug(payload.slug || title, null),
+            title,
+            excerpt: String(payload.excerpt || "").trim(),
+            content: String(payload.content || "").trim(),
+            cover: String(payload.cover || "").trim(),
+            coverAlt: String(payload.coverAlt || "").trim(),
+            tags: asTags(payload.tags),
+            date: String(payload.date || "").trim() || new Date().toISOString().slice(0, 10),
+            published: payload.published !== false,
+          };
+          posts.push(entry);
+          writeJSON(blogFile, posts);
+          return json(200, { ok: true, post: entry });
+        }
+
+        if (req.method === "PUT") {
+          const p = posts.find((x) => String(x.id) === String(payload.id));
+          if (!p) return json(404, { error: "post not found" });
+          const map = {
+            title: "title", excerpt: "excerpt", content: "content", cover: "cover",
+            coverAlt: "coverAlt", date: "date",
+          };
+          for (const [k, field] of Object.entries(map)) {
+            if (payload[k] != null) p[field] = String(payload[k]).trim();
+          }
+          if (payload.slug != null && String(payload.slug).trim() && payload.slug !== p.slug) {
+            p.slug = uniqueSlug(payload.slug, p.id);
+          }
+          if (payload.tags != null) p.tags = asTags(payload.tags);
+          if (payload.published != null) p.published = !!payload.published;
+          writeJSON(blogFile, posts);
+          return json(200, { ok: true, post: p });
+        }
+
+        if (req.method === "DELETE") {
+          const filtered = posts.filter((x) => String(x.id) !== String(payload.id));
+          if (filtered.length === posts.length) return json(404, { error: "post not found" });
+          writeJSON(blogFile, filtered);
+          return json(200, { ok: true });
+        }
+
+        json(405, { error: "method not allowed" });
+      } catch {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "invalid request body" }));
+      }
+    });
+    return;
+  }
+
   // Fallback
   next();
 }

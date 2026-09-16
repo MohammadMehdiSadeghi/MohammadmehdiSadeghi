@@ -90,6 +90,7 @@ const PUBLIC_JSON = {
   projects: path.join(PUBLIC_DIR, "api", "projects.json"),
   "mini-projects": path.join(PUBLIC_DIR, "api", "mini-projects.json"),
   skills: path.join(PUBLIC_DIR, "api", "skills.json"),
+  blog: path.join(PUBLIC_DIR, "api", "blog.json"),
 };
 
 const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days
@@ -204,7 +205,7 @@ async function rateSuccess(k) {
 
 const app = express();
 app.disable("x-powered-by");
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "6mb" })); // blog cover uploads arrive as base64
 app.use(sameOriginCORS);
 
 const wrap = (fn) => (req, res) =>
@@ -1663,6 +1664,10 @@ app.get("/api/ubisoft", wrap(async (req, res) => {
 /* ══════════════════ PROJECT DIST UPLOAD (zip) ══════════════════ */
 import { registerUploadRoutes } from "./server-upload.js";
 registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap });
+
+/* ══════════════════ BLOG (posts + cover images) ══════════════════ */
+import { registerBlogRoutes } from "./server-blog.js";
+registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requireAuthAsync, wrap, ROOT });
 
 /* ══════════════════ ADMIN FILE MANAGER (Database tab) ══════════════════ */
 

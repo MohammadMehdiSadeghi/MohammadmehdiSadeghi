@@ -6,6 +6,7 @@ import AdminLayout from "./Layout";
 import RequireAdminAuth from "./RequireAdminAuth";
 import StatsPage from "./Stats";
 import ProjectsPage from "./Projects";
+import BlogPage from "./Blog";
 import SkillsPage from "./Skills";
 import MessagesPage from "./Messages";
 import DatabasePage from "./Database";
@@ -29,6 +30,7 @@ function AdminRoutes() {
           <Route index element={<Navigate to="stats" replace />} />
           <Route path="stats" element={<StatsPage />} />
           <Route path="projects" element={<ProjectsPage />} />
+          <Route path="blog" element={<BlogPage />} />
           <Route path="skills" element={<SkillsPage />} />
           <Route path="messages" element={<MessagesPage />} />
           <Route path="database" element={<DatabasePage />} />

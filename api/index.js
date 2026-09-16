@@ -30,12 +30,15 @@ import moods from "./admin/_moods.js";
 import telegram from "./admin/_telegram.js";
 import fsAdmin from "./admin/_fs.js";
 import reset from "./admin/_reset.js";
+import blogAdmin from "./admin/_blog-admin.js";
+import blogUpload from "./admin/_blog-upload.js";
 import search from "./_search.js";
 import skills from "./_skills.js";
 import digikala from "./_digikala.js";
 import ubisoft from "./_ubisoft.js";
 import moodSearch from "./_mood-search.js";
 import sabz from "./_sabz.js";
+import blog from "./_blog.js";
 import { BUNDLED } from "./_data.js";
 import { loadConfig } from "./_lib.js";
 
@@ -54,11 +57,15 @@ const ROUTES = {
   "admin/telegram": telegram,
   "admin/fs": fsAdmin,
   "admin/reset": reset,
+  "admin/blog-admin": blogAdmin,
+  "admin/blog-upload": blogUpload,
+  "blog-image": blogUpload,
   "search": search,
   "skills": skills,
   "digikala": digikala,
   "ubisoft": ubisoft,
   "mood-search": moodSearch,
+  "blog": blog,
   /* Sabz-Learn sub-app backend (was a PHP/Node server that never shipped) */
   "sabz/users": sabz,
   "sabz/comments": sabz,
@@ -71,6 +78,7 @@ const STATIC_JSON = {
   "mini-projects.json": () => BUNDLED["mini-projects.json"],
   "skills.json": () => BUNDLED["skills.json"],
   "music-analysis.json": () => BUNDLED["music-analysis.json"],
+  "blog.json": () => BUNDLED["blog.json"],
 };
 
 function notFound(res) {

@@ -2,6 +2,7 @@ import projectsJson from "../public/api/projects.json" with { type: "json" };
 import miniProjectsJson from "../public/api/mini-projects.json" with { type: "json" };
 import skillsJson from "../public/api/skills.json" with { type: "json" };
 import musicAnalysisJson from "../public/api/music-analysis.json" with { type: "json" };
+import blogJson from "../public/api/blog.json" with { type: "json" };
 
 import dkBest from "../public/Projects/Web-Project/Digikala/backend/best products.json" with { type: "json" };
 import dkOffer from "../public/Projects/Web-Project/Digikala/backend/offer-products.json" with { type: "json" };
@@ -26,6 +27,7 @@ export const BUNDLED = {
   "mini-projects.json": miniProjectsJson,
   "skills.json": skillsJson,
   "music-analysis.json": musicAnalysisJson,
+  "blog.json": blogJson,
 };
 
 export const DK_MAP = {

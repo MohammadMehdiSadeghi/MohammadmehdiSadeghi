@@ -14,8 +14,13 @@ export default function Header() {
     { to: "/", key: "home", label: "_Home" },
     { to: "/about", key: "about", label: "_About" },
     { to: "/project", key: "project", label: "_Project" },
+    { to: "/blog", key: "blog", label: "_Blog" },
     { to: "/contact", key: "contact", label: "_Contact-me" },
   ];
+
+  /* the last entry (_Contact-me) is rendered on the right edge; the rest sit
+     in the middle group */
+  const middleLinks = links.slice(0, links.length - 1);
 
   return (
     <header className="relative h-[58px] w-full bg-[#0F172B]">
@@ -36,17 +41,17 @@ export default function Header() {
           </Link>
 
           <ul className="hidden md:flex items-center h-full">
-            {links.slice(0, 3).map((link, index) => (
+            {middleLinks.map((link, index) => (
               <li
                 key={link.key}
                 className={`border-l border-[#90a1b977] flex justify-center items-center h-full ${
-                  index === links.slice(0, 3).length - 1
+                  index === middleLinks.length - 1
                     ? "border-r border-[#90a1b977]"
                     : ""
                 }`}
               >
                 <Link
-                  className={`py-[16px] px-[42px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
+                  className={`py-[16px] px-3 lg:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
                     isActive(link.key)
                       ? "border-b-[#FFB86A] text-white"
                       : "border-b-transparent"
@@ -63,7 +68,7 @@ export default function Header() {
         <ul className="hidden md:flex items-center h-full">
           <li className="border-l-[1px] border-[#90a1b977] flex justify-center items-center h-full">
             <Link
-              className={`py-[16px] px-[42px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
+              className={`py-[16px] px-3 lg:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
                 isActive("contact")
                   ? "border-b-[#FFB86A] text-white"
                   : "border-b-transparent"

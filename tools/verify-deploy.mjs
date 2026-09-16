@@ -80,13 +80,14 @@ async function invoke(method, url, { body = null, auth = "" } = {}) {
   const res = {
     _status: 200,
     _body: undefined,
+    _ended: undefined,
     status(c) { this._status = c; return this; },
     json(b) { this._body = b; return this; },
     setHeader() { return this; },
-    end() { return this; },
+    end(b) { this._ended = b; return this; },
   };
   await handler(req, res);
-  return { status: res._status, body: res._body, route: r };
+  return { status: res._status, body: res._body, ended: res._ended, route: r };
 }
 
 const srcHas = (needle) => fs.readdirSync(path.join(BASE, "src/Page/Admin")).some((f) => {
@@ -110,6 +111,9 @@ for (const [url, expectKind] of [
   ["/Projects/Web-Project/Sabz-Learn/server/comments", "api"],
   ["/api/skills.json", "static"],
   ["/api/projects.json", "static"],
+  ["/api/blog", "api"],
+  ["/api/blog?slug=welcome-to-my-blog", "api"],
+  ["/api/blog-image?id=abc123.png", "api"],
   ["/Projects/Web-Project/Sabz-Learn/assets/index-RQ3sHbfC.js", "static"],
   ["/Projects/Web-Project/Sabz-Learn/server/data", "static"],
   ["/admin", "static"],
@@ -302,6 +306,17 @@ console.log("\n=== Database tab works on the serverless deployment (was 501) ===
   const dk = await invoke("GET", "/api/digikala?type=offer-products");
   check("client ?type= survives the rewrite", dk.status === 200 && Array.isArray(dk.body?.products),
     `${dk.body?.products?.length} products`);
+
+  /* SAME CLASS OF BUG, new params: the blog feed reads ?slug= and the cover
+     endpoint reads ?id=. A wildcard named after either one would clobber it,
+     so assert both arrive intact. */
+  const bs = await invoke("GET", "/api/blog?slug=welcome-to-my-blog");
+  check("blog ?slug= survives the rewrite", bs.body?.post?.slug === "welcome-to-my-blog",
+    `slug=${JSON.stringify(bs.body?.post?.slug)}`);
+  const bi = await invoke("GET", "/api/blog-image?id=does-not-exist.png");
+  check("blog-image ?id= survives the rewrite (404 = id was seen)",
+    bi.status === 404 && !/invalid path|missing id/i.test(String(bi.body?.error || "")),
+    `→ ${bi.status} ${JSON.stringify(bi.body)}`);
 }
 
 console.log("\n=== removed buttons tab ===");
@@ -321,6 +336,145 @@ console.log("\n=== frontend loader changes shipped in the bundle ===");
   const bundle = fs.readFileSync(path.join(DIST, "assets", js), "utf8");
   check("old terminal intro text gone", !bundle.includes("npm run dev"));
   check("old transition cmd gone", !bundle.includes("load home"));
+}
+
+console.log("\n=== BLOG: public feed, admin CRUD, cover images ===");
+{
+  const A = `Bearer ${global.__E2E_TOKEN}`;
+
+  /* app shell routes must resolve before any API assertion */
+  for (const p of ["/blog", "/blog/welcome-to-my-blog"]) {
+    const r = resolveRequest(p);
+    check(`${p} → app shell`, r.kind === "static" && r.file.endsWith("index.html"), `got ${r.kind}`);
+  }
+
+  /* the feed is public and hides drafts */
+  const feed = await invoke("GET", "/api/blog");
+  check("public feed 200", feed.status === 200, `→ ${feed.status}`);
+  check("feed returns posts array", Array.isArray(feed.body?.posts), `${feed.body?.posts?.length} posts`);
+  check("feed ships no drafts",
+    (feed.body?.posts || []).every((p) => p.published !== false),
+    JSON.stringify((feed.body?.posts || []).map((p) => p.slug)).slice(0, 70));
+  check("feed list omits body text",
+    (feed.body?.posts || []).every((p) => !("content" in p)),
+    "content only on the single-post view");
+
+  const seeded = (feed.body?.posts || [])[0];
+  const one = await invoke("GET", `/api/blog?slug=${encodeURIComponent(seeded?.slug || "x")}`);
+  check("single post by slug 200", one.status === 200 && one.body?.post?.slug === seeded?.slug,
+    `→ ${one.status}`);
+  check("single post carries content", typeof one.body?.post?.content === "string" && one.body.post.content.length > 0);
+
+  const missing = await invoke("GET", "/api/blog?slug=no-such-post-here");
+  check("unknown slug → 404", missing.status === 404, `→ ${missing.status}`);
+
+  /* admin surface is gated */
+  const noauth = await invoke("GET", "/api/admin/blog-admin");
+  check("admin list needs auth → 401", noauth.status === 401, `→ ${noauth.status}`);
+
+  const list = await invoke("GET", "/api/admin/blog-admin", { auth: A });
+  check("admin list 200", list.status === 200, `→ ${list.status}`);
+  const before = (list.body?.posts || []).length;
+
+  /* create */
+  const noTitle = await invoke("POST", "/api/admin/blog-admin", { auth: A, body: { content: "x" } });
+  check("create without a title → 400", noTitle.status === 400, `→ ${noTitle.status}`);
+
+  const created = await invoke("POST", "/api/admin/blog-admin", {
+    auth: A,
+    body: {
+      title: "E2E Test Post",
+      excerpt: "written by the verifier",
+      content: "## heading\n\nbody text",
+      coverAlt: "a test cover",
+      tags: "test, e2e",
+      published: false,
+    },
+  });
+  check("create 200", created.status === 200 && !!created.body?.post?.id, `→ ${created.status}`);
+  const post = created.body?.post || {};
+  check("slug generated from the title", post.slug === "e2e-test-post", `slug=${post.slug}`);
+  check("tags parsed from a comma string", Array.isArray(post.tags) && post.tags.length === 2,
+    JSON.stringify(post.tags));
+  check("created as a draft", post.published === false);
+
+  /* a draft must NOT appear in the public feed */
+  const feed2 = await invoke("GET", "/api/blog");
+  check("draft hidden from the public feed",
+    !(feed2.body?.posts || []).some((p) => p.slug === post.slug),
+    `${feed2.body?.posts?.length} public posts`);
+
+  /* duplicate titles must not collide */
+  const dup = await invoke("POST", "/api/admin/blog-admin", {
+    auth: A, body: { title: "E2E Test Post" },
+  });
+  check("duplicate slug gets a suffix", dup.body?.post?.slug === "e2e-test-post-2",
+    `slug=${dup.body?.post?.slug}`);
+
+  /* cover upload → url → fetch the binary straight back */
+  const png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFAAH/q842iQAAAABJRU5ErkJggg==";
+  const up = await invoke("POST", "/api/admin/blog-upload", {
+    auth: A, body: { dataUrl: `data:image/png;base64,${png}` },
+  });
+  check("cover upload 200", up.status === 200 && !!up.body?.url, `→ ${up.status} ${up.body?.url || ""}`);
+
+  const img = await invoke("GET", `/api/blog-image?id=${encodeURIComponent(up.body?.id || "")}`);
+  check("uploaded cover is served back", img.status === 200, `→ ${img.status}`);
+  check("cover bytes round-trip", img.ended?.length === Buffer.from(png, "base64").length,
+    `${img.ended?.length} bytes`);
+
+  const noImg = await invoke("GET", "/api/blog-image?id=nope.png");
+  check("unknown image id → 404", noImg.status === 404, `→ ${noImg.status}`);
+
+  const escape = await invoke("GET", "/api/blog-image?id=../../api/_lib.js");
+  check("image id traversal rejected", escape.status === 404, `→ ${escape.status}`);
+
+  const badUpload = await invoke("POST", "/api/admin/blog-upload", {
+    auth: A, body: { dataUrl: "data:text/html;base64,PHNjcmlwdD4=" },
+  });
+  check("non-image upload rejected", badUpload.status === 400, `→ ${badUpload.status}`);
+
+  const anonUpload = await invoke("POST", "/api/admin/blog-upload", {
+    body: { dataUrl: `data:image/png;base64,${png}` },
+  });
+  check("upload needs auth → 401", anonUpload.status === 401, `→ ${anonUpload.status}`);
+
+  /* attach the cover, then edit */
+  const upd = await invoke("PUT", "/api/admin/blog-admin", {
+    auth: A,
+    body: { id: post.id, cover: up.body.url, coverAlt: "a real alt", title: "E2E Test Post Edited" },
+  });
+  check("update 200", upd.status === 200, `→ ${upd.status}`);
+  check("title + alt persisted", upd.body?.post?.title === "E2E Test Post Edited" &&
+    upd.body?.post?.coverAlt === "a real alt",
+    `${upd.body?.post?.title} / ${upd.body?.post?.coverAlt}`);
+
+  /* publish toggle exposes it publicly */
+  const pub = await invoke("POST", `/api/admin/blog-admin?publish=1`, { auth: A, body: { id: post.id } });
+  check("publish toggle 200", pub.status === 200 && pub.body?.post?.published === true, `→ ${pub.status}`);
+  const feed3 = await invoke("GET", "/api/blog");
+  check("published post now in the public feed",
+    (feed3.body?.posts || []).some((p) => p.id === post.id),
+    `${feed3.body?.posts?.length} public posts`);
+
+  /* edit of a missing id must not silently succeed */
+  const ghost = await invoke("PUT", "/api/admin/blog-admin", { auth: A, body: { id: 999999, title: "x" } });
+  check("update of an unknown id → 404", ghost.status === 404, `→ ${ghost.status}`);
+
+  /* cleanup: both created posts and the uploaded cover */
+  for (const id of [post.id, dup.body?.post?.id]) {
+    const del = await invoke("DELETE", "/api/admin/blog-admin", { auth: A, body: { id } });
+    check(`delete post ${id} → 200`, del.status === 200, `→ ${del.status}`);
+  }
+  const after = await invoke("GET", "/api/admin/blog-admin", { auth: A });
+  check("post count back to the seeded baseline", (after.body?.posts || []).length === before,
+    `${after.body?.posts?.length} vs ${before}`);
+
+  /* the pristine blog.json must NOT have been rewritten by the test run */
+  const onDisk = JSON.parse(fs.readFileSync(path.join(BASE, "public/api/blog.json"), "utf8"));
+  check("tests never touched public/api/blog.json",
+    !onDisk.some((p) => String(p.title || "").includes("E2E Test")),
+    `${onDisk.length} seeded posts`);
 }
 
 console.log(`\n════════ ${pass} passed, ${fail} failed ════════`);

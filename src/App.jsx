@@ -6,6 +6,8 @@ import Project from "./Page/Project";
 import About from "./Page/About";
 import Home from "./Page/Home";
 import Contact from "./Page/Contact";
+import Blog from "./Page/Blog";
+import BlogPost from "./Page/Blog/Post";
 import NotFound from "./Page/NotFound";
 import Footer from "./Components/Footer";
 import VisitTracker from "./Components/VisitTracker";
@@ -112,6 +114,8 @@ function PublicSite() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/project" element={<Project />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
