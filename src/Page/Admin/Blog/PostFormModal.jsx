@@ -142,7 +142,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             <input
               ref={fileRef}
               type="file"
-              accept="image/*"
+              accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
               onChange={(e) => handlePickImage(e.target.files?.[0])}
               className="bg-[#020618] py-2 px-3 outline-[#314158] outline-1 hover:outline-[#90A1B9] duration-150 rounded-md w-full text-[#90a1b9c7] text-[11px] file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-[#615FFF33] file:text-[#90A1B9] file:text-[11px] file:cursor-pointer"
             />

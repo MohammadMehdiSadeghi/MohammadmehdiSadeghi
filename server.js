@@ -1666,7 +1666,7 @@ import { registerUploadRoutes } from "./server-upload.js";
 registerUploadRoutes(app, { PUBLIC_DIR, requireAuthAsync, wrap });
 
 /* ══════════════════ BLOG (posts + cover images) ══════════════════ */
-import { registerBlogRoutes } from "./server-blog.js";
+import { registerBlogRoutes, blogCoverGuard } from "./server-blog.js";
 registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requireAuthAsync, wrap, ROOT });
 
 /* ══════════════════ ADMIN FILE MANAGER (Database tab) ══════════════════ */
@@ -1740,6 +1740,12 @@ app.post("/api/admin/fs-delete", wrap(async (req, res) => {
 }));
 
 /* ══════════════════ STATIC ══════════════════ */
+
+/* Uploaded covers are user-supplied files served from our own origin, so the
+   shared guard refuses anything scriptable in that directory (an uploaded SVG
+   can carry <script>; it ran on this origin in a Chrome probe). Other SVGs
+   elsewhere in /assets are hand-authored and untouched. */
+app.use("/assets/Blog", blogCoverGuard);
 
 /* embedded showcase projects (static) */
 app.use("/Projects", express.static(path.join(PUBLIC_DIR, "Projects"), { maxAge: "1h" }));

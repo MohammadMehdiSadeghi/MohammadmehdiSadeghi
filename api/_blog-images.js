@@ -11,6 +11,14 @@
    Files live under DATA_DIR/blog-images/ which is writable on both targets
    (/tmp on Vercel, the local data dir when self-hosted), so the same code
    path works on either deployment.
+
+   ⚠ SVG IS DELIBERATELY NOT AN ACCEPTED FORMAT. Covers are served from OUR
+   origin, and an SVG can carry <script>: uploading one and then visiting its
+   URL executed attacker JS on this domain (verified in Chrome — window flag
+   set, document.title rewritten), which in the admin panel means reading
+   localStorage.admin_token. That is stored XSS, so SVG is rejected at upload.
+   Everything served is also forced to a raster-safe content type with
+   `Content-Disposition: inline` + `X-Content-Type-Options: nosniff`.
    ════════════════════════════════════════════════════════════════════ */
 
 import fsp from "node:fs/promises";
@@ -19,13 +27,13 @@ import { DATA_DIR } from "./_lib.js";
 
 const DIR = path.join(DATA_DIR, "blog-images");
 
+/* raster formats only — see the SVG note above */
 const EXT_MIME = {
   jpg: "image/jpeg",
   jpeg: "image/jpeg",
   png: "image/png",
   webp: "image/webp",
   gif: "image/gif",
-  svg: "image/svg+xml",
   avif: "image/avif",
 };
 
@@ -50,6 +58,9 @@ export function parseDataUrl(dataUrl) {
   if (!m) return null;
   const mime = m[1].toLowerCase();
   if (!/^image\//.test(mime)) return null;
+  /* SVG (and anything else scriptable) is refused: the upload is served from
+     this origin, so a script inside it would run as us. */
+  if (mime === "image/svg+xml") return null;
   if (!EXT_MIME[extFor(mime)]) return null;
   return { mime, base64: m[2].replace(/\s+/g, "") };
 }
@@ -82,10 +93,13 @@ export async function saveImage(dataUrl) {
 
 export async function getImage(id) {
   if (!safeId(id)) return null;
+  const ext = String(id).split(".").pop().toLowerCase();
+  /* a legacy .svg sitting on disk from before this rule must never be served
+     as image/svg+xml — that would re-open the stored-XSS hole. */
+  const mime = EXT_MIME[ext] || "application/octet-stream";
   try {
     const buf = await fsp.readFile(path.join(DIR, id));
-    const mime = EXT_MIME[String(id).split(".").pop().toLowerCase()] || "application/octet-stream";
-    return { buf, mime };
+    return { buf, mime, ext };
   } catch {
     return null;
   }

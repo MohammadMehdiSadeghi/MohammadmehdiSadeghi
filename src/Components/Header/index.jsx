@@ -35,7 +35,7 @@ export default function Header() {
         <div className="flex items-center h-full">
           <Link
             to="/"
-            className="text-[14px] md:w-[379px] sm:text-[16px] text-[#90A1B9] py-[16px] md:px-[24px] md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
+            className="text-[14px] md:w-[300px] lg:w-[379px] sm:text-[16px] text-[#90A1B9] py-[16px] md:px-[24px] md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
           >
             Mohammad-Mehdi-Sadeghi
           </Link>
@@ -51,7 +51,7 @@ export default function Header() {
                 }`}
               >
                 <Link
-                  className={`py-[16px] px-3 lg:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
+                  className={`py-[16px] px-2.5 lg:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
                     isActive(link.key)
                       ? "border-b-[#FFB86A] text-white"
                       : "border-b-transparent"
@@ -68,7 +68,7 @@ export default function Header() {
         <ul className="hidden md:flex items-center h-full">
           <li className="border-l-[1px] border-[#90a1b977] flex justify-center items-center h-full">
             <Link
-              className={`py-[16px] px-3 lg:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
+              className={`py-[16px] px-2.5 lg:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
                 isActive("contact")
                   ? "border-b-[#FFB86A] text-white"
                   : "border-b-transparent"

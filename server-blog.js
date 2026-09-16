@@ -13,13 +13,14 @@ import path from "path";
 
 const MAX_IMAGE_BYTES = 2.5 * 1024 * 1024;
 
+/* raster only — an uploaded SVG is served from this origin and can carry
+   <script>, which ran on our domain in a Chrome probe. See api/_blog-images.js */
 const EXT_MIME = {
   jpg: "image/jpeg",
   jpeg: "image/jpeg",
   png: "image/png",
   webp: "image/webp",
   gif: "image/gif",
-  svg: "image/svg+xml",
   avif: "image/avif",
 };
 
@@ -27,6 +28,21 @@ const extFor = (mime) => {
   const hit = Object.entries(EXT_MIME).find(([, m]) => m === mime);
   return hit ? hit[0] : "jpg";
 };
+
+/* Blocks scriptable files in the cover directory. Uploaded covers live under
+   /assets/Blog/ and are served by the static middleware, so an uploaded .svg
+   would be handed back as a same-origin document that can run <script> —
+   verified in Chrome (window flag set, document.title rewritten). Rejecting
+   SVG at upload is the primary fix; this is the second layer, so a file that
+   somehow lands on disk still can't execute. */
+export function blogCoverGuard(req, res, next) {
+  if (/\.(svg|svgz|html?|xhtml|xml|js|mjs)$/i.test(req.path)) {
+    return res.status(404).type("text/plain").send("not found");
+  }
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Content-Disposition", "inline");
+  return next();
+}
 
 export function slugify(s) {
   const base = String(s || "")
@@ -51,6 +67,8 @@ function parseDataUrl(dataUrl) {
   if (!m) return null;
   const mime = m[1].toLowerCase();
   if (!/^image\//.test(mime)) return null;
+  /* SVG is scriptable and would be served same-origin → refuse it outright */
+  if (mime === "image/svg+xml") return null;
   return { mime, base64: m[2].replace(/\s+/g, ""), ext: extFor(mime) };
 }
 

@@ -30,7 +30,12 @@ export default async function handler(req, res) {
     const img = await getImage(id);
     if (!img) return res.status(404).json({ error: "image not found" });
 
+    /* Defence in depth: even if a scriptable file ever landed here, these two
+       headers stop the browser from treating it as a document. `nosniff` is
+       what makes the declared Content-Type binding. */
     res.setHeader("Content-Type", img.mime);
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Content-Disposition", "inline");
     res.setHeader("Content-Length", String(img.buf.length));
     /* the id is unique per upload, so it is safe to cache hard */
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");

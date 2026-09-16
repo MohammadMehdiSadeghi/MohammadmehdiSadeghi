@@ -29,15 +29,11 @@ function loadImage(file) {
 export async function compressImage(file, maxBytes = 2.4 * 1024 * 1024) {
   if (!file) throw new Error("no file selected");
   if (!/^image\//.test(file.type)) throw new Error("pick an image file (jpg, png, webp…)");
-  /* an SVG is already tiny and would lose its vector nature in a canvas */
-  if (file.type === "image/svg+xml") {
-    const dataUrl = await new Promise((resolve, reject) => {
-      const fr = new FileReader();
-      fr.onload = () => resolve(fr.result);
-      fr.onerror = () => reject(new Error("could not read that file"));
-      fr.readAsDataURL(file);
-    });
-    return { dataUrl, bytes: file.size, width: 0, height: 0 };
+  /* SVG is refused on purpose: covers are served from our own origin and an
+     SVG can carry <script>, which would run as the site (stored XSS). Ask for
+     a raster image instead — any screenshot/photo format works. */
+  if (file.type === "image/svg+xml" || /\.svgz?$/i.test(file.name || "")) {
+    throw new Error("SVG isn't allowed for covers — please use a JPG, PNG or WebP");
   }
 
   const img = await loadImage(file);
