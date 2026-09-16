@@ -37,6 +37,7 @@ import ubisoft from "./_ubisoft.js";
 import moodSearch from "./_mood-search.js";
 import sabz from "./_sabz.js";
 import { BUNDLED } from "./_data.js";
+import { loadConfig } from "./_lib.js";
 
 /* route path → handler(req, res) */
 const ROUTES = {
@@ -122,6 +123,11 @@ function mergeQuery(req) {
 }
 
 export default async function handler(req, res) {
+  /* Resolve the admin config (and the STABLE token secret) once, before any
+     handler runs. Handlers call requireAuth() synchronously, so the secret
+     must already be in place or every panel request 401s. */
+  await loadConfig();
+
   mergeQuery(req);
   const route = resolveRoute(req);
 

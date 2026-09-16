@@ -31,31 +31,72 @@ export const DEFAULT_ADMIN = {
     "b5935771f43bbca6b350f841baa5ed7fb25fbaa8168ebdff549fa16295f46680",
 };
 
+/* Session tokens must survive across serverless invocations, so the HMAC
+   secret has to be STABLE. Order of preference:
+     1. VERCEL_ADMIN_SECRET (env — best, set it in the dashboard)
+     2. a secret generated once and persisted in the data store
+     3. a per-instance random one (last resort: tokens only hold while the
+        instance stays warm — the failure mode that made the panel 401)
+   A per-instance random secret is what broke the live admin panel: the
+   login succeeded in one lambda and every panel request landed on another
+   lambda whose random secret rejected the token. */
+const SECRET_FILE = "admin-secret";
+
+function randomSecret() {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+async function persistentSecret() {
+  try {
+    const raw = await fsp.readFile(path.join(DATA_DIR, SECRET_FILE), "utf8");
+    const s = String(raw || "").trim();
+    if (s) return s;
+  } catch {
+    /* first run on this instance */
+  }
+  const s = randomSecret();
+  try {
+    await fsp.mkdir(DATA_DIR, { recursive: true });
+    await fsp.writeFile(path.join(DATA_DIR, SECRET_FILE), s, "utf8");
+  } catch {
+    /* read-only fs — fall back to the in-memory value */
+  }
+  return s;
+}
+
+/* Resolved once per instance; awaited by the auth paths. */
+let SECRET_PROMISE = null;
+export function instanceSecret() {
+  if (!SECRET_PROMISE) {
+    SECRET_PROMISE = process.env.VERCEL_ADMIN_SECRET
+      ? Promise.resolve(process.env.VERCEL_ADMIN_SECRET)
+      : persistentSecret();
+  }
+  return SECRET_PROMISE;
+}
+
 const baseConfig = () => ({
   username: process.env.VERCEL_ADMIN_USERNAME || DEFAULT_ADMIN.username,
   password_sha256:
     process.env.VERCEL_ADMIN_PASSWORD_SHA256 || DEFAULT_ADMIN.password_sha256,
-  secret: process.env.VERCEL_ADMIN_SECRET || randomSecret(),
+  /* filled in by loadConfig() from instanceSecret() */
+  secret: process.env.VERCEL_ADMIN_SECRET || "",
   token_version: Number(process.env.VERCEL_ADMIN_TOKEN_VERSION || 0),
 });
 
 let CFG = null;
 let CFG_LOADED = false;
 
-/* random per-instance HMAC secret (generated once per cold start) */
-function randomSecret() {
-  return crypto.randomBytes(32).toString("hex");
-}
-
 export function getConfig() {
   if (!CFG) CFG = baseConfig();
   return CFG;
 }
 
-/* Pull the dashboard-saved password hash once per cold start. */
+/* Pull the dashboard-saved password hash + the stable secret. */
 export async function loadConfig() {
-  if (CFG_LOADED) return getConfig();
-  CFG = baseConfig();
+  const secret = await instanceSecret();
+  if (CFG_LOADED && CFG.secret === secret) return getConfig();
+  CFG = { ...baseConfig(), secret };
   CFG_LOADED = true;
   const saved = await readJSON(path.join(DATA_DIR, "admin-auth.json"), null);
   if (saved && typeof saved === "object") {
