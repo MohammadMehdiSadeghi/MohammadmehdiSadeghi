@@ -1,7 +1,7 @@
-import crypto from "node:crypto";
 import {
-  getConfig,
+  loadConfig,
   timingSafeEq,
+  sha256,
   clientIP,
   rateCheck,
   rateFail,
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "method not allowed" });
   }
-  const cfg = getConfig();
+  const cfg = await loadConfig();
   if (!cfg.username || !cfg.password_sha256 || !cfg.secret) {
     return res.status(503).json({ error: "admin auth is not configured" });
   }
@@ -32,10 +32,7 @@ export default async function handler(req, res) {
   }
 
   const validUser = timingSafeEq(cfg.username || "", username);
-  const validPass = timingSafeEq(
-    cfg.password_sha256 || "",
-    crypto.createHash("sha256").update(password).digest("hex")
-  );
+  const validPass = timingSafeEq(cfg.password_sha256 || "", sha256(password));
   if (!validUser || !validPass) {
     const k = `${clientIP(req)}::login`;
     await rateFail(k);

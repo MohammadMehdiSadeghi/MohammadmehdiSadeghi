@@ -16,10 +16,9 @@ import PageTransition from "./Components/PageTransition";
 import Cursor from "./Components/Cursor";
 
 /* Timing (ms) — must match PageTransition CSS:
-   bars sweep in:  350ms + 7*40ms stagger ≈ 630ms full cover
-   we navigate at 500ms (mostly covered)
-   release at pathname change → sweep-out 400ms + stagger ≈ 680ms        */
-const NAVIGATE_AFTER = 900;
+   veil fades in, then we navigate, then it fades out.
+   Trimmed 200ms from the previous timing on request.        */
+const NAVIGATE_AFTER = 700;
 
 function PublicSite() {
   const location = useLocation();
@@ -96,7 +95,7 @@ function PublicSite() {
     const onPop = () => {
       setCoverPath(location.pathname);
       setCovering(true);
-      setTimeout(() => setCovering(false), 700);
+      setTimeout(() => setCovering(false), 500);
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);

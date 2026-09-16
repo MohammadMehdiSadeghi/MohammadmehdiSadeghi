@@ -8,10 +8,10 @@ import StatsPage from "./Stats";
 import ProjectsPage from "./Projects";
 import SkillsPage from "./Skills";
 import MessagesPage from "./Messages";
-import ButtonsPage from "./Buttons";
 import DatabasePage from "./Database";
 import TelegramPage from "./Telegram";
 import MoodsPage from "./Moods";
+import SecurityPage from "./Security";
 
 function AdminRoutes() {
   const location = useLocation();
@@ -31,10 +31,10 @@ function AdminRoutes() {
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="skills" element={<SkillsPage />} />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="buttons" element={<ButtonsPage />} />
           <Route path="database" element={<DatabasePage />} />
           <Route path="telegram" element={<TelegramPage />} />
           <Route path="moods" element={<MoodsPage />} />
+          <Route path="security" element={<SecurityPage />} />
           <Route path="*" element={<Navigate to="stats" replace />} />
         </Route>
       </Routes>

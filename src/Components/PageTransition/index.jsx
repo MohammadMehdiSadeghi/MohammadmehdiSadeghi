@@ -1,42 +1,26 @@
 import React from "react";
 
 /* ============================================================
-   PageTransition — soft veil + an elegant mini terminal card
-   A dark veil fades in, a small glassy terminal card shows a
-   braille spinner + the page command, a thin indeterminate
-   shimmer line runs under it, then everything fades away.
+   PageTransition — plain loading overlay between routes.
+   Uses the same dots loader as the rest of the app (no terminal
+   card, no shimmer, no typing). Timing is trimmed 200ms vs the
+   old version.
    ============================================================ */
 
-const PAGE_CMDS = {
-  "/": "load home",
-  "/about": "load about",
-  "/project": "load projects",
-  "/contact": "load contact",
-};
+const HOLD_OUT = 1300; // veil fade-out (was 1500)
+const FADE_IN = 300; // veil fade-in (was 550)
 
-const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
-
-export default function PageTransition({ path, leaving }) {
-  const cmd = PAGE_CMDS[path] || "load …";
+export default function PageTransition({ leaving }) {
   const [visible, setVisible] = React.useState(leaving);
-  const [frame, setFrame] = React.useState(0);
 
   React.useEffect(() => {
     if (leaving) {
       setVisible(true);
     } else if (visible) {
-      // veil fades away after the page has swapped underneath
-      const t = setTimeout(() => setVisible(false), 1500);
+      const t = setTimeout(() => setVisible(false), HOLD_OUT);
       return () => clearTimeout(t);
     }
   }, [leaving]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // braille spinner while covering
-  React.useEffect(() => {
-    if (!visible) return;
-    const spin = setInterval(() => setFrame((f) => (f + 1) % SPINNER.length), 80);
-    return () => clearInterval(spin);
-  }, [visible]);
 
   if (!visible) return null;
 
@@ -46,10 +30,11 @@ export default function PageTransition({ path, leaving }) {
       style={{
         background: "#050B14",
         pointerEvents: leaving ? "auto" : "none",
-        animation: leaving ? "veilIn .55s ease both" : "veilOut 1.4s ease both",
+        animation: leaving
+          ? `veilIn ${FADE_IN}ms ease both`
+          : "veilOut 1.2s ease both",
       }}
     >
-      {/* subtle radial glow behind the card */}
       <div
         className="absolute w-[420px] h-[220px] pointer-events-none"
         style={{
@@ -57,65 +42,51 @@ export default function PageTransition({ path, leaving }) {
             "radial-gradient(ellipse at center, rgba(97,95,255,0.16) 0%, transparent 65%)",
         }}
       />
-
-      {/* mini terminal card */}
-      <div
-        className="relative rounded-xl overflow-hidden"
-        style={{
-          fontFamily: '"Fira", monospace',
-          width: "min(400px, 88vw)",
-          background: "rgba(8,18,36,0.85)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(97,95,255,0.35)",
-          boxShadow:
-            "0 0 70px rgba(97,95,255,0.22), 0 24px 60px rgba(0,0,0,0.55)",
-          animation: "cardIn .5s cubic-bezier(.22,1,.36,1) .15s both",
-        }}
-      >
-        {/* title bar */}
-        <div
-          className="flex items-center gap-2 px-4 h-9"
-          style={{
-            borderBottom: "1px solid rgba(97,95,255,0.18)",
-            background: "rgba(97,95,255,0.06)",
-          }}
+      <div className="relative flex flex-col items-center gap-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="3em"
+          height="3em"
+          viewBox="0 0 24 24"
+          color="#615FFF"
         >
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF5F56" }} />
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FFBD2E" }} />
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#27C93F" }} />
-          <span className="ml-2 text-[10px]" style={{ color: "#90A1B9AA" }}>
-            portfolio — dev
-          </span>
-        </div>
-
-        {/* body: spinner + command */}
-        <div className="px-5 py-4 text-[12px] leading-7">
-          <div style={{ color: "#90A1B9" }}>
-            <span style={{ color: "#FFB86A", marginRight: 8 }}>{SPINNER[frame]}</span>
-            <span style={{ color: "#27C93F" }}>➜</span>{" "}
-            <span style={{ color: "#FFB86A" }}>~/portfolio</span>{" "}
-            <span style={{ color: "#615FFF" }}>{cmd}</span>
-            <span className="loading-dots" />
-            <span
-              className="inline-block w-[7px] h-[14px] align-middle ml-2"
-              style={{ background: "#615FFF", animation: "bootBlink .9s steps(1) infinite" }}
+          <circle cx="4" cy="12" r="3" fill="currentColor">
+            <animate
+              id="pt-a"
+              fill="freeze"
+              attributeName="opacity"
+              begin="0;pt-c.end-0.25s"
+              dur="0.75s"
+              values="1;.2"
             />
-          </div>
-
-          {/* thin indeterminate shimmer line */}
-          <div
-            className="mt-3 h-[2px] rounded overflow-hidden relative"
-            style={{ background: "rgba(144,161,185,0.15)" }}
-          >
-            <div
-              className="absolute h-full w-1/3 rounded"
-              style={{
-                background: "linear-gradient(90deg, transparent, #615FFF, #00D5BE, transparent)",
-                animation: "shimmer 1.3s ease-in-out infinite",
-              }}
+          </circle>
+          <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".4">
+            <animate
+              fill="freeze"
+              attributeName="opacity"
+              begin="pt-a.begin+0.15s"
+              dur="0.75s"
+              values="1;.2"
             />
-          </div>
-        </div>
+          </circle>
+          <circle cx="20" cy="12" r="3" fill="currentColor" opacity=".3">
+            <animate
+              id="pt-c"
+              fill="freeze"
+              attributeName="opacity"
+              begin="pt-a.begin+0.3s"
+              dur="0.75s"
+              values="1;.2"
+            />
+          </circle>
+        </svg>
+        <p
+          className="text-[11px] tracking-wider"
+          style={{ fontFamily: '"Fira", monospace', color: "#90A1B9" }}
+        >
+          loading
+          <span className="loading-dots" />
+        </p>
       </div>
     </div>
   );

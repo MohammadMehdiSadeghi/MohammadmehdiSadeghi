@@ -27,7 +27,33 @@ export default function DatabasePage() {
   const [error, setError] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const [notice, setNotice] = useState("");
   const sizeCache = useRef(new Map());
+
+  /* wipe the throwaway demo data (test accounts + comments) */
+  const handleReset = async () => {
+    setResetting(true);
+    setNotice("");
+    try {
+      const res = await authFetch("/api/admin/reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target: "sabz" }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "reset failed");
+      setNotice(
+        `// wiped: ${json.cleared?.length ? json.cleared.join(", ") : "nothing stored yet"}`,
+      );
+      sizeCache.current.clear();
+      await load(path);
+    } catch (err) {
+      setNotice(`// ${err.message || "reset failed"}`);
+    } finally {
+      setResetting(false);
+    }
+  };
 
   const load = useCallback(
     async (p) => {
@@ -129,6 +155,21 @@ export default function DatabasePage() {
         <p className="text-[#68768C] text-[11px] mt-1">
           Browse every file &amp; folder of the project · delete anything you don't need
         </p>
+        <div className="flex items-center gap-3 mt-3 flex-wrap">
+          <button
+            onClick={handleReset}
+            disabled={resetting}
+            className="text-[10px] px-2.5 py-1.5 rounded border border-[#FF6B6B44] text-[#FF6B6B] hover:border-[#FF6B6B] duration-150 disabled:opacity-50"
+          >
+            {resetting ? "resetting…" : "reset demo database"}
+          </button>
+          <span className="text-[10px] text-[#4B576D]">
+            // test accounts &amp; comments are throwaway — they also expire on their own after 12h
+          </span>
+        </div>
+        {notice && (
+          <p className="text-[10px] text-[#615FFF] mt-2">{notice}</p>
+        )}
       </div>
 
       {/* breadcrumb */}

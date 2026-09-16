@@ -4,6 +4,35 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
+    { "source": "/api", "destination": "/api/index" },
+    { "source": "/api/:path*", "destination": "/api/index?__route=:path*" },
+
+    {
+      "source": "/Projects/Web-Project/Sabz-Learn/server/users",
+      "destination": "/api/index?__route=sabz/users"
+    },
+    {
+      "source": "/Projects/Web-Project/Sabz-Learn/server/comments",
+      "destination": "/api/index?__route=sabz/comments"
+    },
+
+    {
+      "source": "/Projects/Web-Project/Sabz-Learn/courses",
+      "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
+    },
+    {
+      "source": "/Projects/Web-Project/Sabz-Learn/courses/:slug",
+      "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
+    },
+    {
+      "source": "/Projects/Web-Project/Sabz-Learn/login",
+      "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
+    },
+    {
+      "source": "/Projects/Web-Project/Sabz-Learn/register",
+      "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
+    },
+
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

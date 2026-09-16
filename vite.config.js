@@ -43,7 +43,12 @@ function stripServerSources() {
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  /* Absolute base on Vercel: with a relative base ("./") a deep link such
+     as /admin/projects resolves its assets to /admin/projects/assets/...,
+     which the SPA fallback answers with index.html — the browser then
+     throws on the JS and the page renders blank until you go back home.
+     Local/htdocs builds keep "./" so the sub-path mirrors still work. */
+  base: process.env.VERCEL ? "/" : "./",
   server: {
     host: '0.0.0.0',
     port: 5173,

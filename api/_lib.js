@@ -14,15 +14,76 @@ export const DATA_DIR = process.env.VERCEL_DATA_DIR || "/tmp/portfolio-data";
 export const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (parity with server.js)
 export const MESSAGE_STATUSES = new Set(["unseen", "seen", "archived"]);
 
-/* ── config from environment (parity with data/config.json on self-host) ── */
-export function getConfig() {
-  return {
-    username: process.env.VERCEL_ADMIN_USERNAME || "",
-    password_sha256: process.env.VERCEL_ADMIN_PASSWORD_SHA256 || "",
-    secret: process.env.VERCEL_ADMIN_SECRET || "",
-    token_version: Number(process.env.VERCEL_ADMIN_TOKEN_VERSION || 0),
-  };
+/* ── admin credentials ────────────────────────────────────────────────
+   The default login is baked in as a SHA-256 HASH (never plaintext).
+   A password changed from the dashboard is written to the ephemeral
+   store (admin-auth.json) and takes precedence while the instance is
+   warm; env vars still win when they are set.
+
+   The HMAC secret is generated randomly at cold start when
+   VERCEL_ADMIN_SECRET is absent, so tokens can never be forged with a
+   hard-coded key from this repo.
+   ──────────────────────────────────────────────────────────────────── */
+export const DEFAULT_ADMIN = {
+  username: "mohammad.m.sadeghi09@gmail.com",
+  /* sha256("moha3447") */
+  password_sha256:
+    "b5935771f43bbca6b350f841baa5ed7fb25fbaa8168ebdff549fa16295f46680",
+};
+
+const baseConfig = () => ({
+  username: process.env.VERCEL_ADMIN_USERNAME || DEFAULT_ADMIN.username,
+  password_sha256:
+    process.env.VERCEL_ADMIN_PASSWORD_SHA256 || DEFAULT_ADMIN.password_sha256,
+  secret: process.env.VERCEL_ADMIN_SECRET || randomSecret(),
+  token_version: Number(process.env.VERCEL_ADMIN_TOKEN_VERSION || 0),
+});
+
+let CFG = null;
+let CFG_LOADED = false;
+
+/* random per-instance HMAC secret (generated once per cold start) */
+function randomSecret() {
+  return crypto.randomBytes(32).toString("hex");
 }
+
+export function getConfig() {
+  if (!CFG) CFG = baseConfig();
+  return CFG;
+}
+
+/* Pull the dashboard-saved password hash once per cold start. */
+export async function loadConfig() {
+  if (CFG_LOADED) return getConfig();
+  CFG = baseConfig();
+  CFG_LOADED = true;
+  const saved = await readJSON(path.join(DATA_DIR, "admin-auth.json"), null);
+  if (saved && typeof saved === "object") {
+    if (saved.password_sha256) CFG.password_sha256 = String(saved.password_sha256);
+    if (saved.username) CFG.username = String(saved.username);
+    if (saved.token_version != null) CFG.token_version = Number(saved.token_version);
+  }
+  return CFG;
+}
+
+/* Persist a new password hash + bump token_version so every previously
+   issued token is invalidated at once. */
+export async function saveAdminPassword(username, password_sha256) {
+  const cur = getConfig();
+  const next = {
+    username: username || cur.username,
+    password_sha256,
+    token_version: (cur.token_version || 0) + 1,
+  };
+  await writeJSON(path.join(DATA_DIR, "admin-auth.json"), next);
+  CFG = { ...baseConfig(), ...next, secret: cur.secret };
+  CFG_LOADED = true;
+  return CFG;
+}
+
+/* sha256 helper shared by auth + password change */
+export const sha256 = (s) =>
+  crypto.createHash("sha256").update(String(s)).digest("hex");
 
 /* ── JSON store with per-key serialization (parity with server.js) ── */
 const locks = new Map();

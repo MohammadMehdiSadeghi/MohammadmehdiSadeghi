@@ -164,65 +164,8 @@ function computeStats() {
     .slice(0, 8)
     .map(([path, total]) => ({ path, total }));
 
-  // ── Click analytics mock data ──
-  const mockClickItems = [
-    { targetType: "project", targetId: "sabz-learn", targetLabel: "Sabz Learn", total: 187, today: 12, week: 68, daily: {} },
-    { targetType: "project", targetId: "css-playground", targetLabel: "CSS Playground", total: 143, today: 8, week: 52, daily: {} },
-    { targetType: "project", targetId: "portfolio-v2", targetLabel: "Portfolio V2", total: 98, today: 5, week: 31, daily: {} },
-    { targetType: "nav", targetId: "/project", targetLabel: "_Project", total: 312, today: 18, week: 105, daily: {} },
-    { targetType: "nav", targetId: "/", targetLabel: "_Home", total: 267, today: 15, week: 89, daily: {} },
-    { targetType: "nav", targetId: "/about", targetLabel: "_About", total: 198, today: 9, week: 72, daily: {} },
-    { targetType: "nav", targetId: "/contact", targetLabel: "_Contact-me", total: 156, today: 7, week: 58, daily: {} },
-    { targetType: "skill", targetId: "react", targetLabel: "React", total: 89, today: 4, week: 33, daily: {} },
-    { targetType: "skill", targetId: "javascript", targetLabel: "JavaScript", total: 76, today: 3, week: 28, daily: {} },
-    { targetType: "skill", targetId: "tailwind", targetLabel: "Tailwind CSS", total: 64, today: 2, week: 24, daily: {} },
-    { targetType: "project", targetId: "mini-calc", targetLabel: "Mini Calculator", total: 52, today: 3, week: 19, daily: {} },
-    { targetType: "project", targetId: "todo-app", targetLabel: "Todo App", total: 41, today: 1, week: 15, daily: {} },
-  ];
-  // Fill daily for last 7 days
-  for (const item of mockClickItems) {
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const key = d.toISOString().split("T")[0];
-      const ratio = i === 0 ? item.today : Math.floor(item.week * (0.1 + Math.random() * 0.2));
-      item.daily[key] = ratio;
-    }
-  }
-
-  const clickTrend = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const key = d.toISOString().split("T")[0];
-    let dayTotal = 0;
-    for (const item of mockClickItems) {
-      dayTotal += item.daily[key] || 0;
-    }
-    clickTrend.push({ date: key, total: dayTotal });
-  }
-
-  const totalClicks = mockClickItems.reduce((s, c) => s + c.total, 0);
-  const todayClicks = mockClickItems.reduce((s, c) => s + c.today, 0);
-  const weekClicks = mockClickItems.reduce((s, c) => s + c.week, 0);
-
-  const clicksByType = [];
-  const typeMap = {};
-  for (const item of mockClickItems) {
-    typeMap[item.targetType] = (typeMap[item.targetType] || 0) + item.total;
-  }
-  for (const [type, total] of Object.entries(typeMap)) {
-    clicksByType.push({ type, total });
-  }
-  clicksByType.sort((a, b) => b.total - a.total);
-
-  const recentClicks = [
-    { time: new Date(Date.now() - 3000).toISOString(), targetType: "project", targetId: "sabz-learn", targetLabel: "Sabz Learn", path: "/project", sessionId: "s1" },
-    { time: new Date(Date.now() - 8000).toISOString(), targetType: "nav", targetId: "/", targetLabel: "_Home", path: "/", sessionId: "s2" },
-    { time: new Date(Date.now() - 15000).toISOString(), targetType: "project", targetId: "css-playground", targetLabel: "CSS Playground", path: "/project", sessionId: "s3" },
-    { time: new Date(Date.now() - 22000).toISOString(), targetType: "skill", targetId: "react", targetLabel: "React", path: "/about", sessionId: "s4" },
-    { time: new Date(Date.now() - 30000).toISOString(), targetType: "nav", targetId: "/contact", targetLabel: "_Contact-me", path: "/contact", sessionId: "s5" },
-  ];
+  /* Click / button analytics were removed: the buttons tab is gone and
+     per-page visits are the only analytics the dashboard shows now. */
 
   return {
     onlineNow,
@@ -239,62 +182,6 @@ function computeStats() {
     yearly,
     totalAllTime: Object.values(dayTotals).reduce((s, v) => s + v, 0),
     topPaths,
-    // Click analytics
-    totalClicks,
-    todayClicks,
-    weekClicks,
-    topClickItems: mockClickItems,
-    clicksByType,
-    clickTrend,
-    recentClicks,
-    // Button analytics
-    buttonAnalytics: {
-      totalClicks: 2847,
-      todayClicks: 156,
-      weekClicks: 892,
-      topButtons: [
-        { buttonId: "view-project-sabz-learn", label: "view-project → Sabz Learn", page: "/project", type: "link", total: 342, today: 18, week: 98 },
-        { buttonId: "nav-home", label: "_Home", page: "/", type: "nav", total: 267, today: 15, week: 89 },
-        { buttonId: "nav-project", label: "_Project", page: "/", type: "nav", total: 312, today: 18, week: 105 },
-        { buttonId: "nav-about", label: "_About", page: "/", type: "nav", total: 198, today: 9, week: 72 },
-        { buttonId: "nav-contact", label: "_Contact-me", page: "/", type: "nav", total: 156, today: 7, week: 58 },
-        { buttonId: "view-project-css-playground", label: "view-project → CSS Playground", page: "/project", type: "link", total: 289, today: 14, week: 82 },
-        { buttonId: "filter-react", label: "React (filter)", page: "/project", type: "filter", total: 178, today: 8, week: 54 },
-        { buttonId: "filter-all-web", label: "All Web Project (filter)", page: "/project", type: "filter", total: 234, today: 12, week: 78 },
-        { buttonId: "skill-react", label: "React (skill card)", page: "/about", type: "button", total: 145, today: 6, week: 48 },
-        { buttonId: "skill-javascript", label: "JavaScript (skill card)", page: "/about", type: "button", total: 128, today: 5, week: 42 },
-        { buttonId: "skill-tailwind", label: "Tailwind CSS (skill card)", page: "/about", type: "button", total: 112, today: 4, week: 38 },
-        { buttonId: "contact-submit", label: "Send Message (submit)", page: "/contact", type: "submit", total: 89, today: 3, week: 28 },
-        { buttonId: "filter-tailwind", label: "Tailwind (filter)", page: "/project", type: "filter", total: 142, today: 6, week: 44 },
-        { buttonId: "filter-javascript", label: "JavaScript (filter)", page: "/project", type: "filter", total: 156, today: 7, week: 48 },
-        { buttonId: "skill-html", label: "HTML (skill card)", page: "/about", type: "button", total: 98, today: 3, week: 32 },
-      ],
-      clicksByPage: [
-        { page: "/project", total: 1341 },
-        { page: "/", total: 933 },
-        { page: "/about", total: 483 },
-        { page: "/contact", total: 89 },
-      ],
-      recentClicks: [
-        { time: new Date(Date.now() - 2000).toISOString(), buttonId: "view-project-sabz-learn", label: "view-project → Sabz Learn", page: "/project", sessionId: "s1" },
-        { time: new Date(Date.now() - 7000).toISOString(), buttonId: "nav-home", label: "_Home", page: "/", sessionId: "s2" },
-        { time: new Date(Date.now() - 12000).toISOString(), buttonId: "filter-react", label: "React (filter)", page: "/project", sessionId: "s3" },
-        { time: new Date(Date.now() - 18000).toISOString(), buttonId: "skill-react", label: "React (skill card)", page: "/about", sessionId: "s4" },
-        { time: new Date(Date.now() - 25000).toISOString(), buttonId: "contact-submit", label: "Send Message (submit)", page: "/contact", sessionId: "s5" },
-        { time: new Date(Date.now() - 33000).toISOString(), buttonId: "view-project-css-playground", label: "view-project → CSS Playground", page: "/project", sessionId: "s6" },
-        { time: new Date(Date.now() - 42000).toISOString(), buttonId: "nav-about", label: "_About", page: "/", sessionId: "s7" },
-        { time: new Date(Date.now() - 50000).toISOString(), buttonId: "skill-javascript", label: "JavaScript (skill card)", page: "/about", sessionId: "s8" },
-      ],
-      clickTrend: [
-        { date: "2026-08-24", total: 187 },
-        { date: "2026-08-25", total: 142 },
-        { date: "2026-08-26", total: 98 },
-        { date: "2026-08-27", total: 165 },
-        { date: "2026-08-28", total: 178 },
-        { date: "2026-08-29", total: 121 },
-        { date: "2026-08-30", total: 156 },
-      ],
-    },
   };
 }
 
