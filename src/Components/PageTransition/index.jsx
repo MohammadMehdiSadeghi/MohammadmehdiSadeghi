@@ -1,14 +1,22 @@
 import React from "react";
+import { LoadDots, Monogram } from "../Loader";
 
 /* ============================================================
-   PageTransition — plain loading overlay between routes.
-   Uses the same dots loader as the rest of the app (no terminal
-   card, no shimmer, no typing). Timing is trimmed 200ms vs the
-   old version.
+   PageTransition — the loading veil between routes.
+
+   Shares its visuals with BootLoader (src/Components/Loader) so the two
+   cannot drift apart. No terminal card, no faked progress.
+
+   Timing, trimmed twice on request:
+     veil fade-in      550 → 350   (-200ms)
+     veil fade-out    1500 → 1300  (-200ms)
+     fade-out start   1300 → 1200  (-100ms)  ← now
+   NAVIGATE_AFTER in App.jsx moved with it (900 → 700, now 600) so the
+   router still swaps under a fully covered screen.
    ============================================================ */
 
-const HOLD_OUT = 1300; // veil fade-out (was 1500)
-const FADE_IN = 350; // veil fade-in (was 550 → -200ms)
+const HOLD_OUT = 1200; // veil fade-out (was 1300 → -100ms)
+const FADE_IN = 350; // veil fade-in (was 550)
 
 export default function PageTransition({ leaving }) {
   const [visible, setVisible] = React.useState(leaving);
@@ -30,9 +38,7 @@ export default function PageTransition({ leaving }) {
       style={{
         background: "#050B14",
         pointerEvents: leaving ? "auto" : "none",
-        animation: leaving
-          ? `veilIn ${FADE_IN}ms ease both`
-          : "veilOut 1.2s ease both",
+        animation: leaving ? `veilIn ${FADE_IN}ms ease both` : "veilOut 1.2s ease both",
       }}
     >
       <div
@@ -43,43 +49,8 @@ export default function PageTransition({ leaving }) {
         }}
       />
       <div className="relative flex flex-col items-center gap-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="3em"
-          height="3em"
-          viewBox="0 0 24 24"
-          color="#615FFF"
-        >
-          <circle cx="4" cy="12" r="3" fill="currentColor">
-            <animate
-              id="pt-a"
-              fill="freeze"
-              attributeName="opacity"
-              begin="0;pt-c.end-0.25s"
-              dur="0.75s"
-              values="1;.2"
-            />
-          </circle>
-          <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".4">
-            <animate
-              fill="freeze"
-              attributeName="opacity"
-              begin="pt-a.begin+0.15s"
-              dur="0.75s"
-              values="1;.2"
-            />
-          </circle>
-          <circle cx="20" cy="12" r="3" fill="currentColor" opacity=".3">
-            <animate
-              id="pt-c"
-              fill="freeze"
-              attributeName="opacity"
-              begin="pt-a.begin+0.3s"
-              dur="0.75s"
-              values="1;.2"
-            />
-          </circle>
-        </svg>
+        <Monogram text="MM" size={40} radius={11} />
+        <LoadDots id="pt" size="2.6em" />
         <p
           className="text-[11px] tracking-wider"
           style={{ fontFamily: '"Fira", monospace', color: "#90A1B9" }}

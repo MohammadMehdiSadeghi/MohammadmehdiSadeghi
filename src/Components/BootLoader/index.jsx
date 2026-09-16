@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { ACCENT, LoadDots, LoaderFrame, Monogram } from "../Loader";
 
-/* ============================================================
-   BootLoader — simple site loading screen.
-   (The old terminal-typing intro was removed on request: just a
-   plain loader that stays until the app is actually ready.)
-   ============================================================ */
+/* ════════════════════════════════════════════════════════════════════
+   BootLoader — the first-paint loading screen.
 
-const MIN_VISIBLE = 420; // keep the flash short but never flicker
+   The terminal-typing intro was removed on request and what replaced it
+   was down to three dots and the word "loading" — too plain. This keeps
+   the intro gone (no typing sequence, no faked progress percentage) but
+   gives the screen real presence again, using the same vocabulary as the
+   project cards so it looks like part of the site.
+
+   Timing is unchanged: fall away as soon as the document is ready, with
+   a floor so it can't flicker and a ceiling so it can never trap the page.
+   ════════════════════════════════════════════════════════════════════ */
+
+const MIN_VISIBLE = 420; // short flash, but never a flicker
 const EXIT_MS = 260;
 
 export default function BootLoader({ onDone }) {
@@ -50,66 +58,56 @@ export default function BootLoader({ onDone }) {
 
   return (
     <div
-      className="fixed inset-0 z-[9998] flex items-center justify-center"
       style={{
-        background: "#050B14",
+        position: "fixed",
+        inset: 0,
+        zIndex: 9998,
         opacity: exiting ? 0 : 1,
         transition: `opacity ${EXIT_MS}ms ease`,
       }}
     >
-      <div
-        className="absolute w-[380px] h-[200px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(97,95,255,0.14) 0%, transparent 65%)",
-        }}
-      />
-      <div className="relative flex flex-col items-center gap-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="3em"
-          height="3em"
-          viewBox="0 0 24 24"
-          color="#615FFF"
-        >
-          <circle cx="4" cy="12" r="3" fill="currentColor">
-            <animate
-              id="bl-a"
-              fill="freeze"
-              attributeName="opacity"
-              begin="0;bl-c.end-0.25s"
-              dur="0.75s"
-              values="1;.2"
-            />
-          </circle>
-          <circle cx="12" cy="12" r="3" fill="currentColor" opacity=".4">
-            <animate
-              fill="freeze"
-              attributeName="opacity"
-              begin="bl-a.begin+0.15s"
-              dur="0.75s"
-              values="1;.2"
-            />
-          </circle>
-          <circle cx="20" cy="12" r="3" fill="currentColor" opacity=".3">
-            <animate
-              id="bl-c"
-              fill="freeze"
-              attributeName="opacity"
-              begin="bl-a.begin+0.3s"
-              dur="0.75s"
-              values="1;.2"
-            />
-          </circle>
-        </svg>
+      <LoaderFrame full>
+        <Monogram text="MM" size={46} />
+
         <p
-          className="text-[11px] tracking-wider"
+          className="mt-4 text-[15px] text-white tracking-[0.08em]"
+          style={{ fontFamily: '"Fira", monospace' }}
+        >
+          Mohammad-Mehdi-Sadeghi
+        </p>
+        <p className="text-[10px] mt-1" style={{ color: "#4B576D" }}>
+          frontend developer · portfolio
+        </p>
+
+        <div className="mt-6">
+          <LoadDots id="boot" size="2.6em" />
+        </div>
+
+        {/* indeterminate — it reports that something is happening, and never
+            claims to know how much is left */}
+        <div
+          className="relative mt-5 overflow-hidden"
+          style={{ width: 190, height: 2, background: "#90a1b926", borderRadius: 99 }}
+        >
+          <span
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "55%",
+              background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`,
+              animation: "loadBar 1.05s ease-in-out infinite",
+            }}
+          />
+        </div>
+
+        <p
+          className="mt-4 text-[11px] tracking-wider"
           style={{ fontFamily: '"Fira", monospace', color: "#90A1B9" }}
         >
           loading
           <span className="loading-dots" />
         </p>
-      </div>
+      </LoaderFrame>
     </div>
   );
 }
