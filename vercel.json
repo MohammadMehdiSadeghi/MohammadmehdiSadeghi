@@ -5,7 +5,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/api", "destination": "/api/index" },
-    { "source": "/api/:path*", "destination": "/api/index?__route=:path*" },
+    { "source": "/api/:__m*", "destination": "/api/index?__route=:__m*" },
 
     {
       "source": "/Projects/Web-Project/Sabz-Learn/server/users",

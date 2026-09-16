@@ -92,8 +92,13 @@ export default async function handler(req, res, resource) {
   const dir = safeJoin(target);
   if (!dir) return res.status(400).json({ error: "invalid path" });
 
-  /* /api/admin/fs-size?path= → folder size */
-  if (resource === "size" || resource === "fs-size") {
+  /* /api/admin/fs-size?path= → folder size.
+     NOTE: index.js derives the sub-resource by stripping the "admin/fs"
+     prefix, so "admin/fs-size" arrives as "-size", not "fs-size". Accept
+     every shape or the tab silently falls back to a plain listing and the
+     size column stays as "…" forever. */
+  const action = String(resource || "").replace(/^-/, "");
+  if (action === "size") {
     const s = await dirSize(dir);
     return res.json({ ...s, path: String(target || "") });
   }

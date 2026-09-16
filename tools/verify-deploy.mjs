@@ -46,7 +46,14 @@ function resolveRequest(url) {
     }
     if (dp === "/api/index") {
       const q = Object.fromEntries(new URLSearchParams(dest.split("?")[1] || ""));
-      return { kind: "api", query: q, via: r.source };
+      /* Vercel ALSO injects every NAMED param of the source into the query
+         string. That is how "source": "/api/:path*" silently overwrote the
+         panel's own ?path= argument and broke the Database tab. Emulate it
+         so a collision like that fails here instead of in production. */
+      r.params.forEach((name, i) => {
+        q[name] = m[i + 1];
+      });
+      return { kind: "api", query: q, via: r.source, params: r.params };
     }
     return { kind: "static", file: onDisk, via: r.source, missing: true };
   }
@@ -278,6 +285,23 @@ console.log("\n=== Database tab works on the serverless deployment (was 501) ===
   check("fs returns items array", Array.isArray(ls.body?.items), `${ls.body?.items?.length} items`);
   const esc = await invoke("GET", "/api/admin/fs?path=../../../../etc", { auth: `Bearer ${A}` });
   check("path traversal rejected", esc.status === 400, `→ ${esc.status}`);
+
+  /* REGRESSION: a named rewrite param (":path*") is injected into the query
+     by Vercel and used to clobber the panel's own ?path=, so every request
+     listed "admin/fs" and the tab could never leave the root. The wildcard is
+     now ":__m*" — assert the client's argument survives. */
+  const deep = await invoke("GET", "/api/admin/fs?path=sub%2Fdir", { auth: `Bearer ${A}` });
+  check("client ?path= survives the rewrite", deep.body?.path === "sub/dir",
+    `path=${JSON.stringify(deep.body?.path)}`);
+  const back = await invoke("GET", "/api/admin/fs?path=", { auth: `Bearer ${A}` });
+  check("empty ?path= still lists the root", back.body?.path === "" && Array.isArray(back.body?.items),
+    `path=${JSON.stringify(back.body?.path)}`);
+  const sz = await invoke("GET", "/api/admin/fs-size?path=sub%2Fdir", { auth: `Bearer ${A}` });
+  check("fs-size keeps the client ?path= too", sz.body?.path === "sub/dir" && "size" in (sz.body || {}),
+    `path=${JSON.stringify(sz.body?.path)}`);
+  const dk = await invoke("GET", "/api/digikala?type=offer-products");
+  check("client ?type= survives the rewrite", dk.status === 200 && Array.isArray(dk.body?.products),
+    `${dk.body?.products?.length} products`);
 }
 
 console.log("\n=== removed buttons tab ===");
