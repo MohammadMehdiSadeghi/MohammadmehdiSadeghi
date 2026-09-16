@@ -8,7 +8,7 @@ import React from "react";
    ============================================================ */
 
 const HOLD_OUT = 1300; // veil fade-out (was 1500)
-const FADE_IN = 300; // veil fade-in (was 550)
+const FADE_IN = 350; // veil fade-in (was 550 → -200ms)
 
 export default function PageTransition({ leaving }) {
   const [visible, setVisible] = React.useState(leaving);

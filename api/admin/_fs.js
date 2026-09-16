@@ -27,7 +27,14 @@ function safeJoin(p) {
 }
 
 async function listDir(dir) {
-  const entries = await fsp.readdir(dir, { withFileTypes: true });
+  let entries;
+  try {
+    entries = await fsp.readdir(dir, { withFileTypes: true });
+  } catch (e) {
+    /* a cold instance has no store yet — an empty listing, not a 404 */
+    if (e?.code === "ENOENT") return [];
+    throw e;
+  }
   const items = [];
   for (const e of entries) {
     const full = path.join(dir, e.name);
@@ -103,9 +110,17 @@ export default async function handler(req, res, resource) {
     return res.json({ ok: true, deleted: String(target || "") });
   }
 
-  /* GET → listing */
+  /* GET → listing (create the store dir so a cold instance shows an empty
+     tree instead of an error, and the reset button still works) */
   try {
-    const items = await listDir(dir);
+    let items;
+    try {
+      items = await listDir(dir);
+    } catch (e) {
+      if (e?.code !== "ENOENT") throw e;
+      await fsp.mkdir(dir, { recursive: true });
+      items = [];
+    }
     return res.json({ path: String(target || ""), items });
   } catch (e) {
     return res.status(404).json({
