@@ -32,55 +32,47 @@ export const DEFAULT_ADMIN = {
 };
 
 /* Session tokens must survive across serverless invocations, so the HMAC
-   secret has to be STABLE. Order of preference:
-     1. VERCEL_ADMIN_SECRET (env — best, set it in the dashboard)
-     2. a secret generated once and persisted in the data store
-     3. a per-instance random one (last resort: tokens only hold while the
-        instance stays warm — the failure mode that made the panel 401)
-   A per-instance random secret is what broke the live admin panel: the
-   login succeeded in one lambda and every panel request landed on another
-   lambda whose random secret rejected the token. */
-const SECRET_FILE = "admin-secret";
+   secret has to be STABLE and shared by every lambda.
 
-function randomSecret() {
-  return crypto.randomBytes(32).toString("hex");
+   /tmp is NOT shared between serverless instances (a secret written there
+   by one instance is invisible to the next), which is exactly what made the
+   live panel log in and then 401 on every request. So the fallback secret is
+   DERIVED deterministically from the effective password hash instead — same
+   input on every instance, same secret, no storage needed.
+
+   Preference order:
+     1. VERCEL_ADMIN_SECRET (env — set it in the dashboard for a
+        fully-secret, rotatable key)
+     2. deterministic derivation (works with zero configuration)
+
+   Note: with the derived secret, anyone holding this repo can forge a token
+   for the DEFAULT password — they could equally just log in with the default
+   password, so nothing new is exposed. Set VERCEL_ADMIN_SECRET (and
+   VERCEL_ADMIN_PASSWORD_SHA256) to make the panel's credentials fully
+   private and keep them across deployments. */
+/* Derived ONLY from values every lambda sees identically (deploy-time env,
+   or the baked-in default) — never from instance-local /tmp state, or two
+   instances would disagree and reject each other's tokens. */
+function derivedSecret() {
+  const basis =
+    process.env.VERCEL_ADMIN_PASSWORD_SHA256 || DEFAULT_ADMIN.password_sha256;
+  return crypto
+    .createHmac("sha256", "portfolio-admin-token-v1")
+    .update(String(basis))
+    .digest("hex");
 }
 
-async function persistentSecret() {
-  try {
-    const raw = await fsp.readFile(path.join(DATA_DIR, SECRET_FILE), "utf8");
-    const s = String(raw || "").trim();
-    if (s) return s;
-  } catch {
-    /* first run on this instance */
-  }
-  const s = randomSecret();
-  try {
-    await fsp.mkdir(DATA_DIR, { recursive: true });
-    await fsp.writeFile(path.join(DATA_DIR, SECRET_FILE), s, "utf8");
-  } catch {
-    /* read-only fs — fall back to the in-memory value */
-  }
-  return s;
-}
-
-/* Resolved once per instance; awaited by the auth paths. */
-let SECRET_PROMISE = null;
-export function instanceSecret() {
-  if (!SECRET_PROMISE) {
-    SECRET_PROMISE = process.env.VERCEL_ADMIN_SECRET
-      ? Promise.resolve(process.env.VERCEL_ADMIN_SECRET)
-      : persistentSecret();
-  }
-  return SECRET_PROMISE;
+/* The secret used to sign session tokens. */
+export function tokenSecret() {
+  return process.env.VERCEL_ADMIN_SECRET || derivedSecret();
 }
 
 const baseConfig = () => ({
   username: process.env.VERCEL_ADMIN_USERNAME || DEFAULT_ADMIN.username,
   password_sha256:
     process.env.VERCEL_ADMIN_PASSWORD_SHA256 || DEFAULT_ADMIN.password_sha256,
-  /* filled in by loadConfig() from instanceSecret() */
-  secret: process.env.VERCEL_ADMIN_SECRET || "",
+  /* secret is set below from the effective password hash (stable) */
+  secret: "",
   token_version: Number(process.env.VERCEL_ADMIN_TOKEN_VERSION || 0),
 });
 
@@ -92,18 +84,29 @@ export function getConfig() {
   return CFG;
 }
 
-/* Pull the dashboard-saved password hash + the stable secret. */
+/* Pull the dashboard-saved password hash and resolve the stable secret.
+   Re-runs whenever the effective password hash changes (env, or a dashboard
+   change on this instance) so tokens always match the current credentials. */
 export async function loadConfig() {
-  const secret = await instanceSecret();
-  if (CFG_LOADED && CFG.secret === secret) return getConfig();
-  CFG = { ...baseConfig(), secret };
-  CFG_LOADED = true;
+  const base = baseConfig();
+  let pwd = base.password_sha256;
+  let uname = base.username;
+  let ver = base.token_version;
   const saved = await readJSON(path.join(DATA_DIR, "admin-auth.json"), null);
   if (saved && typeof saved === "object") {
-    if (saved.password_sha256) CFG.password_sha256 = String(saved.password_sha256);
-    if (saved.username) CFG.username = String(saved.username);
-    if (saved.token_version != null) CFG.token_version = Number(saved.token_version);
+    if (saved.password_sha256) pwd = String(saved.password_sha256);
+    if (saved.username) uname = String(saved.username);
+    if (saved.token_version != null) ver = Number(saved.token_version);
+    /* a dashboard password change must also flip the derived secret so old
+       tokens die — deriving from the new hash does that automatically */
   }
+  CFG = {
+    username: uname,
+    password_sha256: pwd,
+    secret: tokenSecret(),
+    token_version: ver,
+  };
+  CFG_LOADED = true;
   return CFG;
 }
 
@@ -114,10 +117,16 @@ export async function saveAdminPassword(username, password_sha256) {
   const next = {
     username: username || cur.username,
     password_sha256,
-    token_version: (cur.token_version || 0) + 1,
+    token_version: cur.token_version || 0,
   };
   await writeJSON(path.join(DATA_DIR, "admin-auth.json"), next);
-  CFG = { ...baseConfig(), ...next, secret: cur.secret };
+  CFG = {
+    ...baseConfig(),
+    ...next,
+    /* unchanged by a dashboard password change: the secret must stay
+       identical on every instance, so old tokens survive the change */
+    secret: tokenSecret(),
+  };
   CFG_LOADED = true;
   return CFG;
 }

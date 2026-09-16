@@ -72,9 +72,10 @@ check("lambda A: token issued", !!token);
 const verify = run("auth-check", token);
 check("lambda B accepts lambda A's token", verify.status === 200, `→ ${verify.status} ${JSON.stringify(verify.body)}`);
 
-const secretFile = path.join(DATA, "admin-secret");
-check("secret persisted to the store", fs.existsSync(secretFile),
-  fs.existsSync(secretFile) ? `${fs.readFileSync(secretFile, "utf8").length} chars` : "missing");
+// the secret must be DERIVED (identical on every lambda), never read from
+// instance-local storage: assert the two processes agreed with no shared file
+check("no instance-local secret file needed",
+  !fs.existsSync(path.join(DATA, "admin-secret")));
 
 // and the env var still wins when set
 const env2 = { ...env, VERCEL_ADMIN_SECRET: "explicit-env-secret" };
