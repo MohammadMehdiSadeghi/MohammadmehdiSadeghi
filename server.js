@@ -1680,6 +1680,45 @@ function resolveInRoot(rel) {
   return { abs, rel: clean };
 }
 
+app.get("/api/admin/fs-collections", wrap(async (req, res) => {
+  if ((await requireAuthAsync(req, res)) === null) return;
+  const blog = await readJSON(PUBLIC_JSON.blog, { posts: [] });
+  const projects = await readJSON(PUBLIC_JSON.projects, []);
+  const mini = await readJSON(PUBLIC_JSON["mini-projects"], []);
+  const skills = await readJSON(PUBLIC_JSON.skills, []);
+  const messages = await readJSON(F.messages, []);
+  const visits = await readJSON(F.visits, {});
+  const clicks = await readJSON(F.clicks, []);
+  const moods = await readJSON(path.join(ADMIN_DATA, "moods.json"), {});
+  const telegram = await readJSON(F.telegram, {});
+  const sabzUsers = await readJSON(path.join(ADMIN_DATA, "sabz-users.json"), []);
+  const sabzComments = await readJSON(path.join(ADMIN_DATA, "sabz-comments.json"), []);
+
+  const blogPosts = Array.isArray(blog?.posts) ? blog.posts : Array.isArray(blog) ? blog : [];
+  const projArr = Array.isArray(projects) ? projects : [];
+  const miniArr = Array.isArray(mini) ? mini : [];
+  const skillsArr = Array.isArray(skills) ? skills : [];
+  const msgArr = Array.isArray(messages) ? messages : [];
+  const clicksArr = Array.isArray(clicks) ? clicks : [];
+  const sUsersArr = Array.isArray(sabzUsers) ? sabzUsers : [];
+  const sCommArr = Array.isArray(sabzComments) ? sabzComments : [];
+
+  const collections = [
+    { id: "blog", name: "Blog Articles & Posts", filename: "blog.json", count: blogPosts.length, unit: "posts", description: "Articles, drafts, tags, covers and reading metrics", data: blog, size: JSON.stringify(blog || {}).length },
+    { id: "projects", name: "Main Web Projects", filename: "projects.json", count: projArr.length, unit: "projects", description: "Portfolio showcase projects, tech tags & links", data: projects, size: JSON.stringify(projects || []).length },
+    { id: "mini-projects", name: "Mini Projects & Tools", filename: "mini-projects.json", count: miniArr.length, unit: "projects", description: "Mini apps, games, UI demos and widgets", data: mini, size: JSON.stringify(mini || []).length },
+    { id: "messages", name: "Contact Messages", filename: "messages.json", count: msgArr.length, unit: "messages", description: "Inquiries submitted via contact form", data: messages, size: JSON.stringify(messages || []).length },
+    { id: "skills", name: "Skills & Badges", filename: "skills.json", count: skillsArr.length, unit: "skills", description: "Developer skills, icons and proficiency", data: skills, size: JSON.stringify(skills || []).length },
+    { id: "visits", name: "Traffic & Page Views", filename: "visits.json", count: Object.keys(visits || {}).length, unit: "days", description: "Daily unique visitor sessions and page hits", data: visits, size: JSON.stringify(visits || {}).length },
+    { id: "clicks", name: "Click Tracking Logs", filename: "clicks.json", count: clicksArr.length, unit: "events", description: "Button clicks, navigation logs and CTA interactions", data: clicks, size: JSON.stringify(clicks || []).length },
+    { id: "moods", name: "Visitor Moods / Reactions", filename: "moods.json", count: Object.keys(moods || {}).length, unit: "ratings", description: "Mood reaction scores and visitor feedback", data: moods, size: JSON.stringify(moods || {}).length },
+    { id: "telegram", name: "Telegram Bot Config", filename: "telegram.json", count: telegram?.token ? 1 : 0, unit: "config", description: "Bot credentials and notification channel status", data: telegram, size: JSON.stringify(telegram || {}).length },
+    { id: "sabz-users", name: "Sabz-Learn Demo Users", filename: "sabz-users.json", count: sUsersArr.length, unit: "accounts", description: "Demo user registrations (temporary)", data: sabzUsers, size: JSON.stringify(sabzUsers || []).length },
+    { id: "sabz-comments", name: "Sabz-Learn Demo Reviews", filename: "sabz-comments.json", count: sCommArr.length, unit: "reviews", description: "Demo student reviews and comments (temporary)", data: sabzComments, size: JSON.stringify(sabzComments || []).length },
+  ];
+  res.json({ collections });
+}));
+
 app.get("/api/admin/fs", wrap(async (req, res) => {
   if ((await requireAuthAsync(req, res)) === null) return;
   const r = resolveInRoot(req.query.path);

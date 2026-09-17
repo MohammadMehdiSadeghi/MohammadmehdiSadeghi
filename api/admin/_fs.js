@@ -14,7 +14,8 @@
    user asked for, so the panel exposes it rather than 501-ing.
    ════════════════════════════════════════════════════════════════════ */
 
-import { requireAuth, DATA_DIR } from "../_lib.js";
+import { requireAuth, DATA_DIR, readStore } from "../_lib.js";
+import { BUNDLED } from "../_data.js";
 import fsp from "node:fs/promises";
 import path from "node:path";
 
@@ -31,7 +32,6 @@ async function listDir(dir) {
   try {
     entries = await fsp.readdir(dir, { withFileTypes: true });
   } catch (e) {
-    /* a cold instance has no store yet — an empty listing, not a 404 */
     if (e?.code === "ENOENT") return [];
     throw e;
   }
@@ -45,7 +45,7 @@ async function listDir(dir) {
       size = st.size;
       mtime = st.mtimeMs;
     } catch {
-      /* raced with a delete */
+      /* raced */
     }
     items.push({
       name: e.name,
@@ -85,19 +85,162 @@ async function dirSize(dir) {
   return { size, files };
 }
 
+async function getCollections() {
+  const blog = await readStore("blog.json", BUNDLED["blog.json"] || { posts: [] });
+  const projects = await readStore("projects.json", BUNDLED["projects.json"] || []);
+  const mini = await readStore("mini-projects.json", BUNDLED["mini-projects.json"] || []);
+  const skills = await readStore("skills.json", BUNDLED["skills.json"] || []);
+  const messages = await readStore("messages.json", []);
+  const visits = await readStore("visits.json", {});
+  const clicks = await readStore("clicks.json", []);
+  const moods = await readStore("moods.json", {});
+  const telegram = await readStore("telegram.json", {});
+  const sabzUsers = await readStore("sabz-users.json", []);
+  const sabzComments = await readStore("sabz-comments.json", []);
+
+  const blogPosts = Array.isArray(blog?.posts) ? blog.posts : Array.isArray(blog) ? blog : [];
+  const projArr = Array.isArray(projects) ? projects : [];
+  const miniArr = Array.isArray(mini) ? mini : [];
+  const skillsArr = Array.isArray(skills) ? skills : [];
+  const msgArr = Array.isArray(messages) ? messages : [];
+  const clicksArr = Array.isArray(clicks) ? clicks : [];
+  const sUsersArr = Array.isArray(sabzUsers) ? sabzUsers : [];
+  const sCommArr = Array.isArray(sabzComments) ? sabzComments : [];
+
+  return [
+    {
+      id: "blog",
+      name: "Blog Articles & Posts",
+      filename: "blog.json",
+      count: blogPosts.length,
+      unit: "posts",
+      description: "Articles, drafts, tags, covers and reading metrics",
+      data: blog,
+      size: JSON.stringify(blog || {}).length,
+    },
+    {
+      id: "projects",
+      name: "Main Web Projects",
+      filename: "projects.json",
+      count: projArr.length,
+      unit: "projects",
+      description: "Portfolio showcase projects, tech tags & links",
+      data: projects,
+      size: JSON.stringify(projects || []).length,
+    },
+    {
+      id: "mini-projects",
+      name: "Mini Projects & Tools",
+      filename: "mini-projects.json",
+      count: miniArr.length,
+      unit: "projects",
+      description: "Mini apps, games, UI demos and widgets",
+      data: mini,
+      size: JSON.stringify(mini || []).length,
+    },
+    {
+      id: "messages",
+      name: "Contact Messages",
+      filename: "messages.json",
+      count: msgArr.length,
+      unit: "messages",
+      description: "Inquiries submitted via contact form",
+      data: messages,
+      size: JSON.stringify(messages || []).length,
+    },
+    {
+      id: "skills",
+      name: "Skills & Badges",
+      filename: "skills.json",
+      count: skillsArr.length,
+      unit: "skills",
+      description: "Developer skills, icons and proficiency",
+      data: skills,
+      size: JSON.stringify(skills || []).length,
+    },
+    {
+      id: "visits",
+      name: "Traffic & Page Views",
+      filename: "visits.json",
+      count: Object.keys(visits || {}).length,
+      unit: "days",
+      description: "Daily unique visitor sessions and page hits",
+      data: visits,
+      size: JSON.stringify(visits || {}).length,
+    },
+    {
+      id: "clicks",
+      name: "Click Tracking Logs",
+      filename: "clicks.json",
+      count: clicksArr.length,
+      unit: "events",
+      description: "Button clicks, navigation logs and CTA interactions",
+      data: clicks,
+      size: JSON.stringify(clicks || []).length,
+    },
+    {
+      id: "moods",
+      name: "Visitor Moods / Reactions",
+      filename: "moods.json",
+      count: Object.keys(moods || {}).length,
+      unit: "ratings",
+      description: "Mood reaction scores and visitor feedback",
+      data: moods,
+      size: JSON.stringify(moods || {}).length,
+    },
+    {
+      id: "telegram",
+      name: "Telegram Bot Config",
+      filename: "telegram.json",
+      count: telegram?.token ? 1 : 0,
+      unit: "config",
+      description: "Bot credentials and notification channel status",
+      data: telegram,
+      size: JSON.stringify(telegram || {}).length,
+    },
+    {
+      id: "sabz-users",
+      name: "Sabz-Learn Demo Users",
+      filename: "sabz-users.json",
+      count: sUsersArr.length,
+      unit: "accounts",
+      description: "Demo user registrations (temporary)",
+      data: sabzUsers,
+      size: JSON.stringify(sabzUsers || []).length,
+    },
+    {
+      id: "sabz-comments",
+      name: "Sabz-Learn Demo Reviews",
+      filename: "sabz-comments.json",
+      count: sCommArr.length,
+      unit: "reviews",
+      description: "Demo student reviews and comments (temporary)",
+      data: sabzComments,
+      size: JSON.stringify(sabzComments || []).length,
+    },
+  ];
+}
+
 export default async function handler(req, res, resource) {
   if (requireAuth(req, res) === null) return;
+
+  const action = String(resource || "").replace(/^-/, "");
+
+  /* /api/admin/fs-collections or /api/admin/fs?action=collections */
+  if (action === "collections" || req.query?.action === "collections") {
+    try {
+      const collections = await getCollections();
+      return res.json({ collections });
+    } catch (e) {
+      return res.status(500).json({ error: e.message || "Failed to load database collections" });
+    }
+  }
 
   const target = req.query?.path ?? req.body?.path ?? "";
   const dir = safeJoin(target);
   if (!dir) return res.status(400).json({ error: "invalid path" });
 
-  /* /api/admin/fs-size?path= → folder size.
-     NOTE: index.js derives the sub-resource by stripping the "admin/fs"
-     prefix, so "admin/fs-size" arrives as "-size", not "fs-size". Accept
-     every shape or the tab silently falls back to a plain listing and the
-     size column stays as "…" forever. */
-  const action = String(resource || "").replace(/^-/, "");
+  /* /api/admin/fs-size?path= */
   if (action === "size") {
     const s = await dirSize(dir);
     return res.json({ ...s, path: String(target || "") });
@@ -115,22 +258,12 @@ export default async function handler(req, res, resource) {
     return res.json({ ok: true, deleted: String(target || "") });
   }
 
-  /* GET → listing (create the store dir so a cold instance shows an empty
-     tree instead of an error, and the reset button still works) */
+  /* GET → listing */
   try {
-    let items;
-    try {
-      items = await listDir(dir);
-    } catch (e) {
-      if (e?.code !== "ENOENT") throw e;
-      await fsp.mkdir(dir, { recursive: true });
-      items = [];
-    }
+    await fsp.mkdir(dir, { recursive: true });
+    const items = await listDir(dir);
     return res.json({ path: String(target || ""), items });
   } catch (e) {
-    return res.status(404).json({
-      error: `cannot list "${target}": ${String(e?.code || e?.message)}`,
-      note: "on the serverless deployment only the temp data store is browsable",
-    });
+    return res.json({ path: String(target || ""), items: [] });
   }
 }

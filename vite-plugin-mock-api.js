@@ -1609,11 +1609,57 @@ export function mockApiHandler(req, res, next) {
   // The dev server used to fall through to the SPA here, so the Database tab
   // received index.html and reported a broken database. Browse the project
   // root exactly like the Node backend does.
-  if (endpoint === "fs" || endpoint === "fs-size" || endpoint === "fs-delete") {
+  if (endpoint === "fs" || endpoint === "fs-size" || endpoint === "fs-delete" || endpoint === "fs-collections") {
     const json = (code, obj) => {
       res.writeHead(code, { "Content-Type": "application/json" });
       res.end(JSON.stringify(obj));
     };
+
+    if (endpoint === "fs-collections" || url.searchParams.get("action") === "collections") {
+      const readOr = (file, fallback) => {
+        try {
+          if (!existsSync(file)) return fallback;
+          const raw = readFileSync(file, "utf8");
+          return raw ? JSON.parse(raw) : fallback;
+        } catch { return fallback; }
+      };
+      const blog = readOr(PUBLIC_JSON.blog, { posts: [] });
+      const projects = readOr(PUBLIC_JSON.projects, []);
+      const mini = readOr(PUBLIC_JSON["mini-projects"], []);
+      const skills = readOr(PUBLIC_JSON.skills, []);
+      const messages = readOr(F.messages, []);
+      const visits = readOr(F.visits, {});
+      const clicks = readOr(F.clicks, []);
+      const moods = readOr(join(ADMIN_DATA, "moods.json"), {});
+      const telegram = readOr(F.telegram, {});
+      const sabzUsers = readOr(join(ADMIN_DATA, "sabz-users.json"), []);
+      const sabzComments = readOr(join(ADMIN_DATA, "sabz-comments.json"), []);
+
+      const blogPosts = Array.isArray(blog?.posts) ? blog.posts : Array.isArray(blog) ? blog : [];
+      const projArr = Array.isArray(projects) ? projects : [];
+      const miniArr = Array.isArray(mini) ? mini : [];
+      const skillsArr = Array.isArray(skills) ? skills : [];
+      const msgArr = Array.isArray(messages) ? messages : [];
+      const clicksArr = Array.isArray(clicks) ? clicks : [];
+      const sUsersArr = Array.isArray(sabzUsers) ? sabzUsers : [];
+      const sCommArr = Array.isArray(sabzComments) ? sabzComments : [];
+
+      const collections = [
+        { id: "blog", name: "Blog Articles & Posts", filename: "blog.json", count: blogPosts.length, unit: "posts", description: "Articles, drafts, tags, covers and reading metrics", data: blog, size: JSON.stringify(blog || {}).length },
+        { id: "projects", name: "Main Web Projects", filename: "projects.json", count: projArr.length, unit: "projects", description: "Portfolio showcase projects, tech tags & links", data: projects, size: JSON.stringify(projects || []).length },
+        { id: "mini-projects", name: "Mini Projects & Tools", filename: "mini-projects.json", count: miniArr.length, unit: "projects", description: "Mini apps, games, UI demos and widgets", data: mini, size: JSON.stringify(mini || []).length },
+        { id: "messages", name: "Contact Messages", filename: "messages.json", count: msgArr.length, unit: "messages", description: "Inquiries submitted via contact form", data: messages, size: JSON.stringify(messages || []).length },
+        { id: "skills", name: "Skills & Badges", filename: "skills.json", count: skillsArr.length, unit: "skills", description: "Developer skills, icons and proficiency", data: skills, size: JSON.stringify(skills || []).length },
+        { id: "visits", name: "Traffic & Page Views", filename: "visits.json", count: Object.keys(visits || {}).length, unit: "days", description: "Daily unique visitor sessions and page hits", data: visits, size: JSON.stringify(visits || {}).length },
+        { id: "clicks", name: "Click Tracking Logs", filename: "clicks.json", count: clicksArr.length, unit: "events", description: "Button clicks, navigation logs and CTA interactions", data: clicks, size: JSON.stringify(clicks || []).length },
+        { id: "moods", name: "Visitor Moods / Reactions", filename: "moods.json", count: Object.keys(moods || {}).length, unit: "ratings", description: "Mood reaction scores and visitor feedback", data: moods, size: JSON.stringify(moods || {}).length },
+        { id: "telegram", name: "Telegram Bot Config", filename: "telegram.json", count: telegram?.token ? 1 : 0, unit: "config", description: "Bot credentials and notification channel status", data: telegram, size: JSON.stringify(telegram || {}).length },
+        { id: "sabz-users", name: "Sabz-Learn Demo Users", filename: "sabz-users.json", count: sUsersArr.length, unit: "accounts", description: "Demo user registrations (temporary)", data: sabzUsers, size: JSON.stringify(sabzUsers || []).length },
+        { id: "sabz-comments", name: "Sabz-Learn Demo Reviews", filename: "sabz-comments.json", count: sCommArr.length, unit: "reviews", description: "Demo student reviews and comments (temporary)", data: sabzComments, size: JSON.stringify(sabzComments || []).length },
+      ];
+      return json(200, { collections });
+    }
+
     const rootAbs = process.cwd();
     const resolveInRoot = (rel) => {
       const clean = String(rel || "").replace(/\\/g, "/").replace(/^\/+/, "");
