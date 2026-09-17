@@ -201,13 +201,13 @@ input[type="number"] {
   100% { content: ""; }
 }
 
-/* slower, softer page reveal */
+/* smooth, fast, minimal page reveal */
 @keyframes pageReveal {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .page-reveal {
-  animation: pageReveal .5s ease both;
+  animation: pageReveal 0.25s ease-out both;
 }
 
 

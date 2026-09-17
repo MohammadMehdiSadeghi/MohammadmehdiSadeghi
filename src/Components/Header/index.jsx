@@ -44,7 +44,9 @@ export default function Header() {
             {middleLinks.map((link, index) => (
               <li
                 key={link.key}
-                className={`border-l border-[#90a1b977] flex justify-center items-center h-full ${
+                className={`flex justify-center items-center h-full ${
+                  index > 1 ? "border-l border-[#90a1b977]" : ""
+                } ${
                   index === middleLinks.length - 1
                     ? "border-r border-[#90a1b977]"
                     : ""
