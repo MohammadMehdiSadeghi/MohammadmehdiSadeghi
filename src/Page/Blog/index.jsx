@@ -415,29 +415,81 @@ export default function Blog() {
       {/* ── Main Content Pane ── */}
       <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
         {/* Header prompt */}
-        <div className="flex flex-col gap-2 mb-8">
-          <p className="text-[12px] font-medium" style={{ color: PURPLE }}>
-            // {filterMode === "latest" ? "Showing Latest Articles" : "Showing Most Popular Articles"}
-          </p>
-          <h1 className="text-white text-[22px] sm:text-[28px] font-bold">
-            _Blog
-            <span
-              className="inline-block w-[8px] h-[16px] align-middle ml-2"
-              style={{
-                background: "#FFB86A",
-                animation: "bootBlink 1s steps(1) infinite",
-              }}
-            />
-          </h1>
-          <p className="text-[13px]" style={{ color: GRAY }}>
-            Thoughts on modern front-end, UI craftsmanship, and technical lessons.
-            {posts.length > 0 && (
-              <span className="text-[#4B576D]">
-                {"  "}// {visible.length} {visible.length === 1 ? "article" : "articles"} found
-              </span>
-            )}
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8 pb-6 border-b border-[#1E293B]">
+          <div className="flex flex-col gap-2">
+            <p className="text-[12px] font-medium" style={{ color: PURPLE }}>
+              // {filterMode === "latest" ? "Showing Latest Articles" : "Showing Most Popular Articles"}
+            </p>
+            <h1 className="text-white text-[24px] sm:text-[30px] font-bold flex items-center">
+              _Blog
+              <span
+                className="inline-block w-[8px] h-[18px] align-middle ml-2"
+                style={{
+                  background: "#FFB86A",
+                  animation: "bootBlink 1s steps(1) infinite",
+                }}
+              />
+            </h1>
+            <p className="text-[13px]" style={{ color: GRAY }}>
+              Thoughts on modern front-end, UI craftsmanship, and technical lessons.
+            </p>
+          </div>
+
+          {/* Prominent Search Bar */}
+          <div className="w-full md:w-80 lg:w-96 shrink-0">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search articles by keyword or tag..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#020618] py-2.5 pl-10 pr-9 text-[13px] text-white rounded-xl border border-[#314158] outline-none hover:border-[#90A1B9] focus:border-[#615FFF] focus:ring-2 focus:ring-[#615FFF]/20 duration-200 placeholder:text-[#68768C]"
+              />
+              <svg
+                className="w-4 h-4 absolute left-3.5 top-3.5 text-[#90A1B9]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-2.5 w-6 h-6 flex items-center justify-center rounded-full text-[#90A1B9] hover:text-white hover:bg-[#1E293B] text-[13px] duration-150"
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
         </div>
+
+        {/* Active Search / Filter Feedback Bar */}
+        {searchQuery && (
+          <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-[#615FFF]/10 border border-[#615FFF]/30 text-[12px] mb-6">
+            <span className="text-[#CBD5E1]">
+              Search results for <span className="text-white font-bold">"{searchQuery}"</span>
+              {" · "}
+              <span className="text-[#00D5BE] font-medium">
+                {visible.length} {visible.length === 1 ? "article" : "articles"} found
+              </span>
+            </span>
+            <button
+              onClick={() => setSearchQuery("")}
+              className="text-[#A5B4FC] hover:text-white underline text-[11px]"
+            >
+              Clear search
+            </button>
+          </div>
+        )}
 
         {/* Grid of articles */}
         {loading ? (
@@ -455,10 +507,21 @@ export default function Blog() {
           </p>
         ) : visible.length === 0 ? (
           <div
-            className="rounded-xl border border-dashed px-6 py-16 text-center text-[13px]"
+            className="rounded-xl border border-dashed px-6 py-16 text-center text-[13px] flex flex-col items-center gap-3"
             style={{ borderColor: "#1E293B", color: "#68768C" }}
           >
-            // No articles found
+            <p className="text-[15px] text-white">No articles matching "{searchQuery}"</p>
+            <p className="text-[12px] text-[#90A1B9]">
+              Try searching for different keywords, topics, or clear the search.
+            </p>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="mt-2 text-[12px] px-4 py-2 rounded-lg bg-[#615FFF] text-white hover:bg-[#4F46E5] duration-150 font-medium"
+              >
+                Clear Search
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
