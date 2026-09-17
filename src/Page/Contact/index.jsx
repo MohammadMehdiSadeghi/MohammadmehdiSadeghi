@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ContactBox from "./ContactBox";
 import Form from "./Form";
 import CodeView from "./CodeView";
+import SuccessModal from "./SuccessModal";
 import useClickTrack from "../../Hooks/useClickTrack";
 
 export default function Contact() {
@@ -11,6 +12,8 @@ export default function Contact() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [statusMessage, setStatusMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submittedData, setSubmittedData] = useState({ name: "", phone: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +26,9 @@ export default function Contact() {
     setStatus("sending");
     setStatusMessage("");
 
+    const currentName = name;
+    const currentPhone = phoneNumber;
+
     try {
       const res = await fetch("/api/admin/messages", {
         method: "POST",
@@ -34,6 +40,9 @@ export default function Contact() {
 
       setStatus("success");
       setStatusMessage("Message sent! I'll get back to you soon.");
+      setSubmittedData({ name: currentName, phone: currentPhone });
+      setIsModalOpen(true);
+
       trackClick({
         targetType: "form",
         targetId: "contact-form",
@@ -49,7 +58,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden relative">
       <ContactBox />
       <Form
         name={name}
@@ -62,6 +71,13 @@ export default function Contact() {
         statusMessage={statusMessage}
       />
       <CodeView name={name} phoneNumber={phoneNumber} message={message} />
+
+      <SuccessModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        senderName={submittedData.name}
+        phoneNumber={submittedData.phone}
+      />
     </section>
   );
 }
