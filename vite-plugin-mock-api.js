@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync, rmSync } from "fs";
 import { join } from "path";
 import { createHmac, createHash } from "crypto";
 
@@ -1600,6 +1600,253 @@ export function mockApiHandler(req, res, next) {
         res.writeHead(400, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "invalid request body" }));
       }
+    });
+    return;
+  }
+
+  // ── File manager (parity with server.js /api/admin/fs*) ──
+  // The dev server used to fall through to the SPA here, so the Database tab
+  // received index.html and reported a broken database. Browse the project
+  // root exactly like the Node backend does.
+  if (endpoint === "fs" || endpoint === "fs-size" || endpoint === "fs-delete") {
+    const json = (code, obj) => {
+      res.writeHead(code, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(obj));
+    };
+    const rootAbs = process.cwd();
+    const resolveInRoot = (rel) => {
+      const clean = String(rel || "").replace(/\\/g, "/").replace(/^\/+/, "");
+      const abs = join(rootAbs, clean);
+      if (abs !== rootAbs && !abs.startsWith(rootAbs + "/") && !abs.startsWith(rootAbs + "\\")) return null;
+      return { abs, rel: clean };
+    };
+    const qs = url.searchParams;
+    const requested = qs.get("path") || "";
+
+    if (endpoint === "fs-delete" && req.method === "POST") {
+      let body = "";
+      req.on("data", (c) => (body += c));
+      req.on("end", () => {
+        let payload = {};
+        try { payload = JSON.parse(body); } catch { /* empty */ }
+        const r = resolveInRoot(payload.path);
+        if (!r) return json(400, { error: "path escapes project root" });
+        if (!r.rel) return json(400, { error: "refusing to delete the project root itself" });
+        if (r.rel === ".git" || r.rel.startsWith(".git/")) {
+          return json(400, { error: "refusing to delete .git (repo history)" });
+        }
+        if (!existsSync(r.abs)) return json(404, { error: "not found" });
+        const wasDir = statSync(r.abs).isDirectory();
+        rmSync(r.abs, { recursive: true, force: true });
+        json(200, { ok: true, deleted: r.rel, wasDir });
+      });
+      return;
+    }
+
+    const r = resolveInRoot(requested);
+    if (!r) return json(400, { error: "path escapes project root" });
+
+    if (endpoint === "fs-size") {
+      let total = 0, files = 0, capped = false;
+      const walk = (dir, depth) => {
+        if (capped || depth > 14) return;
+        let entries;
+        try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
+        for (const d of entries) {
+          if (capped) return;
+          const full = join(dir, d.name);
+          if (d.isDirectory()) {
+            if (d.name === "node_modules" || d.name === ".git") continue;
+            walk(full, depth + 1);
+          } else {
+            try { total += statSync(full).size; files++; } catch { /* gone */ }
+          }
+          if (files > 50000) { capped = true; return; }
+        }
+      };
+      try {
+        if (statSync(r.abs).isDirectory()) walk(r.abs, 0);
+        else { total = statSync(r.abs).size; files = 1; }
+      } catch {
+        return json(404, { error: "not found" });
+      }
+      return json(200, { size: total, files, path: r.rel, capped });
+    }
+
+    // plain listing
+    if (!existsSync(r.abs)) return json(404, { error: "not found" });
+    const st = statSync(r.abs);
+    if (!st.isDirectory()) return json(400, { error: "not a directory" });
+    const items = [];
+    for (const d of readdirSync(r.abs, { withFileTypes: true })) {
+      let s = null;
+      try { s = statSync(join(r.abs, d.name)); } catch { /* ignore */ }
+      items.push({
+        name: d.name,
+        type: d.isDirectory() ? "dir" : "file",
+        size: s ? s.size : 0,
+        mtime: s ? Math.round(s.mtimeMs) : 0,
+      });
+    }
+    items.sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === "dir" ? -1 : 1));
+    return json(200, { path: r.rel, root: "project-root", items });
+  }
+
+  // ── Reset the throwaway demo data (parity with api/admin/_reset.js) ──
+  if (endpoint === "reset" && req.method === "POST") {
+    const json = (code, obj) => {
+      res.writeHead(code, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(obj));
+    };
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      let target = "sabz";
+      try { target = String(JSON.parse(body || "{}").target || "sabz").toLowerCase(); } catch { /* default */ }
+      const cleared = [];
+      const wipe = (file, label) => {
+        if (existsSync(file)) { rmSync(file, { force: true }); cleared.push(label); }
+      };
+      if (target === "sabz" || target === "all") {
+        for (const f of readdirSync(DATA_DIR).filter((n) => n.startsWith("sabz"))) {
+          wipe(join(DATA_DIR, f), f);
+        }
+      }
+      if (target === "visits" || target === "all") {
+        wipe(VISITS_FILE, "visits.json");
+        wipe(ONLINE_FILE, "online.json");
+        wipe(CLICKS_FILE, "clicks.json");
+      }
+      json(200, { ok: true, target, cleared });
+    });
+    return;
+  }
+
+  // ── Telegram form → bot config (parity with api/admin/_telegram.js) ──
+  if (endpoint === "telegram") {
+    const json = (code, obj) => {
+      res.writeHead(code, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(obj));
+    };
+    const FILE_TG = join(DATA_DIR, "telegram.json");
+    if (req.method === "GET") {
+      const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
+      return json(200, {
+        enabled: !!cfg.enabled,
+        chatId: cfg.chatId || "",
+        botTokenSet: !!cfg.botToken,
+        botTokenMasked: cfg.botToken
+          ? cfg.botToken.slice(0, 6) + "\u2026" + cfg.botToken.slice(-4)
+          : "",
+      });
+    }
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      let payload = {};
+      try { payload = JSON.parse(body || "{}"); } catch { /* default */ }
+      const botToken = String(payload.botToken ?? "").trim();
+      const chatId = String(payload.chatId ?? "").trim();
+      const enabled = !!payload.enabled;
+      if (enabled && !chatId) return json(400, { error: "chatId is required to enable" });
+      if (botToken && !/^\d{6,}:[A-Za-z0-9_-]{30,}$/.test(botToken)) {
+        return json(400, { error: "botToken doesn't look valid (expected 123456:ABC\u2026)" });
+      }
+      const prev = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
+      const next = { enabled, botToken: botToken || prev.botToken, chatId: chatId || prev.chatId };
+      if (enabled && !next.botToken) return json(400, { error: "botToken is required to enable" });
+      writeJSON(FILE_TG, next);
+      json(200, { ok: true });
+    });
+    return;
+  }
+
+  // ── Mood QC (parity with api/admin/_moods.js) ──
+  // Same shape as the serverless handler: one row per song with its mood
+  // vector, so the tab renders instead of receiving index.html.
+  if (endpoint === "moods") {
+    const json = (code, obj) => {
+      res.writeHead(code, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(obj));
+    };
+    const MOOD_DIMS = [
+      "sadness", "longing", "nostalgia", "heartbreak", "loneliness",
+      "joy", "playfulness", "romance", "sensuality", "warmth",
+      "anger", "rebellion", "power", "defiance",
+      "calm", "dreaminess", "melancholy", "hope",
+      "darkness", "tension", "mystery",
+      "energy", "euphoria", "reflection",
+    ];
+    const dbFile = join(process.cwd(), "public", "api", "music-database.json");
+    const db = readJSON(dbFile, { songs: [] });
+    const songs = Array.isArray(db.songs) ? db.songs : [];
+    const OVERLAY = join(DATA_DIR, "music-db-overlay.json");
+
+    if (req.method === "GET") {
+      const overlay = readJSON(OVERLAY, {});
+      const rows = songs.map((song) => {
+        const patch = overlay[String(song.id)] || {};
+        return {
+          id: song.id,
+          name: song.name,
+          artist: song.artist,
+          lyricsStatus: song.lyricsStatus || (song.lyrics ? "present" : "none"),
+          summary: patch.summary ?? song.lyricsSummary ?? "",
+          audioMoodTag: patch.audioMoodTag ?? song.audioMoodTag ?? "",
+          moods: patch.moods ?? song.moods ?? {},
+          hasAudio: !!(song.analysis && song.analysis.vibe),
+        };
+      });
+      return json(200, { songs: rows, dims: MOOD_DIMS, ephemeral: true });
+    }
+
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      let payload = {};
+      try { payload = JSON.parse(body || "{}"); } catch { /* default */ }
+      if (payload.id == null) return json(400, { error: "id is required" });
+      if (!songs.some((x) => String(x.id) === String(payload.id))) {
+        return json(404, { error: "song not found" });
+      }
+      const overlay = readJSON(OVERLAY, {});
+      const entry = overlay[String(payload.id)] ? { ...overlay[String(payload.id)] } : {};
+      if (payload.moods && typeof payload.moods === "object") entry.moods = payload.moods;
+      if (payload.summary != null) entry.summary = String(payload.summary);
+      if (payload.audioMoodTag != null) entry.audioMoodTag = String(payload.audioMoodTag);
+      overlay[String(payload.id)] = entry;
+      writeJSON(OVERLAY, overlay);
+      json(200, { ok: true, ephemeral: true });
+    });
+    return;
+  }
+
+  // ── Change password (parity with api/admin/_password.js) ──
+  if (endpoint === "password" && req.method === "POST") {
+    const json = (code, obj) => {
+      res.writeHead(code, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(obj));
+    };
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      let payload = {};
+      try { payload = JSON.parse(body || "{}"); } catch { /* default */ }
+      const currentPassword = String(payload.currentPassword ?? "");
+      const newPassword = String(payload.newPassword ?? "");
+      if (!currentPassword || !newPassword) {
+        return json(400, { error: "currentPassword and newPassword are required" });
+      }
+      if (newPassword.length < 6) {
+        return json(400, { error: "new password must be at least 6 characters" });
+      }
+      const config = getConfig();
+      if (createHash("sha256").update(currentPassword).digest("hex") !== config.password_sha256) {
+        return json(401, { error: "current password is incorrect" });
+      }
+      const hashed = createHash("sha256").update(newPassword).digest("hex");
+      writeJSON(CONFIG_FILE, { ...config, password_sha256: hashed });
+      json(200, { ok: true, username: config.username, token: issueToken(config.username) });
     });
     return;
   }

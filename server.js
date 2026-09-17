@@ -1739,6 +1739,77 @@ app.post("/api/admin/fs-delete", wrap(async (req, res) => {
   res.json({ ok: true, deleted: r.rel, wasDir: st.isDirectory() });
 }));
 
+/* ══════════════════ CHANGE PASSWORD (Security tab) ══════════════════ */
+
+/* Parity with api/admin/_password.js. The tab POSTs here; without a route the
+   SPA fallback answered with index.html and the form reported a parse error. */
+app.post("/api/admin/password", wrap(async (req, res) => {
+  if ((await requireAuthAsync(req, res)) === null) return;
+  const body = req.body || {};
+  const currentPassword = String(body.currentPassword ?? "");
+  const newPassword = String(body.newPassword ?? "");
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: "currentPassword and newPassword are required" });
+  }
+  if (newPassword.length < 6) {
+    return res.status(400).json({ error: "new password must be at least 6 characters" });
+  }
+  const allowed = await rateCheck(req, "password", false);
+  if (!allowed) return res.status(429).json({ error: "too many attempts, try again later" });
+
+  const currentHash = crypto.createHash("sha256").update(currentPassword).digest("hex");
+  if (!timingSafeEq(CONFIG.password_sha256 || "", currentHash)) {
+    await rateFail(`${clientIP(req)}::password`);
+    await new Promise((r) => setTimeout(r, 250));
+    return res.status(401).json({ error: "current password is incorrect" });
+  }
+
+  const hashed = crypto.createHash("sha256").update(newPassword).digest("hex");
+  CONFIG.password_sha256 = hashed;
+  CONFIG.token_version = (CONFIG.token_version || 0) + 1; // invalidate old tokens
+  await writeJSON(F.config, CONFIG);
+
+  res.json({
+    ok: true,
+    username: CONFIG.username,
+    env: { name: "VERCEL_ADMIN_PASSWORD_SHA256", value: hashed },
+    token: issueToken(CONFIG.username),
+    expires_in: TOKEN_TTL,
+    ephemeral: false,
+  });
+}));
+
+/* ══════════════════ RESET THROWAWAY DATA (Database tab) ══════════════════ */
+
+/* Parity with api/admin/_reset.js. Unknown to the Node backend before, so the
+   panel's "reset demo database" button 404'd. Sabz-Learn's stores are not
+   routed on this backend, so only the visit/click stores exist to wipe. */
+app.post("/api/admin/reset", wrap(async (req, res) => {
+  if ((await requireAuthAsync(req, res)) === null) return;
+  const target = String((req.body || {}).target || "sabz").toLowerCase();
+  const cleared = [];
+  const wipe = async (file, label) => {
+    try {
+      await fsp.unlink(file);
+      cleared.push(label);
+    } catch {
+      /* already gone */
+    }
+  };
+  if (target === "sabz" || target === "all") {
+    for (const f of ["sabz-users.json", "sabz-comments.json"]) {
+      await wipe(path.join(ADMIN_DATA, f), f);
+    }
+  }
+  if (target === "visits" || target === "all") {
+    await wipe(F.visits, "visits.json");
+    await wipe(F.online, "online.json");
+    await wipe(F.clicks, "clicks.json");
+  }
+  res.json({ ok: true, target, cleared });
+}));
+
 /* ══════════════════ STATIC ══════════════════ */
 
 /* Uploaded covers are user-supplied files served from our own origin, so the
