@@ -133,6 +133,17 @@ input[type="number"] {
   100% { left: 105%; }
 }
 
+/* shutter transition animations */
+@keyframes shutterDropIn {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(0%); }
+}
+
+@keyframes shutterDropOut {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(100%); }
+}
+
 /* soft veil transition */
 @keyframes veilIn {
   from { opacity: 0; }

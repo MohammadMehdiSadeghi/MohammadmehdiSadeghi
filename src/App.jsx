@@ -17,10 +17,8 @@ import BootLoader from "./Components/BootLoader";
 import PageTransition from "./Components/PageTransition";
 import Cursor from "./Components/Cursor";
 
-/* Timing (ms) — must match PageTransition CSS:
-   veil fades in, then we navigate, then it fades out.
-   Trimmed 200ms from the previous timing on request.        */
-const NAVIGATE_AFTER = 600; // was 900, then 700, now -100ms more
+/* Timing (ms) — synchronized with the staggered cyber shutter panels */
+const NAVIGATE_AFTER = 480;
 
 function PublicSite() {
   const location = useLocation();
