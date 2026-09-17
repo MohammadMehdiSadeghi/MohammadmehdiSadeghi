@@ -1215,6 +1215,50 @@ export function mockApiHandler(req, res, next) {
     return;
   }
 
+  // ── Blog (posts + covers) — same shape as api/_blog.js ──
+  if (endpoint === "blog" && !isAdmin && req.method === "GET") {
+    const blogFile = join(process.cwd(), "public", "api", "blog.json");
+    const all = readJSON(blogFile, []);
+    const posts = (Array.isArray(all) ? all : [])
+      .filter((p) => p && p.published !== false)
+      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+    const slug = url.searchParams.get("slug");
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
+    if (slug) {
+      const post = posts.find((p) => p.slug === slug);
+      if (!post) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ found: false, error: "post not found" }));
+        return;
+      }
+      res.end(JSON.stringify({ found: true, post }));
+      return;
+    }
+    res.end(
+      JSON.stringify({
+        found: true,
+        total: posts.length,
+        posts: posts.map((p) => ({
+          id: p.id,
+          slug: p.slug,
+          title: p.title,
+          excerpt: p.excerpt || "",
+          cover: p.cover || "",
+          coverAlt: p.coverAlt || "",
+          tags: p.tags || [],
+          date: p.date || "",
+        })),
+      })
+    );
+    return;
+  }
+
+  /* NOTE: this PUBLIC handler must stay ABOVE the `if (!isAdmin) return
+     next()` barrier below. It used to sit under it, so on `npm run dev`
+     every /api/blog request fell through to the SPA fallback and the blog
+     received index.html (HTTP 200) instead of JSON — the whole blog looked
+     broken with no error anywhere. Public handlers go up here; the barrier
+     only separates the admin half. */
   // ── For non-admin paths, pass through to static file server ──
   if (!isAdmin) return next();
 
@@ -1449,52 +1493,9 @@ export function mockApiHandler(req, res, next) {
     }
   }
 
-  // ── Skills public ──
-  if (endpoint === "skills" && req.method === "GET") {
-    const skillsFile = join(process.cwd(), "public", "api", "skills.json");
-    const data = readJSON(skillsFile, []);
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ skills: data }));
-    return;
-  }
-
-  // ── Blog (posts + covers) — same shape as api/_blog.js ──
-  if (endpoint === "blog" && !isAdmin && req.method === "GET") {
-    const blogFile = join(process.cwd(), "public", "api", "blog.json");
-    const all = readJSON(blogFile, []);
-    const posts = (Array.isArray(all) ? all : [])
-      .filter((p) => p && p.published !== false)
-      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-    const slug = url.searchParams.get("slug");
-    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
-    if (slug) {
-      const post = posts.find((p) => p.slug === slug);
-      if (!post) {
-        res.writeHead(404, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ found: false, error: "post not found" }));
-        return;
-      }
-      res.end(JSON.stringify({ found: true, post }));
-      return;
-    }
-    res.end(
-      JSON.stringify({
-        found: true,
-        total: posts.length,
-        posts: posts.map((p) => ({
-          id: p.id,
-          slug: p.slug,
-          title: p.title,
-          excerpt: p.excerpt || "",
-          cover: p.cover || "",
-          coverAlt: p.coverAlt || "",
-          tags: p.tags || [],
-          date: p.date || "",
-        })),
-      })
-    );
-    return;
-  }
+  /* (a second public "skills" handler lived here, under the !isAdmin barrier
+      above — unreachable dead code, since the one above the barrier already
+      answers it. Removed so there is exactly one public skills handler.) */
 
   // ── Blog Admin — parity with api/admin/_blog-admin.js ──
   if (endpoint === "blog-admin") {
