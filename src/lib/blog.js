@@ -1,31 +1,51 @@
 /* Shared helpers for the blog pages. */
 
-/* Persian/Arabic script → render RTL. The site itself is LTR (English UI),
-   but posts may be written in Persian, so each block decides its own
-   direction instead of flipping the whole page. */
+/* Persian/Arabic script → render RTL */
 const RTL_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
 export const isRTL = (text) => RTL_RE.test(String(text || ""));
 
 /* ~200 wpm; Persian text is read a little slower */
 export function readTime(post) {
-  const words = String((post && (post.content || post.excerpt)) || "")
+  let contentText = "";
+  if (post && post.content) {
+    if (typeof post.content === "string") {
+      contentText = post.content;
+    } else if (Array.isArray(post.content)) {
+      contentText = post.content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
+    }
+  } else if (post && post.excerpt) {
+    contentText = post.excerpt;
+  }
+  const words = String(contentText || "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
-  const mins = Math.max(1, Math.round(words / (words && isRTL(post.content) ? 170 : 200)));
-  return `${mins} min`;
+  const mins = Math.max(1, Math.round(words / (words && isRTL(contentText) ? 170 : 200)));
+  return `${mins} min read`;
 }
 
 export function excerptFrom(post, len = 150) {
   if (post && post.excerpt) return post.excerpt;
-  const text = String((post && post.content) || "")
+  let text = "";
+  if (post && post.content) {
+    if (typeof post.content === "string") {
+      text = post.content;
+    } else if (Array.isArray(post.content)) {
+      const firstText = post.content.find((b) => b.type === "p" || b.type === "h");
+      text = firstText ? firstText.text : "";
+    }
+  }
+  const clean = String(text || "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/^#+\s+/gm, "")
     .replace(/\s+/g, " ")
     .trim();
-  return text.length > len ? `${text.slice(0, len).trimEnd()}…` : text;
+  return clean.length > len ? `${clean.slice(0, len).trimEnd()}…` : clean;
 }
 
-/* "2026-09-17" → "17 Sep 2026" (no locale surprises across browsers) */
+/* "2026-09-17" → "17 Sep 2026" */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export function formatDate(value) {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value || ""));
@@ -34,10 +54,28 @@ export function formatDate(value) {
   return `${Number(d)} ${MONTHS[Number(mo) - 1] || mo} ${y}`;
 }
 
-/* Split post content into blocks so we can render real markup instead of
-   dumping one wall of text. Supports: paragraphs, "- " bullets, "1." ordered
-   items, and "## " headings. */
+/* Convert content into structured visual blocks for rendering and editing.
+   Supports:
+   - "p": Paragraph
+   - "h": Section Heading
+   - "img": In-content Image with URL, Alt text and optional Caption
+   - "ul" / "ol": Bullet / Numbered lists
+   - "quote": Callout quote box
+*/
 export function parseBlocks(content) {
+  if (Array.isArray(content)) return content;
+  if (!content) return [];
+
+  // If stored as JSON string of blocks
+  if (typeof content === "string" && content.trim().startsWith("[") && content.trim().endsWith("]")) {
+    try {
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      // not json, proceed with markdown parse
+    }
+  }
+
   const blocks = [];
   const rawChunks = String(content || "").split(/\n{2,}/);
 
@@ -56,6 +94,7 @@ export function parseBlocks(content) {
       }
     };
 
+    // Check for lists
     if (lines.every((l) => /^[-*•]\s+/.test(l))) {
       blocks.push({ type: "ul", items: lines.map((l) => l.replace(/^[-*•]\s+/, "")) });
       continue;
@@ -67,14 +106,63 @@ export function parseBlocks(content) {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
+
+      // Markdown image: ![alt text](url "optional caption")
+      const imgMatch = /^!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)$/.exec(line);
+      if (imgMatch) {
+        flushParagraph();
+        blocks.push({
+          type: "img",
+          alt: imgMatch[1] || "",
+          url: imgMatch[2] || "",
+          caption: imgMatch[3] || "",
+        });
+        continue;
+      }
+
+      // Headings
       if (/^#{1,4}\s+/.test(line)) {
         flushParagraph();
         blocks.push({ type: "h", text: line.replace(/^#{1,4}\s+/, "") });
-      } else {
-        currentParagraph.push(line);
+        continue;
       }
+
+      // Blockquotes
+      if (/^>\s+/.test(line)) {
+        flushParagraph();
+        blocks.push({ type: "quote", text: line.replace(/^>\s+/, "") });
+        continue;
+      }
+
+      currentParagraph.push(line);
     }
     flushParagraph();
   }
   return blocks;
+}
+
+/* Convert blocks back to standard markdown string */
+export function blocksToMarkdown(blocks) {
+  if (!Array.isArray(blocks)) return String(blocks || "");
+  return blocks
+    .map((b) => {
+      if (b.type === "h") return `## ${b.text}`;
+      if (b.type === "img") {
+        return b.caption
+          ? `![${b.alt || ""}](${b.url} "${b.caption}")`
+          : `![${b.alt || ""}](${b.url})`;
+      }
+      if (b.type === "ul") {
+        return (b.items || []).map((it) => `- ${it}`).join("\n");
+      }
+      if (b.type === "ol") {
+        return (b.items || []).map((it, idx) => `${idx + 1}. ${it}`).join("\n");
+      }
+      if (b.type === "quote") {
+        return `> ${b.text}`;
+      }
+      return b.text || "";
+    })
+    .filter(Boolean)
+    .join("\n\n");
 }

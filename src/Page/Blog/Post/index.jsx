@@ -13,7 +13,7 @@ function Blocks({ content }) {
   return (
     <div className="flex flex-col gap-6 text-[#CBD5E1]">
       {blocks.map((b, i) => {
-        const rtl = isRTL(b.text || (b.items || []).join(" "));
+        const rtl = isRTL(b.text || b.alt || (b.items || []).join(" "));
         const dirProps = {
           dir: rtl ? "rtl" : "ltr",
           style: { textAlign: rtl ? "right" : "left" },
@@ -25,7 +25,7 @@ function Blocks({ content }) {
               key={i}
               id={`section-${i}`}
               {...dirProps}
-              className="text-white text-[18px] sm:text-[22px] font-bold leading-8 mt-4 pb-2 border-b border-[#1E293B] flex items-center gap-2"
+              className="text-white text-[18px] sm:text-[22px] font-bold leading-8 mt-5 pb-2 border-b border-[#1E293B] flex items-center gap-2"
             >
               <span style={{ color: PURPLE }} className="select-none font-mono">
                 ##
@@ -35,13 +35,50 @@ function Blocks({ content }) {
           );
         }
 
+        if (b.type === "img") {
+          return (
+            <figure key={i} className="my-5 flex flex-col items-center">
+              <div className="relative w-full rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl bg-[#081224]">
+                <img
+                  src={b.url}
+                  alt={b.alt || "Blog visual content"}
+                  className="w-full max-h-[480px] object-cover"
+                  loading="lazy"
+                />
+                {/* Tech corner accents */}
+                <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2" style={{ borderColor: "#615FFF" }} />
+                <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2" style={{ borderColor: "#615FFF" }} />
+                <div className="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 border-b-2 border-l-2" style={{ borderColor: "#615FFF" }} />
+                <div className="absolute bottom-2.5 right-2.5 w-3.5 h-3.5 border-b-2 border-r-2" style={{ borderColor: "#615FFF" }} />
+              </div>
+              {(b.caption || b.alt) && (
+                <figcaption className="text-[12px] text-[#90A1B9] mt-2.5 text-center italic">
+                  {b.caption || b.alt}
+                </figcaption>
+              )}
+            </figure>
+          );
+        }
+
+        if (b.type === "quote") {
+          return (
+            <blockquote
+              key={i}
+              {...dirProps}
+              className="border-l-4 border-[#615FFF] bg-[#615FFF12] p-4 sm:p-5 rounded-r-lg text-[14px] sm:text-[15px] italic text-[#C7C6FF] my-2 leading-relaxed"
+            >
+              "{b.text}"
+            </blockquote>
+          );
+        }
+
         if (b.type === "ul" || b.type === "ol") {
           const Tag = b.type === "ul" ? "ul" : "ol";
           return (
             <Tag
               key={i}
               {...dirProps}
-              className="flex flex-col gap-2.5 text-[14px] sm:text-[15px] leading-7 list-none my-1"
+              className="flex flex-col gap-2.5 text-[14px] sm:text-[15px] leading-7 list-none my-2"
               style={{ ...dirProps.style, color: GRAY }}
             >
               {b.items.map((it, j) => (
@@ -131,14 +168,14 @@ export default function BlogPost() {
 
       {/* ── Middle Sidebar (Navigation, Outline & Related Articles) ── */}
       <nav className="w-full md:w-[320px] lg:w-[360px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
-        {/* Back link header */}
+        {/* Simple User-Friendly Back button */}
         <div className="p-4 border-b border-[#90a1b977]">
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 text-[12px] px-3 py-2 rounded-md border border-[#314158] hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF15] duration-150 text-[#90A1B9] w-full"
+            className="inline-flex items-center justify-center gap-2 text-[13px] font-medium px-4 py-2.5 rounded-lg border border-[#314158] hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF15] duration-150 text-[#90A1B9] w-full"
           >
             <svg
-              className="w-3.5 h-3.5"
+              className="w-4 h-4"
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
@@ -148,7 +185,7 @@ export default function BlogPost() {
             >
               <path d="M11 3L6 8l5 5" />
             </svg>
-            cd ../blog (all-posts)
+            ← Back to all articles
           </Link>
         </div>
 
@@ -159,13 +196,13 @@ export default function BlogPost() {
               onClick={() => setOutlineOpen((prev) => !prev)}
               className="px-4 sm:px-6 py-3 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
             >
-              <span className="flex items-center gap-2 text-[12px]">
+              <span className="flex items-center gap-2 text-[12px] font-semibold">
                 <img
                   src="/assets/Images/icon folder.svg"
                   alt=""
                   className="w-3.5 h-3.5"
                 />
-                outline
+                Table of Contents
               </span>
               <img
                 className={`w-2.5 duration-200 ${outlineOpen ? "rotate-90" : "rotate-0"}`}
@@ -196,13 +233,13 @@ export default function BlogPost() {
               onClick={() => setOtherPostsOpen((prev) => !prev)}
               className="px-4 sm:px-6 py-3 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
             >
-              <span className="flex items-center gap-2 text-[12px]">
+              <span className="flex items-center gap-2 text-[12px] font-semibold">
                 <img
                   src="/assets/Images/icon folder2.svg"
                   alt=""
                   className="w-3.5 h-3.5"
                 />
-                other-posts
+                More Articles
               </span>
               <img
                 className={`w-2.5 duration-200 ${otherPostsOpen ? "rotate-90" : "rotate-0"}`}
@@ -220,7 +257,7 @@ export default function BlogPost() {
                       to={`/blog/${p.slug}`}
                       className="px-3 py-1.5 rounded text-[12px] flex items-center gap-2 hover:text-white hover:bg-[#7888a01a] duration-150 truncate"
                     >
-                      <span style={{ color: PURPLE }}>#</span>
+                      <span style={{ color: PURPLE }}>•</span>
                       <span className="truncate">{p.title}</span>
                     </Link>
                   </li>
@@ -231,112 +268,106 @@ export default function BlogPost() {
 
         {/* Metadata section */}
         {post && (
-          <div className="p-5 text-[11px] text-[#68768C] flex flex-col gap-2 font-mono">
-            <p className="text-[#90A1B9]">// post info</p>
-            <p>date: {formatDate(post.date)}</p>
-            <p>read-time: {readTime(post)}</p>
+          <div className="p-5 text-[11px] text-[#68768C] flex flex-col gap-2">
+            <p className="text-[#90A1B9] font-semibold">// Article Info</p>
+            <p>Published: {formatDate(post.date)}</p>
+            <p>Reading Time: {readTime(post)}</p>
             {post.tags && post.tags.length > 0 && (
-              <p>tags: [{post.tags.join(", ")}]</p>
+              <p>Topics: {post.tags.join(", ")}</p>
             )}
           </div>
         )}
       </nav>
 
-      {/* ── Right Content / Editor Pane ── */}
+      {/* ── Right Content / Article Body ── */}
       <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
         {loading ? (
-            <div className="max-w-3xl mx-auto">
-              <Loading variant="article" />
+          <div className="max-w-3xl mx-auto">
+            <Loading variant="article" />
+          </div>
+        ) : error ? (
+          <div className="max-w-2xl mx-auto flex flex-col gap-4 py-12">
+            <p className="text-[13px] rounded-md px-4 py-3 text-[#FF6B6B] bg-[#FF6B6B14] border border-[#FF6B6B33]">
+              // {error}
+            </p>
+            <Link to="/blog" className="text-[13px] underline" style={{ color: PURPLE }}>
+              ← Return to all articles
+            </Link>
+          </div>
+        ) : (
+          <article className="max-w-3xl mx-auto flex flex-col gap-8">
+            {/* Header */}
+            <header className="flex flex-col gap-4">
+              <h1
+                dir={titleRTL ? "rtl" : "ltr"}
+                className="text-white text-[24px] sm:text-[34px] font-bold leading-tight"
+                style={{ textAlign: titleRTL ? "right" : "left" }}
+              >
+                {post.title}
+              </h1>
+
+              {/* Post meta pills */}
+              <div className="flex items-center gap-3 flex-wrap text-[12px] text-[#68768C] pt-1 border-b border-[#1E293B] pb-4">
+                <span className="text-[#90A1B9]">{formatDate(post.date)}</span>
+                <span>·</span>
+                <span>{readTime(post)}</span>
+                {Array.isArray(post.tags) && post.tags.length > 0 && (
+                  <>
+                    <span>·</span>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {post.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wide"
+                          style={{
+                            color: GRAY,
+                            background: "rgba(97,95,255,0.12)",
+                            border: "1px solid rgba(97,95,255,0.3)",
+                          }}
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </header>
+
+            {/* Main Cover Image with tech frame */}
+            {post.cover && (
+              <div className="relative rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl">
+                <img
+                  src={post.cover}
+                  alt={post.coverAlt || post.title}
+                  className="w-full max-h-[420px] object-cover"
+                />
+                <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2" style={{ borderColor: "#615FFF" }} />
+                <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2" style={{ borderColor: "#615FFF" }} />
+                <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2" style={{ borderColor: "#615FFF" }} />
+                <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2" style={{ borderColor: "#615FFF" }} />
+              </div>
+            )}
+
+            {/* Post Content Blocks (Paragraphs, Headings, In-text Images, Quotes, Lists) */}
+            <div className="pt-2">
+              <Blocks content={post.content} />
             </div>
-          ) : error ? (
-            <div className="max-w-2xl mx-auto flex flex-col gap-4 py-12">
-              <p className="text-[13px] rounded-md px-4 py-3 text-[#FF6B6B] bg-[#FF6B6B14] border border-[#FF6B6B33]">
-                // {error}
-              </p>
-              <Link to="/blog" className="text-[13px] underline" style={{ color: PURPLE }}>
-                ← back to all posts
+
+            {/* Bottom navigation */}
+            <div className="mt-8 pt-6 border-t border-[#1E293B] flex items-center justify-between">
+              <Link
+                to="/blog"
+                className="text-[13px] inline-flex items-center gap-2 px-4 py-2 rounded-lg
+                  transition-all duration-150 border border-[#90a1b955] bg-[#0F172B]
+                  hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF11]"
+                style={{ color: GRAY }}
+              >
+                ← Back to all articles
               </Link>
             </div>
-          ) : (
-            <article className="max-w-3xl mx-auto flex flex-col gap-8">
-              {/* Header */}
-              <header className="flex flex-col gap-4">
-                <p className="text-[11px] font-mono" style={{ color: PURPLE }}>
-                  $ cat ./blog/{post.slug}.md
-                </p>
-                <h1
-                  dir={titleRTL ? "rtl" : "ltr"}
-                  className="text-white text-[24px] sm:text-[34px] font-bold leading-tight"
-                  style={{ textAlign: titleRTL ? "right" : "left" }}
-                >
-                  {post.title}
-                </h1>
-
-                {/* Post meta pills */}
-                <div className="flex items-center gap-3 flex-wrap text-[12px] text-[#68768C] pt-1 border-b border-[#1E293B] pb-4">
-                  <span className="text-[#90A1B9]">{formatDate(post.date)}</span>
-                  <span>·</span>
-                  <span>{readTime(post)}</span>
-                  {Array.isArray(post.tags) && post.tags.length > 0 && (
-                    <>
-                      <span>·</span>
-                      <div className="flex gap-1.5 flex-wrap">
-                        {post.tags.map((t) => (
-                          <span
-                            key={t}
-                            className="text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wide"
-                            style={{
-                              color: GRAY,
-                              background: "rgba(97,95,255,0.12)",
-                              border: "1px solid rgba(97,95,255,0.3)",
-                            }}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </header>
-
-              {/* Cover Image with tech frame */}
-              {post.cover && (
-                <div className="relative rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl">
-                  <img
-                    src={post.cover}
-                    alt={post.coverAlt || post.title}
-                    className="w-full max-h-[420px] object-cover"
-                  />
-                  <div className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2" style={{ borderColor: "#615FFF" }} />
-                  <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t-2 border-r-2" style={{ borderColor: "#615FFF" }} />
-                  <div className="absolute bottom-2.5 left-2.5 w-4 h-4 border-b-2 border-l-2" style={{ borderColor: "#615FFF" }} />
-                  <div className="absolute bottom-2.5 right-2.5 w-4 h-4 border-b-2 border-r-2" style={{ borderColor: "#615FFF" }} />
-                </div>
-              )}
-
-              {/* Post Content */}
-              <div className="pt-2">
-                <Blocks content={post.content} />
-              </div>
-
-              {/* Bottom navigation */}
-              <div className="mt-8 pt-6 border-t border-[#1E293B] flex items-center justify-between">
-                <Link
-                  to="/blog"
-                  className="text-[13px] inline-flex items-center gap-2 px-4 py-2 rounded-lg
-                    transition-all duration-150 border border-[#90a1b955] bg-[#0F172B]
-                    hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF11]"
-                  style={{ color: GRAY }}
-                >
-                  ← cd ../blog
-                </Link>
-                <span className="text-[11px] text-[#4B576D] font-mono">
-                  // end of document
-                </span>
-              </div>
-            </article>
-          )}
+          </article>
+        )}
       </div>
     </section>
   );

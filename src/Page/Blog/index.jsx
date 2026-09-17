@@ -187,7 +187,7 @@ function PostCard({ post, index }) {
             </svg>
           </Link>
           <span className="text-[11px] text-[#4B576D]">
-            $ cat {post.slug?.slice(0, 15)}.md
+            Read Full Article →
           </span>
         </div>
       </div>
@@ -404,8 +404,8 @@ export default function Blog() {
       <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
         {/* Header prompt */}
           <div className="flex flex-col gap-2 mb-8">
-            <p className="text-[12px]" style={{ color: PURPLE }}>
-              $ ls -la ./blog/{activeTag !== "all" ? activeTag : ""}
+            <p className="text-[12px] font-medium" style={{ color: PURPLE }}>
+              // {activeTag === "all" ? "All Articles" : `Topic: ${activeTag}`}
             </p>
             <h1 className="text-white text-[22px] sm:text-[28px] font-bold">
               _Blog
