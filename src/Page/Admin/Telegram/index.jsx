@@ -68,14 +68,19 @@ export default function TelegramPage() {
   };
 
   const detectChats = async () => {
+    if (!botToken.trim() && !cfg?.tokenSet) {
+      setMsg({ type: "err", text: "Please enter your Bot Token first" });
+      return;
+    }
     setBusy(true);
     setMsg(null);
     setDetected([]);
     try {
+      const payload = botToken.trim() ? { botToken: botToken.trim() } : {};
       const res = await authFetch("/api/admin/telegram/detect-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ botToken: botToken.trim() }),
+        body: JSON.stringify(payload),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Detection failed");

@@ -47,8 +47,8 @@ function initDB() {
 
   const db = {
     config: {
-      username: "mohammad.m.sadeghi09@gmail.com",
-      password: "moha3447",
+      username: import.meta.env.VITE_DEV_ADMIN_USER || "admin",
+      password: import.meta.env.VITE_DEV_ADMIN_PASS || "admin",
     },
     visits: { days },
     messages: [
@@ -381,22 +381,20 @@ export function AdminAuthProvider({ children }) {
             Authorization: `Bearer ${token}`,
           },
         });
-        // If real API returns 401 or non-JSON, fall back to mock
         if (res.status === 401) {
-          throw new Error("auth failed");
+          logout();
+          throw new Error("Authentication session expired. Please sign in again.");
         }
         const text = await res.text();
-        try {
-          return new Response(text, { status: res.status, headers: { "Content-Type": "application/json" } });
-        } catch {
-          throw new Error("not json");
-        }
-      } catch {
-        // In production, auth failure is final — never serve mock data.
-        // Only fall back to mock in dev (Vite dev server).
+        return new Response(text, { status: res.status, headers: { "Content-Type": "application/json" } });
+      } catch (err) {
+        // In production, network error or auth failure is reported cleanly
         if (!import.meta.env.DEV) {
-          if (res?.status === 401) logout();
-          throw new Error("auth failed");
+          if (res?.status === 401) {
+            logout();
+            throw new Error("Authentication session expired. Please sign in again.");
+          }
+          throw new Error(err.message || "Network connection error. Please try again.");
         }
         // Dev only: fall back to mock
         res = await mockFetch(url, {

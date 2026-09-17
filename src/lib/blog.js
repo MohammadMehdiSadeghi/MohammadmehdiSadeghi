@@ -39,11 +39,22 @@ export function formatDate(value) {
    items, and "## " headings. */
 export function parseBlocks(content) {
   const blocks = [];
-  for (const rawChunk of String(content || "").split(/\n{2,}/)) {
+  const rawChunks = String(content || "").split(/\n{2,}/);
+
+  for (const rawChunk of rawChunks) {
     const chunk = rawChunk.trim();
     if (!chunk) continue;
     const lines = chunk.split("\n").map((l) => l.trim()).filter(Boolean);
     if (!lines.length) continue;
+
+    let currentParagraph = [];
+
+    const flushParagraph = () => {
+      if (currentParagraph.length) {
+        blocks.push({ type: "p", text: currentParagraph.join(" ") });
+        currentParagraph = [];
+      }
+    };
 
     if (lines.every((l) => /^[-*•]\s+/.test(l))) {
       blocks.push({ type: "ul", items: lines.map((l) => l.replace(/^[-*•]\s+/, "")) });
@@ -53,11 +64,17 @@ export function parseBlocks(content) {
       blocks.push({ type: "ol", items: lines.map((l) => l.replace(/^\d+[.)]\s+/, "")) });
       continue;
     }
-    if (/^#{2,3}\s+/.test(lines[0]) && lines.length === 1) {
-      blocks.push({ type: "h", text: lines[0].replace(/^#{2,3}\s+/, "") });
-      continue;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (/^#{1,4}\s+/.test(line)) {
+        flushParagraph();
+        blocks.push({ type: "h", text: line.replace(/^#{1,4}\s+/, "") });
+      } else {
+        currentParagraph.push(line);
+      }
     }
-    blocks.push({ type: "p", text: lines.join(" ") });
+    flushParagraph();
   }
   return blocks;
 }

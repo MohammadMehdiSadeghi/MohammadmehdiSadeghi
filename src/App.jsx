@@ -53,13 +53,16 @@ function PublicSite() {
   const coverPathRef = useRef("/");
 
   // intercept internal link clicks → cover first, then navigate
+  const navTimerRef = useRef(null);
+  const popTimerRef = useRef(null);
+
   useEffect(() => {
     const onClick = (e) => {
       if (e.defaultPrevented || e.button !== 0) return;
       const a = e.target.closest?.("a[href^='/']");
-      if (!a || a.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (!a || a.target === "_blank" || a.hasAttribute("download") || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const href = a.getAttribute("href");
-      if (!href) return;
+      if (!href || href.startsWith("/#") || href.startsWith("/?")) return;
       // external-ish or same-page: let router handle normally
       if (href === location.pathname) return;
       e.preventDefault();
@@ -68,13 +71,18 @@ function PublicSite() {
       coverPathRef.current = href;
       setCovering(true);
       document.body.style.overflow = "hidden";
-      setTimeout(() => {
+      if (navTimerRef.current) clearTimeout(navTimerRef.current);
+      navTimerRef.current = setTimeout(() => {
         navigate(href);
         document.body.style.overflow = "";
       }, NAVIGATE_AFTER);
     };
     document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      if (navTimerRef.current) clearTimeout(navTimerRef.current);
+      document.body.style.overflow = "";
+    };
   }, [location.pathname, navigate]);
 
   // release the cover when the route actually changed under it
@@ -97,10 +105,14 @@ function PublicSite() {
     const onPop = () => {
       setCoverPath(location.pathname);
       setCovering(true);
-      setTimeout(() => setCovering(false), 400); // follows the same -100ms
+      if (popTimerRef.current) clearTimeout(popTimerRef.current);
+      popTimerRef.current = setTimeout(() => setCovering(false), 400); // follows the same -100ms
     };
     window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (popTimerRef.current) clearTimeout(popTimerRef.current);
+    };
   }, [location.pathname]);
 
   return (

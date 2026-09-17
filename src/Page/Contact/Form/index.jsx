@@ -50,14 +50,20 @@ export default function Form({
       setPhoneNumber("");
       return;
     }
-    const formatted = new AsYouType(country).input(phoneInput);
+    const cleanDigits = phoneInput.startsWith("+")
+      ? phoneInput
+      : phoneInput.replace(/^0+/, "");
+    const formatted = new AsYouType(country).input(cleanDigits);
     let callingCode = "";
     try {
       callingCode = `+${getCountryCallingCode(country)}`;
     } catch {
       callingCode = "";
     }
-    setPhoneNumber(`${callingCode} ${formatted}`.trim());
+    const finalVal = phoneInput.startsWith("+")
+      ? formatted
+      : `${callingCode} ${formatted}`.trim();
+    setPhoneNumber(finalVal);
   }, [country, phoneInput, setPhoneNumber]);
 
   const handleCountryChange = (e) => {

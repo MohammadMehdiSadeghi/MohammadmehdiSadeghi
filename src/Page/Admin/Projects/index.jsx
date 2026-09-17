@@ -63,6 +63,9 @@ export default function ProjectsPage() {
       setModalState(null);
       setUploadingModal(false);
       await load(type);
+    } catch (err) {
+      setError(err.message || "Save failed");
+      throw err;
     } finally {
       setBusy(false);
     }

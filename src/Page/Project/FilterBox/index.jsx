@@ -49,7 +49,7 @@ export default function FilterBox({
   projects,
   loading,
 }) {
-  const [projectsOpen, setProjectsOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(true);
   const [miniOpen, setMiniOpen] = useState(false);
   const { trackClick } = useClickTrack();
 
