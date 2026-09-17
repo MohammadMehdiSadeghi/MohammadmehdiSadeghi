@@ -264,6 +264,17 @@ export default function Music({ songData }) {
     }
   };
 
+  const handleAudioError = () => {
+    const audio = audioRef.current;
+    if (audio && audio.getAttribute("crossorigin")) {
+      audio.removeAttribute("crossorigin");
+      audio.load();
+      if (isPlaying) {
+        audio.play().catch(() => {});
+      }
+    }
+  };
+
   return (
     <div className="w-full mt-10 bg-[#1D293D] mx-auto rounded-2xl p-4 border border-[#314158]">
       <div className="mb-3 text-center">
@@ -275,7 +286,13 @@ export default function Music({ songData }) {
         )}
       </div>
 
-      <audio ref={audioRef} src={songData.src} preload="metadata" crossOrigin="anonymous" />
+      <audio
+        ref={audioRef}
+        src={songData.src}
+        preload="metadata"
+        crossOrigin="anonymous"
+        onError={handleAudioError}
+      />
 
       <div className="mb-3">
         <input
