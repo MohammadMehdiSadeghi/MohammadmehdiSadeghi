@@ -401,29 +401,8 @@ export default function Blog() {
       </nav>
 
       {/* ── Main Content Pane ── */}
-      <div className="flex-1 min-w-0 flex flex-col md:h-[calc(100vh-116px)] md:overflow-hidden">
-        {/* VS Code Tab Bar */}
-        <div className="hidden md:flex h-9 border-b border-[#90a1b977] items-center bg-[#0a1222]">
-          <div className="flex items-center gap-2 h-full px-4 border-r border-[#90a1b977] border-b-2 border-b-[#FFB86A] bg-[#0F172B] text-white text-[12px]">
-            <span style={{ color: PURPLE }}>#</span>
-            <span>{activeTag === "all" ? "all-posts.md" : `${activeTag}.md`}</span>
-            {activeTag !== "all" && (
-              <button
-                onClick={() => setActiveTag("all")}
-                className="ml-2 text-[#68768C] hover:text-white text-[12px]"
-              >
-                ×
-              </button>
-            )}
-          </div>
-          <div className="flex-1 px-4 text-[11px] text-[#4B576D] truncate">
-            src &gt; blog &gt; {activeTag} ({visible.length} {visible.length === 1 ? "entry" : "entries"})
-          </div>
-        </div>
-
-        {/* Scrollable posts grid */}
-        <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-10 md:overflow-y-auto">
-          {/* Header prompt */}
+      <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+        {/* Header prompt */}
           <div className="flex flex-col gap-2 mb-8">
             <p className="text-[12px]" style={{ color: PURPLE }}>
               $ ls -la ./blog/{activeTag !== "all" ? activeTag : ""}
@@ -476,7 +455,6 @@ export default function Blog() {
               ))}
             </div>
           )}
-        </div>
       </div>
     </section>
   );

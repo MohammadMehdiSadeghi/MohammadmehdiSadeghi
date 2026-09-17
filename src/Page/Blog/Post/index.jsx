@@ -243,27 +243,8 @@ export default function BlogPost() {
       </nav>
 
       {/* ── Right Content / Editor Pane ── */}
-      <div className="flex-1 min-w-0 flex flex-col md:h-[calc(100vh-116px)] md:overflow-hidden">
-        {/* VS Code Tab Bar */}
-        <div className="hidden md:flex h-9 border-b border-[#90a1b977] items-center bg-[#0a1222]">
-          <div className="flex items-center gap-2 h-full px-4 border-r border-[#90a1b977] border-b-2 border-b-[#FFB86A] bg-[#0F172B] text-white text-[12px]">
-            <span style={{ color: PURPLE }}>#</span>
-            <span>{slug ? `${slug}.md` : "post.md"}</span>
-            <Link
-              to="/blog"
-              className="ml-2 text-[#68768C] hover:text-white text-[12px]"
-            >
-              ×
-            </Link>
-          </div>
-          <div className="flex-1 px-4 text-[11px] text-[#4B576D] truncate font-mono">
-            src &gt; blog &gt; {slug}.md
-          </div>
-        </div>
-
-        {/* Scrollable Article Area */}
-        <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-12 md:overflow-y-auto">
-          {loading ? (
+      <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+        {loading ? (
             <div className="max-w-3xl mx-auto">
               <Loading variant="article" />
             </div>
@@ -356,7 +337,6 @@ export default function BlogPost() {
               </div>
             </article>
           )}
-        </div>
       </div>
     </section>
   );
