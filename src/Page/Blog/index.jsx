@@ -264,7 +264,7 @@ export default function Blog() {
       </div>
 
       {/* ── Sidebar: Filters (Latest / Popular) & Recent Explorer ── */}
-      <nav className="w-full md:w-[360px] lg:w-[400px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+      <nav className="w-full md:w-[323px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
         {/* Search input */}
         <div className="p-4 border-b border-[#90a1b977]">
           <div className="relative">

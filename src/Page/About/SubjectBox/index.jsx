@@ -20,7 +20,7 @@ export default function SubjectBox({
         <SnakeBar />
       </div>
       <nav
-        className="w-full md:w-[457px] md:border-r-[1px] border-[#90a1b977] md:max-h-none md:h-[calc(100vh-116px)] md:overflow-y-auto"
+        className="w-full md:w-[323px] shrink-0 md:border-r-[1px] border-[#90a1b977] md:max-h-none md:h-[calc(100vh-116px)] md:overflow-y-auto"
         style={{ color: gray }}
       >
         <ul className="flex flex-col h-fit">

@@ -10,7 +10,7 @@ export default function ContactBox() {
         <SnakeBar />
       </div>
       <nav
-        className="w-full md:w-[457px] md:border-r-[1px] border-[#90a1b977] max-h-[45vh] overflow-y-auto md:max-h-none md:h-[calc(100vh-116px)]"
+        className="w-full md:w-[323px] shrink-0 md:border-r-[1px] border-[#90a1b977] max-h-[45vh] overflow-y-auto md:max-h-none md:h-[calc(100vh-116px)]"
         style={{ color: gray }}
       >
         <ul className="flex flex-col pb-3 gap-5 h-fit">
