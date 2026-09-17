@@ -143,21 +143,38 @@ input[type="number"] {
   100% { opacity: 0; visibility: hidden; }
 }
 
-/* ── shared loading panel (src/Components/Loader) ──
-   The panel settles in, the monogram breathes, and the status line types
-   like a terminal inside the panel. None of this delays the page: the
-   durations are short and the panel is removed on its own timer. */
-@keyframes loadPanel {
-  from { opacity: 0; transform: translateY(12px) scale(.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+/* ── in-page skeleton placeholders (src/Components/Loading) ──
+   A slow sweep so the blocks read as "content is coming" rather than as
+   broken layout. Deliberately low contrast. */
+.skeleton-bar {
+  background-color: #90a1b91a;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(97, 95, 255, 0.16) 45%,
+    rgba(124, 108, 246, 0.20) 55%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: skeletonSweep 1.5s ease-in-out infinite;
 }
-@keyframes loadMark {
-  0%, 100% { transform: translateY(0); box-shadow: 0 8px 26px -8px rgba(97,95,255,0.75); }
-  50% { transform: translateY(-3px); box-shadow: 0 14px 34px -8px rgba(97,95,255,0.95); }
+@keyframes skeletonSweep {
+  0% { background-position: 140% 0; }
+  100% { background-position: -60% 0; }
 }
-@keyframes loadBar {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+
+/* visually hidden, still announced by a screen reader */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* animated trailing dots: . .. ... */
@@ -185,8 +202,6 @@ input[type="number"] {
 
 @media (prefers-reduced-motion: reduce) {
   .page-reveal { animation: none; }
-  /* the loading panel is informational: drop its motion, keep the state */
-  .loading-dots::after { animation: none; content: "..."; }
 }
 /* hide TypeIt caret after a line finishes typing (Home hero) */
 [data-typed="done"] .ti-cursor {

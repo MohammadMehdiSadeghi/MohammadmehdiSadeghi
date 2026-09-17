@@ -19,8 +19,8 @@ import Cursor from "./Components/Cursor";
 
 /* Timing (ms) — must match PageTransition CSS:
    veil fades in, then we navigate, then it fades out.
-   Trimmed 200ms on request, then 100ms more.               */
-const NAVIGATE_AFTER = 600;
+   Trimmed 200ms from the previous timing on request.        */
+const NAVIGATE_AFTER = 600; // was 900, then 700, now -100ms more
 
 function PublicSite() {
   const location = useLocation();
@@ -97,7 +97,7 @@ function PublicSite() {
     const onPop = () => {
       setCoverPath(location.pathname);
       setCovering(true);
-      setTimeout(() => setCovering(false), 400); // was 500 → -100ms, in step with the rest
+      setTimeout(() => setCovering(false), 400); // follows the same -100ms
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);

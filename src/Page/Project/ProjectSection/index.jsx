@@ -21,7 +21,7 @@ export default function ProjectSection({
       `}</style>
 
       {loading ? (
-        <Loading />
+        <Loading variant="cards" count={3} />
       ) : projects.length === 0 ? (
         <div className="flex items-center justify-center h-40">
           <span className="text-[13px]" style={{ color: gray }}>

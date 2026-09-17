@@ -265,7 +265,7 @@ export default function Blog() {
 
         {/* ── body ── */}
         {loading ? (
-          <Loading />
+          <Loading variant="cards" count={4} />
         ) : error ? (
           <p
             className="text-[12px] rounded-md px-4 py-3 w-fit"

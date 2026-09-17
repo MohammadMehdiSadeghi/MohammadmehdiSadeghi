@@ -122,7 +122,7 @@ export default function BlogPost() {
         </Link>
 
         {loading ? (
-          <Loading />
+          <Loading variant="article" />
         ) : error ? (
           <div className="flex flex-col gap-4">
             <p
