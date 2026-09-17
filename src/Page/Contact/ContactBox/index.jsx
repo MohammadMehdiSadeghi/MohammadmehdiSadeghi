@@ -10,7 +10,7 @@ export default function ContactBox() {
         <SnakeBar />
       </div>
       <nav
-        className="w-full md:w-[323px] shrink-0 md:border-r-[1px] border-[#90a1b977] max-h-[45vh] overflow-y-auto md:max-h-none md:h-[calc(100vh-116px)]"
+        className="w-full md:w-[457px] shrink-0 md:border-r-[1px] border-[#90a1b977] max-h-[45vh] overflow-y-auto md:max-h-none md:h-[calc(100vh-116px)]"
         style={{ color: gray }}
       >
         <ul className="flex flex-col pb-3 gap-5 h-fit">
@@ -18,9 +18,9 @@ export default function ContactBox() {
             contacts{" "}
             <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
-          <li className="px-4 sm:px-12 flex gap-3 break-all">
+          <li className="px-4 sm:px-8 md:px-10 flex items-center gap-3">
             <a
-              className="flex gap-3"
+              className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
               href="mailto:mohammad12345sadeghi@gmail.com"
             >
               <img
@@ -28,37 +28,37 @@ export default function ContactBox() {
                 src="/assets/Images/icon message.svg"
                 alt=""
               />
-              mohammad12345sadeghi@gmail.com
+              <span>mohammad12345sadeghi@gmail.com</span>
             </a>
           </li>
-          <li className="px-4 sm:px-12 flex gap-3">
-            <a className="flex gap-3" href="tel:+989150669620">
+          <li className="px-4 sm:px-8 md:px-10 flex items-center gap-3">
+            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="tel:+989150669620">
               <img
                 className="w-5 shrink-0"
                 src="/assets/Images/icon phone.svg"
                 alt=""
               />
-              +98 915 066 9620
+              <span>+98 915 066 9620</span>
             </a>
           </li>
-          <li className="px-4 sm:px-12 flex gap-3">
-            <a className="flex gap-3" href="https://t.me/Mohammad_sadeghi34">
+          <li className="px-4 sm:px-8 md:px-10 flex items-center gap-3">
+            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://t.me/Mohammad_sadeghi34">
               <img
                 className="w-6 shrink-0"
                 src="/assets/Images/BasilTelegramSolid.png"
                 alt=""
               />
-              <span className="mr-[-8px]">@</span>Mohammad_sadeghi34
+              <span>@Mohammad_sadeghi34</span>
             </a>
           </li>
-          <li className={`px-4 sm:px-12 gap-3 flex`}>
-            <a className="flex gap-3" href="https://www.instagram.com/Mohammad_sadeghi3447">
+          <li className="px-4 sm:px-8 md:px-10 flex items-center gap-3">
+            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://www.instagram.com/Mohammad_sadeghi3447">
               <img
                 className="w-6 shrink-0"
                 src="/assets/Images/TablerBrandInstagram.png"
                 alt=""
               />
-              <span className="mr-[-8px]">@</span>Mohammad_sadeghi3447
+              <span>@Mohammad_sadeghi3447</span>
             </a>
           </li>
         </ul>

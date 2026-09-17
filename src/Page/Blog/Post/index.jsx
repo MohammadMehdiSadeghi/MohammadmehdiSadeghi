@@ -167,7 +167,7 @@ export default function BlogPost() {
       </div>
 
       {/* ── Middle Sidebar (Navigation, Outline & Related Articles) ── */}
-      <nav className="w-full md:w-[323px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+      <nav className="w-full md:w-[457px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
         {/* Simple User-Friendly Back button */}
         <div className="p-4 border-b border-[#90a1b977]">
           <Link

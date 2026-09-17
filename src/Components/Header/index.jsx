@@ -35,7 +35,7 @@ export default function Header() {
         <div className="flex items-center h-full min-w-0">
           <Link
             to="/"
-            className="text-[14px] md:w-[379px] shrink-0 sm:text-[16px] text-[#90A1B9] py-[16px] md:px-[24px] md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
+            className="text-[14px] md:w-[513px] shrink-0 sm:text-[16px] text-[#90A1B9] py-[16px] px-4 sm:px-6 md:px-[24px] md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
           >
             Mohammad-Mehdi-Sadeghi
           </Link>
@@ -51,7 +51,7 @@ export default function Header() {
                 }`}
               >
                 <Link
-                  className={`py-[16px] px-2.5 lg:px-5 xl:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
+                  className={`py-[16px] px-2.5 lg:px-4 xl:px-6 text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
                     isActive(link.key)
                       ? "border-b-[#FFB86A] text-white"
                       : "border-b-transparent"

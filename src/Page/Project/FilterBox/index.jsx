@@ -178,7 +178,7 @@ export default function FilterBox({
         {miniOpen && <ProjectSection projects={projects} loading={loading} />}
       </nav>
 
-      <nav className="hidden md:block w-[323px] shrink-0 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)] text-[#90A1B9]">
+      <nav className="hidden md:block w-[457px] shrink-0 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)] text-[#90A1B9]">
         <ul className="flex flex-col ">
           <h2 className="px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
             projects

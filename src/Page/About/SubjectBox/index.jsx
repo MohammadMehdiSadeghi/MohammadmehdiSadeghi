@@ -20,7 +20,7 @@ export default function SubjectBox({
         <SnakeBar />
       </div>
       <nav
-        className="w-full md:w-[323px] shrink-0 md:border-r-[1px] border-[#90a1b977] md:max-h-none md:h-[calc(100vh-116px)] md:overflow-y-auto"
+        className="w-full md:w-[457px] shrink-0 md:border-r-[1px] border-[#90a1b977] md:max-h-none md:h-[calc(100vh-116px)] md:overflow-y-auto"
         style={{ color: gray }}
       >
         <ul className="flex flex-col h-fit">
@@ -82,10 +82,10 @@ export default function SubjectBox({
             />
           </h2>
           <li
-            className={`px-4 sm:px-12 gap-3 break-all ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
           >
             <a
-              className="flex gap-3"
+              className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
               href="mailto:mohammad12345sadeghi@gmail.com"
               onClick={() => trackClick({ targetType: "button", targetId: "contact-email", targetLabel: "Email Contact" })}
             >
@@ -94,43 +94,43 @@ export default function SubjectBox({
                 src="/assets/Images/icon message.svg"
                 alt=""
               />
-              mohammad12345sadeghi@gmail.com
+              <span>mohammad12345sadeghi@gmail.com</span>
             </a>
           </li>
           <li
-            className={`px-4 sm:px-12 gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
           >
-            <a className="flex gap-3" href="tel:+989150669620" onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}>
+            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="tel:+989150669620" onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}>
               <img
                 className="w-5 shrink-0"
                 src="/assets/Images/icon phone.svg"
                 alt=""
               />
-              +98 915 066 9620
+              <span>+98 915 066 9620</span>
             </a>
           </li>
           <li
-            className={`px-4 sm:px-12 gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
           >
-            <a className="flex gap-3" href="https://t.me/Mohammad_sadeghi34" onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}>
+            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://t.me/Mohammad_sadeghi34" onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}>
               <img
                 className="w-6 shrink-0"
                 src="/assets/Images/BasilTelegramSolid.png"
                 alt=""
               />
-              <span className="mr-[-8px]">@</span>Mohammad_sadeghi34
+              <span>@Mohammad_sadeghi34</span>
             </a>
           </li>
           <li
-            className={`px-4 pb-4 border-b md:border-b-0 sm:px-12 gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 pb-4 border-b md:border-b-0 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
           >
-            <a className="flex gap-3" href="https://www.instagram.com/Mohammad_sadeghi3447" onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}>
+            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://www.instagram.com/Mohammad_sadeghi3447" onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}>
               <img
                 className="w-6 shrink-0"
                 src="/assets/Images/TablerBrandInstagram.png"
                 alt=""
               />
-              <span className="mr-[-8px]">@</span>Mohammad_sadeghi3447
+              <span>@Mohammad_sadeghi3447</span>
             </a>
           </li>
         </ul>
