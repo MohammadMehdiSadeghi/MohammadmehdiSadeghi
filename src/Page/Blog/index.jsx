@@ -28,75 +28,86 @@ function CheckMark() {
   );
 }
 
-function PostCover({ post, height = 160 }) {
-  const initials = String(post.title || "?")
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
+/* Modern Editorial / Magazine Thumbnail (Distinct from Project Cards) */
+function PostCover({ post, height = 180 }) {
+  const rtl = isRTL(post.title);
 
   return (
     <div
       className="relative w-full overflow-hidden rounded-t-xl"
-      style={{ height, background: "#0a1628" }}
+      style={{ height, background: "linear-gradient(180deg, #0d192e 0%, #08101e 100%)" }}
     >
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px]"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, #615FFF 30%, #7C6CF6 70%, transparent 100%)",
-          opacity: 0.5,
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(144,161,185,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(144,161,185,0.07) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
-
       {post.cover ? (
-        <img
-          src={post.cover}
-          alt={post.coverAlt || post.title || ""}
-          loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-      ) : (
         <>
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <span
-              className="text-[96px] font-bold select-none leading-none"
-              style={{ color: PURPLE, opacity: 0.08 }}
-            >
-              {initials}
+          <img
+            src={post.cover}
+            alt={post.coverAlt || post.title || "Article cover"}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Subtle dark gradient overlay for legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#081224] via-transparent to-transparent opacity-80" />
+        </>
+      ) : (
+        /* Editorial Typography Pattern Cover */
+        <div className="absolute inset-0 p-5 flex flex-col justify-between overflow-hidden">
+          {/* Background ambient lighting */}
+          <div
+            className="absolute -top-10 -right-10 w-44 h-44 rounded-full blur-2xl pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(97,95,255,0.25) 0%, transparent 70%)" }}
+          />
+          <div
+            className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full blur-2xl pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(0,213,190,0.18) 0%, transparent 70%)" }}
+          />
+
+          {/* Top header badge */}
+          <div className="relative z-10 flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#615FFF]/20 text-[#A5B4FC] border border-[#615FFF]/30 backdrop-blur-sm">
+              Article
             </span>
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
-              style={{
-                background: "linear-gradient(135deg, #615FFF 0%, #7C6CF6 100%)",
-                boxShadow: "0 6px 24px rgba(97,95,255,0.4)",
-              }}
-            >
-              <span className="text-white font-bold text-[13px] leading-none tracking-tight">
-                {initials}
-              </span>
+            <div className="flex items-center gap-1.5 opacity-60">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#615FFF]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D5BE]" />
             </div>
           </div>
-        </>
+
+          {/* Center Graphic Symbol */}
+          <div className="relative z-10 flex items-center gap-3 self-center my-auto">
+            <div className="w-12 h-12 rounded-2xl bg-[#0F172B]/80 border border-[#314158] flex items-center justify-center text-white shadow-xl group-hover:border-[#615FFF] duration-300">
+              <svg
+                className="w-6 h-6 text-[#615FFF] group-hover:text-[#00D5BE] transition-colors duration-300"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                />
+              </svg>
+            </div>
+          </div>
+
+          {/* Bottom reading info */}
+          <div className="relative z-10 flex items-center justify-between text-[11px] text-[#90A1B9]">
+            <span className="font-medium text-[#E2E8F0] truncate max-w-[180px]">
+              {post.tags?.[0] ? `#${post.tags[0]}` : "Mohammad Mehdi Sadeghi"}
+            </span>
+            <span className="text-[10px] text-[#68768C]">{readTime(post)}</span>
+          </div>
+        </div>
       )}
 
-      {/* corner brackets */}
-      <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2" style={{ borderColor: "#615FFF66", opacity: 0.7 }} />
-      <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2" style={{ borderColor: "#615FFF66", opacity: 0.7 }} />
-      <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2" style={{ borderColor: "#615FFF66", opacity: 0.7 }} />
-      <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2" style={{ borderColor: "#615FFF66", opacity: 0.7 }} />
+      {/* Top neon indicator line */}
+      <div
+        className="absolute top-0 inset-x-0 h-[2px] transition-opacity duration-300 group-hover:opacity-100 opacity-40"
+        style={{
+          background: "linear-gradient(90deg, #615FFF 0%, #00D5BE 100%)",
+        }}
+      />
     </div>
   );
 }
@@ -108,27 +119,23 @@ function PostCard({ post, index }) {
   return (
     <article
       className="rounded-xl group overflow-hidden flex flex-col transition-all duration-300
-        border border-[#90a1b933] hover:border-[#615FFF] hover:-translate-y-1
-        hover:shadow-[0_0_35px_-5px_rgba(97,95,255,0.25)]"
+        border border-[#1E293B] hover:border-[#615FFF] hover:-translate-y-1.5
+        hover:shadow-[0_12px_30px_-5px_rgba(97,95,255,0.2)] bg-[#081224]"
       style={{
-        background: "#081224",
         opacity: 0,
         animation: `fadeSlideUp 0.4s ease ${Math.min(index, 8) * 60}ms forwards`,
       }}
     >
       <PostCover post={post} />
       <div className="p-5 flex flex-col gap-3 flex-1">
-        <div className="flex items-center justify-between text-[11px]">
-          <p style={{ color: PURPLE }}>
-            Post {String(index + 1).padStart(2, "0")} //{" "}
-            <span style={{ color: GRAY }}>{formatDate(post.date)}</span>
-          </p>
-          <span style={{ color: "#4B576D" }}>{readTime(post)}</span>
+        <div className="flex items-center justify-between text-[11px] text-[#68768C]">
+          <span className="text-[#90A1B9]">{formatDate(post.date)}</span>
+          <span className="text-[#615FFF] font-medium">{readTime(post)}</span>
         </div>
 
         <h3
           dir={rtl ? "rtl" : "ltr"}
-          className="text-white text-[16px] sm:text-[17px] font-semibold leading-7 group-hover:text-[#C7C6FF] transition-colors duration-200 line-clamp-2"
+          className="text-white text-[16px] sm:text-[17px] font-bold leading-7 group-hover:text-[#C7C6FF] transition-colors duration-200 line-clamp-2"
           style={rtl ? { textAlign: "right" } : undefined}
         >
           {post.title}
@@ -136,8 +143,8 @@ function PostCard({ post, index }) {
 
         <p
           dir={rtl ? "rtl" : "ltr"}
-          className="text-[12px] sm:text-[13px] leading-6 line-clamp-3"
-          style={{ color: GRAY, textAlign: rtl ? "right" : undefined }}
+          className="text-[12px] sm:text-[13px] leading-6 line-clamp-3 text-[#90A1B9]"
+          style={rtl ? { textAlign: "right" } : undefined}
         >
           {excerptFrom(post)}
         </p>
@@ -147,12 +154,7 @@ function PostCard({ post, index }) {
             {post.tags.slice(0, 3).map((t) => (
               <span
                 key={t}
-                className="text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wide"
-                style={{
-                  color: GRAY,
-                  background: "rgba(97,95,255,0.12)",
-                  border: "1px solid rgba(97,95,255,0.3)",
-                }}
+                className="text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wide text-[#90A1B9] bg-[#0F172B] border border-[#314158]"
               >
                 {t}
               </span>
@@ -160,22 +162,21 @@ function PostCard({ post, index }) {
           </div>
         )}
 
-        <div className="mt-auto pt-3 border-t border-[#1E293B] flex items-center justify-between gap-3">
+        <div className="mt-auto pt-4 border-t border-[#1E293B] flex items-center justify-between gap-3">
           <Link
             to={`/blog/${post.slug}`}
-            className="text-[12px] inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg
-              transition-all duration-150 border border-[#90a1b955] bg-[#0F172B]
-              hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF11]"
-            style={{ color: GRAY }}
+            className="text-[12px] font-medium inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg
+              transition-all duration-150 border border-[#90a1b944] bg-[#0F172B] text-[#CBD5E1]
+              hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF22]"
             onClick={withTracking({
               targetType: "button",
               targetId: `blog-${post.slug}`,
               targetLabel: post.title,
             })}
           >
-            read-post
+            Read Article
             <svg
-              className="w-3 h-3"
+              className="w-3.5 h-3.5"
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
@@ -187,7 +188,7 @@ function PostCard({ post, index }) {
             </svg>
           </Link>
           <span className="text-[11px] text-[#4B576D]">
-            Read Full Article →
+            {post.views ? `${post.views} views` : ""}
           </span>
         </div>
       </div>
@@ -199,9 +200,9 @@ export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTag, setActiveTag] = useState("all");
+  const [filterMode, setFilterMode] = useState("latest"); // "latest" | "popular"
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoriesOpen, setCategoriesOpen] = useState(true);
+  const [filterOpen, setFilterOpen] = useState(true);
   const [recentOpen, setRecentOpen] = useState(true);
 
   useEffect(() => {
@@ -224,37 +225,29 @@ export default function Blog() {
     };
   }, []);
 
-  const tags = useMemo(() => {
-    const seen = new Set();
-    for (const p of posts) {
-      for (const t of p.tags || []) seen.add(t);
-    }
-    return ["all", ...Array.from(seen)];
-  }, [posts]);
-
-  const tagCounts = useMemo(() => {
-    const counts = { all: posts.length };
-    for (const p of posts) {
-      for (const t of p.tags || []) {
-        counts[t] = (counts[t] || 0) + 1;
-      }
-    }
-    return counts;
-  }, [posts]);
-
   const visible = useMemo(() => {
-    return posts.filter((p) => {
-      const matchTag =
-        activeTag === "all" || (p.tags || []).includes(activeTag);
-      const q = searchQuery.trim().toLowerCase();
-      const matchSearch =
-        !q ||
-        (p.title || "").toLowerCase().includes(q) ||
-        (p.excerpt || "").toLowerCase().includes(q) ||
-        (p.tags || []).some((t) => t.toLowerCase().includes(q));
-      return matchTag && matchSearch;
-    });
-  }, [posts, activeTag, searchQuery]);
+    let list = [...posts];
+
+    // Search query filter
+    const q = searchQuery.trim().toLowerCase();
+    if (q) {
+      list = list.filter(
+        (p) =>
+          (p.title || "").toLowerCase().includes(q) ||
+          (p.excerpt || "").toLowerCase().includes(q) ||
+          (p.tags || []).some((t) => t.toLowerCase().includes(q)),
+      );
+    }
+
+    // Sort by Latest vs Popular
+    if (filterMode === "latest") {
+      list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    } else if (filterMode === "popular") {
+      list.sort((a, b) => (b.views || b.id || 0) - (a.views || a.id || 0));
+    }
+
+    return list;
+  }, [posts, filterMode, searchQuery]);
 
   return (
     <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
@@ -270,20 +263,20 @@ export default function Blog() {
         <SnakeBar />
       </div>
 
-      {/* ── Sidebar: Categories & Recent Explorer ── */}
-      <nav className="w-full md:w-[380px] lg:w-[420px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+      {/* ── Sidebar: Filters (Latest / Popular) & Recent Explorer ── */}
+      <nav className="w-full md:w-[360px] lg:w-[400px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
         {/* Search input */}
         <div className="p-4 border-b border-[#90a1b977]">
           <div className="relative">
             <input
               type="text"
-              placeholder="Search posts or tags..."
+              placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#020618] py-2 pl-8 pr-3 text-[12px] text-[#90a1b9c7] rounded-md border border-[#314158] outline-none hover:border-[#90A1B9] focus:border-[#615FFF] duration-150"
+              className="w-full bg-[#020618] py-2.5 pl-8 pr-3 text-[12px] text-[#90a1b9c7] rounded-md border border-[#314158] outline-none hover:border-[#90A1B9] focus:border-[#615FFF] duration-150"
             />
             <svg
-              className="w-3.5 h-3.5 absolute left-2.5 top-3 text-[#68768C]"
+              className="w-3.5 h-3.5 absolute left-2.5 top-3.5 text-[#68768C]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -298,7 +291,7 @@ export default function Blog() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-2.5 text-[#68768C] hover:text-white text-[12px]"
+                className="absolute right-2.5 top-3 text-[#68768C] hover:text-white text-[12px]"
               >
                 ×
               </button>
@@ -306,55 +299,74 @@ export default function Blog() {
           </div>
         </div>
 
-        {/* Categories / Tags accordion */}
+        {/* Filters Accordion: Only Latest & Most Popular */}
         <div className="border-b border-[#90a1b977]">
           <h2
-            onClick={() => setCategoriesOpen((prev) => !prev)}
+            onClick={() => setFilterOpen((prev) => !prev)}
             className="px-4 sm:px-6 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
           >
-            <span className="flex items-center gap-2 text-[13px]">
+            <span className="flex items-center gap-2 text-[13px] font-semibold">
               <img
                 src="/assets/Images/icon folder.svg"
                 alt=""
                 className="w-4 h-4"
               />
-              categories
+              sort &amp; filters
             </span>
             <img
-              className={`w-3 duration-200 ${categoriesOpen ? "rotate-90" : "rotate-0"}`}
+              className={`w-3 duration-200 ${filterOpen ? "rotate-90" : "rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""
             />
           </h2>
-          <ul className={`${categoriesOpen ? "flex" : "hidden"} flex-col pb-2`}>
-            {tags.map((t) => {
-              const isActive = activeTag === t;
-              return (
-                <li
-                  key={t}
-                  onClick={() => setActiveTag(t)}
-                  className={`px-6 sm:px-10 py-2.5 cursor-pointer flex items-center justify-between duration-100 ${
-                    isActive ? "bg-[#7888a033] text-white" : "text-[#90A1B9] hover:bg-[#7888a01a]"
+          <ul className={`${filterOpen ? "flex" : "hidden"} flex-col pb-2`}>
+            {/* Option 1: Latest */}
+            <li
+              onClick={() => setFilterMode("latest")}
+              className={`px-6 sm:px-10 py-3 cursor-pointer flex items-center justify-between duration-100 ${
+                filterMode === "latest"
+                  ? "bg-[#7888a033] text-white"
+                  : "text-[#90A1B9] hover:bg-[#7888a01a]"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 duration-150 ${
+                    filterMode === "latest"
+                      ? "bg-[#615FFF] border-[#615FFF]"
+                      : "border-[#90a1b966]"
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span
-                      className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center shrink-0 duration-150 ${
-                        isActive
-                          ? "bg-[#615FFF] border-[#615FFF]"
-                          : "border-[#90a1b966]"
-                      }`}
-                    >
-                      {isActive && <CheckMark />}
-                    </span>
-                    <span className="text-[12px]">{t === "all" ? "all-posts" : t}</span>
-                  </div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#0b1220] border border-[#314158] text-[#68768C]">
-                    {tagCounts[t] || 0}
-                  </span>
-                </li>
-              );
-            })}
+                  {filterMode === "latest" && <CheckMark />}
+                </span>
+                <span className="text-[13px] font-medium">جدیدترین‌ها (Latest)</span>
+              </div>
+              <span className="text-[11px] text-[#615FFF]">✨</span>
+            </li>
+
+            {/* Option 2: Most Popular */}
+            <li
+              onClick={() => setFilterMode("popular")}
+              className={`px-6 sm:px-10 py-3 cursor-pointer flex items-center justify-between duration-100 ${
+                filterMode === "popular"
+                  ? "bg-[#7888a033] text-white"
+                  : "text-[#90A1B9] hover:bg-[#7888a01a]"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 duration-150 ${
+                    filterMode === "popular"
+                      ? "bg-[#615FFF] border-[#615FFF]"
+                      : "border-[#90a1b966]"
+                  }`}
+                >
+                  {filterMode === "popular" && <CheckMark />}
+                </span>
+                <span className="text-[13px] font-medium">پربازدیدترین‌ها (Popular)</span>
+              </div>
+              <span className="text-[11px] text-[#FFB86A]">🔥</span>
+            </li>
           </ul>
         </div>
 
@@ -364,13 +376,13 @@ export default function Blog() {
             onClick={() => setRecentOpen((prev) => !prev)}
             className="px-4 sm:px-6 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
           >
-            <span className="flex items-center gap-2 text-[13px]">
+            <span className="flex items-center gap-2 text-[13px] font-semibold">
               <img
                 src="/assets/Images/icon folder2.svg"
                 alt=""
                 className="w-4 h-4"
               />
-              recent-posts
+              articles list
             </span>
             <img
               className={`w-3 duration-200 ${recentOpen ? "rotate-90" : "rotate-0"}`}
@@ -379,13 +391,13 @@ export default function Blog() {
             />
           </h2>
           <ul className={`${recentOpen ? "flex" : "hidden"} flex-col pb-3`}>
-            {posts.slice(0, 5).map((p) => (
+            {posts.slice(0, 6).map((p) => (
               <li key={p.id ?? p.slug}>
                 <Link
                   to={`/blog/${p.slug}`}
-                  className="px-6 sm:px-10 py-2 flex items-center gap-2 text-[12px] text-[#90A1B9] hover:text-white hover:bg-[#7888a01a] duration-150 truncate"
+                  className="px-6 sm:px-10 py-2.5 flex items-center gap-2 text-[12px] text-[#90A1B9] hover:text-white hover:bg-[#7888a01a] duration-150 truncate"
                 >
-                  <span style={{ color: PURPLE }}>#</span>
+                  <span style={{ color: PURPLE }}>•</span>
                   <span className="truncate">{p.title}</span>
                 </Link>
               </li>
@@ -393,68 +405,68 @@ export default function Blog() {
           </ul>
         </div>
 
-        {/* Author info note */}
+        {/* Information note */}
         <div className="p-5 text-[11px] text-[#68768C] leading-5">
-          <p className="text-[#90A1B9] mb-1">// articles & notes</p>
-          <p>Read about front-end experiments, architecture, and web development.</p>
+          <p className="text-[#90A1B9] font-semibold mb-1">// Articles &amp; Insights</p>
+          <p>Read about web engineering, design systems, and frontend tutorials.</p>
         </div>
       </nav>
 
       {/* ── Main Content Pane ── */}
       <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
         {/* Header prompt */}
-          <div className="flex flex-col gap-2 mb-8">
-            <p className="text-[12px] font-medium" style={{ color: PURPLE }}>
-              // {activeTag === "all" ? "All Articles" : `Topic: ${activeTag}`}
-            </p>
-            <h1 className="text-white text-[22px] sm:text-[28px] font-bold">
-              _Blog
-              <span
-                className="inline-block w-[8px] h-[16px] align-middle ml-2"
-                style={{
-                  background: "#FFB86A",
-                  animation: "bootBlink 1s steps(1) infinite",
-                }}
-              />
-            </h1>
-            <p className="text-[13px]" style={{ color: GRAY }}>
-              Thoughts on modern front-end, UI craftsmanship, and technical lessons.
-              {posts.length > 0 && (
-                <span className="text-[#4B576D]">
-                  {"  "}// {visible.length} {visible.length === 1 ? "article" : "articles"} found
-                </span>
-              )}
-            </p>
-          </div>
-
-          {/* Grid of articles */}
-          {loading ? (
-            <Loading variant="cards" count={4} />
-          ) : error ? (
-            <p
-              className="text-[12px] rounded-md px-4 py-3 w-fit"
+        <div className="flex flex-col gap-2 mb-8">
+          <p className="text-[12px] font-medium" style={{ color: PURPLE }}>
+            // {filterMode === "latest" ? "Showing Latest Articles" : "Showing Most Popular Articles"}
+          </p>
+          <h1 className="text-white text-[22px] sm:text-[28px] font-bold">
+            _Blog
+            <span
+              className="inline-block w-[8px] h-[16px] align-middle ml-2"
               style={{
-                color: "#FF6B6B",
-                background: "#FF6B6B14",
-                border: "1px solid #FF6B6B33",
+                background: "#FFB86A",
+                animation: "bootBlink 1s steps(1) infinite",
               }}
-            >
-              // {error}
-            </p>
-          ) : visible.length === 0 ? (
-            <div
-              className="rounded-xl border border-dashed px-6 py-16 text-center text-[13px]"
-              style={{ borderColor: "#1E293B", color: "#68768C" }}
-            >
-              // no articles matching your filter
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
-              {visible.map((post, i) => (
-                <PostCard key={post.id ?? post.slug} post={post} index={i} />
-              ))}
-            </div>
-          )}
+            />
+          </h1>
+          <p className="text-[13px]" style={{ color: GRAY }}>
+            Thoughts on modern front-end, UI craftsmanship, and technical lessons.
+            {posts.length > 0 && (
+              <span className="text-[#4B576D]">
+                {"  "}// {visible.length} {visible.length === 1 ? "article" : "articles"} found
+              </span>
+            )}
+          </p>
+        </div>
+
+        {/* Grid of articles */}
+        {loading ? (
+          <Loading variant="cards" count={4} />
+        ) : error ? (
+          <p
+            className="text-[12px] rounded-md px-4 py-3 w-fit"
+            style={{
+              color: "#FF6B6B",
+              background: "#FF6B6B14",
+              border: "1px solid #FF6B6B33",
+            }}
+          >
+            // {error}
+          </p>
+        ) : visible.length === 0 ? (
+          <div
+            className="rounded-xl border border-dashed px-6 py-16 text-center text-[13px]"
+            style={{ borderColor: "#1E293B", color: "#68768C" }}
+          >
+            // No articles found
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
+            {visible.map((post, i) => (
+              <PostCard key={post.id ?? post.slug} post={post} index={i} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
