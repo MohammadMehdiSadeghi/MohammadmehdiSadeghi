@@ -135,7 +135,7 @@ function PostCard({ post, index }) {
 
         <h3
           dir={rtl ? "rtl" : "ltr"}
-          className="text-white text-[16px] sm:text-[17px] font-bold leading-7 group-hover:text-[#C7C6FF] transition-colors duration-200 line-clamp-2"
+          className="text-white text-[16px] leading-6 group-hover:text-[#C7C6FF] transition-colors duration-200 line-clamp-2"
           style={rtl ? { textAlign: "right" } : undefined}
         >
           {post.title}
@@ -143,7 +143,7 @@ function PostCard({ post, index }) {
 
         <p
           dir={rtl ? "rtl" : "ltr"}
-          className="text-[12px] sm:text-[13px] leading-6 line-clamp-3 text-[#90A1B9]"
+          className="text-[13px] leading-6 line-clamp-3 text-[#90A1B9]"
           style={rtl ? { textAlign: "right" } : undefined}
         >
           {excerptFrom(post)}
@@ -165,18 +165,18 @@ function PostCard({ post, index }) {
         <div className="mt-auto pt-4 border-t border-[#1E293B] flex items-center justify-between gap-3">
           <Link
             to={`/blog/${post.slug}`}
-            className="text-[12px] font-medium inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg
-              transition-all duration-150 border border-[#90a1b944] bg-[#0F172B] text-[#CBD5E1]
-              hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF22]"
+            className="text-[13px] inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg
+              transition-all duration-150 border border-[#90a1b955] bg-[#0F172B] text-[#90A1B9]
+              hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF11]"
             onClick={withTracking({
               targetType: "button",
               targetId: `blog-${post.slug}`,
               targetLabel: post.title,
             })}
           >
-            Read Article
+            view-article
             <svg
-              className="w-3.5 h-3.5"
+              className="w-3 h-3"
               viewBox="0 0 16 16"
               fill="none"
               stroke="currentColor"
@@ -303,15 +303,15 @@ export default function Blog() {
         <div className="border-b border-[#90a1b977]">
           <h2
             onClick={() => setFilterOpen((prev) => !prev)}
-            className="px-4 sm:px-6 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
+            className="px-4 sm:px-7 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
           >
-            <span className="flex items-center gap-2 text-[13px] font-semibold">
+            <span className="flex items-center gap-2.5 text-[14px]">
               <img
                 src="/assets/Images/icon folder.svg"
                 alt=""
                 className="w-4 h-4"
               />
-              sort &amp; filters
+              filters
             </span>
             <img
               className={`w-3 duration-200 ${filterOpen ? "rotate-90" : "rotate-0"}`}
@@ -323,7 +323,7 @@ export default function Blog() {
             {/* Option 1: Latest */}
             <li
               onClick={() => setFilterMode("latest")}
-              className={`px-6 sm:px-10 py-3 cursor-pointer flex items-center justify-between duration-100 ${
+              className={`px-4 sm:px-12 py-3 cursor-pointer flex items-center justify-between duration-100 ${
                 filterMode === "latest"
                   ? "bg-[#7888a033] text-white"
                   : "text-[#90A1B9] hover:bg-[#7888a01a]"
@@ -339,15 +339,14 @@ export default function Blog() {
                 >
                   {filterMode === "latest" && <CheckMark />}
                 </span>
-                <span className="text-[13px] font-medium">جدیدترین‌ها (Latest)</span>
+                <span className="text-[13px]">latest-articles</span>
               </div>
-              <span className="text-[11px] text-[#615FFF]">✨</span>
             </li>
 
             {/* Option 2: Most Popular */}
             <li
               onClick={() => setFilterMode("popular")}
-              className={`px-6 sm:px-10 py-3 cursor-pointer flex items-center justify-between duration-100 ${
+              className={`px-4 sm:px-12 py-3 cursor-pointer flex items-center justify-between duration-100 ${
                 filterMode === "popular"
                   ? "bg-[#7888a033] text-white"
                   : "text-[#90A1B9] hover:bg-[#7888a01a]"
@@ -363,9 +362,8 @@ export default function Blog() {
                 >
                   {filterMode === "popular" && <CheckMark />}
                 </span>
-                <span className="text-[13px] font-medium">پربازدیدترین‌ها (Popular)</span>
+                <span className="text-[13px]">popular-articles</span>
               </div>
-              <span className="text-[11px] text-[#FFB86A]">🔥</span>
             </li>
           </ul>
         </div>
@@ -374,15 +372,15 @@ export default function Blog() {
         <div className="border-b border-[#90a1b977]">
           <h2
             onClick={() => setRecentOpen((prev) => !prev)}
-            className="px-4 sm:px-6 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
+            className="px-4 sm:px-7 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
           >
-            <span className="flex items-center gap-2 text-[13px] font-semibold">
+            <span className="flex items-center gap-2.5 text-[14px]">
               <img
                 src="/assets/Images/icon folder2.svg"
                 alt=""
                 className="w-4 h-4"
               />
-              articles list
+              recent-posts
             </span>
             <img
               className={`w-3 duration-200 ${recentOpen ? "rotate-90" : "rotate-0"}`}
@@ -391,11 +389,11 @@ export default function Blog() {
             />
           </h2>
           <ul className={`${recentOpen ? "flex" : "hidden"} flex-col pb-3`}>
-            {posts.slice(0, 6).map((p) => (
+            {posts.slice(0, 8).map((p) => (
               <li key={p.id ?? p.slug}>
                 <Link
                   to={`/blog/${p.slug}`}
-                  className="px-6 sm:px-10 py-2.5 flex items-center gap-2 text-[12px] text-[#90A1B9] hover:text-white hover:bg-[#7888a01a] duration-150 truncate"
+                  className="px-4 sm:px-12 py-2.5 flex items-center gap-2.5 text-[13px] text-[#90A1B9] hover:text-white hover:bg-[#7888a01a] duration-150 truncate"
                 >
                   <span style={{ color: PURPLE }}>•</span>
                   <span className="truncate">{p.title}</span>
@@ -406,47 +404,38 @@ export default function Blog() {
         </div>
 
         {/* Information note */}
-        <div className="p-5 text-[11px] text-[#68768C] leading-5">
-          <p className="text-[#90A1B9] font-semibold mb-1">// Articles &amp; Insights</p>
-          <p>Read about web engineering, design systems, and frontend tutorials.</p>
+        <div className="p-6 text-[12px] text-[#68768C] leading-5">
+          <p className="text-[#90A1B9] mb-1">// articles &amp; insights</p>
+          <p>Technical writing on web development, UI engineering, and modern frontend tools.</p>
         </div>
       </nav>
 
       {/* ── Main Content Pane ── */}
-      <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+      <div className="flex-1 min-w-0 py-6 sm:py-8 px-4 sm:px-6 md:px-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
         {/* Header prompt */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8 pb-6 border-b border-[#1E293B]">
-          <div className="flex flex-col gap-2">
-            <p className="text-[12px] font-medium" style={{ color: PURPLE }}>
-              // {filterMode === "latest" ? "Showing Latest Articles" : "Showing Most Popular Articles"}
-            </p>
-            <h1 className="text-white text-[24px] sm:text-[30px] font-bold flex items-center">
-              _Blog
-              <span
-                className="inline-block w-[8px] h-[18px] align-middle ml-2"
-                style={{
-                  background: "#FFB86A",
-                  animation: "bootBlink 1s steps(1) infinite",
-                }}
-              />
-            </h1>
-            <p className="text-[13px]" style={{ color: GRAY }}>
-              Thoughts on modern front-end, UI craftsmanship, and technical lessons.
-            </p>
-          </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-3 border-b border-[#90a1b933]">
+          <p className="text-[13px] text-[#90A1B9]">
+            // articles //{" "}
+            <span className="text-[#615FFF]">
+              _{filterMode === "latest" ? "latest" : "popular"}
+            </span>
+            <span className="text-[#68768C] ml-2">
+              ({visible.length} {visible.length === 1 ? "article" : "articles"})
+            </span>
+          </p>
 
-          {/* Prominent Search Bar */}
-          <div className="w-full md:w-80 lg:w-96 shrink-0">
+          {/* Search Bar */}
+          <div className="w-full sm:w-72">
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search articles by keyword or tag..."
+                placeholder="search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#020618] py-2.5 pl-10 pr-9 text-[13px] text-white rounded-xl border border-[#314158] outline-none hover:border-[#90A1B9] focus:border-[#615FFF] focus:ring-2 focus:ring-[#615FFF]/20 duration-200 placeholder:text-[#68768C]"
+                className="w-full bg-[#020618] py-1.5 pl-8 pr-7 text-[13px] text-white rounded-md border border-[#314158] outline-none hover:border-[#90A1B9] focus:border-[#615FFF] duration-150 placeholder:text-[#68768C]"
               />
               <svg
-                className="w-4 h-4 absolute left-3.5 top-3.5 text-[#90A1B9]"
+                className="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-[#90A1B9]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -462,7 +451,7 @@ export default function Blog() {
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-2.5 w-6 h-6 flex items-center justify-center rounded-full text-[#90A1B9] hover:text-white hover:bg-[#1E293B] text-[13px] duration-150"
+                  className="absolute right-2 top-2 text-[#90A1B9] hover:text-white text-[12px]"
                   title="Clear search"
                 >
                   ✕

@@ -12,7 +12,7 @@ function getRouteMeta(pathname) {
     return {
       cmd: "npm run dev:home",
       label: "RUNNING _HOME",
-      fa: "در حال اجرای صفحه اصلی...",
+      desc: "Loading home module...",
       color: "#00D5BE",
       file: "Home.jsx",
     };
@@ -21,7 +21,7 @@ function getRouteMeta(pathname) {
     return {
       cmd: "npm run dev:projects",
       label: "RUNNING _PROJECTS",
-      fa: "در حال اجرای پروژه‌ها...",
+      desc: "Compiling projects...",
       color: "#615FFF",
       file: "Projects.jsx",
     };
@@ -31,7 +31,7 @@ function getRouteMeta(pathname) {
     return {
       cmd: isPost ? "npm run dev:post" : "npm run dev:blog",
       label: isPost ? "RUNNING _BLOG_POST" : "RUNNING _BLOG",
-      fa: isPost ? "در حال اجرای مقاله وبلاگ..." : "در حال اجرای وبلاگ...",
+      desc: isPost ? "Loading post data..." : "Compiling blog feed...",
       color: "#4ADE80",
       file: isPost ? "Post.jsx" : "Blog.jsx",
     };
@@ -40,7 +40,7 @@ function getRouteMeta(pathname) {
     return {
       cmd: "npm run dev:about",
       label: "RUNNING _ABOUT",
-      fa: "در حال اجرای درباره من...",
+      desc: "Loading bio data...",
       color: "#FFB86A",
       file: "About.jsx",
     };
@@ -49,7 +49,7 @@ function getRouteMeta(pathname) {
     return {
       cmd: "npm run dev:contact",
       label: "RUNNING _CONTACT",
-      fa: "در حال اجرای تماس با من...",
+      desc: "Opening contact channel...",
       color: "#F472B6",
       file: "Contact.jsx",
     };
@@ -58,7 +58,7 @@ function getRouteMeta(pathname) {
     return {
       cmd: "npm run dev:admin",
       label: "RUNNING _ADMIN",
-      fa: "در حال اجرای پنل ادمین...",
+      desc: "Authorizing session...",
       color: "#F59E0B",
       file: "Admin.jsx",
     };
@@ -67,7 +67,7 @@ function getRouteMeta(pathname) {
   return {
     cmd: `npm run dev:${cleanPath.toLowerCase()}`,
     label: `RUNNING _${cleanPath}`,
-    fa: "در حال بارگذاری صفحه...",
+    desc: "Mounting page view...",
     color: "#615FFF",
     file: `${cleanPath}.jsx`,
   };
@@ -117,7 +117,7 @@ export default function PageTransition({ active, path }) {
     <aside
       role="status"
       aria-live="polite"
-      aria-label={meta.fa}
+      aria-label={meta.desc}
       className={`fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center p-4 transition-all duration-200 ${
         fadingOut ? "opacity-0 scale-95" : "opacity-100 scale-100"
       }`}
@@ -176,10 +176,9 @@ export default function PageTransition({ active, path }) {
               </span>
             </div>
             <span
-              className="text-[11px] text-[#90A1B9]/80 font-sans"
-              dir="rtl"
+              className="text-[11px] text-[#90A1B9]/80 font-mono"
             >
-              {meta.fa}
+              {meta.desc}
             </span>
           </div>
 

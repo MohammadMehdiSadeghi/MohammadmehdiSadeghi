@@ -64,7 +64,7 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
           <button
             onClick={onClose}
             className="w-7 h-7 rounded-lg text-[#90A1B9] hover:text-white hover:bg-[#1E293B] flex items-center justify-center transition-colors text-[14px]"
-            title="بستن (ESC)"
+            title="Close (ESC)"
           >
             ✕
           </button>
@@ -103,24 +103,24 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
 
           {/* Heading */}
           <h3 className="text-white text-[20px] sm:text-[22px] font-bold mb-2">
-            پیام شما با موفقیت دریافت شد!
+            Message Sent Successfully!
           </h3>
 
           <p className="text-[13px] text-[#A5B4FC] font-mono mb-4">
             Thank you {senderName ? `${senderName}` : ""}! Message received.
           </p>
 
-          {/* Persian Friendly Message */}
-          <div className="bg-[#020618]/70 border border-[#1E293B] rounded-xl p-4 w-full text-right mb-6">
-            <p className="text-[13px] sm:text-[14px] text-[#CBD5E1] leading-7" dir="rtl">
-              {senderName ? `${senderName} عزیز، ` : ""}
-              پیام شما با موفقیت در سیستم ثبت شد. به زودی متن درخواست شما را بررسی می‌کنم و در اسرع وقت
-              {phoneNumber ? ` از طریق شماره ${phoneNumber}` : " با شما"} تماس خواهم گرفت.
+          {/* Friendly Message */}
+          <div className="bg-[#020618]/70 border border-[#1E293B] rounded-xl p-4 w-full text-left mb-6">
+            <p className="text-[13px] sm:text-[14px] text-[#CBD5E1] leading-7">
+              {senderName ? `${senderName}, ` : ""}
+              your message has been successfully logged. I will review your request and get back to you
+              {phoneNumber ? ` via ${phoneNumber}` : ""} as soon as possible.
             </p>
 
             <div className="mt-3 pt-3 border-t border-[#1E293B] flex items-center justify-between text-[11px] text-[#68768C]">
               <span className="font-mono text-[#00D5BE]">✓ Delivery Confirmed</span>
-              <span>پاسخگویی سریع</span>
+              <span>Fast Response</span>
             </div>
           </div>
 
@@ -132,7 +132,7 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
               shadow-[0_4px_20px_rgba(97,95,255,0.4)] hover:shadow-[0_6px_25px_rgba(97,95,255,0.6)]
               active:scale-[0.98] cursor-pointer"
           >
-            متوجه شدم (بستن)
+            Got it (Close)
           </button>
         </div>
       </div>
