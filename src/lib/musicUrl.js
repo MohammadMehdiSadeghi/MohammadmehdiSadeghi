@@ -4,10 +4,13 @@
    against that host. Otherwise the relative path is kept, which works on
    dev and on the self-hosted server that serves /assets/Music directly. */
 
-const RAW_BASE = import.meta.env.VITE_MUSIC_BASE || "";
+const RAW_BASE = (typeof import.meta !== "undefined" && import.meta.env?.VITE_MUSIC_BASE) || "";
 
 export function musicUrl(src) {
   if (!src) return src;
+  if (String(src).startsWith("http://") || String(src).startsWith("https://")) {
+    return src;
+  }
   if (RAW_BASE) {
     const file = String(src).split("/").pop() || "";
     return `${RAW_BASE.replace(/\/+$/, "")}/${encodeURIComponent(file)}`;

@@ -4,7 +4,7 @@
       "id": 1,
       "name": "The Winner Takes It All",
       "artist": "ABBA",
-      "src": "../assets/Music/ABBA - The Winner Takes It All (SPOTISAVER).mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/ABBA%20-%20The%20Winner%20Takes%20It%20All%20(SPOTISAVER).mp3",
       "tags": [
         "جدایی",
         "شکست عشقی",
@@ -110,7 +110,7 @@
       "id": 2,
       "name": "Rolling in the Deep",
       "artist": "Adele",
-      "src": "../assets/Music/Adele - Rolling in the Deep.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Adele%20-%20Rolling%20in%20the%20Deep.mp3",
       "tags": [
         "جدایی",
         "خیانت",
@@ -210,90 +210,9 @@
     },
     {
       "id": 3,
-      "name": "Amour plastique",
-      "artist": "Videoclub",
-      "src": "../assets/Music/Amour plastique - Videoclub, Adèle Castillon, Mattyeux.mp3",
-      "tags": [
-        "فرانسوی",
-        "سینث پاپ",
-        "دوئت",
-        "عاشقانه",
-        "رترو",
-        "جوانی",
-        "رؤیا",
-        "نرم",
-        "الکترونیک",
-        "دلتنگی",
-        "مدرن",
-        "شیرین",
-        "نوستالژی",
-        "ویدئوکلاب",
-        "آمور پلاستیک",
-        "امور پلاستیک"
-      ],
-      "tagsEn": [
-        "french",
-        "synthpop",
-        "duet",
-        "romantic",
-        "retro",
-        "youth",
-        "dream",
-        "soft",
-        "electronic",
-        "longing",
-        "modern",
-        "sweet",
-        "nostalgia",
-        "videoclub"
-      ],
-      "analysis": {
-        "bpm": 117,
-        "energy": 80,
-        "dance": 57,
-        "bright": 20,
-        "vocals": 91,
-        "dyn": 2,
-        "vibe": {
-          "sad": 76,
-          "happy": 20,
-          "energetic": 36,
-          "calm": 23,
-          "focus": 2,
-          "epic": 4,
-          "romantic": 37,
-          "dark": 8
-        }
-      },
-      "lyrics": "Dans mon esprit tout divague, je me perds dans tes yeux\nJe me noie dans la vague de ton regard amoureux\nJe ne veux que ton âme divaguant sur ma peau\nUne fleur, une femme dans ton cœur Roméo\nJe ne suis que ton nom, le souffle lancinant\nDe nos corps dans le sombre animés lentement\nEt la nuit je pleure des larmes qui coulent le long de mes joues\nJe ne pense à toi que quand le jour sombre, que s'abattent sur moi\nMes tristes démons, dans l'abîme sans fond\nAime-moi jusqu'à ce que les roses fanent\nQue nos âmes sombrent dans les limbes profondes\nEt la nuit, quand tout est sombre, je te regarde danser\nJe résonne en baisers, le long de ta poitrine\nPerdue dans l'avalanche de mon cœur égaré\nQui es-tu, où es-tu\nPar les pleurs, par les rires de ton ombre effarée\nJe résonne en baisers\nDans mon esprit tout divague, je me perds dans tes yeux\nJe me noie dans la vague de ton regard amoureux\nJe ne veux que ton âme divaguant sur ma peau\nUne fleur, une femme dans ton cœur Roméo\nJe ne suis que ton nom, le souffle lancinant\nDe nos corps dans le sombre animés lentement\nEt la nuit quand tout est sombre je te regarde danser",
-      "lyricsStatus": "fetched_by_agent",
-      "lyricsSummary": "این ترانه روایتی رؤیایی و اشتیاق‌آمیز از عشقی عمیق است که در آن راوی در چشمان معشوقش غرق می‌شود و تنها آرزویش پیوند روح با اوست. در کنار لحن عاشقانه و لطیف، سایه‌ای از غم و تنهایی شبانه نیز حس می‌شود؛ گریه در تاریکی، شیطان‌های غمگین و نگاه به معشوق در رقص شبانه. فضای کلی ترانه ترکیبی از شیرینی عشق و دلتنگی نوستالژیک است.",
-      "moods": {
-        "romance": 0.95,
-        "dreaminess": 0.9,
-        "longing": 0.85,
-        "melancholy": 0.7,
-        "nostalgia": 0.6,
-        "sensuality": 0.55,
-        "sadness": 0.5,
-        "warmth": 0.45,
-        "darkness": 0.4,
-        "calm": 0.35,
-        "loneliness": 0.3,
-        "reflection": 0.3,
-        "mystery": 0.2
-      },
-      "audioMoodTag": "رویایی-دلتنگ",
-      "energy": "medium",
-      "valence": "neutral",
-      "summaryEn": "This song tells a dreamy, passionate story of deep love, in which the narrator is lost in the beloved’s eyes and longs only for a union of souls. Beneath its tender romantic tone lies a shadow of sorrow and nighttime loneliness, evoking tears in the dark, sad demons, and a gaze toward the beloved in a night dance. The overall mood blends the sweetness of love with nostalgic longing.",
-      "audioMoodEn": "Dreamy-Longing"
-    },
-    {
-      "id": 4,
       "name": "Art Deco",
       "artist": "Lana Del Rey",
-      "src": "../assets/Music/Art Deco - Lana Del Rey.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Art%20Deco%20-%20Lana%20Del%20Rey.mp3",
       "tags": [
         "سینمایی",
         "قدیمی",
@@ -372,10 +291,10 @@
       "audioMoodEn": "Dark-dreamy"
     },
     {
-      "id": 5,
+      "id": 4,
       "name": "As It Was",
       "artist": "Harry Styles",
-      "src": "../assets/Music/As It Was - Harry Styles.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/As%20It%20Was%20-%20Harry%20Styles.mp3",
       "tags": [
         "نوستالژی",
         "تغییر",
@@ -468,10 +387,10 @@
       "audioMoodEn": "Dynamic-Nostalgic"
     },
     {
-      "id": 6,
+      "id": 5,
       "name": "Birds of a Feather",
       "artist": "Billie Eilish",
-      "src": "../assets/Music/BIRDS OF A FEATHER.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/BIRDS%20OF%20A%20FEATHER.mp3",
       "tags": [
         "عشق",
         "وفاداری",
@@ -560,10 +479,10 @@
       "audioMoodEn": "Calm-Romantic"
     },
     {
-      "id": 7,
+      "id": 6,
       "name": "I Want It That Way",
       "artist": "Backstreet Boys",
-      "src": "../assets/Music/Backstreet Boys - I Want It That Way.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Backstreet%20Boys%20-%20I%20Want%20It%20That%20Way.mp3",
       "tags": [
         "عشق",
         "دلتنگی",
@@ -659,10 +578,10 @@
       "audioMoodEn": "Energetic-Melancholic"
     },
     {
-      "id": 8,
+      "id": 7,
       "name": "Beanie",
       "artist": "Chezile",
-      "src": "../assets/Music/Beanie - Chezile.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Beanie%20-%20Chezile.mp3",
       "tags": [
         "لطیف",
         "عاشقانه",
@@ -740,10 +659,10 @@
       "audioMoodEn": "Dreamy Longing"
     },
     {
-      "id": 9,
+      "id": 8,
       "name": "Believer",
       "artist": "Imagine Dragons",
-      "src": "../assets/Music/Believer - Imagine Dragons.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Believer%20-%20Imagine%20Dragons.mp3",
       "tags": [
         "مبارزه",
         "غلبه",
@@ -838,10 +757,10 @@
       "audioMoodEn": "Energetic-Epic"
     },
     {
-      "id": 10,
+      "id": 9,
       "name": "Billie Jean",
       "artist": "Michael Jackson",
-      "src": "../assets/Music/Billie Jean - Michael Jackson.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Billie%20Jean%20-%20Michael%20Jackson.mp3",
       "tags": [
         "پاپ",
         "کلاسیک",
@@ -913,10 +832,10 @@
       "audioMoodEn": "Energetic-Groovy"
     },
     {
-      "id": 11,
+      "id": 10,
       "name": "Blinding Lights",
       "artist": "The Weeknd",
-      "src": "../assets/Music/Blinding Lights.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Blinding%20Lights.mp3",
       "tags": [
         "شب",
         "شهر",
@@ -1011,10 +930,10 @@
       "audioMoodEn": "Energetic-Melancholic"
     },
     {
-      "id": 12,
+      "id": 11,
       "name": "Can't Get You out of My Head",
       "artist": "Kylie Minogue",
-      "src": "../assets/Music/Can't Get You out of My Head.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Can't%20Get%20You%20out%20of%20My%20Head.mp3",
       "tags": [
         "وسواس",
         "میل",
@@ -1097,261 +1016,10 @@
       "audioMoodEn": "Hypnotic Dance"
     },
     {
-      "id": 13,
-      "name": "Cigarettes out the Window",
-      "artist": "TV Girl",
-      "src": "../assets/Music/Cigarettes out the Window - TV Girl.mp3",
-      "tags": [
-        "ایندی",
-        "لوفای",
-        "رترو",
-        "شب",
-        "دلتنگی",
-        "عاشقانه تلخ",
-        "سمپل قدیمی",
-        "خونسرد",
-        "تنهایی",
-        "وسواس فکری",
-        "دهه ۲۰۱۰",
-        "شهر",
-        "تی وی گرل",
-        "سیگارت اوت د ویندو",
-        "سیگارتس اوت د ویندو"
-      ],
-      "tagsEn": [
-        "indie",
-        "lofi",
-        "retro",
-        "night",
-        "longing",
-        "bittersweet romance",
-        "old sample",
-        "cool",
-        "loneliness",
-        "overthinking",
-        "2010s",
-        "city",
-        "tv girl"
-      ],
-      "analysis": {
-        "bpm": 112,
-        "energy": 65,
-        "dance": 39,
-        "bright": 59,
-        "vocals": 44,
-        "dyn": 9,
-        "vibe": {
-          "sad": 66,
-          "happy": 0,
-          "energetic": 29,
-          "calm": 28,
-          "focus": 14,
-          "epic": 12,
-          "romantic": 21,
-          "dark": 22
-        }
-      },
-      "lyrics": "(Cigarettes, cigarettes out the window)\n(Cigarettes, cigarettes out the window)\nMy girl Liddy used to always smoke\nCigarettes when she couldn't sleep\nShe'd disappear for an hour and a half\nAnd when she'd come back she'd brush her teeth\nBut I could still smell it on her raggedy tee\nAnd I could taste it on her lips when we kiss\nPoor little Liddy used to always quit\nBut she never really quit\nShe'd just say she did\nCigarettes, cigarettes out the window (oh-oh)\nCigarettes, cigarettes out the window (oh-oh)\nCigarettes, cigarettes out the window (oh-oh)\nCigarettes, cigarettes out the window (oh-oh)\nMy girl Liddy used to always smoke\nCigarettes when she couldn't sleep\nI wonder what she did when she got done\nI guess she'd just flick them out in the street\nPoor little Liddy, she wishes it was dark\nBut it's never really dark in L.A.\nThe light from the billboard always shines\nBut it changed twelve times since you went away\nCigarettes, cigarettes out the window (oh-oh)\nCigarettes, cigarettes out the window (oh-oh)\nCigarettes, cigarettes out the window (oh-oh)\nCigarettes, cigarettes out the window (oh-oh)\nWe'll find moonlit nights strangely empty\nBecause when you call my name through them\nThere will be no answer\nRather melodramatic, aren't you?\nWe'll find moonlit nights strangely empty\nBecause when you call my name through them\nThere will be no answer\nYou mind if I smoke?\nWe'll find moonlit nights strangely empty\nBecause when you call my name through them\nThere will be no answer\nI always smoke in the theater\nWe'll find moonlit nights strangely empty\nBecause when you call my name through them\nThere'll be no answer\nSomehow it enhances the performance",
-      "lyricsStatus": "fetched_by_agent",
-      "lyricsSummary": "روایتگر دختری به نام لیدی است که شب‌ها از بی‌خوابی سیگار می‌کشد و راوی با وسواس خاطرات او را به یاد می‌آورد؛ سیگاری که بویش روی لباس و لب‌هایش می‌ماند. پس از رفتن لیدی، شب‌های مهتابی شهر برای راوی خالی و بی‌جواب شده‌اند. با سمپل‌های قدیمی فیلم نوآر و فضای لوفای، حس عاشقانه تلخ، دلتنگی و تنهایی شهری را منتقل می‌کند.",
-      "moods": {
-        "longing": 0.85,
-        "nostalgia": 0.8,
-        "melancholy": 0.85,
-        "loneliness": 0.75,
-        "heartbreak": 0.7,
-        "sadness": 0.6,
-        "dreaminess": 0.7,
-        "reflection": 0.55,
-        "romance": 0.5,
-        "darkness": 0.45,
-        "calm": 0.4,
-        "sensuality": 0.3,
-        "mystery": 0.3,
-        "tension": 0.3
-      },
-      "audioMoodTag": "رویایی-مالیخولیایی",
-      "energy": "low",
-      "valence": "negative",
-      "summaryEn": "It follows a girl named Lady who smokes at night out of insomnia, while the narrator obsessively recalls her memories and the cigarette scent lingering on her clothes and lips. After Lady leaves, the city's moonlit nights feel empty and unanswered for the narrator. With vintage noir film samples and a lo-fi atmosphere, it conveys a bittersweet romance, longing, and urban loneliness.",
-      "audioMoodEn": "dreamy-melancholic"
-    },
-    {
-      "id": 14,
-      "name": "Cornfield Chase",
-      "artist": "Hans Zimmer",
-      "src": "../assets/Music/Cornfield Chase.mp3",
-      "tags": [
-        "موسیقی متن",
-        "اینتراستلار",
-        "سینمایی",
-        "ارکستر",
-        "پیانو",
-        "حماسی",
-        "فضا",
-        "کهکشان",
-        "اکتشاف",
-        "رویایی",
-        "عمیق",
-        "زمان",
-        "بزرگ",
-        "بی کلام",
-        "هانس زیمر",
-        "کورنفیلد چیس"
-      ],
-      "tagsEn": [
-        "soundtrack",
-        "interstellar",
-        "cinematic",
-        "orchestra",
-        "piano",
-        "epic",
-        "space",
-        "galaxy",
-        "exploration",
-        "dreamy",
-        "deep",
-        "time",
-        "grand",
-        "instrumental",
-        "hans zimmer",
-        "zimmer"
-      ],
-      "analysis": {
-        "bpm": 96,
-        "energy": 9,
-        "dance": 4,
-        "bright": 11,
-        "vocals": 0,
-        "dyn": 59,
-        "vibe": {
-          "sad": 16,
-          "happy": 0,
-          "energetic": 4,
-          "calm": 56,
-          "focus": 100,
-          "epic": 100,
-          "romantic": 8,
-          "dark": 8
-        }
-      },
-      "lyricsStatus": "missing",
-      "lyricsSummary": "قطعه‌ای سینمایی و بی‌کلام از هانس زیمر که با اُستیناتوی پیانو و ارگ، حس شتاب و اضطرار همراه با حیرت کیهانی را منتقل می‌کند. موسیقی در عین بزرگی و حماسه، لایه‌ای از دلتنگی و امید انسانی دارد؛ گویی روایتی از جدایی، گذر زمان و تلاش برای نجات است. فضای کلی آن رویایی، عمیق و پرشور است.",
-      "moods": {
-        "hope": 0.85,
-        "dreaminess": 0.8,
-        "power": 0.7,
-        "energy": 0.65,
-        "longing": 0.6,
-        "mystery": 0.55,
-        "reflection": 0.5,
-        "euphoria": 0.45,
-        "tension": 0.4,
-        "nostalgia": 0.3,
-        "calm": 0.2
-      },
-      "audioMoodTag": "حماسی-رویایی",
-      "energy": "medium",
-      "valence": "positive",
-      "summaryEn": "A cinematic, wordless piece by Hans Zimmer uses piano and organ ostinatos to convey urgency and haste alongside a sense of cosmic wonder. Beneath its grandeur and epic scale, the music carries a layer of longing and human hope, as if narrating separation, the passage of time, and a struggle to save. Its overall atmosphere is dreamy, deep, and passionate.",
-      "audioMoodEn": "Epic-Dreamy"
-    },
-    {
-      "id": 15,
-      "name": "Counting Stars",
-      "artist": "OneRepublic",
-      "src": "../assets/Music/Counting Stars - OneRepublic.mp3",
-      "tags": [
-        "جاه‌طلبی",
-        "رویا",
-        "امید",
-        "انگیزه",
-        "ستاره‌ها",
-        "آسمان",
-        "مبارزه زندگی",
-        "سرود",
-        "پرانرژی",
-        "آزادی",
-        "شب",
-        "پول",
-        "ثروت",
-        "تسلیم نشدن",
-        "شمارش",
-        "بی‌نهایت",
-        "الهام",
-        "پاپ راک",
-        "جهان",
-        "کویر",
-        "کاونتینگ استارز",
-        "وان ریپابلیک",
-        "کانتینگ استارز"
-      ],
-      "tagsEn": [
-        "ambition",
-        "dream",
-        "hope",
-        "motivation",
-        "stars",
-        "sky",
-        "struggle life",
-        "anthem",
-        "energetic",
-        "freedom",
-        "night",
-        "money",
-        "wealth",
-        "never give up",
-        "counting",
-        "infinity",
-        "inspiration",
-        "pop rock",
-        "universe",
-        "desert"
-      ],
-      "analysis": {
-        "bpm": 123,
-        "energy": 74,
-        "dance": 61,
-        "bright": 80,
-        "vocals": 72,
-        "dyn": 37,
-        "vibe": {
-          "sad": 0,
-          "happy": 8,
-          "energetic": 100,
-          "calm": 3,
-          "focus": 7,
-          "epic": 23,
-          "romantic": 0,
-          "dark": 0
-        }
-      },
-      "lyrics": "Lately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be counting stars\nYeah, we'll be counting stars\nI see this life like a swinging vine\nSwing my heart across the line\nIn my face is flashing signs\nSeek it out and ye shall find.\nOld but I'm not that old\nYoung but I'm not that bold\nAnd I don't think the world is sold\nI'm just doing what we're told\nAnd I I I I feel something so right by doing the wrong thing\nAnd I I I I feel something so wrong by doing the right thing\nI could lie, couldn't I, couldn't I?\nEvery thing that kills me makes me feel alive.\nLately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be counting stars\nLately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be-we'll be counting stars\nYe-e-yeah\nI feel her love\nAnd I feel it burn down this river every time\nHope is our four-letter word, make that money watch it burn\nOld but, I'm not that old\nYoung, but I'm not that bold\nAnd I don't think the world is sold\nI'm just doing what we're told\nAnd I I I I feel something so wrong by doing the right thing\nI could lie, couldn't I, couldn't I?\nEverything that drowns me makes me wanna fly\nLately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be counting stars\nLately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be-we'll be counting stars\nOh, take that money watch it burn\nSing in the river the lessons I learned\nTake that money watch it burn\nSing in the river the lessons I learned\nTake that money watch it burn\nSing in the river the lessons I learned\nTake that money watch it burn\nSing in the river the lessons I learned\nEverything that kills me makes me feel alive\nLately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be counting stars\nLately I've been, I've been losing sleep\nDreaming about the things that we could be\nBut, baby I've been, I've been praying hard\nSaid no more counting dollars, we'll be-we'll be counting stars\nTake that money watch it burn\nSing in the river the lessons I learned\nTake that money watch it burn\nSing in the river the lessons I learned\nTake that money watch it burn\nSing in the river the lessons I learned\nTake that money watch it burn\nSing in the river the lessons I learned",
-      "lyricsStatus": "fetched_by_agent",
-      "lyricsSummary": "این آهنگ روایتی از کسی است که شب‌ها بی‌خوابی می‌کشد و درباره آینده‌ای بزرگ‌تر رؤیا می‌بیند؛ او پول و ثروت را کنار می‌گذارد و به جای شمردن دلارها، ستاره‌ها را می‌شمارد. حس اصلی ترانه ترکیبی از امید، جاه‌طلبی و سرکشی است؛ باوری که هر چه آدم را می‌کشد او را زنده‌تر می‌کند و رنج‌ها را به پرواز تبدیل می‌سازد.",
-      "moods": {
-        "hope": 0.9,
-        "dreaminess": 0.8,
-        "energy": 0.85,
-        "euphoria": 0.6,
-        "power": 0.6,
-        "defiance": 0.65,
-        "rebellion": 0.5,
-        "longing": 0.5,
-        "reflection": 0.45,
-        "joy": 0.4
-      },
-      "audioMoodTag": "پرانرژی-رویایی",
-      "energy": "high",
-      "valence": "positive",
-      "summaryEn": "The song tells the story of someone who lies awake at night dreaming of a greater future; they set aside money and wealth, choosing to count stars instead of dollars. Its core feeling blends hope, ambition, and rebellion, with the belief that what kills us makes us more alive and turns suffering into flight.",
-      "audioMoodEn": "Energetic-Dreamy"
-    },
-    {
-      "id": 16,
+      "id": 12,
       "name": "Cure For Me",
       "artist": "AURORA",
-      "src": "../assets/Music/Cure For Me - AURORA (converted).mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Cure%20For%20Me%20-%20AURORA%20(converted).mp3",
       "tags": [
         "درمان",
         "خودپذیری",
@@ -1431,10 +1099,10 @@
       "audioMoodEn": "Dark-Energetic"
     },
     {
-      "id": 17,
+      "id": 13,
       "name": "Lose Yourself",
       "artist": "Eminem",
-      "src": "../assets/Music/Eminem - Lose Yourself.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Eminem%20-%20Lose%20Yourself.mp3",
       "tags": [
         "جاه‌طلبی",
         "مبارزه زندگی",
@@ -1522,98 +1190,10 @@
       "audioMoodEn": "Energetic-Motivational"
     },
     {
-      "id": 18,
-      "name": "Espresso",
-      "artist": "Sabrina Carpenter",
-      "src": "../assets/Music/Espresso - Sabrina Carpenter.mp3",
-      "tags": [
-        "اعتماد به نفس",
-        "جذابیت",
-        "گیرا",
-        "تابستان",
-        "عشوه‌گری",
-        "رقص",
-        "شاد و پرتحرک",
-        "وایرال",
-        "دهه ۲۰۲۰",
-        "اغواگری",
-        "قهوه",
-        "انرژی",
-        "صبح",
-        "شیرین",
-        "بازیگوش",
-        "مد",
-        "رنگ",
-        "هیت تابستانی",
-        "شاد",
-        "جذابیت کشنده",
-        "سبرینا کارپنتر",
-        "اسپرسو"
-      ],
-      "tagsEn": [
-        "confidence",
-        "attraction",
-        "catchy",
-        "summer",
-        "flirtation",
-        "dance",
-        "upbeat",
-        "viral",
-        "2020s",
-        "seduction",
-        "coffee",
-        "energy",
-        "morning",
-        "sweet",
-        "playful",
-        "fashion",
-        "color",
-        "summer hit",
-        "happy",
-        "deadly charm"
-      ],
-      "analysis": {
-        "bpm": 103,
-        "energy": 59,
-        "dance": 72,
-        "bright": 96,
-        "vocals": 81,
-        "dyn": 67,
-        "vibe": {
-          "sad": 22,
-          "happy": 80,
-          "energetic": 57,
-          "calm": 22,
-          "focus": 5,
-          "epic": 34,
-          "romantic": 54,
-          "dark": 0
-        }
-      },
-      "lyrics": "Now he's thinkin' 'bout me every night, oh\nIs it that sweet? I guess so\nSay you can't sleep, baby, I know\nThat's that me, espresso\nMove it up, down, left, right, oh\nSwitch it up like Nintendo\nSay you can't sleep, baby, I know\nThat's that me, espresso\nI can't relate to desperation\nMy 'give a fucks' are on vacation\nAnd I got this one boy\nAnd he won't stop calling\nWhen they act this way\nI know I got 'em\nToo bad your ex don't do it for ya\nWalked in and dream came trued it for ya\nSoft skin and I perfumed it for ya\nI know I Mountain Dew it for ya\nThat morning coffee, brewed it for ya\nOne touch and I brand newed it for ya\nNow he's thinkin' 'bout me every night, oh\nIs it that sweet? I guess so\nSay you can't sleep, baby, I know\nThat's that me, espresso\nMove it up, down, left, right, oh\nSwitch it up like Nintendo\nSay you can't sleep, baby, I know\nThat's that me, espresso\n(Holy shit)\nIs it that sweet? I guess so\nI'm working late 'cause I'm a singer\nOh, he looks so cute wrapped around my finger\nMy twisted humor, make him laugh so often\nMy honey bee, come and get this pollen\nToo bad your ex don't do it for ya\nWalked in and dream came trued it for ya\nSoft skin and I perfumed it for ya\nI know I Mountain Dew it for ya\nThat morning coffee, brewed it for ya\nOne touch and I brand newed it for ya\nNow he's thinkin' 'bout me every night, oh\nIs it that sweet? I guess so\nSay you can't sleep, baby, I know\nThat's that me, espresso\nMove it up, down, left, right, oh\nSwitch it up like Nintendo\nSay you can't sleep, baby, I know\nThat's that me, espresso\nHe's thinkin' 'bout me every night, oh\nIs it that sweet? I guess so\nSay you can't sleep, baby, I know\nThat's that me, espresso\nMove it up, down, left, right, oh\nSwitch it up like Nintendo\nSay you can't sleep, baby, I know\nThat's that me, espresso\nIs it that sweet? I guess so\nThat's that me, espresso",
-      "lyricsStatus": "fetched_by_agent",
-      "lyricsSummary": "این ترانه با لحنی شوخ و مطمئن، حس اعتماد به نفس و جذابیت بی‌تلاش خواننده را روایت می‌کند که معشوقش را مسحور خود کرده است. تشبیه خود به «اسپرسو» نشان‌دهنده شیرینی، انرژی و بی‌خواب‌کننده بودن حضور اوست. فضای کلی ترانه تابستانی، بازیگوش و پر از عشوه‌گری است.",
-      "moods": {
-        "joy": 0.9,
-        "playfulness": 0.95,
-        "sensuality": 0.7,
-        "energy": 0.9,
-        "euphoria": 0.6,
-        "power": 0.65,
-        "romance": 0.45,
-        "warmth": 0.4
-      },
-      "audioMoodTag": "پرانرژی-شاد و عشوه‌گر",
-      "energy": "high",
-      "valence": "positive",
-      "summaryEn": "With a playful, confident tone, the song captures the singer's effortless self-assurance and charm as she captivates her beloved. Comparing herself to 'espresso' highlights the sweetness, energy, and sleepless allure of her presence. The overall mood is summery, playful, and full of flirtatious charm.",
-      "audioMoodEn": "Energetic, Happy & Flirty"
-    },
-    {
-      "id": 19,
+      "id": 14,
       "name": "Flowers",
       "artist": "Miley Cyrus",
-      "src": "../assets/Music/Flowers.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Flowers.mp3",
       "tags": [
         "عشق به خود",
         "استقلال",
@@ -1699,10 +1279,10 @@
       "audioMoodEn": "Energetic-Empowering"
     },
     {
-      "id": 20,
+      "id": 15,
       "name": "Happier Than Ever",
       "artist": "Billie Eilish",
-      "src": "../assets/Music/Happier Than Ever - Billie Eilish.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Happier%20Than%20Ever%20-%20Billie%20Eilish.mp3",
       "tags": [
         "جدایی",
         "خشم",
@@ -1787,10 +1367,10 @@
       "audioMoodEn": "Sad-Angry"
     },
     {
-      "id": 21,
+      "id": 16,
       "name": "Heat Waves",
       "artist": "Glass Animals",
-      "src": "../assets/Music/Heat Waves.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Heat%20Waves.mp3",
       "tags": [
         "دلتنگی",
         "نوستالژی",
@@ -1878,10 +1458,10 @@
       "audioMoodEn": "Calm Melancholy"
     },
     {
-      "id": 22,
+      "id": 17,
       "name": "Houdini",
       "artist": "Eminem",
-      "src": "../assets/Music/Houdini.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Houdini.mp3",
       "tags": [
         "رپ",
         "هیپ هاپ",
@@ -1939,7 +1519,7 @@
       "lyricsStatus": "fetched_by_agent",
       "lyricsSummary": "این ترانه با لحن جسورانه و بازیگوش، بازگشت پرانرژی امینم را با خودنمایی، کلمات‌بازی و اعتمادبه‌نفس بالا روایت می‌کند. در کنار طنز سیاه و تهاجم کلامی، حس قدرت، سرکشی و تنش غالب است. فضای کلی آهنگ پرتحرک، خودبسنده و گاه تاریک است.",
       "moods": {
-        "energy": 1.0,
+        "energy": 1,
         "power": 0.95,
         "playfulness": 0.85,
         "defiance": 0.8,
@@ -1958,10 +1538,10 @@
       "audioMoodEn": "Energetic-Bold"
     },
     {
-      "id": 23,
+      "id": 18,
       "name": "I Was Made for Lovin' You",
       "artist": "KISS",
-      "src": "../assets/Music/I Was Made For Lovin  You - KISS.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/I%20Was%20Made%20For%20Lovin%20%20You%20-%20KISS.mp3",
       "tags": [
         "راک",
         "دیسکو",
@@ -2038,10 +1618,10 @@
       "audioMoodEn": "Energetic-Romantic"
     },
     {
-      "id": 24,
+      "id": 19,
       "name": "Idea 10",
       "artist": "Gibran Alcocer",
-      "src": "../assets/Music/Idea 10 - Gibran Alcocer.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Idea%2010%20-%20Gibran%20Alcocer.mp3",
       "tags": [
         "پیانو",
         "بی کلام",
@@ -2120,10 +1700,10 @@
       "audioMoodEn": "Calm and Melancholic"
     },
     {
-      "id": 25,
+      "id": 20,
       "name": "Idea 22",
       "artist": "Gibran Alcocer",
-      "src": "../assets/Music/Idea 22.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Idea%2022.mp3",
       "tags": [
         "پیانو",
         "بی کلام",
@@ -2204,10 +1784,10 @@
       "audioMoodEn": "Calm-Melancholic"
     },
     {
-      "id": 26,
+      "id": 21,
       "name": "Je veux",
       "artist": "ZAZ",
-      "src": "../assets/Music/Je veux - ZAZ.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Je%20veux%20-%20ZAZ.mp3",
       "tags": [
         "فرانسوی",
         "جاز",
@@ -2284,10 +1864,10 @@
       "audioMoodEn": "Energetic-Happy"
     },
     {
-      "id": 27,
+      "id": 22,
       "name": "Let It Happen",
       "artist": "Tame Impala",
-      "src": "../assets/Music/Let It Happen - Tame Impala.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Let%20It%20Happen%20-%20Tame%20Impala.mp3",
       "tags": [
         "سایکدلیک",
         "هیپنوتیزم کننده",
@@ -2361,10 +1941,10 @@
       "audioMoodEn": "Hypnotic-Liberating"
     },
     {
-      "id": 28,
+      "id": 23,
       "name": "Nothing's New",
       "artist": "Rio Romeo",
-      "src": "../assets/Music/Nothing s New - Rio Romeo.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Nothing%20s%20New%20-%20Rio%20Romeo.mp3",
       "tags": [
         "عشق",
         "دلتنگی",
@@ -2452,10 +2032,10 @@
       "audioMoodEn": "Calm-Sad"
     },
     {
-      "id": 29,
+      "id": 24,
       "name": "On ira",
       "artist": "Zaz",
-      "src": "../assets/Music/On ira (converted).mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/On%20ira%20(converted).mp3",
       "tags": [
         "فرانسوی",
         "امید",
@@ -2529,10 +2109,10 @@
       "audioMoodEn": "Calm and Hopeful"
     },
     {
-      "id": 30,
+      "id": 25,
       "name": "Apologize",
       "artist": "OneRepublic",
-      "src": "../assets/Music/OneRepublic - Apologize.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/OneRepublic%20-%20Apologize.mp3",
       "tags": [
         "پشیمانی",
         "عذرخواهی",
@@ -2620,10 +2200,10 @@
       "audioMoodEn": "Sad and heavy"
     },
     {
-      "id": 31,
+      "id": 26,
       "name": "Romantic Homicide",
       "artist": "d4vd",
-      "src": "../assets/Music/Romantic Homicide - d4vd.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Romantic%20Homicide%20-%20d4vd.mp3",
       "tags": [
         "دلشکستگی",
         "خشم",
@@ -2700,10 +2280,10 @@
       "audioMoodEn": "Sad-Angry"
     },
     {
-      "id": 32,
+      "id": 27,
       "name": "Save Your Tears",
       "artist": "The Weeknd",
-      "src": "../assets/Music/Save Your Tears.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Save%20Your%20Tears.mp3",
       "tags": [
         "جدایی",
         "پشیمانی",
@@ -2788,10 +2368,10 @@
       "audioMoodEn": "Sad dance"
     },
     {
-      "id": 33,
+      "id": 28,
       "name": "Hips Don't Lie",
       "artist": "Shakira",
-      "src": "../assets/Music/Shakira - Hips Don t Lie.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Shakira%20-%20Hips%20Don%20t%20Lie.mp3",
       "tags": [
         "رقص",
         "لاتین",
@@ -2875,10 +2455,10 @@
       "audioMoodEn": "Energetic-Seductive"
     },
     {
-      "id": 34,
+      "id": 29,
       "name": "Swing Lynn (Slowed)",
       "artist": "Harmless",
-      "src": "../assets/Music/Slowed Version - Swing Lynn.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Slowed%20Version%20-%20Swing%20Lynn.mp3",
       "tags": [
         "اسلو",
         "رویایی",
@@ -2955,10 +2535,10 @@
       "audioMoodEn": "Dreamy-Romantic"
     },
     {
-      "id": 35,
+      "id": 30,
       "name": "Sweater Weather",
       "artist": "The Neighbourhood",
-      "src": "../assets/Music/Sweater Weather.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Sweater%20Weather.mp3",
       "tags": [
         "عاشقانه",
         "صمیمیت",
@@ -3041,10 +2621,10 @@
       "audioMoodEn": "Dreamy-Romantic"
     },
     {
-      "id": 36,
+      "id": 31,
       "name": "The Fate of Ophelia",
       "artist": "Taylor Swift",
-      "src": "../assets/Music/The Fate of Ophelia.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/The%20Fate%20of%20Ophelia.mp3",
       "tags": [
         "داستانی",
         "شکسپیر",
@@ -3125,10 +2705,10 @@
       "audioMoodEn": "Energetic-Cinematic"
     },
     {
-      "id": 37,
+      "id": 32,
       "name": "No One Noticed",
       "artist": "The Marías",
-      "src": "../assets/Music/The Marias - No One Noticed.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/The%20Marias%20-%20No%20One%20Noticed.mp3",
       "tags": [
         "تنهایی",
         "انزوا",
@@ -3214,10 +2794,10 @@
       "audioMoodEn": "Calm Longing"
     },
     {
-      "id": 38,
+      "id": 33,
       "name": "Seven Nation Army",
       "artist": "The White Stripes",
-      "src": "../assets/Music/The White Stripes - Seven Nation Army.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/The%20White%20Stripes%20-%20Seven%20Nation%20Army.mp3",
       "tags": [
         "قدرت",
         "سرود",
@@ -3300,10 +2880,10 @@
       "audioMoodEn": "High-Energy Rebellious"
     },
     {
-      "id": 39,
+      "id": 34,
       "name": "Thinking Out Loud (Piano Cover)",
       "artist": "Ed Sheeran Piano Covers",
-      "src": "../assets/Music/Thinking Out Loud.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Thinking%20Out%20Loud.mp3",
       "tags": [
         "عشق",
         "برای همیشه",
@@ -3391,10 +2971,10 @@
       "audioMoodEn": "Calm & Romantic"
     },
     {
-      "id": 40,
+      "id": 35,
       "name": "Training Season",
       "artist": "Dua Lipa",
-      "src": "../assets/Music/Training Season.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Training%20Season.mp3",
       "tags": [
         "رقص",
         "ریتم قوی",
@@ -3468,10 +3048,10 @@
       "audioMoodEn": "Energetic-Confident"
     },
     {
-      "id": 41,
+      "id": 36,
       "name": "bad guy",
       "artist": "Billie Eilish",
-      "src": "../assets/Music/bad guy - Billie Eilish.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/bad%20guy%20-%20Billie%20Eilish.mp3",
       "tags": [
         "طغیان",
         "طنز تلخ",
@@ -3561,10 +3141,10 @@
       "audioMoodEn": "Dark-Playful"
     },
     {
-      "id": 42,
+      "id": 37,
       "name": "did i tell u that i miss u",
       "artist": "adore",
-      "src": "../assets/Music/did i tell u that i miss u - adore.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/did%20i%20tell%20u%20that%20i%20miss%20u%20-%20adore.mp3",
       "tags": [
         "دلتنگی",
         "لطیف",
@@ -3642,10 +3222,10 @@
       "audioMoodEn": "Calm-Melancholy"
     },
     {
-      "id": 43,
+      "id": 38,
       "name": "we fell in love in october",
       "artist": "girl in red",
-      "src": "../assets/Music/girl in red - we fell in love in october.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/girl%20in%20red%20-%20we%20fell%20in%20love%20in%20october.mp3",
       "tags": [
         "پاییز",
         "اکتبر",
@@ -3720,10 +3300,10 @@
       "audioMoodEn": "Calm-Romantic"
     },
     {
-      "id": 44,
+      "id": 39,
       "name": "In the End (Piano Cover)",
       "artist": "Scott D. Davis",
-      "src": "../assets/Music/in the end.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/in%20the%20end.mp3",
       "tags": [
         "مبارزه",
         "پشیمانی",
@@ -3817,10 +3397,10 @@
       "audioMoodEn": "Calm and Sad"
     },
     {
-      "id": 45,
+      "id": 40,
       "name": "STAY",
       "artist": "The Kid LAROI & Justin Bieber",
-      "src": "../assets/Music/stay.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/stay.mp3",
       "tags": [
         "جدایی",
         "پشیمانی",
@@ -3905,10 +3485,10 @@
       "audioMoodEn": "Energetic-Emotional"
     },
     {
-      "id": 46,
+      "id": 41,
       "name": "Yellow (Fingerstyle Cover)",
       "artist": "Daniel Padim",
-      "src": "../assets/Music/yellow.mp3",
+      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/yellow.mp3",
       "tags": [
         "عشق",
         "وفاداری",
