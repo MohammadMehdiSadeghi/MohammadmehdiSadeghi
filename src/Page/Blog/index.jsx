@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SnakeBar from "../../Components/SnakeBar";
 import Loading from "../../Components/Loading";
 import useClickTrack from "../../Hooks/useClickTrack";
+import usePageSEO from "../../Hooks/usePageSEO";
 import { excerptFrom, formatDate, isRTL, readTime } from "../../lib/blog";
 
 const PURPLE = "#615FFF";
@@ -197,6 +198,11 @@ function PostCard({ post, index }) {
 }
 
 export default function Blog() {
+  usePageSEO({
+    title: "Blog & Engineering Insights | Mohammad Mehdi Sadeghi",
+    description: "Read frontend development insights, React architectural patterns, developer tips, and case studies by Mohammad Mehdi Sadeghi.",
+  });
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

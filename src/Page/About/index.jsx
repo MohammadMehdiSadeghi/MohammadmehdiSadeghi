@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import SubjectBox from "./SubjectBox";
 import Bio from "./Bio";
+import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function About() {
+  usePageSEO({
+    title: "About Me | Mohammad Mehdi Sadeghi - Bio, Skills & Experience",
+    description: "Learn more about Mohammad Mehdi Sadeghi, his frontend engineering journey, technical skill set, education, and development background.",
+  });
+
   const [activeTab, setActiveTab] = useState("aboutMe");
   const [personalInfoOpen, setPersonalInfoOpen] = useState(true);
   return (

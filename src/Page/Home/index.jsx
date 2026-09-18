@@ -2,8 +2,14 @@ import React from "react";
 import "./index.css";
 import MusicSearch from "./MusicSearch";
 import InformationText from "./InformationText";
+import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function Home() {
+  usePageSEO({
+    title: "Mohammad Mehdi Sadeghi | Frontend Engineer & UI Specialist",
+    description: "Welcome to the developer portfolio of Mohammad Mehdi Sadeghi, featuring interactive web projects, skills, audio DSP experiments, and technical articles.",
+  });
+
   return (
     <>
       <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] md:h-[calc(100vh-116px)]">

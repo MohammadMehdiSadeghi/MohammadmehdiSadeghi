@@ -4,8 +4,14 @@ import Form from "./Form";
 import CodeView from "./CodeView";
 import SuccessModal from "./SuccessModal";
 import useClickTrack from "../../Hooks/useClickTrack";
+import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function Contact() {
+  usePageSEO({
+    title: "Contact | Get in Touch with Mohammad Mehdi Sadeghi",
+    description: "Send a message or connect directly with Mohammad Mehdi Sadeghi for frontend engineering contracts, collaborations, or inquiries.",
+  });
+
   const { trackClick } = useClickTrack();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");

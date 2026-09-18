@@ -1,8 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useClickTrack from "../../Hooks/useClickTrack";
+import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function NotFoundCode() {
+  usePageSEO({
+    title: "404 - Page Not Found | Mohammad Mehdi Sadeghi",
+    description: "The page you are looking for does not exist on Mohammad Mehdi Sadeghi's portfolio.",
+  });
+
   const { withTracking } = useClickTrack();
   const purple = "#615FFF";
   const gray = "#90A1B9";

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import SnakeBar from "../../../Components/SnakeBar";
 import Loading from "../../../Components/Loading";
 import { formatDate, isRTL, parseBlocks, readTime } from "../../../lib/blog";
+import usePageSEO from "../../../Hooks/usePageSEO";
 
 const PURPLE = "#615FFF";
 const GRAY = "#90A1B9";
@@ -111,6 +112,16 @@ function Blocks({ content }) {
 export default function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+
+  usePageSEO({
+    title: post?.title
+      ? `${post.title} | Mohammad Mehdi Sadeghi`
+      : "Article | Mohammad Mehdi Sadeghi Blog",
+    description: post?.excerpt || "Technical article by Mohammad Mehdi Sadeghi exploring frontend architecture, JavaScript, and modern web development.",
+    image: post?.cover || "/vite.svg",
+    type: "article",
+  });
+
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

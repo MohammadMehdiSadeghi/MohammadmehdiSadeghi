@@ -13,9 +13,15 @@ import DatabasePage from "./Database";
 import TelegramPage from "./Telegram";
 import MoodsPage from "./Moods";
 import SecurityPage from "./Security";
+import usePageSEO from "../../Hooks/usePageSEO";
 
 function AdminRoutes() {
   const location = useLocation();
+
+  usePageSEO({
+    title: "Admin Dashboard | Mohammad Mehdi Sadeghi",
+    description: "Secure administrative console for content management, database explorer, and analytics.",
+  });
   return (
     <ErrorBoundary key={location.pathname}>
       <Routes>
