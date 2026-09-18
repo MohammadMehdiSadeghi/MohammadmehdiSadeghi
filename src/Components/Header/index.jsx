@@ -45,6 +45,8 @@ export default function Header() {
               <li
                 key={link.key}
                 className={`flex justify-center items-center h-full ${
+                  link.key === "home" ? "border-r border-[#90a1b977]" : ""
+                } ${
                   index > 1 ? "border-l border-[#90a1b977]" : ""
                 } ${
                   index === middleLinks.length - 1
