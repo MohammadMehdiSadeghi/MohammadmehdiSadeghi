@@ -46,7 +46,7 @@ export default function CodeView({ name, phoneNumber, message }) {
         <span className="mr-8" style={{ color: gray }}>
           05
         </span>{" "}
-        <span style={{ color: purple }}>PhoneNumber</span>
+        <span style={{ color: purple }}>phoneNumber</span>
         <span style={{ color: gray }}>:</span>{" "}
         <span style={{ color: yellow }}>"{phoneNumber}"</span>
         <span style={{ color: gray }}>,</span>

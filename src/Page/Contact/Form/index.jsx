@@ -127,6 +127,7 @@ export default function Form({
           />
         </label>
         <button
+          id="sendBtn"
           type="submit"
           disabled={status === "sending"}
           className="w-full py-2.5 rounded-md cursor-pointer duration-150 bg-[#90A1B9] hover:bg-[#0E1528] outline-1 outline-[#90A1B9] text-[#0E1528] hover:text-[#90A1B9] disabled:opacity-60 disabled:cursor-not-allowed"
