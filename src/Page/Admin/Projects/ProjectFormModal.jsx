@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 
 const SOURCES = [
-  { key: "none", label: "◈ showcase only" },
-  { key: "link", label: "🔗 live link" },
-  { key: "upload", label: "⬆ upload dist.zip" },
+  { key: "none", label: "showcase only" },
+  { key: "link", label: "live link" },
+  { key: "upload", label: "upload dist.zip" },
 ];
 
 export default function ProjectFormModal({ mode, project, busy, onClose, onSave, authFetch, projectType }) {

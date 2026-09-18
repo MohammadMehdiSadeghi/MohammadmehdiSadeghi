@@ -54,7 +54,7 @@ export default function NotFoundCode() {
         <span style={{ color: purple }}>throw</span>{" "}
         <span style={{ color: purple }}>new</span>{" "}
         <span style={{ color: red }}>Error</span>(
-        <span style={{ color: green }}>"404: PageNotFoundError 😕"</span>);
+        <span style={{ color: green }}>"404: PageNotFoundError"</span>);
         <br />
         <span className="mr-8">08</span> {"}"}
         <br />
@@ -66,7 +66,7 @@ export default function NotFoundCode() {
         <br />
         <span className="mr-8">12</span> * - Use the site navigation
         <br />
-        <span className="mr-8">13</span> * - Or hit CMD+Z in real life 😄
+        <span className="mr-8">13</span> * - Return to the main page
         <br />
         <span className="mr-8">14</span> */
         <br />

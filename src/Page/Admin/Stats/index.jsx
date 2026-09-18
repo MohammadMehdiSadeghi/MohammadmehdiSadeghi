@@ -15,6 +15,36 @@ const RANGES = [
 
 
 
+const statIcons = {
+  today: (
+    <svg className="w-3.5 h-3.5 text-[#FFB86A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  ),
+  week: (
+    <svg className="w-3.5 h-3.5 text-[#C27AFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+    </svg>
+  ),
+  month: (
+    <svg className="w-3.5 h-3.5 text-[#615FFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  ),
+  year: (
+    <svg className="w-3.5 h-3.5 text-[#4ADE80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1" />
+    </svg>
+  ),
+  total: (
+    <svg className="w-3.5 h-3.5 text-[#90A1B9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+    </svg>
+  ),
+};
+
 function StatCard({ label, value, accent, icon, delta, small }) {
   const isPositive = delta && delta > 0;
   const isNegative = delta && delta < 0;
@@ -36,7 +66,7 @@ function StatCard({ label, value, accent, icon, delta, small }) {
         <p className="text-[10px] text-[#68768C] uppercase tracking-wider">
           // {label}
         </p>
-        {icon && <span className="text-[13px]">{icon}</span>}
+        {icon && <span className="shrink-0">{icon}</span>}
       </div>
       <div className="flex items-end gap-2 relative z-10">
         <p
@@ -204,34 +234,35 @@ export default function StatsPage() {
               label="today"
               value={data.today}
               accent="#FFB86A"
-              icon="📊"
+              icon={statIcons.today}
               delta={data.todayDelta}
             />
             <StatCard
               label="this week"
               value={data.last7Total}
               accent="#C27AFF"
-              icon="📈"
+              icon={statIcons.week}
               delta={data.weekDelta}
             />
             <StatCard
               label="this month"
               value={data.thisMonth}
               accent="#615FFF"
-              icon="📅"
+              icon={statIcons.month}
               delta={data.monthDelta}
             />
             <StatCard
               label="this year"
               value={data.thisYear}
               accent="#4ADE80"
-              icon="🎯"
+              icon={statIcons.year}
               delta={data.yearDelta}
             />
             <StatCard
               label="total (all time)"
               value={data.totalAllTime}
               accent="#90A1B9"
+              icon={statIcons.total}
             />
           </div>
 

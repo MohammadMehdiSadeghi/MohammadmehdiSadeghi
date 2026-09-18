@@ -502,7 +502,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                     onClick={() => addBlock("img")}
                     className="text-[11px] px-2.5 py-1.5 rounded bg-[#615FFF]/20 border border-[#615FFF]/50 text-white hover:bg-[#615FFF] duration-150 font-semibold"
                   >
-                    🖼 + Image (with Alt)
+                    + Image (with Alt)
                   </button>
                   <button
                     type="button"

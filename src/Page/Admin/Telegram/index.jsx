@@ -130,7 +130,7 @@ export default function TelegramPage() {
           </li>
           <li>open your own chat with the new bot and press START (send any message)</li>
           <li>paste the token below → click «detect chat-id» → pick your chat</li>
-          <li>enable + save → send a test message 🎉</li>
+          <li>enable + save → send a test message to verify</li>
         </ol>
       </div>
 

@@ -20,6 +20,116 @@ const fmtTime = (ms) => {
   ).padStart(2, "0")}`;
 };
 
+// --- Minimal Modern SVG Icons ---
+function DatabaseIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path strokeLinecap="round" d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+      <path strokeLinecap="round" d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+    </svg>
+  );
+}
+
+function FolderIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+    </svg>
+  );
+}
+
+function FileIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  );
+}
+
+function TrashIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    </svg>
+  );
+}
+
+function EyeIcon({ className = "w-3.5 h-3.5" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  );
+}
+
+function DownloadIcon({ className = "w-3.5 h-3.5" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+  );
+}
+
+function CopyIcon({ className = "w-3.5 h-3.5" }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+    </svg>
+  );
+}
+
+function CollectionTypeIcon({ id, className = "w-4 h-4" }) {
+  if (id === "blog") {
+    return (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+    );
+  }
+  if (id.includes("project")) {
+    return (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    );
+  }
+  if (id === "messages") {
+    return (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+      </svg>
+    );
+  }
+  if (id === "skills") {
+    return (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    );
+  }
+  if (id === "visits") {
+    return (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+    );
+  }
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+    </svg>
+  );
+}
+
+const QUICK_SHORTCUTS = [
+  { label: "root", path: "" },
+  { label: "blog uploads", path: "public/assets/Blog" },
+  { label: "project assets", path: "public/Projects" },
+  { label: "database json", path: "public/api" },
+];
+
 export default function DatabasePage() {
   const { authFetch } = useAdminAuth();
   const [activeTab, setActiveTab] = useState("collections"); // "collections" | "files"
@@ -41,6 +151,9 @@ export default function DatabasePage() {
   const [busy, setBusy] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [notice, setNotice] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState(new Set());
+  const [batchDeleteOpen, setBatchDeleteOpen] = useState(false);
+  const [fileSearch, setFileSearch] = useState("");
   const sizeCache = useRef(new Map());
 
   // Load collections
@@ -64,6 +177,7 @@ export default function DatabasePage() {
     async (p) => {
       setLoadingFiles(true);
       setFileError("");
+      setSelectedFiles(new Set());
       try {
         const res = await authFetch(`/api/admin/fs?path=${encodeURIComponent(p)}`);
         const json = await res.json();
@@ -128,19 +242,19 @@ export default function DatabasePage() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Reset failed");
       setNotice(
-        `✓ Cleared: ${json.cleared?.length ? json.cleared.join(", ") : "nothing stored yet"}`,
+        `Cleared: ${json.cleared?.length ? json.cleared.join(", ") : "nothing stored yet"}`,
       );
       sizeCache.current.clear();
       await loadCollections();
       await loadFiles(path);
     } catch (err) {
-      setNotice(`✕ ${err.message || "Reset failed"}`);
+      setNotice(`Error: ${err.message || "Reset failed"}`);
     } finally {
       setResetting(false);
     }
   };
 
-  // Delete file / folder
+  // Delete single file / folder
   const handleDelete = async () => {
     if (!deleteTarget) return;
     setBusy(true);
@@ -155,12 +269,48 @@ export default function DatabasePage() {
       sizeCache.current.clear();
       setDeleteTarget(null);
       await loadFiles(path);
+      setNotice(`Deleted: ${deleteTarget.name}`);
     } catch (err) {
       setFileError(err.message || "Delete failed");
       setDeleteTarget(null);
     } finally {
       setBusy(false);
     }
+  };
+
+  // Batch delete selected files / folders
+  const handleBatchDelete = async () => {
+    if (selectedFiles.size === 0) return;
+    setBusy(true);
+    let deletedCount = 0;
+    const errors = [];
+    for (const rel of Array.from(selectedFiles)) {
+      try {
+        const res = await authFetch("/api/admin/fs-delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ path: rel }),
+        });
+        if (res.ok) {
+          deletedCount++;
+        } else {
+          const j = await res.json().catch(() => ({}));
+          errors.push(j.error || rel);
+        }
+      } catch (err) {
+        errors.push(err.message || rel);
+      }
+    }
+    sizeCache.current.clear();
+    setSelectedFiles(new Set());
+    setBatchDeleteOpen(false);
+    setBusy(false);
+    if (errors.length > 0) {
+      setNotice(`Deleted ${deletedCount} item(s), ${errors.length} failed: ${errors.join(", ")}`);
+    } else {
+      setNotice(`Successfully deleted ${deletedCount} extra item(s).`);
+    }
+    await loadFiles(path);
   };
 
   // Download collection JSON backup
@@ -181,6 +331,44 @@ export default function DatabasePage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Visible items filtered by search
+  const visibleItems = items.filter((it) =>
+    !fileSearch || it.name.toLowerCase().includes(fileSearch.toLowerCase())
+  );
+
+  const selectableItems = visibleItems.filter(
+    (it) => !(it.type === "dir" && SKIP_DIRS.has(it.name))
+  );
+
+  const allSelected =
+    selectableItems.length > 0 &&
+    selectableItems.every((it) => {
+      const rel = path ? `${path}/${it.name}` : it.name;
+      return selectedFiles.has(rel);
+    });
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedFiles(new Set());
+    } else {
+      const next = new Set();
+      selectableItems.forEach((it) => {
+        const rel = path ? `${path}/${it.name}` : it.name;
+        next.add(rel);
+      });
+      setSelectedFiles(next);
+    }
+  };
+
+  const toggleSelect = (rel) => {
+    setSelectedFiles((prev) => {
+      const next = new Set(prev);
+      if (next.has(rel)) next.delete(rel);
+      else next.add(rel);
+      return next;
+    });
+  };
+
   const crumbs = ["PROJECT-ROOT", ...path.split("/").filter(Boolean)];
 
   return (
@@ -191,7 +379,7 @@ export default function DatabasePage() {
           <p className="text-[#615FFF] text-[12px] font-mono">// database &amp; storage manager</p>
           <h1 className="text-white text-[22px] font-bold mt-1">Database &amp; Collections</h1>
           <p className="text-[#90A1B9] text-[12px] mt-1">
-            Manage JSON database collections, view &amp; export backups, or inspect file storage.
+            Manage JSON database collections, view &amp; export backups, or inspect and delete storage files.
           </p>
         </div>
 
@@ -199,9 +387,9 @@ export default function DatabasePage() {
           <button
             onClick={handleReset}
             disabled={resetting}
-            className="text-[12px] font-medium px-3.5 py-2 rounded-xl border border-[#FF6B6B44] text-[#FF6B6B] hover:bg-[#FF6B6B15] hover:border-[#FF6B6B] duration-150 disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
+            className="text-[12px] font-medium px-3.5 py-2 rounded-xl border border-[#FF6B6B44] text-[#FF6B6B] hover:bg-[#FF6B6B15] hover:border-[#FF6B6B] duration-150 disabled:opacity-50 flex items-center gap-2 cursor-pointer"
           >
-            <span>🗑️</span>
+            <TrashIcon className="w-3.5 h-3.5" />
             {resetting ? "Resetting…" : "Reset Demo Data"}
           </button>
         </div>
@@ -210,7 +398,7 @@ export default function DatabasePage() {
       {notice && (
         <div className="p-3 rounded-xl bg-[#615FFF]/15 border border-[#615FFF]/30 text-[12px] text-[#A5B4FC] flex items-center justify-between">
           <span>{notice}</span>
-          <button onClick={() => setNotice("")} className="text-[#90A1B9] hover:text-white">✕</button>
+          <button onClick={() => setNotice("")} className="text-[#90A1B9] hover:text-white cursor-pointer px-2">✕</button>
         </div>
       )}
 
@@ -224,7 +412,7 @@ export default function DatabasePage() {
               : "border-transparent text-[#90A1B9] hover:text-white"
           }`}
         >
-          <span>🗄️</span>
+          <DatabaseIcon className="w-4 h-4 text-[#615FFF]" />
           Database Collections ({collections.length})
         </button>
 
@@ -236,7 +424,7 @@ export default function DatabasePage() {
               : "border-transparent text-[#90A1B9] hover:text-white"
           }`}
         >
-          <span>📁</span>
+          <FolderIcon className="w-4 h-4 text-[#FFB86A]" />
           File &amp; Storage Explorer
         </button>
       </div>
@@ -263,8 +451,8 @@ export default function DatabasePage() {
                     {/* Card Top */}
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-9 h-9 rounded-xl bg-[#615FFF]/15 border border-[#615FFF]/30 flex items-center justify-center text-[16px] text-[#A5B4FC] shrink-0">
-                          {col.id === "blog" ? "📝" : col.id.includes("project") ? "🚀" : col.id === "messages" ? "💬" : col.id === "skills" ? "⚡" : col.id === "visits" ? "📊" : "📦"}
+                        <div className="w-9 h-9 rounded-xl bg-[#615FFF]/15 border border-[#615FFF]/30 flex items-center justify-center text-[#A5B4FC] shrink-0">
+                          <CollectionTypeIcon id={col.id} className="w-4 h-4 text-[#A5B4FC]" />
                         </div>
                         <div className="min-w-0">
                           <h3 className="text-white text-[14px] font-bold truncate group-hover:text-[#C7C6FF] duration-150">
@@ -294,18 +482,20 @@ export default function DatabasePage() {
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => setInspectTarget(col)}
-                        className="text-[11px] font-medium px-2.5 py-1.5 rounded-lg bg-[#615FFF]/15 hover:bg-[#615FFF] text-[#A5B4FC] hover:text-white transition-all duration-150 cursor-pointer"
+                        className="text-[11px] font-medium px-2.5 py-1.5 rounded-lg bg-[#615FFF]/15 hover:bg-[#615FFF] text-[#A5B4FC] hover:text-white transition-all duration-150 cursor-pointer flex items-center gap-1.5"
                         title="View JSON content"
                       >
-                        👁️ View
+                        <EyeIcon className="w-3.5 h-3.5" />
+                        <span>View</span>
                       </button>
 
                       <button
                         onClick={() => handleDownloadBackup(col)}
-                        className="text-[11px] font-medium px-2.5 py-1.5 rounded-lg border border-[#314158] hover:border-[#90A1B9] text-[#90A1B9] hover:text-white transition-all duration-150 cursor-pointer"
+                        className="text-[11px] font-medium px-2.5 py-1.5 rounded-lg border border-[#314158] hover:border-[#90A1B9] text-[#90A1B9] hover:text-white transition-all duration-150 cursor-pointer flex items-center gap-1.5"
                         title="Download .json backup"
                       >
-                        ⬇️ Backup
+                        <DownloadIcon className="w-3.5 h-3.5" />
+                        <span>Backup</span>
                       </button>
                     </div>
                   </div>
@@ -319,55 +509,114 @@ export default function DatabasePage() {
       {/* TAB 2: File & Storage Explorer */}
       {activeTab === "files" && (
         <div className="flex flex-col gap-4">
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-1.5 flex-wrap text-[12px] bg-[#091122] p-3 rounded-xl border border-[#1E293B]">
-            <button
-              onClick={() => loadFiles("")}
-              disabled={!path}
-              className={`px-2.5 py-1 rounded-lg cursor-pointer ${
-                path
-                  ? "text-[#90A1B9] hover:text-white hover:bg-[#7888a01a]"
-                  : "text-[#615FFF] bg-[#615FFF22] font-semibold"
-              }`}
-            >
-              root
-            </button>
-            {path &&
-              crumbs.slice(1).map((c, i) => {
-                const segs = path.split("/").filter(Boolean);
-                const target = segs.slice(0, i + 1).join("/");
-                const isLast = i === crumbs.length - 2;
-                return (
-                  <span key={target} className="flex items-center gap-1.5">
-                    <span className="text-[#4B576D]">/</span>
-                    <button
-                      type="button"
-                      onClick={() => loadFiles(target)}
-                      disabled={isLast}
-                      className={`px-2.5 py-1 rounded-lg cursor-pointer ${
-                        isLast
-                          ? "text-[#615FFF] bg-[#615FFF22] font-semibold"
-                          : "text-[#90A1B9] hover:text-white hover:bg-[#7888a01a]"
-                      }`}
-                    >
-                      {c}
-                    </button>
-                  </span>
-                );
-              })}
-            {path && (
-              <button
-                onClick={() => {
-                  const segs = path.split("/").filter(Boolean);
-                  segs.pop();
-                  loadFiles(segs.join("/"));
-                }}
-                className="ml-auto text-[11px] px-3 py-1 rounded-lg border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150 cursor-pointer"
-              >
-                ↑ Go Up
-              </button>
-            )}
+          {/* Quick jump shortcuts */}
+          <div className="flex items-center gap-2 flex-wrap text-[11px]">
+            <span className="text-[#68768C] font-mono uppercase">// quick jump:</span>
+            {QUICK_SHORTCUTS.map((sc) => {
+              const isActive = path === sc.path;
+              return (
+                <button
+                  key={sc.path}
+                  onClick={() => loadFiles(sc.path)}
+                  className={`px-2.5 py-1 rounded-lg border transition-all duration-150 cursor-pointer ${
+                    isActive
+                      ? "border-[#615FFF] bg-[#615FFF]/20 text-white font-medium"
+                      : "border-[#1E293B] bg-[#091122] text-[#90A1B9] hover:text-white hover:border-[#314158]"
+                  }`}
+                >
+                  {sc.label}
+                </button>
+              );
+            })}
           </div>
+
+          {/* Breadcrumbs & Controls */}
+          <div className="flex items-center justify-between gap-3 flex-wrap bg-[#091122] p-3 rounded-xl border border-[#1E293B]">
+            <div className="flex items-center gap-1.5 flex-wrap text-[12px]">
+              <button
+                onClick={() => loadFiles("")}
+                disabled={!path}
+                className={`px-2.5 py-1 rounded-lg cursor-pointer ${
+                  path
+                    ? "text-[#90A1B9] hover:text-white hover:bg-[#7888a01a]"
+                    : "text-[#615FFF] bg-[#615FFF22] font-semibold"
+                }`}
+              >
+                root
+              </button>
+              {path &&
+                crumbs.slice(1).map((c, i) => {
+                  const segs = path.split("/").filter(Boolean);
+                  const target = segs.slice(0, i + 1).join("/");
+                  const isLast = i === crumbs.length - 2;
+                  return (
+                    <span key={target} className="flex items-center gap-1.5">
+                      <span className="text-[#4B576D]">/</span>
+                      <button
+                        type="button"
+                        onClick={() => loadFiles(target)}
+                        disabled={isLast}
+                        className={`px-2.5 py-1 rounded-lg cursor-pointer ${
+                          isLast
+                            ? "text-[#615FFF] bg-[#615FFF22] font-semibold"
+                            : "text-[#90A1B9] hover:text-white hover:bg-[#7888a01a]"
+                        }`}
+                      >
+                        {c}
+                      </button>
+                    </span>
+                  );
+                })}
+            </div>
+
+            <div className="flex items-center gap-2 ml-auto">
+              <input
+                type="text"
+                value={fileSearch}
+                onChange={(e) => setFileSearch(e.target.value)}
+                placeholder="Filter files..."
+                className="bg-[#020618] border border-[#1E293B] focus:border-[#615FFF] text-white text-[12px] px-3 py-1 rounded-lg outline-none w-36 sm:w-48"
+              />
+              {path && (
+                <button
+                  onClick={() => {
+                    const segs = path.split("/").filter(Boolean);
+                    segs.pop();
+                    loadFiles(segs.join("/"));
+                  }}
+                  className="text-[11px] px-3 py-1 rounded-lg border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150 cursor-pointer"
+                >
+                  ↑ Go Up
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Multi-selection Batch Bar */}
+          {selectedFiles.size > 0 && (
+            <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-[#FF6B6B]/10 border border-[#FF6B6B]/30 text-[12px]">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-white">
+                  {selectedFiles.size} item{selectedFiles.size > 1 ? "s" : ""} selected
+                </span>
+                <button
+                  onClick={() => setSelectedFiles(new Set())}
+                  className="text-[#90A1B9] hover:text-white underline cursor-pointer ml-2 text-[11px]"
+                >
+                  Clear Selection
+                </button>
+              </div>
+
+              <button
+                onClick={() => setBatchDeleteOpen(true)}
+                disabled={busy}
+                className="px-3 py-1.5 rounded-lg bg-[#FF6B6B] hover:bg-[#ff5252] text-white font-medium duration-150 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+              >
+                <TrashIcon className="w-3.5 h-3.5" />
+                <span>Delete Selected ({selectedFiles.size})</span>
+              </button>
+            </div>
+          )}
 
           {fileError && (
             <p className="text-[12px] text-[#FF6B6B] bg-[#FF6B6B14] border border-[#FF6B6B33] rounded-xl px-4 py-3">
@@ -377,7 +626,17 @@ export default function DatabasePage() {
 
           {/* Files Table */}
           <div className="rounded-xl border border-[#1E293B] bg-[#091122] overflow-hidden shadow-lg">
-            <div className="grid grid-cols-[1fr_110px_110px_90px] gap-2 px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-[#68768C] border-b border-[#1E293B] bg-[#060D1A]">
+            <div className="grid grid-cols-[36px_1fr_110px_110px_90px] gap-2 px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-[#68768C] border-b border-[#1E293B] bg-[#060D1A] items-center">
+              <div>
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={toggleSelectAll}
+                  disabled={selectableItems.length === 0}
+                  className="rounded border-[#314158] bg-[#0F172B] text-[#615FFF] focus:ring-0 cursor-pointer accent-[#615FFF]"
+                  title="Select all"
+                />
+              </div>
               <span>Name</span>
               <span className="text-right">Size</span>
               <span className="text-right hidden sm:block">Modified</span>
@@ -386,22 +645,43 @@ export default function DatabasePage() {
 
             {loadingFiles ? (
               <p className="px-5 py-8 text-[13px] text-[#68768C] text-center">Reading directory…</p>
-            ) : items.length === 0 ? (
-              <p className="px-5 py-8 text-[13px] text-[#68768C] text-center">// empty directory</p>
+            ) : visibleItems.length === 0 ? (
+              <p className="px-5 py-8 text-[13px] text-[#68768C] text-center">
+                {fileSearch ? `No files matching "${fileSearch}"` : "// empty directory"}
+              </p>
             ) : (
-              items.map((it) => {
+              visibleItems.map((it) => {
                 const rel = path ? `${path}/${it.name}` : it.name;
                 const isDir = it.type === "dir";
                 const sz = isDir ? sizes[rel] : null;
                 const skip = isDir && SKIP_DIRS.has(it.name);
+                const isSelected = selectedFiles.has(rel);
                 return (
                   <div
                     key={it.name}
-                    className="grid grid-cols-[1fr_110px_110px_90px] gap-2 px-5 py-3 items-center text-[13px] border-b border-[#1E293B]/60 last:border-0 hover:bg-[#7888a00d] duration-150"
+                    className={`grid grid-cols-[36px_1fr_110px_110px_90px] gap-2 px-5 py-3 items-center text-[13px] border-b border-[#1E293B]/60 last:border-0 duration-150 ${
+                      isSelected ? "bg-[#615FFF]/10" : "hover:bg-[#7888a00d]"
+                    }`}
                   >
+                    <div>
+                      {!skip ? (
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleSelect(rel)}
+                          className="rounded border-[#314158] bg-[#0F172B] text-[#615FFF] focus:ring-0 cursor-pointer accent-[#615FFF]"
+                        />
+                      ) : (
+                        <span className="w-3.5 h-3.5 block" />
+                      )}
+                    </div>
                     <span className="flex items-center gap-2.5 min-w-0">
                       <span className={isDir ? "text-[#FFB86A]" : "text-[#615FFF]"}>
-                        {isDir ? "📁" : "📄"}
+                        {isDir ? (
+                          <FolderIcon className="w-4 h-4 text-[#FFB86A]" />
+                        ) : (
+                          <FileIcon className="w-4 h-4 text-[#615FFF]" />
+                        )}
                       </span>
                       {isDir && !skip ? (
                         <button
@@ -432,19 +712,21 @@ export default function DatabasePage() {
                       {fmtTime(it.mtime)}
                     </span>
                     <span className="text-right">
-                      <button
-                        onClick={() =>
-                          setDeleteTarget({
-                            rel,
-                            name: it.name,
-                            isDir,
-                            size: isDir ? sz?.size : it.size,
-                          })
-                        }
-                        className="text-[11px] px-2.5 py-1 rounded-lg border border-[#FF6B6B44] text-[#FF6B6B] hover:bg-[#FF6B6B15] hover:border-[#FF6B6B] duration-150 cursor-pointer"
-                      >
-                        Delete
-                      </button>
+                      {!skip && (
+                        <button
+                          onClick={() =>
+                            setDeleteTarget({
+                              rel,
+                              name: it.name,
+                              isDir,
+                              size: isDir ? sz?.size : it.size,
+                            })
+                          }
+                          className="text-[11px] px-2.5 py-1 rounded-lg border border-[#FF6B6B44] text-[#FF6B6B] hover:bg-[#FF6B6B15] hover:border-[#FF6B6B] duration-150 cursor-pointer"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </span>
                   </div>
                 );
@@ -467,7 +749,9 @@ export default function DatabasePage() {
             {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#1E293B] bg-[#060D1A]">
               <div className="flex items-center gap-3">
-                <span className="text-xl">🗄️</span>
+                <div className="w-8 h-8 rounded-lg bg-[#615FFF]/20 border border-[#615FFF]/30 flex items-center justify-center text-[#A5B4FC]">
+                  <DatabaseIcon className="w-4 h-4 text-[#A5B4FC]" />
+                </div>
                 <div>
                   <h3 className="text-white text-[16px] font-bold flex items-center gap-2">
                     {inspectTarget.name}
@@ -486,14 +770,22 @@ export default function DatabasePage() {
                   onClick={() => handleCopyJson(inspectTarget.data)}
                   className="text-[12px] px-3 py-1.5 rounded-lg bg-[#615FFF]/20 text-[#A5B4FC] hover:bg-[#615FFF] hover:text-white duration-150 cursor-pointer flex items-center gap-1.5"
                 >
-                  {copied ? "✓ Copied!" : "📋 Copy JSON"}
+                  {copied ? (
+                    <span>✓ Copied!</span>
+                  ) : (
+                    <>
+                      <CopyIcon className="w-3.5 h-3.5" />
+                      <span>Copy JSON</span>
+                    </>
+                  )}
                 </button>
 
                 <button
                   onClick={() => handleDownloadBackup(inspectTarget)}
-                  className="text-[12px] px-3 py-1.5 rounded-lg border border-[#314158] text-[#90A1B9] hover:text-white duration-150 cursor-pointer"
+                  className="text-[12px] px-3 py-1.5 rounded-lg border border-[#314158] text-[#90A1B9] hover:text-white duration-150 cursor-pointer flex items-center gap-1.5"
                 >
-                  ⬇️ Download
+                  <DownloadIcon className="w-3.5 h-3.5" />
+                  <span>Download</span>
                 </button>
 
                 <button
@@ -515,7 +807,7 @@ export default function DatabasePage() {
                 className="w-full bg-[#020618] py-2 px-3 text-[12px] text-white rounded-lg border border-[#314158] outline-none focus:border-[#615FFF]"
               />
               {jsonSearch && (
-                <button onClick={() => setJsonSearch("")} className="text-[#90A1B9] text-[12px] px-2">
+                <button onClick={() => setJsonSearch("")} className="text-[#90A1B9] text-[12px] px-2 cursor-pointer">
                   Clear
                 </button>
               )}
@@ -531,7 +823,7 @@ export default function DatabasePage() {
         </div>
       )}
 
-      {/* Delete confirmation dialog */}
+      {/* Delete single confirmation dialog */}
       {deleteTarget && (
         <ConfirmDialog
           title={deleteTarget.isDir ? "Delete folder" : "Delete file"}
@@ -547,6 +839,18 @@ export default function DatabasePage() {
           busy={busy}
           onCancel={() => setDeleteTarget(null)}
           onConfirm={handleDelete}
+        />
+      )}
+
+      {/* Delete batch confirmation dialog */}
+      {batchDeleteOpen && (
+        <ConfirmDialog
+          title={`Delete ${selectedFiles.size} selected item(s)`}
+          message={`Are you sure you want to permanently delete these ${selectedFiles.size} file(s)/folder(s) from the project storage? This action cannot be undone.`}
+          confirmLabel={`Delete (${selectedFiles.size})`}
+          busy={busy}
+          onCancel={() => setBatchDeleteOpen(false)}
+          onConfirm={handleBatchDelete}
         />
       )}
     </div>
