@@ -43,14 +43,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top Gradient Laser Bar */}
-        <div
-          className="h-1.5 w-full"
-          style={{
-            background: "linear-gradient(90deg, #615FFF 0%, #00D5BE 50%, #FFB86A 100%)",
-          }}
-        />
-
         {/* Window Header */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#1E293B] bg-[#060D1A]/80">
           <div className="flex items-center gap-2">
@@ -97,8 +89,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
                 </svg>
               </div>
             </div>
-            {/* Sparkle badge */}
-            <span className="absolute -bottom-1 -right-1 text-base">✨</span>
           </div>
 
           {/* Heading */}
@@ -114,8 +104,7 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
           <div className="bg-[#020618]/70 border border-[#1E293B] rounded-xl p-4 w-full text-left mb-6">
             <p className="text-[13px] sm:text-[14px] text-[#CBD5E1] leading-7">
               {senderName ? `${senderName}, ` : ""}
-              your message has been successfully logged. I will review your request and get back to you
-              {phoneNumber ? ` via ${phoneNumber}` : ""} as soon as possible.
+              your message has been successfully logged. I will review your request and contact you as soon as possible.
             </p>
 
             <div className="mt-3 pt-3 border-t border-[#1E293B] flex items-center justify-between text-[11px] text-[#68768C]">
