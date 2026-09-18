@@ -85,8 +85,8 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-      <div className="w-full max-w-lg rounded-lg border border-[#1E293B] bg-[#0F172B] overflow-hidden max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+      <div className="w-full max-w-2xl rounded-lg border border-[#1E293B] bg-[#0F172B] overflow-hidden max-h-[92vh] flex flex-col shadow-2xl">
         <div className="h-10 shrink-0 flex items-center justify-between px-4 bg-[#0b1220] border-b border-[#1E293B]">
           <p className="text-[11px] text-[#68768C]">
             {mode === "edit" ? "edit-project.json" : "new-project.json"}

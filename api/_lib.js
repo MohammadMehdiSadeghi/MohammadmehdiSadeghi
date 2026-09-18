@@ -11,7 +11,7 @@ import path from "node:path";
    ════════════════════════════════════════════════════════════════════ */
 
 export const DATA_DIR = process.env.VERCEL_DATA_DIR || "/tmp/portfolio-data";
-export const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (parity with server.js)
+export const TOKEN_TTL = 60 * 60 * 24 * 365 * 10; // 10 years (parity with server.js)
 export const MESSAGE_STATUSES = new Set(["unseen", "seen", "archived"]);
 
 /* ── admin credentials ────────────────────────────────────────────────

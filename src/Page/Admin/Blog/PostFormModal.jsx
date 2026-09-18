@@ -178,8 +178,8 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
   const busyNow = busy || uploading || compressing;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
-      <div className="w-full max-w-3xl rounded-xl border border-[#1E293B] bg-[#0F172B] overflow-hidden max-h-[92vh] flex flex-col shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-3 sm:p-6">
+      <div className="w-full max-w-5xl xl:max-w-6xl rounded-xl border border-[#1E293B] bg-[#0F172B] overflow-hidden max-h-[95vh] flex flex-col shadow-2xl">
         {/* Header */}
         <div className="h-11 shrink-0 flex items-center justify-between px-5 bg-[#0b1220] border-b border-[#1E293B]">
           <p className="text-[12px] font-mono text-white flex items-center gap-2">
@@ -522,11 +522,11 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
               </div>
             ) : (
               <textarea
-                rows={12}
+                rows={18}
                 value={rawMarkdown}
                 onChange={(e) => setRawMarkdown(e.target.value)}
                 placeholder="Write markdown here..."
-                className="bg-[#020618] py-3 px-4 border border-[#314158] rounded-md font-mono text-[12px] text-white leading-relaxed outline-none focus:border-[#615FFF]"
+                className="bg-[#020618] py-3 px-4 border border-[#314158] rounded-md font-mono text-[13px] text-white leading-relaxed outline-none focus:border-[#615FFF] min-h-[380px] resize-y"
               />
             )}
           </div>

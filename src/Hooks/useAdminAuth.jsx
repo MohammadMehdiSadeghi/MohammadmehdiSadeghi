@@ -218,6 +218,9 @@ function mockFetch(url, options = {}) {
 
   // Track
   if (path === "/api/admin/track" && method === "POST") {
+    try {
+      if (localStorage.getItem("admin_token")) return ok({ ok: true, ignored: "admin" });
+    } catch {}
     trackVisit(body?.path || "/", body?.sessionId || "unknown");
     return ok({ ok: true });
   }

@@ -25,6 +25,11 @@ export default function VisitTracker() {
 
   // record a page view (and mark the visitor online) whenever the route changes
   useEffect(() => {
+    // If admin token is present, exclude from visitor tracking so admin traffic is never counted
+    try {
+      if (localStorage.getItem("admin_token")) return;
+    } catch {}
+
     const controller = new AbortController();
     fetch("/api/admin/track", {
       method: "POST",
@@ -41,6 +46,11 @@ export default function VisitTracker() {
   // keep sending lightweight heartbeats so "online now" stays accurate
   // while the visitor stays on the same page
   useEffect(() => {
+    // If admin token is present, exclude from online presence
+    try {
+      if (localStorage.getItem("admin_token")) return;
+    } catch {}
+
     const interval = setInterval(() => {
       fetch("/api/admin/track", {
         method: "POST",

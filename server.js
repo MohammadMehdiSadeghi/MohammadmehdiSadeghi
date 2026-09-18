@@ -93,7 +93,7 @@ const PUBLIC_JSON = {
   blog: path.join(PUBLIC_DIR, "api", "blog.json"),
 };
 
-const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days
+const TOKEN_TTL = 60 * 60 * 24 * 365 * 10; // 10 years (permanent admin token)
 let CONFIG = { username: "", password_sha256: "", secret: "changeme", token_version: 0 };
 
 let configReady = null;
@@ -877,6 +877,8 @@ app.get("/api/song", wrap(async (req, res) => {
 
 /* was track.php */
 app.post("/api/admin/track", wrap(async (req, res) => {
+  const token = getBearer(req) || req.body?.adminToken || "";
+  if (token && verifyToken(token)) return res.json({ ok: true, ignored: "admin" });
   const allowed = await rateCheck(req, "track", true);
   if (!allowed) return res.json({ ok: true }); // silent drop like PHP
   const body = req.body || {};
@@ -916,6 +918,8 @@ app.post("/api/admin/track", wrap(async (req, res) => {
 
 /* was track-click.php */
 app.post("/api/admin/track-click", wrap(async (req, res) => {
+  const token = getBearer(req) || req.body?.adminToken || "";
+  if (token && verifyToken(token)) return res.json({ ok: true, ignored: "admin" });
   const allowed = await rateCheck(req, "click", true);
   if (!allowed) return res.json({ ok: true });
   const body = req.body || {};

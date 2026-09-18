@@ -4,12 +4,16 @@ import {
   withLock,
   rateCheck,
   dstr,
+  getBearer,
+  verifyToken,
 } from "../_lib.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "method not allowed" });
   }
+  const token = getBearer(req) || req.body?.adminToken || "";
+  if (token && verifyToken(token)) return res.json({ ok: true, ignored: "admin" });
   const allowed = await rateCheck(req, "track", true);
   if (!allowed) return res.json({ ok: true }); // silent drop
   const body = req.body || {};

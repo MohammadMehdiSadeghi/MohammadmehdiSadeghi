@@ -46,6 +46,11 @@ export default function useClickTrack() {
     ({ targetType, targetId, targetLabel = "", referrer = "" }) => {
       if (!targetType || !targetId) return;
 
+      // If admin token is present, do not track clicks for admin
+      try {
+        if (localStorage.getItem("admin_token")) return;
+      } catch {}
+
       // Throttle: skip if same click was sent in last 500ms
       const key = throttleKey(targetType, targetId);
       const now = Date.now();
