@@ -118,12 +118,11 @@ export default function PageTransition({ active, path }) {
       role="status"
       aria-live="polite"
       aria-label={meta.desc}
-      className={`fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center p-4 transition-all duration-200 ${
+      className={`fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center p-4 transition-all duration-200 bg-[#030712] ${
         fadingOut ? "opacity-0 scale-95" : "opacity-100 scale-100"
       }`}
       style={{
-        background: "radial-gradient(circle at center, rgba(15, 23, 43, 0.65) 0%, rgba(1, 8, 14, 0.85) 100%)",
-        backdropFilter: "blur(4px)",
+        backgroundColor: "#030712",
       }}
     >
       <div
