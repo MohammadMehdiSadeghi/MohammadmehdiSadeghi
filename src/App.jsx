@@ -49,7 +49,7 @@ function PublicSite() {
     if (prevPath.current !== location.pathname) {
       prevPath.current = location.pathname;
       setTransitioning(true);
-      const timer = setTimeout(() => setTransitioning(false), 300);
+      const timer = setTimeout(() => setTransitioning(false), 1000);
       return () => clearTimeout(timer);
     }
   }, [location.pathname]);
@@ -59,7 +59,7 @@ function PublicSite() {
       <VisitTracker />
       {!booted && <BootLoader onDone={handleBooted} />}
       <Header />
-      <PageTransition active={transitioning} />
+      <PageTransition active={transitioning} path={location.pathname} />
       <ErrorBoundary key={location.pathname}>
         <div className="page-reveal" key={location.pathname} style={{ minHeight: "calc(100vh - 116px)" }}>
           <Routes>
