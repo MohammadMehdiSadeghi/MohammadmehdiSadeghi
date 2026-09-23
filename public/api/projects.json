@@ -63,6 +63,19 @@
     "githubUrl": null
   },
   {
+    "id": 6,
+    "url": "../Projects/Web-Project/porskad-dist/index.html",
+    "title": "Porskad",
+    "description": "Porskad (پرسکاد) — a dedicated form and survey system for Rokad Institute. Built with React, Tailwind CSS, and Framer Motion, featuring an RTL Persian admin dashboard, embeddable forms, and a modern responsive UI.",
+    "category": [
+      "React",
+      "Tailwind",
+      "JavaScript"
+    ],
+    "image": "/assets/previews/porskad.png",
+    "githubUrl": null
+  },
+  {
     "id": 7,
     "url": "../Projects/Web-Project/rokad-college/index.html",
     "title": "Rokad College",
