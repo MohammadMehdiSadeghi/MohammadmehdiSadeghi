@@ -34,7 +34,7 @@ export default function Skills() {
   }, []);
 
   return (
-    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
       <div className="sm:px-12 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
         {skills.map((skill, i) => (
           <div

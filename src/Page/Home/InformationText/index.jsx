@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import TypeIt from "typeit-react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import Typewriter from "../../../Components/Typewriter";
 import useClickTrack from "../../../Hooks/useClickTrack";
 
 const gray = "#90A1B9";
@@ -15,11 +15,9 @@ export default function InformationText() {
     return () => { mountedRef.current = false; };
   }, []);
   const { withTracking } = useClickTrack();
-  // TypeIt instances must NOT be destroyed manually here — typeit-react cleans up
-  // on unmount; destroying inside afterComplete crashed React on fast navigation.
-  const onTyped = (next) => (_instance) => {
+  const onTyped = useCallback((next) => () => {
     if (mountedRef.current) setStep(next);
-  };
+  }, []);
   return (
     /* min-w-0: a flex item defaults to min-width:auto, so its intrinsic
        (max-content) width — the name at 58px, ~800px — pushed the row past
@@ -36,16 +34,13 @@ export default function InformationText() {
               data-typed={step >= 2 ? "done" : "typing"}
             >
               {step >= 1 && (
-                <TypeIt
-                  options={{
-                    speed: 50,
-                    lifeLike: true,
-                    cursor: true,
-                    afterComplete: onTyped(2),
-                  }}
-                >
-                  Hi all. I am
-                </TypeIt>
+                <Typewriter
+                  text="Hi all. I am"
+                  speed={50}
+                  lifeLike
+                  cursor
+                  onDone={onTyped(2)}
+                />
               )}
             </p>
           </li>
@@ -60,16 +55,13 @@ export default function InformationText() {
               data-typed={step >= 3 ? "done" : "typing"}
             >
               {step >= 2 && (
-                <TypeIt
-                  options={{
-                    speed: 75,
-                    lifeLike: true,
-                    cursor: true,
-                    afterComplete: onTyped(3),
-                  }}
-                >
-                  Mohammad Mehdi Sadeghi
-                </TypeIt>
+                <Typewriter
+                  text="Mohammad Mehdi Sadeghi"
+                  speed={75}
+                  lifeLike
+                  cursor
+                  onDone={onTyped(3)}
+                />
               )}
             </h1>
           </li>
@@ -79,14 +71,7 @@ export default function InformationText() {
               className="text-[18px] sm:text-[22px] lg:text-[28px]"
             >
               {step >= 3 && (
-                <TypeIt
-                  options={{
-                    speed: 50,
-                    lifeLike: true,
-                  }}
-                >
-                  {"> Front-end developer"}
-                </TypeIt>
+                <Typewriter text="> Front-end developer" speed={50} lifeLike />
               )}
             </p>
           </li>

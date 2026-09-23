@@ -74,7 +74,7 @@ export default function Form({
   };
 
   return (
-    <div className="border-b md:border-b-0 md:border-r border-[#4B576D] w-full flex items-center justify-center py-10 px-4 sm:px-8 md:py-0">
+    <div className="border-b lg:border-b-0 lg:border-r border-[#4B576D] w-full flex items-center justify-center py-10 px-4 sm:px-8 lg:py-0">
       <form
         onSubmit={onSubmit}
         className="w-full max-w-[24rem] flex flex-col gap-6 sm:gap-8"

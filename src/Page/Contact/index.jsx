@@ -64,7 +64,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden relative">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden relative">
       <ContactBox />
       <Form
         name={name}

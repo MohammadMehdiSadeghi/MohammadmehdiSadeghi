@@ -62,12 +62,12 @@ export default function FilterBox({
   };
 
   return (
-    <section className="flex justify-start md:h-full border-b md:border-b-0 border-[#90a1b977]">
-      <div className="hidden md:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
+    <section className="flex justify-start lg:h-full border-b lg:border-b-0 border-[#90a1b977]">
+      <div className="hidden lg:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
 
-      <nav className="w-full md:hidden text-[#90A1B9]">
+      <nav className="w-full lg:hidden text-[#90A1B9]">
         <h2
           onClick={() => {
             trackFilter("All Web Project");
@@ -178,7 +178,7 @@ export default function FilterBox({
         {miniOpen && <ProjectSection projects={projects} loading={loading} />}
       </nav>
 
-      <nav className="hidden md:block w-[457px] shrink-0 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)] text-[#90A1B9]">
+      <nav className="hidden lg:block lg:w-[400px] xl:w-[457px] shrink-0 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)] text-[#90A1B9]">
         <ul className="flex flex-col ">
           <h2 className="px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
             projects

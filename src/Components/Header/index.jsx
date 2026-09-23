@@ -24,7 +24,7 @@ export default function Header() {
 
   return (
     <header className="relative h-[58px] w-full bg-[#0F172B]">
-      <div className="relative w-full h-[58px] flex items-center justify-between px-4 sm:px-6 md:px-0 border-b-[1px] border-[#90a1b977]">
+      <div className="relative w-full h-[58px] flex items-center justify-between px-4 sm:px-6 lg:px-0 border-b-[1px] border-[#90a1b977]">
         <input
           type="checkbox"
           id="nav-toggle"
@@ -35,12 +35,12 @@ export default function Header() {
         <div className="flex items-center h-full min-w-0">
           <Link
             to="/"
-            className="text-[14px] md:w-[513px] shrink-0 sm:text-[16px] text-[#90A1B9] py-[16px] px-4 sm:px-6 md:px-[24px] md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
+            className="text-[14px] lg:w-[456px] xl:w-[513px] shrink-0 sm:text-[16px] text-[#90A1B9] py-[16px] px-4 sm:px-6 lg:px-[24px] lg:border-r-[1px] lg:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
           >
             Mohammad-Mehdi-Sadeghi
           </Link>
 
-          <ul className="hidden md:flex items-center h-full">
+          <ul className="hidden lg:flex items-center h-full">
             {middleLinks.map((link, index) => (
               <li
                 key={link.key}
@@ -69,7 +69,7 @@ export default function Header() {
           </ul>
         </div>
 
-        <ul className="hidden md:flex items-center h-full shrink-0">
+        <ul className="hidden lg:flex items-center h-full shrink-0">
           <li className="border-l-[1px] border-[#90a1b977] flex justify-center items-center h-full">
             <Link
               className={`py-[16px] px-3 lg:px-5 xl:px-[30px] text-center text-[#90A1B9] transition-all duration-500 border-b-4 ${
@@ -86,7 +86,7 @@ export default function Header() {
 
         <label
           htmlFor="nav-toggle"
-          className="mobile-menu md:hidden flex items-center justify-center w-10 h-10 cursor-pointer relative z-50"
+          className="mobile-menu lg:hidden flex items-center justify-center w-10 h-10 cursor-pointer relative z-50"
         >
           <div className="hamburger-icon">
             <span></span>
@@ -95,7 +95,11 @@ export default function Header() {
           </div>
         </label>
 
-        <div className="mobile-nav-panel md:hidden absolute top-[55px] left-0 w-full bg-[#0F172B] border-t-[1px] border-b-[1px] border-[#90a1b977] z-40 shadow-2xl">
+        {/* Collapsed state must not paint any border: a 0-height box with
+            borders still renders as a 1px "empty" strip glued to the
+            header's own bottom border. Borders are handled in index.css
+            so they only exist while the panel is open. */}
+        <div className="mobile-nav-panel lg:hidden absolute top-full left-0 w-full bg-[#0F172B] z-40 shadow-2xl">
           <ul className="flex flex-col">
             {links.map((link) => (
               <li key={link.key} className="border-b-[1px] border-[#90a1b977]">

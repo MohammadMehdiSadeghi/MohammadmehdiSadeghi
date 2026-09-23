@@ -11,7 +11,7 @@ export default function ProjectSection({
 }) {
   return (
     <div
-      className={`flex-1 min-w-0 py-6 sm:py-8 px-4 sm:px-6 md:px-10 md:min-h-0 md:overflow-y-auto ${className}`}
+      className={`flex-1 min-w-0 py-6 sm:py-8 px-4 sm:px-6 lg:px-10 lg:min-h-0 lg:overflow-y-auto ${className}`}
     >
       <style>{`
         @keyframes fadeSlideUp {
@@ -29,7 +29,7 @@ export default function ProjectSection({
           </span>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}

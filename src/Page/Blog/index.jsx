@@ -256,7 +256,7 @@ export default function Blog() {
   }, [posts, filterMode, searchQuery]);
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden">
       <style>{`
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(12px); }
@@ -265,12 +265,12 @@ export default function Blog() {
       `}</style>
 
       {/* ── Left SnakeBar ── */}
-      <div className="hidden md:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
+      <div className="hidden lg:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
 
       {/* ── Sidebar: Filters (Latest / Popular) & Recent Explorer ── */}
-      <nav className="w-full md:w-[457px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+      <nav className="w-full lg:w-[400px] xl:w-[457px] shrink-0 border-b lg:border-b-0 lg:border-r border-[#90a1b977] lg:h-[calc(100vh-116px)] lg:overflow-y-auto text-[#90A1B9]">
         {/* Search input */}
         <div className="p-4 border-b border-[#90a1b977]">
           <div className="relative">
@@ -417,7 +417,7 @@ export default function Blog() {
       </nav>
 
       {/* ── Main Content Pane ── */}
-      <div className="flex-1 min-w-0 py-6 sm:py-8 px-4 sm:px-6 md:px-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+      <div className="flex-1 min-w-0 py-6 sm:py-8 px-4 sm:px-6 lg:px-10 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
         {/* Grid of articles */}
         {loading ? (
           <Loading variant="cards" count={4} />

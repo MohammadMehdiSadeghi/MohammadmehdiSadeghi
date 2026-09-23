@@ -171,14 +171,14 @@ export default function BlogPost() {
   const titleRTL = isRTL(post?.title);
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden">
       {/* ── Left SnakeBar ── */}
-      <div className="hidden md:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
+      <div className="hidden lg:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
 
       {/* ── Middle Sidebar (Navigation, Outline & Related Articles) ── */}
-      <nav className="w-full md:w-[457px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+      <nav className="w-full lg:w-[400px] xl:w-[457px] shrink-0 border-b lg:border-b-0 lg:border-r border-[#90a1b977] lg:h-[calc(100vh-116px)] lg:overflow-y-auto text-[#90A1B9]">
         {/* Simple User-Friendly Back button */}
         <div className="p-4 border-b border-[#90a1b977]">
           <Link
@@ -291,7 +291,7 @@ export default function BlogPost() {
       </nav>
 
       {/* ── Right Content / Article Body ── */}
-      <div className="flex-1 min-w-0 p-5 sm:p-8 md:p-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+      <div className="flex-1 min-w-0 p-5 sm:p-8 lg:p-12 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
         {loading ? (
           <div className="max-w-3xl mx-auto">
             <Loading variant="article" />

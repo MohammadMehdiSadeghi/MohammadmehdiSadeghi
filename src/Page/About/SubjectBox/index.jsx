@@ -16,21 +16,21 @@ export default function SubjectBox({
 
   return (
     <section className="flex justify-start md:h-full  border-[#90a1b977]">
-      <div className="hidden md:block relative w-14 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)]">
+      <div className="hidden lg:block relative w-14 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
       <nav
-        className="w-full md:w-[457px] shrink-0 md:border-r-[1px] border-[#90a1b977] md:max-h-none md:h-[calc(100vh-116px)] md:overflow-y-auto"
+        className="w-full lg:w-[400px] xl:w-[457px] shrink-0 lg:border-r-[1px] border-[#90a1b977] lg:max-h-none lg:h-[calc(100vh-116px)] lg:overflow-y-auto"
         style={{ color: gray }}
       >
         <ul className="flex flex-col h-fit">
           <h2
             onClick={() => setPersonalInfoOpen((prev) => !prev)}
-            className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] text-white border-[#90a1b977] cursor-pointer select-none md:cursor-default"
+            className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] text-white border-[#90a1b977] cursor-pointer select-none lg:cursor-default"
           >
             personal-info{" "}
             <img
-              className={`w-3 duration-200 ${personalInfoOpen ? "max-md:rotate-90" : "max-md:rotate-0"}`}
+              className={`w-3 duration-200 ${personalInfoOpen ? "max-lg:rotate-90" : "max-lg:rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""
             />
@@ -40,7 +40,11 @@ export default function SubjectBox({
               trackClick({ targetType: "button", targetId: "tab-bio", targetLabel: "Bio Tab" });
               setActiveTab("aboutMe");
             }}
-            className={`px-4 sm:px-12 py-3 duration-100 ${activeTab === "aboutMe" ? "border-b border-b-[1px] border-[#90A1B9]" : ""} ${activeTab === "aboutMe" ? "bg-[#7888a033]" : ""} ${activeTab === "aboutMe" ? "text-white" : ""} hover:bg-[#7888a033] cursor-pointer gap-3 ${personalInfoOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-12 py-3 duration-100 cursor-pointer gap-3 ${
+              activeTab === "aboutMe"
+                ? "border-b-[1px] border-b-[#90A1B9] bg-[#7888a033] text-white"
+                : ""
+            } hover:bg-[#7888a033] ${personalInfoOpen ? "flex" : "hidden"} lg:flex`}
           >
             <img src="/assets/Images/icon folder.svg" alt="" />
             bio
@@ -50,17 +54,30 @@ export default function SubjectBox({
               trackClick({ targetType: "button", targetId: "tab-education", targetLabel: "Education Tab" });
               setActiveTab("education");
             }}
-            className={`px-4 sm:px-12 py-3 duration-100 ${activeTab === "education" ? "border-b border-b-[1px] border-[#90A1B9] border-t-[1px]" : ""} ${activeTab === "education" ? "bg-[#7888a033]" : ""} ${activeTab === "education" ? "text-white" : ""} hover:bg-[#7888a033] cursor-pointer gap-3 ${personalInfoOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-12 py-3 duration-100 cursor-pointer gap-3 ${
+              activeTab === "education"
+                ? "border-b-[1px] border-b-[#90A1B9] border-t-[1px] border-t-[#90A1B9] bg-[#7888a033] text-white"
+                : ""
+            } hover:bg-[#7888a033] ${personalInfoOpen ? "flex" : "hidden"} lg:flex`}
           >
             <img src="/assets/Images/icon folder2.svg" alt="" />
             education
           </li>
+          {/* On lg+ this is the last row of the tab list, so it owns the
+              divider that used to come from the contacts h2's border-top.
+              Keeping that line here (instead of a top border on the box
+              below) is what stops the 2px double border when this tab is
+              the active one. */}
           <li
             onClick={() => {
               trackClick({ targetType: "button", targetId: "tab-skills", targetLabel: "Skills Tab" });
               setActiveTab("skills");
             }}
-            className={`px-4 sm:px-12 py-3 duration-100 ${activeTab === "skills" ? "border-b border-b-[1px] border-[#90A1B9] border-t-[1px]" : ""} ${activeTab === "skills" ? "bg-[#7888a033]" : ""} ${activeTab === "skills" ? "text-white" : ""} hover:bg-[#7888a033] cursor-pointer gap-3 ${personalInfoOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-12 py-3 duration-100 cursor-pointer gap-3 ${
+              activeTab === "skills"
+                ? "border-b-[1px] border-b-[#90A1B9] border-t-[1px] border-t-[#90A1B9] bg-[#7888a033] text-white"
+                : "lg:border-b-[1px] lg:border-b-[#90a1b977]"
+            } hover:bg-[#7888a033] ${personalInfoOpen ? "flex" : "hidden"} lg:flex`}
           >
             <img src="/assets/Images/icon folder3.svg" alt="" />
             skills
@@ -70,19 +87,22 @@ export default function SubjectBox({
         {mobileContent}
 
         <ul className="flex flex-col pb-3 gap-5 h-fit">
+          {/* No border-top here on purpose: the block above always ends with
+              its own bottom border, so a top border would stack into a 2px
+              double line (visible when personal-info is collapsed on mobile). */}
           <h2
             onClick={() => setContactsOpen((prev) => !prev)}
-            className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-t-[1px] text-white border-[#90a1b977] cursor-pointer select-none md:cursor-default"
+            className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] text-white border-[#90a1b977] cursor-pointer select-none lg:cursor-default"
           >
             contacts{" "}
             <img
-              className={`w-3 duration-200 ${contactsOpen ? "max-md:rotate-90" : "max-md:rotate-0"}`}
+              className={`w-3 duration-200 ${contactsOpen ? "max-lg:rotate-90" : "max-lg:rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""
             />
           </h2>
           <li
-            className={`px-4 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
           >
             <a
               className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
@@ -98,7 +118,7 @@ export default function SubjectBox({
             </a>
           </li>
           <li
-            className={`px-4 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
           >
             <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="tel:+989150669620" onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}>
               <img
@@ -110,7 +130,7 @@ export default function SubjectBox({
             </a>
           </li>
           <li
-            className={`px-4 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
           >
             <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://t.me/Mohammad_sadeghi34" onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}>
               <img
@@ -122,7 +142,7 @@ export default function SubjectBox({
             </a>
           </li>
           <li
-            className={`px-4 pb-4 border-b md:border-b-0 sm:px-8 md:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
+            className={`px-4 pb-4 border-b lg:border-b-0 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
           >
             <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://www.instagram.com/Mohammad_sadeghi3447" onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}>
               <img

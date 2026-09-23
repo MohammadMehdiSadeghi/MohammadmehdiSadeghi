@@ -3,7 +3,7 @@ import React from "react";
 export default function AboutMe() {
   const gray = "#90A1B9";
   return (
-    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 md:h-[calc(100vh-116px)] md:overflow-y-auto md:overflow-x-auto">
+    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 lg:h-[calc(100vh-116px)] lg:overflow-y-auto lg:overflow-x-auto">
       <p
         className="sm:px-12 text-[12px] sm:text-[16px] leading-7 sm:leading-9"
         style={{ color: gray }}
