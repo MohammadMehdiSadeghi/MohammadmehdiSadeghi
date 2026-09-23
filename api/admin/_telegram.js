@@ -2,6 +2,7 @@
    Admin: Telegram config + test message.
       GET  /api/admin/telegram               → masked config + delivery log
       POST /api/admin/telegram               → save config
+      POST /api/admin/telegram/send          → manual form fields → Telegram
       POST /api/admin/telegram/test          → send a test message
       POST /api/admin/telegram/detect-chat   → list chats from getUpdates
       GET  /api/admin/telegram/log           → delivery audit trail only
@@ -163,6 +164,50 @@ export default async function handler(req, res, resource) {
       }
       return res.json({ ok: true, chats });
     } catch (err) {
+      return res.status(502).json({ error: err.message || "Telegram request failed" });
+    }
+  }
+
+  /* ── send (manual compose from the admin tab) ── */
+  if (action === "send" && req.method === "POST") {
+    const cfg = await readCfg();
+    if (!cfg.botToken || !cfg.chatId) {
+      return res.status(400).json({ error: "Save bot token and chat id first" });
+    }
+    const body = req.body || {};
+    const name = String(body.name || "").trim();
+    const phoneNumber = String(body.phoneNumber || "").trim();
+    const message = String(body.message || "").trim();
+    if (!name || !message) {
+      return res.status(400).json({ error: "name and message are required" });
+    }
+    if (name.length > 100 || message.length > 5000) {
+      return res.status(400).json({ error: "name or message too long" });
+    }
+    try {
+      const dt = new Date().toLocaleString("en-GB", { hour12: false });
+      const html = [
+        "✏️ <b>Manual Message</b>",
+        "",
+        `👤 <b>Name:</b> ${escHtml(name)}`,
+        phoneNumber ? `📱 <b>Phone:</b> ${escHtml(phoneNumber)}` : null,
+        "💬 <b>Message:</b>",
+        `<blockquote expandable>${escHtml(message)}</blockquote>`,
+        "",
+        `🕐 <i>${escHtml(dt)}</i>`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+      await sendMessage(cfg, html);
+      await appendTelegramLog({ kind: "manual", ok: true, name });
+      return res.json({ ok: true });
+    } catch (err) {
+      await appendTelegramLog({
+        kind: "manual",
+        ok: false,
+        name,
+        error: err.message || "send failed",
+      });
       return res.status(502).json({ error: err.message || "Telegram request failed" });
     }
   }

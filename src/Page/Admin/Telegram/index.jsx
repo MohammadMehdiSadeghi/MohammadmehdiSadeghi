@@ -29,6 +29,11 @@ export default function TelegramPage() {
   const [busy, setBusy] = useState(false);
   const [detected, setDetected] = useState([]);
   const [log, setLog] = useState([]);
+  const [manualName, setManualName] = useState("");
+  const [manualPhone, setManualPhone] = useState("");
+  const [manualMessage, setManualMessage] = useState("");
+  const [manualMsg, setManualMsg] = useState(null);
+  const [manualBusy, setManualBusy] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -116,6 +121,38 @@ export default function TelegramPage() {
       setMsg({ type: "err", text: err.message });
     } finally {
       setBusy(false);
+    }
+  };
+
+  const sendManual = async (e) => {
+    e.preventDefault();
+    if (!manualName.trim() || !manualMessage.trim()) {
+      setManualMsg({ type: "err", text: "name and message are required" });
+      return;
+    }
+    setManualBusy(true);
+    setManualMsg(null);
+    try {
+      const res = await authFetch("/api/admin/telegram/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: manualName.trim(),
+          phoneNumber: manualPhone.trim(),
+          message: manualMessage.trim(),
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Send failed");
+      setManualMsg({ type: "ok", text: "sent to Telegram ✓" });
+      setManualName("");
+      setManualPhone("");
+      setManualMessage("");
+      await load();
+    } catch (err) {
+      setManualMsg({ type: "err", text: err.message });
+    } finally {
+      setManualBusy(false);
     }
   };
 
@@ -272,6 +309,75 @@ export default function TelegramPage() {
           </button>
         </div>
       </div>
+
+      <form
+        onSubmit={sendManual}
+        className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-4"
+      >
+        <div>
+          <p className="text-white text-[12px]">// manual compose</p>
+          <p className="text-[#68768C] text-[11px] mt-0.5">
+            type the form fields yourself and push them to Telegram
+          </p>
+        </div>
+
+        <label className="flex flex-col gap-1.5">
+          <p className="text-[#90A1B9] text-[12px]">_name</p>
+          <input
+            className={inputClass}
+            value={manualName}
+            onChange={(e) => setManualName(e.target.value)}
+            placeholder="Mohammad"
+            maxLength={100}
+          />
+        </label>
+
+        <label className="flex flex-col gap-1.5">
+          <p className="text-[#90A1B9] text-[12px]">_phone (optional)</p>
+          <input
+            className={`${inputClass} font-mono`}
+            value={manualPhone}
+            onChange={(e) => setManualPhone(e.target.value)}
+            placeholder="+98 912 …"
+            maxLength={30}
+          />
+        </label>
+
+        <label className="flex flex-col gap-1.5">
+          <p className="text-[#90A1B9] text-[12px]">_message</p>
+          <textarea
+            className={`${inputClass} min-h-[100px] resize-y`}
+            value={manualMessage}
+            onChange={(e) => setManualMessage(e.target.value)}
+            placeholder="hello from the admin panel…"
+            maxLength={5000}
+          />
+        </label>
+
+        {manualMsg && (
+          <p
+            className={`text-[11px] rounded-md px-3 py-2 w-fit ${
+              manualMsg.type === "err"
+                ? "text-[#FF6B6B] bg-[#FF6B6B14] border border-[#FF6B6B33]"
+                : "text-[#4ADE80] bg-[#4ADE8015] border border-[#4ADE8033]"
+            }`}
+          >
+            // {manualMsg.text}
+          </p>
+        )}
+
+        <div className="flex gap-3 pt-1">
+          <button
+            type="submit"
+            disabled={
+              manualBusy || !cfg?.botTokenSet || !manualName.trim() || !manualMessage.trim()
+            }
+            className="flex-1 text-[12px] py-2.5 rounded-md cursor-pointer duration-150 bg-[#615FFF] hover:bg-[#0E1528] outline-1 outline-[#615FFF] text-white hover:text-[#615FFF] disabled:opacity-40"
+          >
+            {manualBusy ? "sending…" : "send-to-telegram"}
+          </button>
+        </div>
+      </form>
 
       <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">

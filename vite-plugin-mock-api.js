@@ -2038,18 +2038,26 @@ export function mockApiHandler(req, res, next) {
   }
 
   // ── Telegram form → bot config (parity with api/admin/_telegram.js) ──
-  if (endpoint === "telegram") {
+  // Sub-paths: telegram/test, telegram/send, telegram/detect-chat, telegram/log
+  if (endpoint === "telegram" || endpoint.startsWith("telegram/")) {
     const json = (code, obj) => {
       res.writeHead(code, { "Content-Type": "application/json" });
       res.end(JSON.stringify(obj));
     };
     const FILE_TG = join(DATA_DIR, "telegram.json");
+    const sub = endpoint === "telegram" ? "" : endpoint.slice("telegram/".length);
     const logEntries = () => {
       const s = readJSON(TELEGRAM_LOG_FILE, { entries: [] });
       return Array.isArray(s.entries) ? s.entries : [];
     };
+    const escHtml = (s) =>
+      String(s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
     if (req.method === "GET") {
       const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
+      if (sub === "log") return json(200, { entries: logEntries() });
       return json(200, {
         enabled: !!cfg.enabled,
         chatId: cfg.chatId || "",
@@ -2062,15 +2070,122 @@ export function mockApiHandler(req, res, next) {
     }
     let body = "";
     req.on("data", (c) => (body += c));
-    req.on("end", () => {
+    req.on("end", async () => {
       let payload = {};
       try { payload = JSON.parse(body || "{}"); } catch { /* default */ }
+      const appendLog = (entry) => appendTelegramLog(entry);
+      const sendTg = async (text) => {
+        const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
+        if (!cfg.botToken || !cfg.chatId) {
+          throw new Error("Save bot token and chat id first");
+        }
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 10000);
+        try {
+          const r = await fetch("https://api.telegram.org/bot" + cfg.botToken + "/sendMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: cfg.chatId,
+              text,
+              parse_mode: "HTML",
+              disable_web_page_preview: true,
+            }),
+            signal: ctrl.signal,
+          });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok || !j.ok) throw new Error(j.description || "Telegram HTTP " + r.status);
+        } finally {
+          clearTimeout(timer);
+        }
+      };
+      /* manual compose: name/phone/message → Telegram */
+      if (sub === "send" && req.method === "POST") {
+        const name = String(payload.name || "").trim();
+        const phoneNumber = String(payload.phoneNumber || "").trim();
+        const message = String(payload.message || "").trim();
+        if (!name || !message) {
+          return json(400, { error: "name and message are required" });
+        }
+        if (name.length > 100 || message.length > 5000) {
+          return json(400, { error: "name or message too long" });
+        }
+        try {
+          const dt = new Date().toLocaleString("en-GB", { hour12: false });
+          await sendTg(
+            [
+              "✏️ <b>Manual Message</b>",
+              "",
+              "👤 <b>Name:</b> " + escHtml(name),
+              phoneNumber ? "📱 <b>Phone:</b> " + escHtml(phoneNumber) : null,
+              "💬 <b>Message:</b>",
+              "<blockquote expandable>" + escHtml(message) + "</blockquote>",
+              "",
+              "🕐 <i>" + escHtml(dt) + "</i>",
+            ]
+              .filter(Boolean)
+              .join("\n")
+          );
+          appendLog({ kind: "manual", ok: true, name });
+          return json(200, { ok: true });
+        } catch (err) {
+          appendLog({ kind: "manual", ok: false, name, error: err.message || "send failed" });
+          return json(502, { error: err.message || "Telegram request failed" });
+        }
+      }
+      if (sub === "test" && req.method === "POST") {
+        try {
+          const dt = new Date().toLocaleString("en-GB", { hour12: false });
+          await sendTg(
+            "✅ <b>Test message</b> — portfolio contact notifications are wired up.\n🕐 <i>" +
+              escHtml(dt) +
+              "</i>"
+          );
+          appendLog({ kind: "test", ok: true });
+          return json(200, { ok: true });
+        } catch (err) {
+          appendLog({ kind: "test", ok: false, error: err.message || "send failed" });
+          return json(502, { error: err.message || "Telegram request failed" });
+        }
+      }
+      if (sub === "detect-chat" && req.method === "POST") {
+        const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
+        const token = String(payload.botToken || "").trim() || cfg.botToken;
+        if (!token) return json(400, { error: "botToken required" });
+        try {
+          const ctrl = new AbortController();
+          const t = setTimeout(() => ctrl.abort(), 10000);
+          const r = await fetch("https://api.telegram.org/bot" + token + "/getUpdates?limit=10", {
+            signal: ctrl.signal,
+          });
+          clearTimeout(t);
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok || !j.ok) throw new Error(j.description || "Telegram HTTP " + r.status);
+          const chats = [];
+          for (const u of j.result || []) {
+            const m = u.message || u.edited_message || u.channel_post;
+            const chat = m && m.chat;
+            if (chat && !chats.some((c) => String(c.id) === String(chat.id))) {
+              chats.push({
+                id: String(chat.id),
+                title: chat.first_name
+                  ? (chat.first_name + " " + (chat.last_name || "")).trim()
+                  : chat.title || chat.username || "",
+              });
+            }
+          }
+          return json(200, { ok: true, chats });
+        } catch (err) {
+          return json(502, { error: err.message || "Telegram request failed" });
+        }
+      }
+      /* save config */
       const botToken = String(payload.botToken ?? "").trim();
       const chatId = String(payload.chatId ?? "").trim();
       const enabled = !!payload.enabled;
       if (enabled && !chatId) return json(400, { error: "chatId is required to enable" });
       if (botToken && !/^\d{6,}:[A-Za-z0-9_-]{30,}$/.test(botToken)) {
-        return json(400, { error: "botToken doesn't look valid (expected 123456:ABC\u2026)" });
+        return json(400, { error: "botToken doesn't look valid (expected 123456:ABC…)" });
       }
       const prev = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
       const next = { enabled, botToken: botToken || prev.botToken, chatId: chatId || prev.chatId };
@@ -2080,6 +2195,7 @@ export function mockApiHandler(req, res, next) {
     });
     return;
   }
+
 
   // ── Mood QC (parity with api/admin/_moods.js) ──
   // Same shape as the serverless handler: one row per song with its mood

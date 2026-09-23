@@ -1138,6 +1138,50 @@ app.post("/api/admin/telegram", wrap(async (req, res) => {
   res.json({ ok: true });
 }));
 
+app.post("/api/admin/telegram/send", wrap(async (req, res) => {
+  if ((await requireAuthAsync(req, res)) === null) return;
+  const cfg = await readTelegramCfg();
+  if (!cfg.botToken || !cfg.chatId) {
+    return res.status(400).json({ error: "Save bot token and chat id first" });
+  }
+  const body = req.body || {};
+  const name = String(body.name || "").trim();
+  const phoneNumber = String(body.phoneNumber || "").trim();
+  const message = String(body.message || "").trim();
+  if (!name || !message) {
+    return res.status(400).json({ error: "name and message are required" });
+  }
+  if (name.length > 100 || message.length > 5000) {
+    return res.status(400).json({ error: "name or message too long" });
+  }
+  try {
+    const dt = new Date().toLocaleString("en-GB", { hour12: false });
+    const html = [
+      "✏️ <b>Manual Message</b>",
+      "",
+      `👤 <b>Name:</b> ${escHtml(name)}`,
+      phoneNumber ? `📱 <b>Phone:</b> ${escHtml(phoneNumber)}` : null,
+      `💬 <b>Message:</b>`,
+      `<blockquote expandable>${escHtml(message)}</blockquote>`,
+      "",
+      `🕐 <i>${escHtml(dt)}</i>`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    await sendTelegramMessage(cfg, html);
+    await appendTelegramLog({ kind: "manual", ok: true, name });
+    res.json({ ok: true });
+  } catch (err) {
+    await appendTelegramLog({
+      kind: "manual",
+      ok: false,
+      name,
+      error: err.message || "send failed",
+    });
+    res.status(502).json({ error: err.message || "Telegram request failed" });
+  }
+}));
+
 app.post("/api/admin/telegram/test", wrap(async (req, res) => {
   if ((await requireAuthAsync(req, res)) === null) return;
   const cfg = await readTelegramCfg();
