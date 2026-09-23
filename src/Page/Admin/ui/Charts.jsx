@@ -1,6 +1,5 @@
 import { useId } from "react";
 
-// data: [{ label: string, value: number }]
 export function LineChart({
   data,
   color = "#615FFF",
@@ -93,7 +92,6 @@ export function LineChart({
   );
 }
 
-// data: [{ label: string, value: number }]
 export function BarChart({
   data,
   color = "#FFB86A",

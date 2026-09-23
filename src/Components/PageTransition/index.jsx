@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
-/* ============================================================
-   PageTransition — Cyberpunk / Dev Terminal HUD Page Loader
-   Displays a sleek terminal execution card (e.g. "RUNNING PROJECTS")
-   for ~1 second on page navigation.
-   ============================================================ */
 
 function getRouteMeta(pathname) {
   if (pathname === "/") {
@@ -133,7 +128,6 @@ export default function PageTransition({ active, path }) {
           boxShadow: `0 0 35px rgba(0, 0, 0, 0.8), 0 0 20px ${meta.color}25`,
         }}
       >
-        {/* Terminal Header Bar */}
         <div className="bg-[#050B16] px-3.5 py-2.5 flex items-center justify-between border-b border-[#90a1b920]">
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/90 inline-block shadow-[0_0_6px_#EF4444]" />
@@ -148,9 +142,7 @@ export default function PageTransition({ active, path }) {
           </span>
         </div>
 
-        {/* Terminal Body */}
         <div className="p-4 space-y-3 font-mono">
-          {/* CLI execution command */}
           <div className="flex items-center gap-2 text-[12px] text-[#90A1B9]">
             <span style={{ color: meta.color }} className="font-bold">
               $&gt;
@@ -160,7 +152,6 @@ export default function PageTransition({ active, path }) {
             </span>
           </div>
 
-          {/* Running badge & status */}
           <div className="flex items-center justify-between pt-1">
             <div className="flex items-center gap-2.5">
               <span
@@ -181,7 +172,6 @@ export default function PageTransition({ active, path }) {
             </span>
           </div>
 
-          {/* Progress bar */}
           <div className="w-full bg-[#030712] h-2 rounded-full overflow-hidden border border-[#90a1b920] p-[1px]">
             <div
               className="h-full rounded-full transition-all duration-200 ease-out"
@@ -193,7 +183,6 @@ export default function PageTransition({ active, path }) {
             />
           </div>
 
-          {/* Footer metrics */}
           <div className="flex items-center justify-between text-[10px] text-[#90A1B9]/60 pt-0.5">
             <span className="tracking-wider">
               {progress === 100 ? "STATUS: READY" : "STATUS: COMPILING..."}

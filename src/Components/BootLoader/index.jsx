@@ -1,10 +1,5 @@
 import React, { useEffect, useRef } from "react";
 
-/* ============================================================
-   BootLoader — minimal first-paint loader.
-   Deliberately plain: one spinner + one line of text, no boot
-   sequence, no progress readout, no glow/grid/shimmer effects.
-   ============================================================ */
 
 const MIN_VISIBLE_MS = 600;
 

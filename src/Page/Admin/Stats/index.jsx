@@ -55,7 +55,6 @@ function StatCard({ label, value, accent, icon, delta, small }) {
         small ? "" : ""
       }`}
     >
-      {/* subtle glow on hover */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
@@ -166,7 +165,6 @@ export default function StatsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <p className="text-[#615FFF] text-[12px]">$ cat ./analytics/summary</p>
@@ -229,7 +227,6 @@ export default function StatsPage() {
 
       {data && (
         <>
-          {/* Online Now Banner */}
           <div className="rounded-lg border border-[#4ADE8055] bg-[#4ADE800d] p-4 flex items-center gap-3">
             <span className="relative flex h-2.5 w-2.5 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ADE80] opacity-75" />
@@ -244,7 +241,6 @@ export default function StatsPage() {
             </p>
           </div>
 
-          {/* Stat Cards Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <StatCard
               label="today"
@@ -282,9 +278,7 @@ export default function StatsPage() {
             />
           </div>
 
-          {/* Main Chart */}
           <div>
-            {/* Main Chart */}
             <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6">
               <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
                 <p className="text-white text-[13px] font-medium">
@@ -431,7 +425,6 @@ export default function StatsPage() {
             </div>
           </div>
 
-          {/* Top Pages */}
           <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <p className="text-white text-[13px] font-medium">top-pages</p>

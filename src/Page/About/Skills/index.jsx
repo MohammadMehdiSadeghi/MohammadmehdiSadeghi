@@ -4,7 +4,6 @@ import useClickTrack from "../../../Hooks/useClickTrack";
 const gray = "#90A1B9";
 const purple = "#615FFF";
 
-// used only if the API request fails, so the section never renders empty
 const fallbackSkills = [
   { name: "HTML", img: "/assets/Images/html_1051277.png" },
   { name: "CSS", img: "/assets/Images/css_919826.png" },

@@ -18,9 +18,6 @@ export default function Form({
 
   useEffect(() => {
     if (status === "success") {
-      // Reset only the controlled state. Avoid form.reset() because it
-      // resets the <select> DOM to its first option (e.g. AF) while React
-      // state still says IR, leaving the dropdown out of sync.
       setCountry("IR");
       setPhoneInput("");
     }
@@ -93,7 +90,7 @@ export default function Form({
           <p style={{ color: gray }}>_Phone-Number</p>
           <div className="flex gap-2">
             <select
-              className={`bg-[#020618] py-2.5 px-2 border-0 outline-[#314158] outline-1 hover:outline-[#90A1B9] focus:text-[#90A1B9] duration-150 rounded-md 
+              className={`bg-[#020618] py-2.5 px-2 border-0 outline-[#314158] outline-1 hover:outline-[#90A1B9] focus:text-[#90A1B9] duration-150 rounded-md
                  text-[#90a1b9c7] w-[90px] shrink-0 text-[13px] cursor-pointer`}
               value={country}
               onChange={handleCountryChange}

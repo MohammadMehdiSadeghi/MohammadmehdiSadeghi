@@ -2,10 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAdminAuth } from "../../../Hooks/useAdminAuth";
 import { SITE_DEFAULTS } from "../../../Hooks/useSiteInfo";
 
-/* Admin → site info: one editor for every value that used to be a hardcoded
-   literal scattered across Header, Footer, ContactBox, SubjectBox and
-   InformationText. Saving here changes all of them at once, because they all
-   read /api/site.json. */
 
 const GROUPS = [
   {
@@ -123,9 +119,6 @@ const ALL_KEYS = GROUPS.flatMap((g) => g.fields.map((f) => f.key));
 const fieldCls =
   "bg-[#020618] py-2.5 px-3 border-0 outline-[#314158] outline-1 hover:outline-[#90A1B9] focus:outline-[#615FFF] duration-150 rounded-md w-full text-[#90a1b9c7] text-[12px]";
 
-/* Mirrors the server-side validation in api/admin/_site-admin.js so the user
-   sees the problem inline instead of after a round-trip. The server still
-   enforces it — this is convenience, not the guard. */
 function validate(draft) {
   const errors = {};
   if (draft.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.email)) {
@@ -151,9 +144,6 @@ function validate(draft) {
   return errors;
 }
 
-/* The saved object may lack keys the owner never touched, and the editor must
-   start from the same values the live site falls back to — otherwise saving
-   would write blanks over working defaults. */
 function hydrate(saved) {
   const draft = {};
   for (const key of ALL_KEYS) {
@@ -311,9 +301,6 @@ export default function SitePage() {
         </section>
       ))}
 
-      {/* Live preview of the derived hrefs — the values that actually ship in
-          the markup. A typo here is invisible in a plain text field but
-          obvious as a broken mailto:/tel:. */}
       <section className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-3">
         <p className="text-white text-[13px]">
           <span className="text-[#615FFF]">#</span> preview

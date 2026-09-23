@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useAdminAuth } from "../../../Hooks/useAdminAuth";
 
-/* Admin → security: change the panel password.
-   The new password is sent to /api/admin/password, stored as a SHA-256
-   hash, and all previously issued tokens are invalidated. */
 export default function SecurityPage() {
   const { authFetch, logout } = useAdminAuth();
   const [current, setCurrent] = useState("");
@@ -41,7 +38,6 @@ export default function SecurityPage() {
       setCurrent("");
       setNext("");
       setConfirm("");
-      // token_version was bumped, so the old session is dead
       setTimeout(() => logout(), 1600);
     } catch (err) {
       setMsg({ type: "err", text: err.message || "change failed" });

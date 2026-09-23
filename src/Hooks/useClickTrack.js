@@ -19,25 +19,12 @@ function getSessionId() {
   }
 }
 
-// Throttle: at most one request per 500ms per unique key
 const lastSent = new Map();
 
 function throttleKey(targetType, targetId) {
   return `${targetType}::${targetId}`;
 }
 
-/**
- * useClickTrack — returns a trackClick function and a withTracking HOF.
- *
- * Usage:
- *   const { trackClick, withTracking } = useClickTrack();
- *
- *   // Manual tracking:
- *   trackClick({ targetType: "project", targetId: "sabz-learn", targetLabel: "Sabz Learn" });
- *
- *   // HOF for event handlers:
- *   <a onClick={withTracking({ targetType: "nav", targetId: "/about", targetLabel: "_About" }, originalHandler)}>
- */
 export default function useClickTrack() {
   const location = useLocation();
 
@@ -45,12 +32,10 @@ export default function useClickTrack() {
     ({ targetType, targetId, targetLabel = "", referrer = "" }) => {
       if (!targetType || !targetId) return;
 
-      // If admin token is present, do not track clicks for admin
       try {
         if (localStorage.getItem("admin_token")) return;
       } catch {}
 
-      // Throttle: skip if same click was sent in last 500ms
       const key = throttleKey(targetType, targetId);
       const now = Date.now();
       const last = lastSent.get(key);
@@ -66,13 +51,6 @@ export default function useClickTrack() {
         referrer: referrer || document.referrer?.slice(0, 500) || "",
       });
 
-      /* Fire and forget — don't block the UI.
-
-         Do NOT abort the previous request here. Clicking A then B within one
-         network round-trip used to cancel A's beacon, so a large share of real
-         clicks never reached the server (the throttle above only de-duplicates
-         the SAME target, so two different targets both fire). `keepalive` also
-         lets the beacon finish if the click navigates away. */
       fetch("/api/admin/track-click", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

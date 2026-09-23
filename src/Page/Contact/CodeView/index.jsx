@@ -5,30 +5,9 @@ const PINK = "#C27AFF";
 const YELLOW = "#FFB86A";
 const GRAY = "#68768C";
 
-/**
- * Decorative "code preview" of the message payload.
- *
- * Rendered as one flex row per line — a fixed-width gutter for the line number
- * plus a `min-w-0` code cell — rather than a single `<p>` full of `<br>`s.
- * Two reasons:
- *
- *  1. In a flat `<p>` the code had to be `white-space: nowrap` to keep its
- *     shape, so the longest line (`01 const button = document.querySelector(
- *     '#sendBtn');`) needed 458px of content while the pane only offers ~372px
- *     at 1280 — it spilled 94px past the pane's content box and scrolled
- *     sideways behind a scrollbar.
- *  2. When such a line did wrap, the continuation restarted at the `<p>`'s
- *     left padding — i.e. underneath the line number rather than under the
- *     code, which reads as a stray new statement.
- *
- * Giving the code its own box fixes both: the line wraps inside that box and
- * stays aligned under the code, so nothing can escape the pane at any width
- * and the nowrap hack is no longer needed.
- */
 export default function CodeView({ name, phoneNumber, message }) {
   const today = new Date();
 
-  // Tokens are [text, color]; `color: null` inherits the pane's default.
   const lines = [
     [
       ["const", PINK],
@@ -114,8 +93,6 @@ export default function CodeView({ name, phoneNumber, message }) {
             >
               {String(i + 1).padStart(2, "0")}
             </span>
-            {/* min-w-0 lets the cell shrink so the line wraps here instead of
-                pushing the row (and the pane) wider. */}
             <span className="min-w-0 whitespace-pre-wrap break-words">
               {tokens.map(([text, color], j) => (
                 <span key={j} style={color ? { color } : undefined}>

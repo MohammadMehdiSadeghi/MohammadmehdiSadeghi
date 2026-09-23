@@ -1,13 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import useClickTrack from "../../Hooks/useClickTrack";
 
-/**
- * One shared Web-Audio graph for the whole player lifetime. Each <audio>
- * element may be attached to it only once (a second createMediaElementSource
- * on the same element throws) — React StrictMode double-invokes effects, and
- * the element itself persists across song changes, so we track attachments in
- * a WeakSet and never close the context while the page is alive.
- */
 const sharedGraph = {
   ctx: null,
   analyser: null,
@@ -32,7 +25,6 @@ function ensureGraph(audio) {
       sharedGraph.analyser.connect(sharedGraph.ctx.destination);
       sharedGraph.attached.add(audio);
     } catch {
-      // element already wired elsewhere — analyser just stays silent
     }
   }
   return sharedGraph.analyser;
@@ -65,7 +57,6 @@ export default function Music({ songData }) {
   const runIdRef = useRef(0);
   const isPlayingRef = useRef(false);
 
-  // ── reset state whenever a new song arrives ──
   useEffect(() => {
     setIsPlaying(false);
     setCurrentTime(0);
@@ -73,7 +64,6 @@ export default function Music({ songData }) {
     runIdRef.current++;
   }, [songData?.id]);
 
-  // ── audio element listeners ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -92,7 +82,6 @@ export default function Music({ songData }) {
     };
   }, [songData]);
 
-  // ── play / pause the element whenever isPlaying changes ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -103,12 +92,10 @@ export default function Music({ songData }) {
     }
   }, [isPlaying]);
 
-  // ── keep isPlaying readable inside the draw loop without re-subscribing ──
   useEffect(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
 
-  // ── wire the shared Web-Audio graph (element → analyser → speakers) ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -122,8 +109,6 @@ export default function Music({ songData }) {
     };
   }, [songData?.id]);
 
-  // ── real-time spectrum visualizer: the bars ARE the beat. Loud/energetic
-  //    passages push them up, quiet ones settle down — no fake labels. ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -132,7 +117,6 @@ export default function Music({ songData }) {
     const prev = new Array(BARS).fill(0);
     const barCtx = canvas.getContext("2d");
 
-    // idle motion + response follow the track's REAL analysis (DSP), not just tags
     const an = songData?.analysis || null;
     const energetic = /dance|party|energetic|upbeat/i.test(
       (songData?.tags || []).join(" ")
@@ -140,12 +124,12 @@ export default function Music({ songData }) {
     const energyPct = an ? an.energy : energetic ? 70 : 40;
     const hypeVibe = an?.vibe ? an.vibe.energetic : energetic ? 70 : 35;
     const bpm = an?.bpm || (energetic ? 122 : 92);
-    const idleAmp = 0.03 + (energyPct / 100) * 0.10;       // calm piano breathes, loud tracks swell
-    const idleSpeed = 60000 / Math.max(60, Math.min(176, bpm)) / 2; // pulse at the song's real half-beat
-    const snappy = Math.min(1, Math.max(0, (hypeVibe - 20) / 60));  // 0 = floaty, 1 = punchy
-    const attack = 0.30 + snappy * 0.30;                    // energetic → bars jump fast
-    const release = 0.24 + (1 - snappy) * 0.14;             // calm → bars settle slowly
-    const gain = 1 + (1 - energyPct / 100) * 0.85;          // quiet masters still show their beat
+    const idleAmp = 0.03 + (energyPct / 100) * 0.10;
+    const idleSpeed = 60000 / Math.max(60, Math.min(176, bpm)) / 2;
+    const snappy = Math.min(1, Math.max(0, (hypeVibe - 20) / 60));
+    const attack = 0.30 + snappy * 0.30;
+    const release = 0.24 + (1 - snappy) * 0.14;
+    const gain = 1 + (1 - energyPct / 100) * 0.85;
 
     const draw = () => {
       rafRef.current = requestAnimationFrame(draw);
@@ -176,14 +160,12 @@ export default function Music({ songData }) {
         const target = active
           ? Math.min(1, level * gain)
           : idleAmp * (0.5 + 0.5 * Math.sin(Date.now() / idleSpeed + b * 0.7));
-        // attack/release from the vibe: hype = jump fast, calm = glide slow
         const smoothed = prev[b] * (1 - (target > prev[b] ? attack : release)) + target * (target > prev[b] ? attack : release);
         prev[b] = smoothed;
 
         const barH = Math.max(3, smoothed * height * 0.92);
         const x = b * slot + slot * 0.18;
         const w = slot * 0.64;
-        // palette: accent #615FFF → teal #00D5BE
         const hue = 240 - (b / BARS) * 66;
         const light = 66 - (b / BARS) * 24;
         barCtx.fillStyle = active

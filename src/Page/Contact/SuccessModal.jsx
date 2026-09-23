@@ -34,7 +34,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
         }
       `}</style>
 
-      {/* Modal Container */}
       <div
         className="relative w-full max-w-md bg-[#091122] border border-[#314158] rounded-2xl shadow-2xl overflow-hidden"
         style={{
@@ -43,7 +42,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Window Header */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#1E293B] bg-[#060D1A]/80">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]/80" />
@@ -62,9 +60,7 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="p-6 sm:p-8 flex flex-col items-center text-center">
-          {/* Animated Success Badge */}
           <div className="relative mb-5">
             <div
               className="w-20 h-20 rounded-full flex items-center justify-center bg-gradient-to-tr from-[#00D5BE]/20 to-[#615FFF]/20 border border-[#00D5BE]/40"
@@ -91,7 +87,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
             </div>
           </div>
 
-          {/* Heading */}
           <h3 className="text-white text-[20px] sm:text-[22px] font-bold mb-2">
             Message Sent Successfully!
           </h3>
@@ -100,7 +95,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
             Thank you {senderName ? `${senderName}` : ""}! Message received.
           </p>
 
-          {/* Friendly Message */}
           <div className="bg-[#020618]/70 border border-[#1E293B] rounded-xl p-4 w-full text-left mb-6">
             <p className="text-[13px] sm:text-[14px] text-[#CBD5E1] leading-7">
               {senderName ? `${senderName}, ` : ""}
@@ -113,7 +107,6 @@ export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber 
             </div>
           </div>
 
-          {/* Action Button */}
           <button
             onClick={onClose}
             className="w-full py-3 px-6 rounded-xl font-medium text-[14px] text-white transition-all duration-200

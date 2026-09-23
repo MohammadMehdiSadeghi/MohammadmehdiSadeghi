@@ -9,7 +9,7 @@ export default function BlogPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [modalState, setModalState] = useState(null); // null | { mode, post? }
+  const [modalState, setModalState] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -30,7 +30,7 @@ export default function BlogPage() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const handleSave = async (payload, mode, id) => {
@@ -200,9 +200,6 @@ export default function BlogPage() {
         images are cleaned up automatically
       </p>
 
-      {/* On the serverless deploy the store is PER-INSTANCE and temporary, so a
-          post written here disappears on the next deploy unless it ships in
-          public/api/blog.json. Say so instead of letting it look permanent. */}
       {import.meta.env.PROD && (
         <p className="text-[10px] text-[#FFB86A99]">
           // heads-up: on the serverless deployment this store is temporary — posts added

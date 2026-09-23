@@ -7,7 +7,7 @@ export default function TelegramPage() {
   const [botToken, setBotToken] = useState("");
   const [chatId, setChatId] = useState("");
   const [enabled, setEnabled] = useState(false);
-  const [msg, setMsg] = useState(null); // { type: "ok"|"err", text }
+  const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
   const [detected, setDetected] = useState([]);
 
@@ -26,7 +26,6 @@ export default function TelegramPage() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const save = async () => {
@@ -111,7 +110,6 @@ export default function TelegramPage() {
         </p>
       </div>
 
-      {/* how-to */}
       <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 text-[11px] text-[#90A1B9] leading-6">
         <p className="text-white text-[12px] mb-2">// setup in 4 steps</p>
         <ol className="list-decimal list-inside flex flex-col gap-1">
@@ -134,7 +132,6 @@ export default function TelegramPage() {
         </ol>
       </div>
 
-      {/* status */}
       {cfg && (
         <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] px-4 py-3 flex items-center gap-3 text-[11px]">
           <span
@@ -154,7 +151,6 @@ export default function TelegramPage() {
         </div>
       )}
 
-      {/* form */}
       <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-4">
         <label className="flex flex-col gap-1.5">
           <p className="text-[#90A1B9] text-[12px]">_bot-token</p>

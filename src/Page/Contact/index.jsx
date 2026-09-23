@@ -16,7 +16,7 @@ export default function Contact() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [status, setStatus] = useState("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submittedData, setSubmittedData] = useState({ name: "", phone: "" });

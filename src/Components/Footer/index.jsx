@@ -14,9 +14,6 @@ export default function Footer() {
           <li className="py-2 sm:py-[15px] px-2 sm:px-[24px] pr-1 sm:pr-10 text-[13px] sm:text-[16px] text-center whitespace-nowrap border-r-0 lg:border-r-[1px] border-[#90a1b977]">
             <p>find-me-in :</p>
           </li>
-          {/* Each icon row is conditional on its URL being set, so clearing a
-              link in the admin panel removes the icon instead of leaving a
-              dead anchor that goes nowhere. */}
           {site.linkedin && (
             <li className="py-2 sm:py-[8px] px-2 sm:px-[16px] border-r-0 md:border-r-0
            lg:border-r-[1px] border-[#90a1b977] lg:rounded-none bg-[#1D293D] rounded-md lg:bg-transparent">
@@ -44,7 +41,7 @@ export default function Footer() {
         </ul>
         <ul>
           <li
-            className="py-2 sm:py-[11px] px-2 sm:px-[16px] sm:border-l-[1px] text-[13px] sm:text-[14px] border-[#90a1b977] 
+            className="py-2 sm:py-[11px] px-2 sm:px-[16px] sm:border-l-[1px] text-[13px] sm:text-[14px] border-[#90a1b977]
           flex items-center justify-center gap-3 sm:gap-4 whitespace-nowrap"
           >
             {site.githubHandle && (

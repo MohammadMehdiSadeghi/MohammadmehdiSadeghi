@@ -6,8 +6,8 @@ export default function MoodsPage() {
   const { authFetch } = useAdminAuth();
   const [songs, setSongs] = useState(null);
   const [dims, setDims] = useState([]);
-  const [editing, setEditing] = useState(null); // song row
-  const [draft, setDraft] = useState(null); // { moods, summary, audioMoodTag }
+  const [editing, setEditing] = useState(null);
+  const [draft, setDraft] = useState(null);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState(null);
   const [filter, setFilter] = useState("");
@@ -26,7 +26,6 @@ export default function MoodsPage() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openEdit = (row) => {

@@ -10,7 +10,6 @@ const AdminAuthContext = createContext(null);
 const TOKEN_KEY = "admin_token";
 const MOCK_DB_KEY = "admin_mock_db";
 
-// ── Mock DB helpers ──
 function getDB() {
   try {
     const raw = localStorage.getItem(MOCK_DB_KEY);
@@ -164,8 +163,6 @@ function computeStats() {
     .slice(0, 8)
     .map(([path, total]) => ({ path, total }));
 
-  /* Click / button analytics were removed: the buttons tab is gone and
-     per-page visits are the only analytics the dashboard shows now. */
 
   return {
     onlineNow,
@@ -185,16 +182,14 @@ function computeStats() {
   };
 }
 
-// ── Mock API interceptor ──
 function mockFetch(url, options = {}) {
   const path = new URL(url, window.location.origin).pathname;
   const method = options.method || "GET";
   let body = null;
   try {
     body = options.body ? JSON.parse(options.body) : null;
-  } catch { /* invalid body is ignored */ }
+  } catch {  }
 
-  // Auth
   if (path === "/api/admin/auth" && method === "POST") {
     const db = initDB();
     if (
@@ -211,12 +206,10 @@ function mockFetch(url, options = {}) {
     return ok({ ok: true });
   }
 
-  // Stats
   if (path === "/api/admin/stats" && method === "GET") {
     return ok(computeStats());
   }
 
-  // Track
   if (path === "/api/admin/track" && method === "POST") {
     try {
       if (localStorage.getItem("admin_token")) return ok({ ok: true, ignored: "admin" });
@@ -225,12 +218,10 @@ function mockFetch(url, options = {}) {
     return ok({ ok: true });
   }
 
-  // Track Click
   if (path === "/api/admin/track-click" && method === "POST") {
     return ok({ ok: true });
   }
 
-  // Messages
   if (path === "/api/admin/messages") {
     const db = initDB();
     if (method === "GET") return ok({ messages: db.messages });
@@ -262,20 +253,16 @@ function mockFetch(url, options = {}) {
     }
   }
 
-  // Projects
   if (path === "/api/admin/projects-admin") {
     const u = new URL(url, window.location.origin);
     const type = u.searchParams.get("type") || "web";
     const file = type === "mini" ? "mini-projects.json" : "projects.json";
-    // Read from the static JSON files in the public folder
-    // For built version, these are available at the same path
     return fetch(`/api/${file}`)
       .then((r) => r.json())
       .then((data) => ok({ projects: Array.isArray(data) ? data : data.projects || [] }))
       .catch(() => ok({ projects: [] }));
   }
 
-  // Skills
   if (path === "/api/admin/skills-admin" || path === "/api/skills") {
     return fetch("/api/skills.json")
       .then((r) => r.json())
@@ -283,7 +270,6 @@ function mockFetch(url, options = {}) {
       .catch(() => ok({ skills: [] }));
   }
 
-  // Default: try real fetch
   return fetch(url, options);
 }
 
@@ -295,7 +281,6 @@ function err(status, message) {
   return Promise.resolve(new Response(JSON.stringify({ error: message }), { status, headers: { "Content-Type": "application/json" } }));
 }
 
-// ── Provider ──
 export function AdminAuthProvider({ children }) {
   const [token, setToken] = useState(
     () => localStorage.getItem(TOKEN_KEY) || "",
@@ -310,8 +295,6 @@ export function AdminAuthProvider({ children }) {
   }, []);
 
   const login = useCallback(async (username, password) => {
-    // Try real API first. Mock fallback is DEV-ONLY — never in production,
-    // otherwise a broken PHP backend would accept fake credentials.
     let res;
     try {
       res = await fetch("/api/admin/auth", {
@@ -374,7 +357,6 @@ export function AdminAuthProvider({ children }) {
 
   const authFetch = useCallback(
     async (url, options = {}) => {
-      // Try real API first
       let res;
       try {
         res = await fetch(url, {
@@ -391,7 +373,6 @@ export function AdminAuthProvider({ children }) {
         const text = await res.text();
         return new Response(text, { status: res.status, headers: { "Content-Type": "application/json" } });
       } catch (err) {
-        // In production, network error or auth failure is reported cleanly
         if (!import.meta.env.DEV) {
           if (res?.status === 401) {
             logout();
@@ -399,7 +380,6 @@ export function AdminAuthProvider({ children }) {
           }
           throw new Error(err.message || "Network connection error. Please try again.");
         }
-        // Dev only: fall back to mock
         res = await mockFetch(url, {
           ...options,
           headers: {

@@ -11,8 +11,6 @@ const routes = {
 export function useActiveNav() {
   const location = useLocation();
 
-  /* /blog/<slug> must keep the _Blog tab lit, so match by prefix for nested
-     routes instead of an exact pathname comparison. */
   const isActive = (name) => {
     const target = routes[name];
     if (!target) return false;

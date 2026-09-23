@@ -27,7 +27,6 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen w-full bg-[#0B0F1A] text-[#90A1B9] flex flex-col">
-      {/* title bar */}
       <header className="h-11 shrink-0 flex items-center justify-between px-3 sm:px-4 bg-[#0F172B] border-b border-[#1E293B] relative z-20">
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <button
@@ -64,7 +63,6 @@ export default function AdminLayout() {
       </header>
 
       <div className="flex flex-1 min-h-0 relative">
-        {/* mobile overlay */}
         {menuOpen && (
           <div
             className="md:hidden fixed inset-0 top-11 bg-black/50 z-10"
@@ -72,7 +70,6 @@ export default function AdminLayout() {
           />
         )}
 
-        {/* sidebar */}
         <aside
           className={`${
             menuOpen ? "translate-x-0" : "-translate-x-full"
@@ -110,7 +107,6 @@ export default function AdminLayout() {
           </div>
         </aside>
 
-        {/* main content */}
         <main className="flex-1 min-w-0 overflow-y-auto">
           <div className="p-4 sm:p-6 lg:p-8 max-w-[1400px] mx-auto">
             <Outlet />

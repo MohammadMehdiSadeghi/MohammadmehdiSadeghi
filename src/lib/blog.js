@@ -1,14 +1,8 @@
-/* Shared helpers for the blog pages. */
 
-/* Persian/Arabic script → render RTL */
 const RTL_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
 export const isRTL = (text) => RTL_RE.test(String(text || ""));
 
-/* Word count of post content (string or block array), ignoring markdown image
-   syntax and heading markers. Exported because the list endpoint precomputes
-   this: it strips `content` to keep the payload small, so without a word count
-   the card could only estimate from the excerpt. */
 export function countWords(content) {
   let text = "";
   if (typeof content === "string") {
@@ -24,17 +18,12 @@ export function countWords(content) {
     .filter(Boolean).length;
 }
 
-/* ~200 wpm; Persian text is read a little slower.
-   Prefers `post.words` when present — the list endpoint sends that instead of
-   the full `content`, and estimating from the excerpt alone reported
-   "1 min read" on cards for articles that actually take four minutes. */
 export function readTime(post) {
   const listed = Number(post?.words);
   const words =
     Number.isFinite(listed) && listed > 0
       ? listed
       : countWords(post?.content || post?.excerpt || "");
-  // RTL detection needs prose, not a number; fall back to the excerpt.
   const sample =
     typeof post?.content === "string" ? post.content : post?.excerpt || "";
   return `${Math.max(1, Math.round(words / (isRTL(sample) ? 170 : 200)))} min read`;
@@ -59,7 +48,6 @@ export function excerptFrom(post, len = 150) {
   return clean.length > len ? `${clean.slice(0, len).trimEnd()}…` : clean;
 }
 
-/* "2026-09-17" → "17 Sep 2026" */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export function formatDate(value) {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value || ""));
@@ -68,25 +56,15 @@ export function formatDate(value) {
   return `${Number(d)} ${MONTHS[Number(mo) - 1] || mo} ${y}`;
 }
 
-/* Convert content into structured visual blocks for rendering and editing.
-   Supports:
-   - "p": Paragraph
-   - "h": Section Heading
-   - "img": In-content Image with URL, Alt text and optional Caption
-   - "ul" / "ol": Bullet / Numbered lists
-   - "quote": Callout quote box
-*/
 export function parseBlocks(content) {
   if (Array.isArray(content)) return content;
   if (!content) return [];
 
-  // If stored as JSON string of blocks
   if (typeof content === "string" && content.trim().startsWith("[") && content.trim().endsWith("]")) {
     try {
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) return parsed;
     } catch {
-      // not json, proceed with markdown parse
     }
   }
 
@@ -108,7 +86,6 @@ export function parseBlocks(content) {
       }
     };
 
-    // Check for lists
     if (lines.every((l) => /^[-*•]\s+/.test(l))) {
       blocks.push({ type: "ul", items: lines.map((l) => l.replace(/^[-*•]\s+/, "")) });
       continue;
@@ -121,7 +98,6 @@ export function parseBlocks(content) {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
-      // Markdown image: ![alt text](url "optional caption")
       const imgMatch = /^!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)$/.exec(line);
       if (imgMatch) {
         flushParagraph();
@@ -134,14 +110,12 @@ export function parseBlocks(content) {
         continue;
       }
 
-      // Headings
       if (/^#{1,4}\s+/.test(line)) {
         flushParagraph();
         blocks.push({ type: "h", text: line.replace(/^#{1,4}\s+/, "") });
         continue;
       }
 
-      // Blockquotes
       if (/^>\s+/.test(line)) {
         flushParagraph();
         blocks.push({ type: "quote", text: line.replace(/^>\s+/, "") });
@@ -155,7 +129,6 @@ export function parseBlocks(content) {
   return blocks;
 }
 
-/* Convert blocks back to standard markdown string */
 export function blocksToMarkdown(blocks) {
   if (!Array.isArray(blocks)) return String(blocks || "");
   return blocks

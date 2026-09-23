@@ -20,7 +20,6 @@ const fmtTime = (ms) => {
   ).padStart(2, "0")}`;
 };
 
-// --- Minimal Modern SVG Icons ---
 function DatabaseIcon({ className = "w-4 h-4" }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -132,16 +131,14 @@ const QUICK_SHORTCUTS = [
 
 export default function DatabasePage() {
   const { authFetch } = useAdminAuth();
-  const [activeTab, setActiveTab] = useState("collections"); // "collections" | "files"
-  
-  // Collections state
+  const [activeTab, setActiveTab] = useState("collections");
+
   const [collections, setCollections] = useState([]);
   const [loadingCollections, setLoadingCollections] = useState(true);
-  const [inspectTarget, setInspectTarget] = useState(null); // collection object to view
+  const [inspectTarget, setInspectTarget] = useState(null);
   const [copied, setCopied] = useState(false);
   const [jsonSearch, setJsonSearch] = useState("");
 
-  // File explorer state
   const [path, setPath] = useState("");
   const [items, setItems] = useState([]);
   const [sizes, setSizes] = useState({});
@@ -156,7 +153,6 @@ export default function DatabasePage() {
   const [fileSearch, setFileSearch] = useState("");
   const sizeCache = useRef(new Map());
 
-  // Load collections
   const loadCollections = useCallback(async () => {
     setLoadingCollections(true);
     try {
@@ -166,13 +162,11 @@ export default function DatabasePage() {
         setCollections(json.collections);
       }
     } catch {
-      /* fallback */
     } finally {
       setLoadingCollections(false);
     }
   }, [authFetch]);
 
-  // Load files
   const loadFiles = useCallback(
     async (p) => {
       setLoadingFiles(true);
@@ -198,7 +192,6 @@ export default function DatabasePage() {
     loadFiles("");
   }, [loadCollections, loadFiles]);
 
-  // Folder sizes lazy loading
   useEffect(() => {
     let alive = true;
     (async () => {
@@ -220,7 +213,6 @@ export default function DatabasePage() {
             setSizes((s) => ({ ...s, [rel]: json }));
           }
         } catch {
-          /* ignore */
         }
       }
     })();
@@ -229,7 +221,6 @@ export default function DatabasePage() {
     };
   }, [items, path, authFetch]);
 
-  // Wipe demo data
   const handleReset = async () => {
     setResetting(true);
     setNotice("");
@@ -254,7 +245,6 @@ export default function DatabasePage() {
     }
   };
 
-  // Delete single file / folder
   const handleDelete = async () => {
     if (!deleteTarget) return;
     setBusy(true);
@@ -278,7 +268,6 @@ export default function DatabasePage() {
     }
   };
 
-  // Batch delete selected files / folders
   const handleBatchDelete = async () => {
     if (selectedFiles.size === 0) return;
     setBusy(true);
@@ -313,7 +302,6 @@ export default function DatabasePage() {
     await loadFiles(path);
   };
 
-  // Download collection JSON backup
   const handleDownloadBackup = (col) => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(col.data, null, 2));
     const downloadAnchor = document.createElement("a");
@@ -324,14 +312,12 @@ export default function DatabasePage() {
     downloadAnchor.remove();
   };
 
-  // Copy JSON to clipboard
   const handleCopyJson = (data) => {
     navigator.clipboard.writeText(JSON.stringify(data, null, 2));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Visible items filtered by search
   const visibleItems = items.filter((it) =>
     !fileSearch || it.name.toLowerCase().includes(fileSearch.toLowerCase())
   );
@@ -373,7 +359,6 @@ export default function DatabasePage() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1E293B]">
         <div>
           <p className="text-[#615FFF] text-[12px] font-mono">// database &amp; storage manager</p>
@@ -402,7 +387,6 @@ export default function DatabasePage() {
         </div>
       )}
 
-      {/* Tabs Navigation */}
       <div className="flex items-center gap-2 border-b border-[#1E293B]">
         <button
           onClick={() => setActiveTab("collections")}
@@ -429,7 +413,6 @@ export default function DatabasePage() {
         </button>
       </div>
 
-      {/* TAB 1: Database Collections */}
       {activeTab === "collections" && (
         <div className="flex flex-col gap-4">
           {loadingCollections ? (
@@ -448,7 +431,6 @@ export default function DatabasePage() {
                   className="rounded-xl border border-[#1E293B] bg-[#091122] hover:border-[#615FFF]/50 transition-all duration-200 p-5 flex flex-col justify-between group shadow-lg"
                 >
                   <div>
-                    {/* Card Top */}
                     <div className="flex items-start justify-between gap-3 mb-2">
                       <div className="flex items-center gap-2.5 min-w-0">
                         <div className="w-9 h-9 rounded-xl bg-[#615FFF]/15 border border-[#615FFF]/30 flex items-center justify-center text-[#A5B4FC] shrink-0">
@@ -506,10 +488,8 @@ export default function DatabasePage() {
         </div>
       )}
 
-      {/* TAB 2: File & Storage Explorer */}
       {activeTab === "files" && (
         <div className="flex flex-col gap-4">
-          {/* Quick jump shortcuts */}
           <div className="flex items-center gap-2 flex-wrap text-[11px]">
             <span className="text-[#68768C] font-mono uppercase">// quick jump:</span>
             {QUICK_SHORTCUTS.map((sc) => {
@@ -530,7 +510,6 @@ export default function DatabasePage() {
             })}
           </div>
 
-          {/* Breadcrumbs & Controls */}
           <div className="flex items-center justify-between gap-3 flex-wrap bg-[#091122] p-3 rounded-xl border border-[#1E293B]">
             <div className="flex items-center gap-1.5 flex-wrap text-[12px]">
               <button
@@ -592,7 +571,6 @@ export default function DatabasePage() {
             </div>
           </div>
 
-          {/* Multi-selection Batch Bar */}
           {selectedFiles.size > 0 && (
             <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-[#FF6B6B]/10 border border-[#FF6B6B]/30 text-[12px]">
               <div className="flex items-center gap-2">
@@ -624,7 +602,6 @@ export default function DatabasePage() {
             </p>
           )}
 
-          {/* Files Table */}
           <div className="rounded-xl border border-[#1E293B] bg-[#091122] overflow-hidden shadow-lg">
             <div className="grid grid-cols-[36px_1fr_110px_110px_90px] gap-2 px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-[#68768C] border-b border-[#1E293B] bg-[#060D1A] items-center">
               <div>
@@ -736,7 +713,6 @@ export default function DatabasePage() {
         </div>
       )}
 
-      {/* JSON Viewer / Inspector Modal */}
       {inspectTarget && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fadeIn"
@@ -746,7 +722,6 @@ export default function DatabasePage() {
             className="relative w-full max-w-4xl bg-[#091122] border border-[#314158] rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#1E293B] bg-[#060D1A]">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#615FFF]/20 border border-[#615FFF]/30 flex items-center justify-center text-[#A5B4FC]">
@@ -797,7 +772,6 @@ export default function DatabasePage() {
               </div>
             </div>
 
-            {/* Search filter */}
             <div className="p-3 border-b border-[#1E293B] bg-[#0B132B]/50 flex items-center gap-2">
               <input
                 type="text"
@@ -813,7 +787,6 @@ export default function DatabasePage() {
               )}
             </div>
 
-            {/* Modal Body: JSON formatted code */}
             <div className="p-6 overflow-y-auto flex-1 font-mono text-[12px] bg-[#020618] text-[#CBD5E1] leading-6">
               <pre className="whitespace-pre-wrap break-all">
                 {JSON.stringify(inspectTarget.data, null, 2)}
@@ -823,7 +796,6 @@ export default function DatabasePage() {
         </div>
       )}
 
-      {/* Delete single confirmation dialog */}
       {deleteTarget && (
         <ConfirmDialog
           title={deleteTarget.isDir ? "Delete folder" : "Delete file"}
@@ -842,7 +814,6 @@ export default function DatabasePage() {
         />
       )}
 
-      {/* Delete batch confirmation dialog */}
       {batchDeleteOpen && (
         <ConfirmDialog
           title={`Delete ${selectedFiles.size} selected item(s)`}

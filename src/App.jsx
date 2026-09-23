@@ -18,14 +18,11 @@ import PageTransition from "./Components/PageTransition";
 import Cursor from "./Components/Cursor";
 import { SiteInfoProvider } from "./Hooks/useSiteInfo";
 
-/* Timing (ms) — synchronized with the staggered cyber shutter panels */
 const NAVIGATE_AFTER = 480;
 
 function PublicSite() {
   const location = useLocation();
 
-  // ---- Boot loader: run once per session (sessionStorage keeps it from
-  // re-appearing on every in-app navigation back to the site) ----
   const [booted, setBooted] = useState(() => {
     try {
       return sessionStorage.getItem("booted") === "1";
@@ -37,12 +34,10 @@ function PublicSite() {
     try {
       sessionStorage.setItem("booted", "1");
     } catch {
-      /* private mode */
     }
     setBooted(true);
   }, []);
 
-  // Simple, clean route transition key
   const [transitioning, setTransitioning] = useState(false);
   const prevPath = useRef(location.pathname);
 
@@ -56,10 +51,6 @@ function PublicSite() {
   }, [location.pathname]);
 
   return (
-    /* The provider wraps the whole public shell — Header and Footer both read
-       from it, and they live outside <Routes>. It is deliberately NOT around
-       /admin/*: the panel talks to /api/admin/site-admin directly, and the
-       public endpoint is not what the editor should be reading back. */
     <SiteInfoProvider>
       <VisitTracker />
       {!booted && <BootLoader onDone={handleBooted} />}

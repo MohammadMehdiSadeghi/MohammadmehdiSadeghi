@@ -20,8 +20,6 @@ export default function Header() {
     { to: "/contact", key: "contact", label: "_Contact-me" },
   ];
 
-  /* the last entry (_Contact-me) is rendered on the right edge; the rest sit
-     in the middle group */
   const middleLinks = links.slice(0, links.length - 1);
 
   return (
@@ -97,16 +95,7 @@ export default function Header() {
           </div>
         </label>
 
-        {/* Full-screen menu. It is `fixed inset-0`, so it covers the header
-            too — the brand row is re-drawn inside it so the top of the panel
-            reads as the header expanded, and the hamburger label stays
-            clickable above the panel via its own z-50 (it becomes the ✕).
-
-            Closed state is `visibility: hidden` + `opacity: 0`, so nothing
-            paints and nothing is hit-testable — see the note in index.css for
-            why a collapsed panel must never carry borders. */}
         <div className="mobile-nav-panel lg:hidden fixed inset-0 z-40 bg-[#0F172B] overflow-y-auto overscroll-contain">
-          {/* Ambient glows, matching the decorative blobs used on the pages. */}
           <div
             className="pointer-events-none absolute inset-0 overflow-hidden"
             aria-hidden="true"
@@ -128,8 +117,6 @@ export default function Header() {
           </div>
 
           <div className="relative flex min-h-full flex-col">
-            {/* Mirrors the header bar so the panel looks like the header
-                unfolding rather than a separate sheet sliding over it. */}
             <div className="flex h-[58px] shrink-0 items-center px-4 sm:px-6 border-b-[1px] border-[#90a1b977]">
               <span className="font-mono text-[14px] sm:text-[16px] text-[#90A1B9] truncate max-w-[220px] sm:max-w-none">
                 {site.brand}
@@ -137,14 +124,7 @@ export default function Header() {
             </div>
 
             <div className="flex flex-1 flex-col px-4 sm:px-6 pt-6 pb-8">
-              <p
-                className="mobile-nav-item font-mono text-[11px] text-[#90A1B9]/70"
-                style={{ "--i": 0 }}
-              >
-                {"// navigation"}
-              </p>
-
-              <ul className="mt-3 flex flex-col">
+              <ul className="flex flex-col">
                 {links.map((link, index) => {
                   const active = isActive(link.key);
                   return (

@@ -21,9 +21,6 @@ export default function ContactBox() {
             contacts{" "}
             <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
-          {/* Every row is gated on its value, so a contact the owner clears in
-              the admin panel disappears here rather than rendering a broken
-              mailto:/tel: or an empty label. */}
           {site.email && (
             <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
               <a

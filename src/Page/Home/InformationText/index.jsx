@@ -21,11 +21,6 @@ export default function InformationText() {
     if (mountedRef.current) setStep(next);
   }, []);
   return (
-    /* min-w-0: a flex item defaults to min-width:auto, so its intrinsic
-       (max-content) width — the name at 58px, ~800px — pushed the row past
-       the viewport and gave the whole page a horizontal scrollbar. Allowing
-       it to shrink lets the name wrap instead; xl:min-w-[800px] below still
-       keeps it on one line once there is room for it. */
     <div className="w-full lg:w-auto min-w-0 flex flex-col gap-10 sm:gap-16 lg:gap-28 text-center lg:text-left items-center lg:items-start">
       <div>
         <ul className="flex min-h-[180px] flex-col gap-3 sm:gap-4 items-center lg:items-start">
@@ -48,11 +43,6 @@ export default function InformationText() {
           </li>
           <li>
             <h1
-              /* min-w stops the name from reflowing while TypeIt types it, but a
-                 flat 800px is only affordable once the viewport fits
-                 name(800) + gap(64) + search card(334) ≈ 1200px. Below that
-                 (md..lg) it forced a horizontal scrollbar, so the reserved
-                 width only applies from xl up. */
               className="text-white xl:min-w-[800px] text-[30px] sm:text-[42px] lg:text-[58px] leading-tight"
               data-typed={step >= 3 ? "done" : "typing"}
             >
@@ -92,9 +82,6 @@ export default function InformationText() {
               // and find my profile on Github:
             </p>
           </li>
-          {/* The whole line goes, not just the anchor: it reads
-              `const githubLink = <url>`, so hiding only the link would leave
-              a dangling assignment. */}
           {site.github && (
             <li className="flex flex-wrap gap-2 sm:gap-5 items-center justify-center lg:justify-start">
               <p style={{ color: purple }} className="text-[13px] sm:text-[14px]">

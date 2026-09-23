@@ -12,7 +12,6 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // already logged in with a valid session -> skip the login screen
   if (token && valid && !checking) {
     const redirectTo = location.state?.from || "/admin/stats";
     return <Navigate to={redirectTo} replace />;

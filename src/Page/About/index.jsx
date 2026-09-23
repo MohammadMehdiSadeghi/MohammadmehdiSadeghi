@@ -10,11 +10,6 @@ export default function About() {
   });
 
   const [activeTab, setActiveTab] = useState("aboutMe");
-  /* Both accordions start collapsed on small screens. With one of them open on
-     entry the second section is pushed below the fold, so the user never sees
-     it — collapsing both keeps the page short and lets each section be
-     revealed on demand. On lg+ the accordions are ignored entirely (the tabs
-     and contacts are always rendered). */
   const [personalInfoOpen, setPersonalInfoOpen] = useState(false);
   return (
     <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden">

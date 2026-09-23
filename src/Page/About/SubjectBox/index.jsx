@@ -65,11 +65,6 @@ export default function SubjectBox({
             <img src="/assets/Images/icon folder2.svg" alt="" />
             education
           </li>
-          {/* On lg+ this is the last row of the tab list, so it owns the
-              divider that used to come from the contacts h2's border-top.
-              Keeping that line here (instead of a top border on the box
-              below) is what stops the 2px double border when this tab is
-              the active one. */}
           <li
             onClick={() => {
               trackClick({ targetType: "button", targetId: "tab-skills", targetLabel: "Skills Tab" });
@@ -89,9 +84,6 @@ export default function SubjectBox({
         {mobileContent}
 
         <ul className="flex flex-col pb-3 gap-5 h-fit">
-          {/* No border-top here on purpose: the block above always ends with
-              its own bottom border, so a top border would stack into a 2px
-              double line (visible when personal-info is collapsed on mobile). */}
           <h2
             onClick={() => setContactsOpen((prev) => !prev)}
             className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] text-white border-[#90a1b977] cursor-pointer select-none lg:cursor-default"

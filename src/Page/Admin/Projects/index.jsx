@@ -3,7 +3,6 @@ import { useAdminAuth } from "../../../Hooks/useAdminAuth";
 import ProjectFormModal from "./ProjectFormModal";
 import ConfirmDialog from "../ui/ConfirmDialog";
 
-// Same monogram generator as the main-site ProjectCard (e.g. "Sabz Learn" → "SL")
 const getMonogram = (title) => {
   const words = title?.trim().split(/\s+/);
   if (!words || words.length === 0) return "?";
@@ -25,7 +24,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [modalState, setModalState] = useState(null); // null | { mode: "create"|"edit", project? }
+  const [modalState, setModalState] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [busy, setBusy] = useState(false);
   const [uploadingModal, setUploadingModal] = useState(false);
@@ -47,7 +46,6 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     load(type);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   const handleSave = async (payload, mode, id) => {
@@ -144,9 +142,7 @@ export default function ProjectsPage() {
               key={p.id}
               className="rounded-lg border border-[#1E293B] bg-[#0F172B] overflow-hidden flex flex-col"
             >
-              {/* Preview Area: Pure Logotype — mirrors the main-site ProjectCard template (no screenshots) */}
               <div className="w-full h-[130px] relative overflow-hidden bg-[#0a1628]">
-                {/* Top accent line */}
                 <div
                   className="absolute top-0 left-0 right-0 h-[2px]"
                   style={{
@@ -155,7 +151,6 @@ export default function ProjectsPage() {
                     opacity: 0.4,
                   }}
                 />
-                {/* Faint grid texture */}
                 <div
                   className="absolute inset-0"
                   style={{
@@ -164,7 +159,6 @@ export default function ProjectsPage() {
                     backgroundSize: "22px 22px",
                   }}
                 />
-                {/* Giant watermark monogram */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <span
                     className="text-[92px] font-bold select-none leading-none"
@@ -173,7 +167,6 @@ export default function ProjectsPage() {
                     {getMonogram(p.title)}
                   </span>
                 </div>
-                {/* Logotype content */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-4">
                   <div
                     className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg"
@@ -192,7 +185,6 @@ export default function ProjectsPage() {
                     {p.title}
                   </h4>
                 </div>
-                {/* Corner brackets (techy frame) */}
                 <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2" style={{ borderColor: "#615FFF66", opacity: 0.6 }} />
                 <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2" style={{ borderColor: "#615FFF66", opacity: 0.6 }} />
                 <div className="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 border-b-2 border-l-2" style={{ borderColor: "#615FFF66", opacity: 0.6 }} />

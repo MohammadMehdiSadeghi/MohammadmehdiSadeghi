@@ -1,13 +1,7 @@
-/**
- * Hourly Traffic Heatmap — 7 rows (days) x 24 columns (hours).
- * data: { "YYYY-MM-DD": { "0": count, "1": count, ... } }
- * OR data: [{ date: "YYYY-MM-DD", hours: { "0": n, ... } }]
- */
 export default function Heatmap({ data, maxVal }) {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  // Normalize data into a consistent format
   let grid = [];
   if (Array.isArray(data)) {
     grid = data;
@@ -18,7 +12,6 @@ export default function Heatmap({ data, maxVal }) {
     }));
   }
 
-  // Find max value for color scaling
   const max = maxVal || Math.max(1, ...grid.flatMap((d) => Object.values(d.hours || {}).map(Number)));
 
   function getColor(value) {
@@ -41,7 +34,6 @@ export default function Heatmap({ data, maxVal }) {
   return (
     <div className="w-full overflow-x-auto">
       <div className="min-w-[600px]">
-        {/* Hour labels */}
         <div className="flex mb-1.5">
           <div className="w-10 shrink-0" />
           {hours.map((h) => (
@@ -53,7 +45,6 @@ export default function Heatmap({ data, maxVal }) {
             </div>
           ))}
         </div>
-        {/* Grid */}
         {grid.map((day, di) => (
           <div key={di} className="flex items-center gap-0.5 mb-0.5">
             <span className="w-10 text-[9px] text-[#68768C] shrink-0 pr-1 text-right">
@@ -80,7 +71,6 @@ export default function Heatmap({ data, maxVal }) {
             })}
           </div>
         ))}
-        {/* Legend */}
         <div className="flex items-center gap-2 mt-3 justify-end">
           <span className="text-[8px] text-[#4B576D]">less</span>
           {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => (
