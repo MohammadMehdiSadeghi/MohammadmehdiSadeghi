@@ -188,7 +188,9 @@ function mockFetch(url, options = {}) {
   let body = null;
   try {
     body = options.body ? JSON.parse(options.body) : null;
-  } catch {  }
+  } catch {
+    /* non-JSON body stays null */
+  }
 
   if (path === "/api/admin/auth" && method === "POST") {
     const db = initDB();
@@ -213,7 +215,9 @@ function mockFetch(url, options = {}) {
   if (path === "/api/admin/track" && method === "POST") {
     try {
       if (localStorage.getItem("admin_token")) return ok({ ok: true, ignored: "admin" });
-    } catch {}
+    } catch {
+      /* storage blocked — track as a normal visitor */
+    }
     trackVisit(body?.path || "/", body?.sessionId || "unknown");
     return ok({ ok: true });
   }

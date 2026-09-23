@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { compressImage, fmtBytes } from "../../../lib/imageCompress";
 import { parseBlocks, blocksToMarkdown } from "../../../lib/blog";
 
@@ -9,10 +9,10 @@ const todayISO = () => new Date().toISOString().slice(0, 10);
 
 export default function PostFormModal({ mode, post, busy, onClose, onSave, authFetch }) {
   const [title, setTitle] = useState(post?.title || "");
-  const [excerpt, setExcerpt] = useState(post?.excerpt || "");
+  const [excerpt] = useState(post?.excerpt || "");
   const [tagsText, setTagsText] = useState((post?.tags || []).join(", "));
   const [date, setDate] = useState(post?.date || todayISO());
-  const [slug, setSlug] = useState(post?.slug || "");
+  const [slug] = useState(post?.slug || "");
   const [published, setPublished] = useState(post?.published !== false);
 
   const [cover, setCover] = useState(post?.cover || "");
@@ -203,6 +203,9 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
           <div className="flex flex-col gap-2 rounded-lg border border-[#1E293B] bg-[#0b1220] p-4">
             <p className="text-[#90A1B9] text-[12px] font-semibold">_Main Cover Image</p>
 
+            {imgNote && (
+              <p className="text-[#00D5BE] text-[11px]">{imgNote}</p>
+            )}
             {previewSrc ? (
               <div className="relative w-full h-[150px] rounded-lg overflow-hidden border border-[#1E293B] bg-[#020618]">
                 <img

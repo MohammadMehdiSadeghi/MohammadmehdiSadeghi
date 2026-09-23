@@ -11,6 +11,9 @@ import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
 
+/* Buffer is a Node.js global (no-undef) */
+/* global Buffer */
+
 const MAX_IMAGE_BYTES = 2.5 * 1024 * 1024;
 
 /* raster only — an uploaded SVG is served from this origin and can carry

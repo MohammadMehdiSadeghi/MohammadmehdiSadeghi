@@ -65,6 +65,7 @@ export function parseBlocks(content) {
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) return parsed;
     } catch {
+      /* not a JSON array — fall through to the text parser */
     }
   }
 

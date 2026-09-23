@@ -1891,17 +1891,18 @@ export function mockApiHandler(req, res, next) {
           return raw ? JSON.parse(raw) : fallback;
         } catch { return fallback; }
       };
-      const blog = readOr(PUBLIC_JSON.blog, { posts: [] });
-      const projects = readOr(PUBLIC_JSON.projects, []);
-      const mini = readOr(PUBLIC_JSON["mini-projects"], []);
-      const skills = readOr(PUBLIC_JSON.skills, []);
-      const messages = readOr(F.messages, []);
-      const visits = readOr(F.visits, {});
-      const clicks = readOr(F.clicks, []);
-      const moods = readOr(join(ADMIN_DATA, "moods.json"), {});
-      const telegram = readOr(F.telegram, {});
-      const sabzUsers = readOr(join(ADMIN_DATA, "sabz-users.json"), []);
-      const sabzComments = readOr(join(ADMIN_DATA, "sabz-comments.json"), []);
+      const PUBLIC_API = join(process.cwd(), "public", "api");
+      const blog = readOr(join(PUBLIC_API, "blog.json"), { posts: [] });
+      const projects = readOr(join(PUBLIC_API, "projects.json"), []);
+      const mini = readOr(join(PUBLIC_API, "mini-projects.json"), []);
+      const skills = readOr(join(PUBLIC_API, "skills.json"), []);
+      const messages = readOr(MESSAGES_FILE, []);
+      const visits = readOr(VISITS_FILE, {});
+      const clicks = readOr(CLICKS_FILE, []);
+      const moods = readOr(join(DATA_DIR, "moods.json"), {});
+      const telegram = readOr(join(DATA_DIR, "telegram.json"), {});
+      const sabzUsers = readOr(join(DATA_DIR, "sabz-users.json"), []);
+      const sabzComments = readOr(join(DATA_DIR, "sabz-comments.json"), []);
 
       const blogPosts = Array.isArray(blog?.posts) ? blog.posts : Array.isArray(blog) ? blog : [];
       const projArr = Array.isArray(projects) ? projects : [];

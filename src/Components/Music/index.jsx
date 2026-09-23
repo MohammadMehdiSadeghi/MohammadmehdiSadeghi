@@ -25,6 +25,7 @@ function ensureGraph(audio) {
       sharedGraph.analyser.connect(sharedGraph.ctx.destination);
       sharedGraph.attached.add(audio);
     } catch {
+      /* audio element already attached to another context */
     }
   }
   return sharedGraph.analyser;

@@ -162,6 +162,7 @@ export default function DatabasePage() {
         setCollections(json.collections);
       }
     } catch {
+      /* collections endpoint failed — leave list empty */
     } finally {
       setLoadingCollections(false);
     }
@@ -213,6 +214,7 @@ export default function DatabasePage() {
             setSizes((s) => ({ ...s, [rel]: json }));
           }
         } catch {
+          /* size probe failed for this file — skip caching */
         }
       }
     })();

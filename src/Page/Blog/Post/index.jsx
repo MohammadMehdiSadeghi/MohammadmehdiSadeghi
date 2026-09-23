@@ -166,13 +166,14 @@ export default function BlogPost() {
     };
   }, [slug]);
 
+  const content = post?.content;
   const headings = useMemo(() => {
-    if (!post?.content) return [];
-    const blocks = parseBlocks(post.content);
+    if (!content) return [];
+    const blocks = parseBlocks(content);
     return blocks
       .map((b, idx) => (b.type === "h" ? { text: b.text, id: `section-${idx}` } : null))
       .filter(Boolean);
-  }, [post?.content]);
+  }, [content]);
 
   const titleRTL = isRTL(post?.title);
 

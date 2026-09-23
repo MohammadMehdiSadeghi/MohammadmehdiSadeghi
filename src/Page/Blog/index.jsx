@@ -30,8 +30,6 @@ function CheckMark() {
 }
 
 function PostCover({ post, height = 180 }) {
-  const rtl = isRTL(post.title);
-
   return (
     <div
       className="relative w-full overflow-hidden rounded-t-xl"

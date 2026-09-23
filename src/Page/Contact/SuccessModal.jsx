@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export default function SuccessModal({ isOpen, onClose, senderName, phoneNumber }) {
+export default function SuccessModal({ isOpen, onClose, senderName }) {
   useEffect(() => {
     if (!isOpen) return;
 

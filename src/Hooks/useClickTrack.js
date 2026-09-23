@@ -34,7 +34,9 @@ export default function useClickTrack() {
 
       try {
         if (localStorage.getItem("admin_token")) return;
-      } catch {}
+      } catch {
+        /* storage blocked — still track clicks */
+      }
 
       const key = throttleKey(targetType, targetId);
       const now = Date.now();

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useState, useCallback, useRef } from "react";
 import "./App.css";
 import Header from "./Components/Header";
@@ -34,6 +34,7 @@ function PublicSite() {
     try {
       sessionStorage.setItem("booted", "1");
     } catch {
+      /* private mode / storage blocked — keep session-local boot flag */
     }
     setBooted(true);
   }, []);
