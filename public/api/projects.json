@@ -64,7 +64,7 @@
   },
   {
     "id": 6,
-    "url": "../Projects/Web-Project/porskad-dist/index.html",
+    "url": "https://porskad.vercel.app",
     "title": "Porskad",
     "description": "Porskad (پرسکاد) — a dedicated form and survey system for Rokad Institute. Built with React, Tailwind CSS, and Framer Motion, featuring an RTL Persian admin dashboard, embeddable forms, and a modern responsive UI.",
     "category": [
