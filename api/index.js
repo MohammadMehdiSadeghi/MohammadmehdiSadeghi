@@ -23,6 +23,7 @@ import password from "./admin/_password.js";
 import messages from "./admin/_messages.js";
 import projectsAdmin from "./admin/_projects-admin.js";
 import skillsAdmin from "./admin/_skills-admin.js";
+import siteAdmin from "./admin/_site-admin.js";
 import stats from "./admin/_stats.js";
 import track from "./admin/_track.js";
 import trackClick from "./admin/_track-click.js";
@@ -50,6 +51,7 @@ const ROUTES = {
   "admin/messages": messages,
   "admin/projects-admin": projectsAdmin,
   "admin/skills-admin": skillsAdmin,
+  "admin/site-admin": siteAdmin,
   "admin/stats": stats,
   "admin/track": track,
   "admin/track-click": trackClick,
@@ -86,6 +88,9 @@ const STATIC_JSON = {
   "skills.json": () => listData("skills.json"),
   "music-analysis.json": () => BUNDLED["music-analysis.json"],
   "blog.json": () => listData("blog.json"),
+  /* site-wide identity / contact / social links — edited in the admin panel,
+     so it must read the overlay too or the edit would never reach the site */
+  "site.json": () => listData("site.json"),
 };
 
 function notFound(res) {

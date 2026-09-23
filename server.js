@@ -91,6 +91,7 @@ const PUBLIC_JSON = {
   "mini-projects": path.join(PUBLIC_DIR, "api", "mini-projects.json"),
   skills: path.join(PUBLIC_DIR, "api", "skills.json"),
   blog: path.join(PUBLIC_DIR, "api", "blog.json"),
+  site: path.join(PUBLIC_DIR, "api", "site.json"),
 };
 
 const TOKEN_TTL = 60 * 60 * 24 * 365 * 10; // 10 years (permanent admin token)
@@ -230,6 +231,15 @@ app.get("/api/mini-projects", listEndpoint(PUBLIC_JSON["mini-projects"], "projec
 app.get("/api/skills", wrap(async (req, res) => {
   const skills = await readJSON(PUBLIC_JSON.skills, []);
   res.json({ skills: Array.isArray(skills) ? skills : [] });
+}));
+
+/* site-wide identity / contact / social links, edited in the admin panel.
+   Explicit route (not just the /api static mount further down) so the shape
+   is guaranteed to be an object even if the file was removed by a reset. */
+app.get("/api/site.json", wrap(async (req, res) => {
+  const site = await readJSON(PUBLIC_JSON.site, {});
+  res.setHeader("Cache-Control", "no-store");
+  res.json(site && typeof site === "object" && !Array.isArray(site) ? site : {});
 }));
 
 /* was project.php — slug/id lookup */
@@ -1285,8 +1295,67 @@ app.all("/api/admin/skills-admin", wrap(async (req, res) => {
   res.status(405).json({ error: "method not allowed" });
 }));
 
-/* ══════════════════ ADMIN: auth + stats ══════════════════ */
+/* was admin/site-admin.php — site identity / contact / social links.
+   Mirrors api/admin/_site-admin.js: same allow-list, same validation, same
+   read-modify-write under a lock. */
+const SITE_FIELDS = [
+  "brand", "email", "phone", "phoneLabel",
+  "github", "githubHandle", "linkedin",
+  "telegram", "telegramHandle", "instagram", "instagramHandle",
+];
+const SITE_URL_FIELDS = ["github", "linkedin", "telegram", "instagram"];
 
+function validateSite(next) {
+  if (next.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next.email)) {
+    return "email is not a valid address";
+  }
+  const digits = String(next.phone || "").replace(/[^\d+]/g, "");
+  if (digits && !/^\+?\d{7,15}$/.test(digits)) {
+    return "phone must be 7-15 digits, optionally starting with +";
+  }
+  for (const key of SITE_URL_FIELDS) {
+    const url = String(next[key] || "");
+    if (!url) continue;
+    if (!/^https?:\/\//i.test(url)) return `${key} must start with http:// or https://`;
+    try { new URL(url); } catch { return `${key} is not a valid URL`; }
+  }
+  return null;
+}
+
+app.all("/api/admin/site-admin", wrap(async (req, res) => {
+  if ((await requireAuthAsync(req, res)) === null) return;
+  const file = PUBLIC_JSON.site;
+
+  if (req.method === "GET") {
+    const site = await readJSON(file, {});
+    /* self-hosted: writes land on a real disk, so they always survive */
+    return res.json({
+      site: site && typeof site === "object" ? site : {},
+      storage: "file",
+      durable: true,
+    });
+  }
+  if (req.method !== "PUT" && req.method !== "POST") {
+    return res.status(405).json({ error: "method not allowed" });
+  }
+
+  const body = req.body || {};
+  const outcome = await withLock("site", async () => {
+    const current = await readJSON(file, {});
+    const next = { ...(current && typeof current === "object" ? current : {}) };
+    for (const key of SITE_FIELDS) {
+      if (body[key] != null) next[key] = String(body[key]).trim();
+    }
+    const problem = validateSite(next);
+    if (problem) return { code: 400, payload: { error: problem } };
+    next.updatedAt = new Date().toISOString();
+    await writeJSON(file, next);
+    return { code: 200, payload: { ok: true, site: next } };
+  });
+  res.status(outcome.code).json(outcome.payload);
+}));
+
+/* ══════════════════ ADMIN: auth + stats ══════════════════ */
 /* was admin/auth.php */
 app.post("/api/admin/auth", wrap(async (req, res) => {
   await ensureConfig(); // token secret must exist before any login/verify

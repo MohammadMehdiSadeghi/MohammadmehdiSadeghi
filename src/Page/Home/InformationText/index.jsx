@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Typewriter from "../../../Components/Typewriter";
 import useClickTrack from "../../../Hooks/useClickTrack";
+import { useSiteInfo } from "../../../Hooks/useSiteInfo";
 
 const gray = "#90A1B9";
 const purple = "#615FFF";
@@ -15,6 +16,7 @@ export default function InformationText() {
     return () => { mountedRef.current = false; };
   }, []);
   const { withTracking } = useClickTrack();
+  const site = useSiteInfo();
   const onTyped = useCallback((next) => () => {
     if (mountedRef.current) setStep(next);
   }, []);
@@ -90,30 +92,35 @@ export default function InformationText() {
               // and find my profile on Github:
             </p>
           </li>
-          <li className="flex flex-wrap gap-2 sm:gap-5 items-center justify-center lg:justify-start">
-            <p style={{ color: purple }} className="text-[13px] sm:text-[14px]">
-              const
-            </p>
-            <p
-              style={{ color: turquoise }}
-              className="text-[13px] sm:text-[14px]"
-            >
-              githubLink
-            </p>
-            <p className="text-white text-[13px] sm:text-[14px]">=</p>
-            <a
-              style={{ color: pink }}
-              className="text-[12px] sm:text-[14px] underline break-all"
-              href="https://github.com/MohammadMehdiSadeghi"
-              onClick={withTracking({
-                targetType: "button",
-                targetId: "github-link",
-                targetLabel: "GitHub Profile",
-              })}
-            >
-              https://github.com/MohammadMehdiSadeghi
-            </a>
-          </li>
+          {/* The whole line goes, not just the anchor: it reads
+              `const githubLink = <url>`, so hiding only the link would leave
+              a dangling assignment. */}
+          {site.github && (
+            <li className="flex flex-wrap gap-2 sm:gap-5 items-center justify-center lg:justify-start">
+              <p style={{ color: purple }} className="text-[13px] sm:text-[14px]">
+                const
+              </p>
+              <p
+                style={{ color: turquoise }}
+                className="text-[13px] sm:text-[14px]"
+              >
+                githubLink
+              </p>
+              <p className="text-white text-[13px] sm:text-[14px]">=</p>
+              <a
+                style={{ color: pink }}
+                className="text-[12px] sm:text-[14px] underline break-all"
+                href={site.github}
+                onClick={withTracking({
+                  targetType: "button",
+                  targetId: "github-link",
+                  targetLabel: "GitHub Profile",
+                })}
+              >
+                {site.github}
+              </a>
+            </li>
+          )}
         </ul>
       </div>
     </div>

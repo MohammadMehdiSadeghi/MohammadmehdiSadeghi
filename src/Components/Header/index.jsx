@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useActiveNav } from "../../Hooks/useActiveNav";
+import { useSiteInfo } from "../../Hooks/useSiteInfo";
 
 export default function Header() {
   const { isActive } = useActiveNav();
+  const site = useSiteInfo();
 
   const closeMobileMenu = () => {
     const toggle = document.getElementById("nav-toggle");
@@ -37,7 +39,7 @@ export default function Header() {
             to="/"
             className="text-[14px] lg:w-[456px] xl:w-[513px] shrink-0 sm:text-[16px] text-[#90A1B9] py-[16px] px-4 sm:px-6 lg:px-[24px] lg:border-r-[1px] lg:border-[#90a1b977] truncate max-w-[220px] sm:max-w-none"
           >
-            Mohammad-Mehdi-Sadeghi
+            {site.brand}
           </Link>
 
           <ul className="hidden lg:flex items-center h-full">
@@ -130,7 +132,7 @@ export default function Header() {
                 unfolding rather than a separate sheet sliding over it. */}
             <div className="flex h-[58px] shrink-0 items-center px-4 sm:px-6 border-b-[1px] border-[#90a1b977]">
               <span className="font-mono text-[14px] sm:text-[16px] text-[#90A1B9] truncate max-w-[220px] sm:max-w-none">
-                Mohammad-Mehdi-Sadeghi
+                {site.brand}
               </span>
             </div>
 
@@ -194,28 +196,34 @@ export default function Header() {
                   {"> Front-end developer"}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[12px] text-[#90A1B9]">
-                  <a
-                    href="https://github.com/MohammadMehdiSadeghi"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-white"
-                  >
-                    github
-                  </a>
-                  <a
-                    href="https://t.me/Mohammad_sadeghi34"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-white"
-                  >
-                    telegram
-                  </a>
-                  <a
-                    href="mailto:mohammad12345sadeghi@gmail.com"
-                    className="transition-colors hover:text-white"
-                  >
-                    email
-                  </a>
+                  {site.github && (
+                    <a
+                      href={site.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="transition-colors hover:text-white"
+                    >
+                      github
+                    </a>
+                  )}
+                  {site.telegram && (
+                    <a
+                      href={site.telegram}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="transition-colors hover:text-white"
+                    >
+                      telegram
+                    </a>
+                  )}
+                  {site.email && (
+                    <a
+                      href={`mailto:${site.email}`}
+                      className="transition-colors hover:text-white"
+                    >
+                      email
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

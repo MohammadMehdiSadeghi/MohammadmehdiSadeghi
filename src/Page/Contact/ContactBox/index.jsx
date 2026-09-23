@@ -1,9 +1,12 @@
 import React from "react";
 import SnakeBar from "../../../Components/SnakeBar";
+import { useSiteInfo } from "../../../Hooks/useSiteInfo";
 
 const gray = "#90A1B9";
 
 export default function ContactBox() {
+  const site = useSiteInfo();
+
   return (
     <section className="flex justify-start lg:h-full border-b lg:border-b-0 border-[#90a1b977]">
       <div className="hidden lg:block relative w-14 border-r-[1px] border-[#90a1b977] h-[calc(100vh-112px)]">
@@ -18,49 +21,60 @@ export default function ContactBox() {
             contacts{" "}
             <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
-          <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
-            <a
-              className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
-              href="mailto:mohammad12345sadeghi@gmail.com"
-            >
-              <img
-                className="w-5 shrink-0"
-                src="/assets/Images/icon message.svg"
-                alt=""
-              />
-              <span>mohammad12345sadeghi@gmail.com</span>
-            </a>
-          </li>
-          <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
-            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="tel:+989150669620">
-              <img
-                className="w-5 shrink-0"
-                src="/assets/Images/icon phone.svg"
-                alt=""
-              />
-              <span>+98 915 066 9620</span>
-            </a>
-          </li>
-          <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
-            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://t.me/Mohammad_sadeghi34">
-              <img
-                className="w-6 shrink-0"
-                src="/assets/Images/BasilTelegramSolid.png"
-                alt=""
-              />
-              <span>@Mohammad_sadeghi34</span>
-            </a>
-          </li>
-          <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
-            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://www.instagram.com/Mohammad_sadeghi3447">
-              <img
-                className="w-6 shrink-0"
-                src="/assets/Images/TablerBrandInstagram.png"
-                alt=""
-              />
-              <span>@Mohammad_sadeghi3447</span>
-            </a>
-          </li>
+          {/* Every row is gated on its value, so a contact the owner clears in
+              the admin panel disappears here rather than rendering a broken
+              mailto:/tel: or an empty label. */}
+          {site.email && (
+            <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
+              <a
+                className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
+                href={`mailto:${site.email}`}
+              >
+                <img
+                  className="w-5 shrink-0"
+                  src="/assets/Images/icon message.svg"
+                  alt=""
+                />
+                <span>{site.email}</span>
+              </a>
+            </li>
+          )}
+          {site.phone && (
+            <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
+              <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href={`tel:${site.phone}`}>
+                <img
+                  className="w-5 shrink-0"
+                  src="/assets/Images/icon phone.svg"
+                  alt=""
+                />
+                <span>{site.phoneLabel || site.phone}</span>
+              </a>
+            </li>
+          )}
+          {site.telegram && (
+            <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
+              <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href={site.telegram}>
+                <img
+                  className="w-6 shrink-0"
+                  src="/assets/Images/BasilTelegramSolid.png"
+                  alt=""
+                />
+                <span>{site.telegramHandle ? `@${site.telegramHandle}` : "telegram"}</span>
+              </a>
+            </li>
+          )}
+          {site.instagram && (
+            <li className="px-4 sm:px-8 lg:px-10 flex items-center gap-3">
+              <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href={site.instagram}>
+                <img
+                  className="w-6 shrink-0"
+                  src="/assets/Images/TablerBrandInstagram.png"
+                  alt=""
+                />
+                <span>{site.instagramHandle ? `@${site.instagramHandle}` : "instagram"}</span>
+              </a>
+            </li>
+          )}
         </ul>
       </nav>
     </section>

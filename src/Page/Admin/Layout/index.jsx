@@ -7,6 +7,7 @@ const navItems = [
   { to: "/admin/projects", label: "projects.json", hint: "manage projects" },
   { to: "/admin/blog", label: "blog", hint: "write posts" },
   { to: "/admin/skills", label: "skills.json", hint: "manage skills" },
+  { to: "/admin/site", label: "site.json", hint: "email & social links" },
   { to: "/admin/messages", label: "messages.log", hint: "contact inbox" },
   { to: "/admin/telegram", label: "telegram.bot", hint: "form → telegram" },
   { to: "/admin/moods", label: "moods.json", hint: "vibe QC" },

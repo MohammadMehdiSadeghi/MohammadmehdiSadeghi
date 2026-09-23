@@ -192,3 +192,23 @@ be wrapped or concurrent writers silently drop updates (`_projects-admin.js` and
 answer with its own HTML error page, so the app did `JSON.parse("<!DOCTYPE")` and the user saw a
 raw `Unexpected token '<'` instead of "post not found". Set the status inside each branch, and on
 the client check `res.ok` BEFORE `res.json()`.
+
+## Site-wide contact / social values live in `site.json` (never hardcode them)
+
+Email, phone, brand name, GitHub / LinkedIn / Telegram / Instagram URLs and handles come from
+**`public/api/site.json`**, edited in the admin panel at **`/admin/site`**. Do not reintroduce a
+literal into a component — if you need one of these values, read it via `useSiteInfo()`.
+
+- `handle` fields are stored **without** the leading `@`; the renderer adds it. Storing `"@x"`
+  and rendering `"@" + value` produces `@@x`.
+- `SITE_DEFAULTS` in `src/Hooks/useSiteInfo.jsx` duplicates the seed values on purpose: they are
+  the first paint before the fetch resolves and the fallback when it fails. Keep them in sync with
+  `public/api/site.json` when the seed changes.
+- Consumers gate each row on truthiness (`{site.instagram && …}`), so **clearing a field removes
+  that row from the site** rather than rendering a dead `mailto:` or an empty label.
+- The public route is `/api/site.json` and must go through `listData` (overlay first), for the same
+  reason `projects.json` / `skills.json` do — see "Admin overlay vs bundled data" above.
+- Admin writes validate anything that becomes an `href` (email shape, phone digits, `https?://` +
+  `new URL()`). A `javascript:` URL in the GitHub slot is an XSS vector, not a cosmetic issue.
+- `index.html`'s JSON-LD `sameAs` is a build-time file the editor cannot reach — it still points at
+  a different GitHub account (`irannama56-oss`) than the site's link.

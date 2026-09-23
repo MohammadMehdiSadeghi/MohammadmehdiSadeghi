@@ -87,11 +87,12 @@ const server = http.createServer(async (req, res) => {
 
   if (dest) {
     const destPath = dest.split("?")[0];
-    const onDisk = path.join(DIST, decodeURIComponent(destPath));
-    // a real file on disk wins over the rewrite (matches Vercel)
-    if (fs.existsSync(onDisk) && fs.statSync(onDisk).isFile()) {
-      return sendFile(res, onDisk);
-    }
+
+    /* The API always goes to the handler, and it must be checked BEFORE the
+       "real file on disk" test below: Vite copies public/ into dist/, so
+       dist/api/projects.json (a build-time snapshot) exists on disk and would
+       otherwise be served instead of the handler — which is what applies the
+       admin overlay. */
     if (destPath === "/api/index") {
       const qs = new URLSearchParams(dest.split("?")[1] || "");
       const q = Object.fromEntries(qs.entries());
@@ -108,6 +109,38 @@ const server = http.createServer(async (req, res) => {
         res.statusCode = 500;
         return res.json({ error: String(e && e.message) });
       }
+    }
+
+    /* A real file wins over the rewrite — tested against the ORIGINAL path,
+       not the destination. The SPA fallback `/((?!api/).*)` → `/index.html`
+       also matches /assets/*.js and every other real file, and its
+       destination always exists, so checking the destination meant every
+       asset request was answered with index.html. The browser got HTML where
+       it expected JavaScript and the app never booted at all. */
+    const origFile = path.join(DIST, decodeURIComponent(pathname));
+    if (fs.existsSync(origFile) && fs.statSync(origFile).isFile()) {
+      return sendFile(res, origFile);
+    }
+
+    /* Deep-linked relative assets. The build uses base './', so from a route
+       like /admin/site the browser asks for /admin/assets/index-*.js, while
+       the file really lives at /assets/index-*.js. Strip leading segments
+       until it resolves — the same fallback server.js implements. Without
+       this, the SPA fallback below answers with index.html and a deep link
+       boots to a blank page. */
+    if (/\.[a-z0-9]+$/i.test(pathname)) {
+      const segs = pathname.split("/").filter(Boolean);
+      for (let i = 1; i < segs.length; i++) {
+        const cand = path.join(DIST, decodeURIComponent(segs.slice(i).join("/")));
+        if (fs.existsSync(cand) && fs.statSync(cand).isFile()) {
+          return sendFile(res, cand);
+        }
+      }
+    }
+
+    const onDisk = path.join(DIST, decodeURIComponent(destPath));
+    if (fs.existsSync(onDisk) && fs.statSync(onDisk).isFile()) {
+      return sendFile(res, onDisk);
     }
     pathname = destPath;
   }

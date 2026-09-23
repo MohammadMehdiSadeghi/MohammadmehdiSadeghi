@@ -3,6 +3,27 @@
    a fix look verified when nothing had changed — so this picks a free port. */
 import { spawn } from "node:child_process";
 import net from "node:net";
+import fs from "node:fs";
+import path from "node:path";
+
+/* Derive the slug from the data instead of hardcoding one. A literal slug
+   here goes stale the moment the post is renamed or deleted — which is
+   exactly what happened: this file asked for "welcome-to-my-blog" long after
+   that post was gone, so it reported a real 404 as a failure forever. */
+const blogFile = path.join(process.cwd(), "public", "api", "blog.json");
+let liveSlug = null;
+try {
+  const blog = JSON.parse(fs.readFileSync(blogFile, "utf8"));
+  const posts = Array.isArray(blog) ? blog : blog.posts || [];
+  liveSlug = posts[0]?.slug || null;
+} catch {
+  /* handled by the assertion below */
+}
+if (!liveSlug) {
+  console.log("no post slug found in public/api/blog.json — cannot verify slug lookup");
+  process.exit(1);
+}
+console.log("live slug:", liveSlug);
 
 const port = await new Promise((res) => {
   const s = net.createServer();
@@ -28,7 +49,7 @@ const check = (name, ok, detail = "") => {
   console.log(`  ${ok ? "ok  " : "FAIL"} ${name} ${detail}`);
 };
 
-for (const path of ["/api/blog", "/api/blog?slug=welcome-to-my-blog"]) {
+for (const path of ["/api/blog", `/api/blog?slug=${encodeURIComponent(liveSlug)}`]) {
   const r = await fetch(base + path);
   const ct = r.headers.get("content-type") || "";
   const text = await r.text();

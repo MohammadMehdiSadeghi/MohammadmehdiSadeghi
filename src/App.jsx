@@ -16,6 +16,7 @@ import ErrorBoundary from "./Components/ErrorBoundary";
 import BootLoader from "./Components/BootLoader";
 import PageTransition from "./Components/PageTransition";
 import Cursor from "./Components/Cursor";
+import { SiteInfoProvider } from "./Hooks/useSiteInfo";
 
 /* Timing (ms) — synchronized with the staggered cyber shutter panels */
 const NAVIGATE_AFTER = 480;
@@ -55,7 +56,11 @@ function PublicSite() {
   }, [location.pathname]);
 
   return (
-    <>
+    /* The provider wraps the whole public shell — Header and Footer both read
+       from it, and they live outside <Routes>. It is deliberately NOT around
+       /admin/*: the panel talks to /api/admin/site-admin directly, and the
+       public endpoint is not what the editor should be reading back. */
+    <SiteInfoProvider>
       <VisitTracker />
       {!booted && <BootLoader onDone={handleBooted} />}
       <Header />
@@ -74,7 +79,7 @@ function PublicSite() {
         </div>
       </ErrorBoundary>
       <Footer />
-    </>
+    </SiteInfoProvider>
   );
 }
 

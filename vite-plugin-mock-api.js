@@ -736,6 +736,23 @@ export function mockApiHandler(req, res, next) {
     return;
   }
 
+  /* Site-wide identity / contact / social links (parity with the
+     STATIC_JSON entry in api/index.js and the /api/site.json route in
+     server.js). Explicit rather than letting Vite serve the raw public
+     file: the admin editor writes that file, and Vite's static handler
+     would hand back a cached copy, so an edit could appear to do nothing.
+     no-store makes every read see the current file. */
+  if (endpoint === "site.json" && !isAdmin && req.method === "GET") {
+    const siteFile = join(process.cwd(), "public", "api", "site.json");
+    const data = readJSON(siteFile, {});
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+    });
+    res.end(JSON.stringify(data && typeof data === "object" && !Array.isArray(data) ? data : {}));
+    return;
+  }
+
   // ── Mood Search (for /api/mood-search?q=...) ──
   if (endpoint === "mood-search" && !isAdmin && req.method === "GET") {
     const query = String(url.searchParams.get("q") || "").trim();
@@ -1545,6 +1562,82 @@ export function mockApiHandler(req, res, next) {
   /* (a second public "skills" handler lived here, under the !isAdmin barrier
       above — unreachable dead code, since the one above the barrier already
       answers it. Removed so there is exactly one public skills handler.) */
+
+  // ── Site Admin — parity with api/admin/_site-admin.js ──
+  if (endpoint === "site-admin") {
+    const siteFile = join(process.cwd(), "public", "api", "site.json");
+    const SITE_FIELDS = [
+      "brand", "email", "phone", "phoneLabel",
+      "github", "githubHandle", "linkedin",
+      "telegram", "telegramHandle", "instagram", "instagramHandle",
+    ];
+    const SITE_URL_FIELDS = ["github", "linkedin", "telegram", "instagram"];
+
+    if (req.method === "GET") {
+      const data = readJSON(siteFile, {});
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({
+        site: data && typeof data === "object" ? data : {},
+        storage: "file",
+        durable: true,
+      }));
+      return;
+    }
+
+    if (req.method === "PUT" || req.method === "POST") {
+      let body = "";
+      req.on("data", (c) => (body += c));
+      req.on("end", () => {
+        try {
+          const payload = JSON.parse(body || "{}");
+          const current = readJSON(siteFile, {});
+          const next = { ...(current && typeof current === "object" ? current : {}) };
+          for (const key of SITE_FIELDS) {
+            if (payload[key] != null) next[key] = String(payload[key]).trim();
+          }
+
+          // same validation as the serverless handler — a bad email or a
+          // javascript: URL must be rejected here too, not just in production
+          let problem = null;
+          if (next.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next.email)) {
+            problem = "email is not a valid address";
+          }
+          const digits = String(next.phone || "").replace(/[^\d+]/g, "");
+          if (!problem && digits && !/^\+?\d{7,15}$/.test(digits)) {
+            problem = "phone must be 7-15 digits, optionally starting with +";
+          }
+          if (!problem) {
+            for (const key of SITE_URL_FIELDS) {
+              const u = String(next[key] || "");
+              if (!u) continue;
+              if (!/^https?:\/\//i.test(u)) {
+                problem = `${key} must start with http:// or https://`;
+                break;
+              }
+              try { new URL(u); } catch {
+                problem = `${key} is not a valid URL`;
+                break;
+              }
+            }
+          }
+          if (problem) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: problem }));
+            return;
+          }
+
+          next.updatedAt = new Date().toISOString();
+          writeJSON(siteFile, next);
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ ok: true, site: next }));
+        } catch {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "invalid request body" }));
+        }
+      });
+      return;
+    }
+  }
 
   // ── Blog Admin — parity with api/admin/_blog-admin.js ──
   if (endpoint === "blog-admin") {

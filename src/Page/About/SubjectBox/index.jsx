@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SnakeBar from "../../../Components/SnakeBar";
 import useClickTrack from "../../../Hooks/useClickTrack";
+import { useSiteInfo } from "../../../Hooks/useSiteInfo";
 
 const gray = "#90A1B9";
 
@@ -13,6 +14,7 @@ export default function SubjectBox({
 }) {
   const [contactsOpen, setContactsOpen] = useState(false);
   const { trackClick } = useClickTrack();
+  const site = useSiteInfo();
 
   return (
     <section className="flex justify-start md:h-full  border-[#90a1b977]">
@@ -101,58 +103,66 @@ export default function SubjectBox({
               alt=""
             />
           </h2>
-          <li
-            className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
-          >
-            <a
-              className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
-              href="mailto:mohammad12345sadeghi@gmail.com"
-              onClick={() => trackClick({ targetType: "button", targetId: "contact-email", targetLabel: "Email Contact" })}
+          {site.email && (
+            <li
+              className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
             >
-              <img
-                className="w-5 shrink-0"
-                src="/assets/Images/icon message.svg"
-                alt=""
-              />
-              <span>mohammad12345sadeghi@gmail.com</span>
-            </a>
-          </li>
-          <li
-            className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
-          >
-            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="tel:+989150669620" onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}>
-              <img
-                className="w-5 shrink-0"
-                src="/assets/Images/icon phone.svg"
-                alt=""
-              />
-              <span>+98 915 066 9620</span>
-            </a>
-          </li>
-          <li
-            className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
-          >
-            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://t.me/Mohammad_sadeghi34" onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}>
-              <img
-                className="w-6 shrink-0"
-                src="/assets/Images/BasilTelegramSolid.png"
-                alt=""
-              />
-              <span>@Mohammad_sadeghi34</span>
-            </a>
-          </li>
-          <li
-            className={`px-4 pb-4 border-b lg:border-b-0 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
-          >
-            <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href="https://www.instagram.com/Mohammad_sadeghi3447" onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}>
-              <img
-                className="w-6 shrink-0"
-                src="/assets/Images/TablerBrandInstagram.png"
-                alt=""
-              />
-              <span>@Mohammad_sadeghi3447</span>
-            </a>
-          </li>
+              <a
+                className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors"
+                href={`mailto:${site.email}`}
+                onClick={() => trackClick({ targetType: "button", targetId: "contact-email", targetLabel: "Email Contact" })}
+              >
+                <img
+                  className="w-5 shrink-0"
+                  src="/assets/Images/icon message.svg"
+                  alt=""
+                />
+                <span>{site.email}</span>
+              </a>
+            </li>
+          )}
+          {site.phone && (
+            <li
+              className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
+            >
+              <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href={`tel:${site.phone}`} onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}>
+                <img
+                  className="w-5 shrink-0"
+                  src="/assets/Images/icon phone.svg"
+                  alt=""
+                />
+                <span>{site.phoneLabel || site.phone}</span>
+              </a>
+            </li>
+          )}
+          {site.telegram && (
+            <li
+              className={`px-4 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
+            >
+              <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href={site.telegram} onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}>
+                <img
+                  className="w-6 shrink-0"
+                  src="/assets/Images/BasilTelegramSolid.png"
+                  alt=""
+                />
+                <span>{site.telegramHandle ? `@${site.telegramHandle}` : "telegram"}</span>
+              </a>
+            </li>
+          )}
+          {site.instagram && (
+            <li
+              className={`px-4 pb-4 border-b lg:border-b-0 sm:px-8 lg:px-10 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} lg:flex`}
+            >
+              <a className="flex items-center gap-3 whitespace-nowrap text-[13px] sm:text-[14px] hover:text-white transition-colors" href={site.instagram} onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}>
+                <img
+                  className="w-6 shrink-0"
+                  src="/assets/Images/TablerBrandInstagram.png"
+                  alt=""
+                />
+                <span>{site.instagramHandle ? `@${site.instagramHandle}` : "instagram"}</span>
+              </a>
+            </li>
+          )}
         </ul>
       </nav>
     </section>
