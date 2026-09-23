@@ -8,6 +8,7 @@ const VISITS_FILE = join(DATA_DIR, "visits.json");
 const MESSAGES_FILE = join(DATA_DIR, "messages.json");
 const ONLINE_FILE = join(DATA_DIR, "online.json");
 const CLICKS_FILE = join(DATA_DIR, "clicks.json");
+const TELEGRAM_LOG_FILE = join(DATA_DIR, "telegram-log.json");
 
 /* Day keys are LOCAL dates, matching dstr() in api/_lib.js. Using
    toISOString() here keys days in UTC instead, so a visit just after local
@@ -139,6 +140,88 @@ function writeJSON(path, data) {
   writeFileSync(path, JSON.stringify(data, null, 2));
 }
 
+// Contact form → Telegram (parity with server.js / api/admin/_messages.js)
+function appendTelegramLog(entry) {
+  try {
+    const store = readJSON(TELEGRAM_LOG_FILE, { entries: [] });
+    if (!Array.isArray(store.entries)) store.entries = [];
+    store.entries.unshift({ time: new Date().toISOString(), ...entry });
+    if (store.entries.length > 50) store.entries = store.entries.slice(0, 50);
+    writeJSON(TELEGRAM_LOG_FILE, store);
+  } catch {
+    /* never break the contact endpoint */
+  }
+}
+
+async function notifyTelegramContact(msg) {
+  try {
+    const cfg = readJSON(join(DATA_DIR, "telegram.json"), {});
+    if (!cfg.enabled || !cfg.botToken || !cfg.chatId) {
+      appendTelegramLog({
+        kind: "contact",
+        ok: false,
+        skipped: true,
+        messageId: msg?.id ?? null,
+        name: msg?.name || "",
+        error: "telegram disabled or not configured",
+      });
+      return;
+    }
+    const esc = (s) =>
+      String(s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    const dt = new Date().toLocaleString("en-GB", { hour12: false });
+    const text = [
+      "🔔 <b>New Contact Message</b>",
+      "",
+      `👤 <b>Name:</b> ${esc(msg.name)}`,
+      msg.phoneNumber ? `📱 <b>Phone:</b> ${esc(msg.phoneNumber)}` : null,
+      "💬 <b>Message:</b>",
+      `<blockquote expandable>${esc(msg.message)}</blockquote>`,
+      "",
+      `🕐 <i>${esc(dt)}</i>`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10000);
+    try {
+      const r = await fetch(`https://api.telegram.org/bot${cfg.botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: cfg.chatId,
+          text,
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+        }),
+        signal: ctrl.signal,
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) throw new Error(j.description || `Telegram HTTP ${r.status}`);
+      appendTelegramLog({
+        kind: "contact",
+        ok: true,
+        messageId: msg?.id ?? null,
+        name: msg?.name || "",
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+  } catch (err) {
+    console.error("[telegram] notify failed:", err.message);
+    appendTelegramLog({
+      kind: "contact",
+      ok: false,
+      messageId: msg?.id ?? null,
+      name: msg?.name || "",
+      error: err.message || "send failed",
+    });
+  }
+}
+
 function getConfig() {
   ensureDataDir();
   const config = readJSON(CONFIG_FILE, null);
@@ -263,9 +346,16 @@ function seedDemoData() {
 function trackVisit(path, sessionId) {
   const visits = readJSON(VISITS_FILE, { days: {} });
   const today = dstr(new Date());
-  if (!visits.days[today]) visits.days[today] = { total: 0, paths: {} };
+  if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, visitors: [] };
+  if (!Array.isArray(visits.days[today].visitors)) visits.days[today].visitors = [];
   visits.days[today].total++;
   visits.days[today].paths[path] = (visits.days[today].paths[path] || 0) + 1;
+  if (sessionId && !visits.days[today].visitors.includes(sessionId)) {
+    visits.days[today].visitors.push(sessionId);
+    if (visits.days[today].visitors.length > 5000) {
+      visits.days[today].visitors = visits.days[today].visitors.slice(-5000);
+    }
+  }
   writeJSON(VISITS_FILE, visits);
 
   // Update online
@@ -289,6 +379,7 @@ function computeStats(customFrom, customTo) {
   // Day totals
   const dayTotals = {};
   const pathTotals = {};
+  const dayVisitorSets = {};
   for (const [date, info] of Object.entries(days)) {
     const total = typeof info === "object" ? (info.total || 0) : Number(info);
     dayTotals[date] = total;
@@ -297,7 +388,28 @@ function computeStats(customFrom, customTo) {
         pathTotals[path] = (pathTotals[path] || 0) + count;
       }
     }
+    if (info && typeof info === "object" && Array.isArray(info.visitors)) {
+      dayVisitorSets[date] = new Set(info.visitors.map(String));
+    }
   }
+
+  const uniqueOn = (dates) => {
+    const s = new Set();
+    for (const d of dates) {
+      const set = dayVisitorSets[d];
+      if (set) for (const id of set) s.add(id);
+    }
+    return s.size;
+  };
+  const datesBetween = (n) => {
+    const out = [];
+    for (let i = n - 1; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      out.push(dstr(d));
+    }
+    return out;
+  };
 
   const today = new Date();
   /* uses the module-level dstr (local dates) so dev matches the API */
@@ -503,13 +615,26 @@ function computeStats(customFrom, customTo) {
   const thisYearTotal = yearTotals[String(today.getFullYear())] || 0;
   const yearDelta = pctDelta(thisYearTotal, yearTotals[String(today.getFullYear() - 1)] || 0);
 
+  const todayKey = dstr(today);
+  const yesterdayKey = dstr(new Date(today.getTime() - 86400000));
   return {
     // dev writes to public/api/admin/data on a real disk, so it persists
     storage: "file",
     durable: true,
     onlineNow,
-    today: dayTotals[dstr(today)] || 0,
-    yesterday: dayTotals[dstr(new Date(today.getTime() - 86400000))] || 0,
+    today: dayTotals[todayKey] || 0,
+    yesterday: dayTotals[yesterdayKey] || 0,
+    todayUnique: uniqueOn([todayKey]),
+    yesterdayUnique: uniqueOn([yesterdayKey]),
+    last7Unique: uniqueOn(datesBetween(7)),
+    last30Unique: uniqueOn(datesBetween(30)),
+    thisMonthUnique: uniqueOn(
+      Object.keys(dayVisitorSets).filter((d) => d.startsWith(todayKey.slice(0, 7)))
+    ),
+    thisYearUnique: uniqueOn(
+      Object.keys(dayVisitorSets).filter((d) => d.startsWith(String(today.getFullYear())))
+    ),
+    totalUnique: uniqueOn(Object.keys(dayVisitorSets)),
     todayDelta,
     weekDelta,
     monthDelta,
@@ -1240,7 +1365,7 @@ export function mockApiHandler(req, res, next) {
   if (endpoint === "messages" && req.method === "POST") {
     let body = "";
     req.on("data", (c) => (body += c));
-    req.on("end", () => {
+    req.on("end", async () => {
       try {
         const data = JSON.parse(body);
         const store = readJSON(MESSAGES_FILE, { messages: [], nextId: 1 });
@@ -1256,6 +1381,7 @@ export function mockApiHandler(req, res, next) {
         store.messages.unshift(newMsg);
         store.nextId = (store.nextId || 1) + 1;
         writeJSON(MESSAGES_FILE, store);
+        await notifyTelegramContact(newMsg);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ ok: true, id: newMsg.id }));
       } catch {
@@ -1918,6 +2044,10 @@ export function mockApiHandler(req, res, next) {
       res.end(JSON.stringify(obj));
     };
     const FILE_TG = join(DATA_DIR, "telegram.json");
+    const logEntries = () => {
+      const s = readJSON(TELEGRAM_LOG_FILE, { entries: [] });
+      return Array.isArray(s.entries) ? s.entries : [];
+    };
     if (req.method === "GET") {
       const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
       return json(200, {
@@ -1925,8 +2055,9 @@ export function mockApiHandler(req, res, next) {
         chatId: cfg.chatId || "",
         botTokenSet: !!cfg.botToken,
         botTokenMasked: cfg.botToken
-          ? cfg.botToken.slice(0, 6) + "\u2026" + cfg.botToken.slice(-4)
+          ? cfg.botToken.slice(0, 6) + "…" + cfg.botToken.slice(-4)
           : "",
+        log: logEntries(),
       });
     }
     let body = "";

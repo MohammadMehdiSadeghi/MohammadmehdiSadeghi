@@ -9,7 +9,12 @@
 import { requireAuth, deleteStore } from "../_lib.js";
 import { resetSabzData } from "../_sabz.js";
 
-const VISIT_FILES = ["visits.json", "online.json", "clicks.json"];
+const VISIT_FILES = [
+  "visits.json",
+  "online.json",
+  "clicks.json",
+  "telegram-log.json",
+];
 
 export default async function handler(req, res) {
   if (requireAuth(req, res) === null) return;

@@ -110,6 +110,8 @@ if (mode === "track") {
   const stats = await call("GET", "admin/stats", undefined, { authorization: "Bearer " + token });
   console.log(JSON.stringify({
     today: stats.body?.today,
+    todayUnique: stats.body?.todayUnique,
+    totalUnique: stats.body?.totalUnique,
     totalAllTime: stats.body?.totalAllTime,
     topPaths: (stats.body?.topPaths || []).map((p) => [p.path, p.total]),
   }));
@@ -224,6 +226,10 @@ const expect = PAGES.length;
 
 if (withKv.today !== expect) problems.push(`durable: today=${withKv.today}, expected ${expect}`);
 if (withKv.totalAllTime !== expect) problems.push(`durable: total=${withKv.totalAllTime}, expected ${expect}`);
+if (withKv.todayUnique !== 1)
+  problems.push(`durable: todayUnique=${withKv.todayUnique}, expected 1 (one session, ${expect} pages)`);
+if (withKv.totalUnique !== 1)
+  problems.push(`durable: totalUnique=${withKv.totalUnique}, expected 1`);
 if (withKv.topPaths.length !== expect)
   problems.push(`durable: ${withKv.topPaths.length} pages listed, expected ${expect}`);
 for (const [p, n] of withKv.topPaths) {
@@ -249,4 +255,5 @@ if (problems.length) {
   process.exit(1);
 }
 console.log(`PASS — ${expect} page opens recorded ${expect} views, each page +1,`);
+console.log(`       ${expect} views from 1 session → todayUnique=1 (people ≠ page views),`);
 console.log("       and the numbers SURVIVE a cold start (control resets to 0).");

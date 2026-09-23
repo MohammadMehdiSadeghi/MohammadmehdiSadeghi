@@ -1,5 +1,23 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAdminAuth } from "../../../Hooks/useAdminAuth";
+
+function formatLogTime(iso) {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString("en-GB", {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  } catch {
+    return iso;
+  }
+}
 
 export default function TelegramPage() {
   const { authFetch } = useAdminAuth();
@@ -10,8 +28,9 @@ export default function TelegramPage() {
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
   const [detected, setDetected] = useState([]);
+  const [log, setLog] = useState([]);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       const res = await authFetch("/api/admin/telegram");
       const json = await res.json();
@@ -19,14 +38,17 @@ export default function TelegramPage() {
       setCfg(json);
       setChatId(json.chatId || "");
       setEnabled(!!json.enabled);
+      setLog(Array.isArray(json.log) ? json.log : []);
     } catch (err) {
       setMsg({ type: "err", text: err.message });
     }
-  };
+  }, [authFetch]);
 
   useEffect(() => {
     load();
-  }, []);
+    const id = setInterval(() => load(), 10000);
+    return () => clearInterval(id);
+  }, [load]);
 
   const save = async () => {
     setBusy(true);
@@ -249,6 +271,78 @@ export default function TelegramPage() {
             send-test-message
           </button>
         </div>
+      </div>
+
+      <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-white text-[12px]">// delivery log</p>
+            <p className="text-[#68768C] text-[11px] mt-0.5">
+              did the last contact/test message reach Telegram?
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => load()}
+            disabled={busy}
+            className="text-[11px] px-3 py-1.5 rounded-md border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150 disabled:opacity-40"
+          >
+            refresh
+          </button>
+        </div>
+
+        {!log.length ? (
+          <p className="text-[11px] text-[#68768C]">
+            // no delivery attempts yet — submit the contact form or send a test
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
+            {log.slice(0, 20).map((e, i) => (
+              <div
+                key={`${e.time}-${i}`}
+                className={`rounded-md border px-3 py-2 flex items-start gap-2.5 text-[11px] ${
+                  e.ok
+                    ? "border-[#4ADE8044] bg-[#4ADE800f]"
+                    : "border-[#FF6B6B44] bg-[#FF6B6B0f]"
+                }`}
+              >
+                <span
+                  className={`mt-0.5 w-2 h-2 rounded-full shrink-0 ${
+                    e.ok ? "bg-[#4ADE80]" : "bg-[#FF6B6B]"
+                  }`}
+                />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <b className={e.ok ? "text-[#4ADE80]" : "text-[#FF6B6B]"}>
+                      {e.ok ? "sent ✓" : e.skipped ? "skipped" : "failed ✗"}
+                    </b>
+                    <span className="text-[#68768C] uppercase text-[9px]">
+                      {e.kind || "contact"}
+                    </span>
+                    {e.messageId != null && (
+                      <span className="text-[#4B576D] tabular-nums">
+                        msg#{e.messageId}
+                      </span>
+                    )}
+                    <span className="text-[#4B576D] tabular-nums ml-auto shrink-0">
+                      {formatLogTime(e.time)}
+                    </span>
+                  </div>
+                  {e.name && (
+                    <p className="text-[#90A1B9] mt-0.5 truncate">
+                      from: {e.name}
+                    </p>
+                  )}
+                  {e.error && (
+                    <p className="text-[#FF6B6B]/80 mt-0.5 break-all">
+                      {e.error}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

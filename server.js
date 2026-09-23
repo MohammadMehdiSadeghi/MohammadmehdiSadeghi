@@ -85,6 +85,7 @@ const F = {
   clicks: path.join(ADMIN_DATA, "clicks.json"),
   rate: path.join(ADMIN_DATA, "rate.json"),
   telegram: path.join(ADMIN_DATA, "telegram.json"),
+  telegramLog: path.join(ADMIN_DATA, "telegram-log.json"),
 };
 const PUBLIC_JSON = {
   projects: path.join(PUBLIC_DIR, "api", "projects.json"),
@@ -916,11 +917,18 @@ app.post("/api/admin/track", wrap(async (req, res) => {
   await withLock("visits", async () => {
     const visits = await readJSON(F.visits, { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};
-    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, hours: {} };
+    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, hours: {}, visitors: [] };
     if (!visits.days[today].hours || typeof visits.days[today].hours !== "object") visits.days[today].hours = {};
+    if (!Array.isArray(visits.days[today].visitors)) visits.days[today].visitors = [];
     visits.days[today].total += 1;
     visits.days[today].paths[p] = (visits.days[today].paths[p] || 0) + 1;
     visits.days[today].hours[hour] = (visits.days[today].hours[hour] || 0) + 1;
+    if (sessionId && !visits.days[today].visitors.includes(sessionId)) {
+      visits.days[today].visitors.push(sessionId);
+      if (visits.days[today].visitors.length > 5000) {
+        visits.days[today].visitors = visits.days[today].visitors.slice(-5000);
+      }
+    }
     await writeJSON(F.visits, visits);
   });
   res.json({ ok: true });
@@ -1026,10 +1034,34 @@ async function sendTelegramMessage(cfg, html) {
 }
 
 /* Fire-and-forget notification when a new contact message arrives */
+async function appendTelegramLog(entry) {
+  try {
+    await withLock("telegram-log", async () => {
+      const store = await readJSON(F.telegramLog, { entries: [] });
+      if (!Array.isArray(store.entries)) store.entries = [];
+      store.entries.unshift({ time: new Date().toISOString(), ...entry });
+      if (store.entries.length > 50) store.entries = store.entries.slice(0, 50);
+      await writeJSON(F.telegramLog, store);
+    });
+  } catch (err) {
+    console.error("[telegram] log write failed:", err.message);
+  }
+}
+
 async function notifyNewContactMessage(msg) {
   try {
     const cfg = await readTelegramCfg();
-    if (!cfg.enabled || !cfg.botToken || !cfg.chatId) return;
+    if (!cfg.enabled || !cfg.botToken || !cfg.chatId) {
+      await appendTelegramLog({
+        kind: "contact",
+        ok: false,
+        skipped: true,
+        messageId: msg?.id ?? null,
+        name: msg?.name || "",
+        error: "telegram disabled or not configured",
+      });
+      return;
+    }
     const dt = new Date().toLocaleString("en-GB", { hour12: false });
     const html = [
       `🔔 <b>New Contact Message</b>`,
@@ -1044,8 +1076,21 @@ async function notifyNewContactMessage(msg) {
       .filter(Boolean)
       .join("\n");
     await sendTelegramMessage(cfg, html);
+    await appendTelegramLog({
+      kind: "contact",
+      ok: true,
+      messageId: msg?.id ?? null,
+      name: msg?.name || "",
+    });
   } catch (err) {
     console.error("[telegram] notify failed:", err.message);
+    await appendTelegramLog({
+      kind: "contact",
+      ok: false,
+      messageId: msg?.id ?? null,
+      name: msg?.name || "",
+      error: err.message || "send failed",
+    });
   }
 }
 
@@ -1053,12 +1098,20 @@ async function notifyNewContactMessage(msg) {
 app.get("/api/admin/telegram", wrap(async (req, res) => {
   if ((await requireAuthAsync(req, res)) === null) return;
   const cfg = await readTelegramCfg();
+  const logStore = await readJSON(F.telegramLog, { entries: [] });
   res.json({
     enabled: cfg.enabled,
     chatId: cfg.chatId,
     botTokenSet: !!cfg.botToken,
     botTokenMasked: cfg.botToken ? cfg.botToken.slice(0, 6) + "…" + cfg.botToken.slice(-4) : "",
+    log: Array.isArray(logStore.entries) ? logStore.entries : [],
   });
+}));
+
+app.get("/api/admin/telegram/log", wrap(async (req, res) => {
+  if ((await requireAuthAsync(req, res)) === null) return;
+  const logStore = await readJSON(F.telegramLog, { entries: [] });
+  res.json({ entries: Array.isArray(logStore.entries) ? logStore.entries : [] });
 }));
 
 app.post("/api/admin/telegram", wrap(async (req, res) => {
@@ -1097,8 +1150,10 @@ app.post("/api/admin/telegram/test", wrap(async (req, res) => {
       cfg,
       `✅ <b>Test message</b> — portfolio contact notifications are wired up.\n🕐 <i>${dt}</i>`,
     );
+    await appendTelegramLog({ kind: "test", ok: true });
     res.json({ ok: true });
   } catch (err) {
+    await appendTelegramLog({ kind: "test", ok: false, error: err.message || "send failed" });
     res.status(502).json({ error: err.message || "Telegram request failed" });
   }
 }));
@@ -1463,6 +1518,40 @@ app.get("/api/admin/stats", wrap(async (req, res) => {
   const thisMonthTotal = monthTotals[thisMonthKey] || 0;
   const thisYearTotal = yearTotals[String(today.getFullYear())] || 0;
 
+  /* unique people (sessionIds) vs raw page views */
+  const dayVisitorSets = {};
+  for (const [date, info] of Object.entries(days)) {
+    if (info && typeof info === "object" && Array.isArray(info.visitors)) {
+      dayVisitorSets[date] = new Set(info.visitors.map(String));
+    }
+  }
+  const uniqueOn = (dates) => {
+    const s = new Set();
+    for (const d of dates) {
+      const set = dayVisitorSets[d];
+      if (set) for (const id of set) s.add(id);
+    }
+    return s.size;
+  };
+  const datesBetween = (n) => {
+    const out = [];
+    for (let i = n - 1; i >= 0; i--) out.push(dstr(daysAgo(i)));
+    return out;
+  };
+  const todayUnique = uniqueOn([todayKey]);
+  const yesterdayUnique = uniqueOn([dstr(daysAgo(1))]);
+  const last7Unique = uniqueOn(datesBetween(7));
+  const last30Unique = uniqueOn(datesBetween(30));
+  const allTimeUnique = uniqueOn(Object.keys(dayVisitorSets));
+  const thisMonthUnique = uniqueOn(
+    Object.keys(dayVisitorSets).filter((d) => d.startsWith(thisMonthKey))
+  );
+  const thisYearUnique = uniqueOn(
+    Object.keys(dayVisitorSets).filter((d) =>
+      d.startsWith(String(today.getFullYear()))
+    )
+  );
+
   /* hourly visits for the last 24 hours (visits.days[d].hours) */
   const hourly24 = [];
   const now = new Date();
@@ -1606,6 +1695,13 @@ app.get("/api/admin/stats", wrap(async (req, res) => {
     onlineNow,
     today: todayTotal,
     yesterday: yesterdayTotal,
+    todayUnique,
+    yesterdayUnique,
+    last7Unique,
+    last30Unique,
+    thisMonthUnique,
+    thisYearUnique,
+    totalUnique: allTimeUnique,
     todayDelta, weekDelta, monthDelta, yearDelta,
     last7Days: last7,
     last7Total,

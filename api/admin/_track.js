@@ -39,9 +39,16 @@ export default async function handler(req, res) {
   await withLock("visits", async () => {
     const visits = await readStore("visits.json", { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};
-    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {} };
-    visits.days[today].total += 1;
-    visits.days[today].paths[p] = (visits.days[today].paths[p] || 0) + 1;
+    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, visitors: [] };
+    const day = visits.days[today];
+    if (!Array.isArray(day.visitors)) day.visitors = [];
+    day.total += 1;
+    day.paths[p] = (day.paths[p] || 0) + 1;
+    /* unique people: one session opening 4 pages = 4 views, 1 visitor */
+    if (sessionId && !day.visitors.includes(sessionId)) {
+      day.visitors.push(sessionId);
+      if (day.visitors.length > 5000) day.visitors = day.visitors.slice(-5000);
+    }
     await writeStore("visits.json", visits);
   });
   res.json({ ok: true });
