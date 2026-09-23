@@ -66,21 +66,63 @@ body {
   background: #ffb86a;
 }
 
-/* Mobile dropdown panel.
-   IMPORTANT: the collapsed state must be completely borderless. A zero-height
-   box that still has border-top/border-bottom paints a 1px "empty" strip that
-   sits on top of the header's own bottom border — which reads as a stray
-   bordered gap under the header. The panel therefore owns no border at all
-   (the last item in the list draws the bottom line) and is anchored at
-   top-full, i.e. flush under the header's bottom border. */
+/* Full-screen mobile menu.
+   The panel covers the entire viewport (the header included), so it is
+   `fixed inset-0` rather than a dropdown. Two consequences worth keeping in
+   mind:
+     - the open/close state must NOT be animated with `max-height` any more
+       (there is no small height to collapse to); it fades + slides instead,
+     - `visibility: hidden` (not just `opacity: 0`) is what keeps the closed
+       panel out of hit-testing and out of the accessibility tree, so the
+       borderless-when-collapsed rule from the old dropdown still holds:
+       nothing paints at all while closed.
+   The hamburger/close label stays above the panel via its own z-50. */
 .mobile-nav-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s;
 }
 
 .nav-toggle:checked ~ .mobile-nav-panel {
-  max-height: 500px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Lock the page behind the open menu. `:has()` keeps this CSS-only — the menu
+   itself is a checkbox hack with no JS state. Browsers without `:has()` simply
+   let the page scroll behind the overlay, which is a graceful degradation. */
+body:has(.nav-toggle:checked) {
+  overflow: hidden;
+}
+
+/* Staggered entrance for the menu rows. Each row passes its index as `--i`,
+   so the cascade is one rule instead of N. The delay lives only in the
+   :checked rule, so opening cascades but closing stays instant. */
+.mobile-nav-item {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.nav-toggle:checked ~ .mobile-nav-panel .mobile-nav-item {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--i, 0) * 0.05s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-panel,
+  .mobile-nav-item {
+    transition: none;
+    transform: none;
+  }
+  .mobile-nav-item {
+    opacity: 1;
+  }
 }
 
 

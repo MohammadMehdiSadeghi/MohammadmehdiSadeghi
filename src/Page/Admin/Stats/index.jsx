@@ -181,6 +181,22 @@ export default function StatsPage() {
               updated {formatLastUpdate()}
             </span>
           )}
+          {data && (
+            <span
+              title={
+                data.durable
+                  ? "Views are stored durably — they survive restarts and redeploys"
+                  : "Storage is ephemeral on this host, so analytics reset when the server restarts. Set KV_REST_API_URL + KV_REST_API_TOKEN to keep them."
+              }
+              className={`text-[9px] px-2 py-0.5 rounded border cursor-help ${
+                data.durable
+                  ? "text-[#4ADE80] border-[#4ADE8044] bg-[#4ADE800f]"
+                  : "text-[#FF6B6B] border-[#FF6B6B44] bg-[#FF6B6B0f]"
+              }`}
+            >
+              {data.durable ? "saved" : "not saved"}
+            </span>
+          )}
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ADE80] opacity-75" />

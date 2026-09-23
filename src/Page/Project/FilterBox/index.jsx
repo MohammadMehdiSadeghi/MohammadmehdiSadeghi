@@ -49,7 +49,11 @@ export default function FilterBox({
   projects,
   loading,
 }) {
-  const [projectsOpen, setProjectsOpen] = useState(true);
+  /* Both accordions start collapsed on small screens — with one open on entry
+     the second one lands below the fold and is never seen. Tapping a header
+     opens its list and switches the grid to that section. On lg+ these flags
+     are unused: the sidebar renders every filter unconditionally. */
+  const [projectsOpen, setProjectsOpen] = useState(false);
   const [miniOpen, setMiniOpen] = useState(false);
   const { trackClick } = useClickTrack();
 

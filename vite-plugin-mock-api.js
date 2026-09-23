@@ -9,6 +9,15 @@ const MESSAGES_FILE = join(DATA_DIR, "messages.json");
 const ONLINE_FILE = join(DATA_DIR, "online.json");
 const CLICKS_FILE = join(DATA_DIR, "clicks.json");
 
+/* Day keys are LOCAL dates, matching dstr() in api/_lib.js. Using
+   toISOString() here keys days in UTC instead, so a visit just after local
+   midnight (Iran is UTC+3:30) was filed under the previous day in dev while
+   production filed it under the current day — the same visit landing on two
+   different days depending on which backend served it. */
+const pad2 = (n) => String(n).padStart(2, "0");
+const dstr = (d) =>
+  `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+
 // Mirrors the button-page attribution rules in PHP stats.php
 function buttonPageFrom(targetId, eventPath) {
   if (typeof targetId === "string") {
@@ -33,7 +42,7 @@ function trackClick(payload) {
   if (!clicks.summary || typeof clicks.summary !== "object") clicks.summary = {};
 
   const now = new Date();
-  const today = now.toISOString().split("T")[0];
+  const today = dstr(now);
   const event = {
     time: now.toISOString(),
     targetType,
@@ -72,7 +81,7 @@ function trackClick(payload) {
   for (let i = 0; i < 7; i++) {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
-    const key = d.toISOString().split("T")[0];
+    const key = dstr(d);
     const c = entry.daily[key] || 0;
     if (i === 0) todayCount = c;
     weekCount += c;
@@ -81,7 +90,7 @@ function trackClick(payload) {
   entry.week = weekCount;
 
   // Prune daily entries older than 30 days
-  const cutoff = new Date(now.getTime() - 30 * 86400000).toISOString().split("T")[0];
+  const cutoff = dstr(new Date(now.getTime() - 30 * 86400000));
   for (const dKey of Object.keys(entry.daily)) {
     if (dKey < cutoff) delete entry.daily[dKey];
   }
@@ -106,6 +115,23 @@ function readJSON(path, fallback) {
   } catch {
     return fallback;
   }
+}
+
+/* Word count for a blog post body, mirroring countWords() in
+   src/lib/blog.js and api/_blog.js. Keep the three in sync. */
+function countBlogWords(content) {
+  let text = "";
+  if (typeof content === "string") {
+    text = content;
+  } else if (Array.isArray(content)) {
+    text = content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
+  }
+  return String(text || "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/^#{1,4}\s+/gm, "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
 }
 
 function writeJSON(path, data) {
@@ -169,16 +195,21 @@ function seedDemoData() {
     for (let i = 30; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      const key = d.toISOString().split("T")[0];
+      const key = dstr(d);
       const base = Math.floor(Math.random() * 20) + 5;
+      const paths = {
+        "/": Math.floor(base * 0.4),
+        "/about": Math.floor(base * 0.2),
+        "/project": Math.floor(base * 0.25),
+        "/contact": Math.floor(base * 0.15),
+      };
+      /* Derive total from paths so the demo data satisfies the same
+         invariant real tracking does (total === sum of page views).
+         Hardcoding `base` here made seeded days sum short of their own
+         total, which looks like a counting bug in the panel. */
       days[key] = {
-        total: base,
-        paths: {
-          "/": Math.floor(base * 0.4),
-          "/about": Math.floor(base * 0.2),
-          "/project": Math.floor(base * 0.25),
-          "/contact": Math.floor(base * 0.15),
-        },
+        total: Object.values(paths).reduce((s, n) => s + n, 0),
+        paths,
       };
     }
     writeJSON(VISITS_FILE, { days });
@@ -231,7 +262,7 @@ function seedDemoData() {
 // Track a visit
 function trackVisit(path, sessionId) {
   const visits = readJSON(VISITS_FILE, { days: {} });
-  const today = new Date().toISOString().split("T")[0];
+  const today = dstr(new Date());
   if (!visits.days[today]) visits.days[today] = { total: 0, paths: {} };
   visits.days[today].total++;
   visits.days[today].paths[path] = (visits.days[today].paths[path] || 0) + 1;
@@ -269,7 +300,7 @@ function computeStats(customFrom, customTo) {
   }
 
   const today = new Date();
-  const dstr = (d) => d.toISOString().split("T")[0];
+  /* uses the module-level dstr (local dates) so dev matches the API */
 
   // Last 7 days
   const last7 = [];
@@ -473,6 +504,9 @@ function computeStats(customFrom, customTo) {
   const yearDelta = pctDelta(thisYearTotal, yearTotals[String(today.getFullYear() - 1)] || 0);
 
   return {
+    // dev writes to public/api/admin/data on a real disk, so it persists
+    storage: "file",
+    durable: true,
     onlineNow,
     today: dayTotals[dstr(today)] || 0,
     yesterday: dayTotals[dstr(new Date(today.getTime() - 86400000))] || 0,
@@ -1223,7 +1257,12 @@ export function mockApiHandler(req, res, next) {
       .filter((p) => p && p.published !== false)
       .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
     const slug = url.searchParams.get("slug");
-    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
+    /* Set the status INSIDE each branch. This used to call writeHead(200)
+       unconditionally first and then writeHead(404) for an unknown slug, which
+       throws ERR_HTTP_HEADERS_SENT ("Cannot write headers after they are sent
+       to the client") — Vite then answered with its own HTML error page, so
+       the app tried to JSON.parse "<!DOCTYPE html>" and the user saw a raw
+       "Unexpected token '<'" instead of "post not found". */
     if (slug) {
       const post = posts.find((p) => p.slug === slug);
       if (!post) {
@@ -1231,9 +1270,17 @@ export function mockApiHandler(req, res, next) {
         res.end(JSON.stringify({ found: false, error: "post not found" }));
         return;
       }
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store",
+      });
       res.end(JSON.stringify({ found: true, post }));
       return;
     }
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+    });
     res.end(
       JSON.stringify({
         found: true,
@@ -1247,6 +1294,8 @@ export function mockApiHandler(req, res, next) {
           coverAlt: p.coverAlt || "",
           tags: p.tags || [],
           date: p.date || "",
+          // parity with api/_blog.js — the card needs a real reading time
+          words: countBlogWords(p.content),
         })),
       })
     );

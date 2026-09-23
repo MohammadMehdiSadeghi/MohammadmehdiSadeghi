@@ -25,11 +25,10 @@
 import {
   readStore,
   writeStore,
-  storePath,
+  deleteStore,
   withLock,
   rateCheck,
 } from "./_lib.js";
-import fsp from "node:fs/promises";
 
 const USERS = "sabz-users.json";
 const COMMENTS = "sabz-comments.json";
@@ -94,12 +93,9 @@ async function readUsers() {
 export async function resetSabzData() {
   const removed = [];
   for (const [name, file] of [[USERS, "users"], [COMMENTS, "comments"]]) {
-    try {
-      await fsp.unlink(storePath(name));
-      removed.push(file);
-    } catch {
-      /* already gone */
-    }
+    /* deleteStore clears the durable copy too when one is configured —
+       a plain unlink would leave the wipe half-done. */
+    if (await deleteStore(name)) removed.push(file);
   }
   return removed;
 }
@@ -123,7 +119,25 @@ export default async function handler(req, res, resource) {
 async function usersHandler(req, res) {
   if (req.method === "GET") {
     const store = await readUsers();
-    /* never leak passwords to the client */
+    /* ⚠️ SECURITY: this PUBLIC route (Sabz-Learn's own login screen calls it,
+       unauthenticated) returns each account's PLAINTEXT password.
+
+       It is deliberate-looking but load-bearing, so do NOT just delete the
+       field. The prebuilt client bundle does the whole login in the browser:
+
+         const users = await fetch(".../server/users").json();
+         const user  = users.find(u => u.phoneNumber === typedPhone);
+         if (user && user.password === typedPassword) {
+           setToken(crypto.randomUUID());   // token invented client-side
+           navigate("/");
+         }
+
+       Stripping `password` here breaks that login, and `all/dist` ships with
+       no `src/` in this repo, so the client cannot be rebuilt from here.
+
+       Proper fix (needs a client rebuild): add a POST verify endpoint that
+       checks the password server-side and returns a real token, then return
+       `rest` only — exactly the shape this map already computes. */
     return res.json(
       store.users.map(({ password, ...rest }) => ({ ...rest, password }))
     );

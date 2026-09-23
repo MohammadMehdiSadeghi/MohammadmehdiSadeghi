@@ -5,25 +5,39 @@ const RTL_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
 export const isRTL = (text) => RTL_RE.test(String(text || ""));
 
-/* ~200 wpm; Persian text is read a little slower */
-export function readTime(post) {
-  let contentText = "";
-  if (post && post.content) {
-    if (typeof post.content === "string") {
-      contentText = post.content;
-    } else if (Array.isArray(post.content)) {
-      contentText = post.content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
-    }
-  } else if (post && post.excerpt) {
-    contentText = post.excerpt;
+/* Word count of post content (string or block array), ignoring markdown image
+   syntax and heading markers. Exported because the list endpoint precomputes
+   this: it strips `content` to keep the payload small, so without a word count
+   the card could only estimate from the excerpt. */
+export function countWords(content) {
+  let text = "";
+  if (typeof content === "string") {
+    text = content;
+  } else if (Array.isArray(content)) {
+    text = content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
   }
-  const words = String(contentText || "")
+  return String(text || "")
     .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/^#{1,4}\s+/gm, "")
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
-  const mins = Math.max(1, Math.round(words / (words && isRTL(contentText) ? 170 : 200)));
-  return `${mins} min read`;
+}
+
+/* ~200 wpm; Persian text is read a little slower.
+   Prefers `post.words` when present — the list endpoint sends that instead of
+   the full `content`, and estimating from the excerpt alone reported
+   "1 min read" on cards for articles that actually take four minutes. */
+export function readTime(post) {
+  const listed = Number(post?.words);
+  const words =
+    Number.isFinite(listed) && listed > 0
+      ? listed
+      : countWords(post?.content || post?.excerpt || "");
+  // RTL detection needs prose, not a number; fall back to the excerpt.
+  const sample =
+    typeof post?.content === "string" ? post.content : post?.excerpt || "";
+  return `${Math.max(1, Math.round(words / (isRTL(sample) ? 170 : 200)))} min read`;
 }
 
 export function excerptFrom(post, len = 150) {

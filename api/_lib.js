@@ -5,8 +5,10 @@ import path from "node:path";
 /* ════════════════════════════════════════════════════════════════════
    Vercel serverless port of the local Node backend (server.js).
 
-   Storage lives in DATA_DIR (/tmp) — EPHEMERAL per instance. Durable
-   data + the zip project upload stay on the self-hosted server.
+   Storage: DATA_DIR (/tmp) is the fallback. On Vercel /tmp is EPHEMERAL
+   per instance, so a configured Redis-compatible REST store is used as
+   the source of truth when available — see the durable-store section
+   below. The zip project upload stays on the self-hosted server.
    Admin credentials / HMAC secret come from env vars — never from git.
    ════════════════════════════════════════════════════════════════════ */
 
@@ -117,7 +119,14 @@ export async function saveAdminPassword(username, password_sha256) {
   const next = {
     username: username || cur.username,
     password_sha256,
-    token_version: cur.token_version || 0,
+    /* Bump so every previously issued token stops verifying (verifyToken
+       rejects a payload whose `ver` does not match). The secret itself is
+       derived from deploy-time env / the baked-in default, NOT from the
+       stored password, so a password change alone would otherwise leave
+       already-issued tokens valid — exactly what this counter prevents.
+       _password.js issues a fresh token in the same response, so the
+       operator's own session survives the change. */
+    token_version: (cur.token_version || 0) + 1,
   };
   await writeJSON(path.join(DATA_DIR, "admin-auth.json"), next);
   CFG = {
@@ -162,10 +171,133 @@ export async function writeJSON(file, data) {
   await fsp.rename(tmp, file);
 }
 
-/* ephemeral store files (visits/online/clicks/messages/projects/…) */
+/* ════════════════════════════════════════════════════════════════════
+   Durable store (visits / online / clicks / messages / projects / …)
+
+   A file alone is NOT durable on Vercel: every lambda gets its own
+   ephemeral /tmp, so counters written by one instance are invisible to
+   the next and disappear completely on a cold start. That is exactly
+   why the analytics panel kept "resetting to zero".
+
+   So when a Redis-compatible REST endpoint is configured we treat it as
+   the source of truth. Vercel KV is Upstash underneath, so either
+   env-var pair works:
+
+     KV_REST_API_URL        + KV_REST_API_TOKEN
+     UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN
+
+   With nothing configured we behave exactly as before (plain files) —
+   the right answer for local dev and the self-hosted server.
+   ════════════════════════════════════════════════════════════════════ */
 export const storePath = (name) => path.join(DATA_DIR, name);
-export const readStore = (name, fallback) => readJSON(storePath(name), fallback);
-export const writeStore = (name, data) => writeJSON(storePath(name), data);
+
+const KV_URL = String(
+  process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || ""
+).replace(/\/+$/, "");
+const KV_TOKEN = String(
+  process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || ""
+);
+export const DURABLE = Boolean(KV_URL && KV_TOKEN);
+const KV_NS = process.env.STORE_NAMESPACE || "portfolio";
+const kvKey = (name) => `${KV_NS}:${name}`;
+const KV_TIMEOUT_MS = Number(process.env.STORE_TIMEOUT_MS || 4000);
+
+/* One REST round-trip. Bounded by a timeout so a stalled network can never
+   hang a lambda until the platform kills it. */
+async function kvCall(pathname, command) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), KV_TIMEOUT_MS);
+  try {
+    const res = await fetch(KV_URL + pathname, {
+      method: command ? "POST" : "GET",
+      headers: {
+        Authorization: `Bearer ${KV_TOKEN}`,
+        ...(command ? { "Content-Type": "application/json" } : {}),
+      },
+      body: command ? JSON.stringify(command) : undefined,
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error(`kv ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* Raw stored string, or null when the key does not exist. */
+async function kvGet(name) {
+  const out = await kvCall(`/get/${encodeURIComponent(kvKey(name))}`);
+  return typeof out?.result === "string" ? out.result : null;
+}
+const kvSet = (name, value) => kvCall("", ["SET", kvKey(name), String(value)]);
+const kvDel = (name) => kvCall("", ["DEL", kvKey(name)]);
+
+export async function readStore(name, fallback) {
+  if (DURABLE) {
+    try {
+      const raw = await kvGet(name);
+      if (raw != null) {
+        const parsed = JSON.parse(raw);
+        if (parsed != null) return parsed;
+      } else {
+        /* First read after switching to a durable store: adopt whatever the
+           bundled/seed file already holds, so the panel does not look wiped. */
+        const seeded = await readJSON(storePath(name), undefined);
+        if (seeded !== undefined) {
+          await writeStore(name, seeded);
+          return seeded;
+        }
+      }
+    } catch {
+      /* Network hiccup — serve the local copy instead of failing the request */
+    }
+  }
+  return readJSON(storePath(name), fallback);
+}
+
+export async function writeStore(name, data) {
+  /* Always keep a local copy: it is the fallback when the network blips and
+     the only copy in dev / self-hosted mode. */
+  await writeJSON(storePath(name), data);
+  if (DURABLE) {
+    try {
+      await kvSet(name, JSON.stringify(data));
+    } catch {
+      /* The local write already succeeded — a transient KV failure must not
+         turn a page view into a 500. */
+    }
+  }
+}
+
+/* Used by the reset endpoints. Must clear BOTH copies, otherwise a later
+   read would resurrect the data from whichever one still holds it. */
+export async function deleteStore(name) {
+  let removed = false;
+  try {
+    await fsp.unlink(storePath(name));
+    removed = true;
+  } catch {
+    /* already gone */
+  }
+  if (DURABLE) {
+    try {
+      await kvDel(name);
+      removed = true;
+    } catch {
+      /* ignore — nothing more we can do */
+    }
+  }
+  return removed;
+}
+
+/* "redis" when a durable store is configured, "file" otherwise. */
+export const storeBackend = () => (DURABLE ? "redis" : "file");
+
+/* True when the numbers survive a restart of whatever host is running.
+   A plain file is durable on a real disk (dev, self-hosted) but NOT on
+   Vercel, where DATA_DIR is a per-instance /tmp. */
+export const storeDurable = () => DURABLE || !process.env.VERCEL;
 
 /* ── dates ── */
 export const pad = (n) => String(n).padStart(2, "0");

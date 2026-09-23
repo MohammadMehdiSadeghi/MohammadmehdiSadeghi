@@ -138,9 +138,21 @@ export default function BlogPost() {
           fetch(`/api/blog?slug=${encodeURIComponent(slug)}`),
           fetch(`/api/blog`).catch(() => null),
         ]);
-        const json = await postRes.json();
+        /* Parse defensively. This used to call postRes.json() BEFORE checking
+           the status, so any non-JSON body — an HTML error page, an empty
+           response — threw a raw syntax error that was rendered straight into
+           the page ("Failed to execute 'json'... Unexpected token '<'")
+           instead of a readable "Post not found". */
+        const json = await postRes.json().catch(() => null);
         if (!alive) return;
-        if (!postRes.ok || !json.post) throw new Error(json.error || "Post not found");
+        if (!postRes.ok || !json?.post) {
+          throw new Error(
+            json?.error ||
+              (postRes.status === 404
+                ? "Post not found"
+                : "Could not load this article"),
+          );
+        }
         setPost(json.post);
 
         if (allRes && allRes.ok) {

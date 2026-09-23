@@ -9,6 +9,24 @@
 
 import { listData } from "./_data.js";
 
+/* Word count, mirroring countWords() in src/lib/blog.js. Duplicated rather
+   than imported because this file runs server-side and must not pull from
+   src/. Keep the two in sync. */
+function countWords(content) {
+  let text = "";
+  if (typeof content === "string") {
+    text = content;
+  } else if (Array.isArray(content)) {
+    text = content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
+  }
+  return String(text || "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/^#{1,4}\s+/gm, "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "method not allowed" });
@@ -28,7 +46,9 @@ export default async function handler(req, res) {
     return res.json({ found: true, post });
   }
 
-  /* the list view only needs the card fields — keep the payload small */
+  /* the list view only needs the card fields — keep the payload small.
+     `words` is precomputed here so the card can still show an honest reading
+     time instead of estimating from the excerpt alone. */
   return res.json({
     found: true,
     total: posts.length,
@@ -41,6 +61,7 @@ export default async function handler(req, res) {
       coverAlt: p.coverAlt || "",
       tags: p.tags || [],
       date: p.date || "",
+      words: countWords(p.content),
     })),
   });
 }

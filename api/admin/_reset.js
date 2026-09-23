@@ -6,9 +6,8 @@
    Sabz-Learn, try the login, then clear it so nothing lingers.
    ════════════════════════════════════════════════════════════════════ */
 
-import { requireAuth, storePath } from "../_lib.js";
+import { requireAuth, deleteStore } from "../_lib.js";
 import { resetSabzData } from "../_sabz.js";
-import fsp from "node:fs/promises";
 
 const VISIT_FILES = ["visits.json", "online.json", "clicks.json"];
 
@@ -28,12 +27,9 @@ export default async function handler(req, res) {
 
   if (target === "visits" || target === "all") {
     for (const f of VISIT_FILES) {
-      try {
-        await fsp.unlink(storePath(f));
-        cleared.push(f);
-      } catch {
-        /* already gone */
-      }
+      /* deleteStore clears the file AND the durable copy when one is
+         configured — a plain unlink would leave the durable copy behind. */
+      if (await deleteStore(f)) cleared.push(f);
     }
   }
 

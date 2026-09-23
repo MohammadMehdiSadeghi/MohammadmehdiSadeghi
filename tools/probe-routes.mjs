@@ -10,7 +10,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const ROUTES = ["/", "/about", "/project", "/blog", "/blog/welcome-to-my-blog", "/contact", "/a-page-that-does-not-exist"];
+/* NOTE: keep these slugs in sync with public/api/blog.json. A slug that no
+   longer exists renders the (correct but very short) "post not found" panel,
+   which this probe's 200-char blank threshold reports as BLANK. */
+const ROUTES = ["/", "/about", "/project", "/blog", "/blog/stop-guessing-at-responsive-bugs", "/contact", "/a-page-that-does-not-exist"];
 const SIZES = [
   { name: "desktop", w: 1440, h: 900 },
   { name: "phone", w: 390, h: 844 },

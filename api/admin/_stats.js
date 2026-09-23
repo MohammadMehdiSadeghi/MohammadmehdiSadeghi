@@ -1,4 +1,4 @@
-import { requireAuth } from "../_lib.js";
+import { requireAuth, storeBackend, storeDurable } from "../_lib.js";
 import {
   readStore,
   dstr,
@@ -208,6 +208,11 @@ export default async function handler(req, res) {
   const yearDelta = pctDelta(thisYearTotal, yearTotals[prevYearKey] || 0);
 
   res.json({
+    /* "redis" means the numbers survive cold starts; "file" on Vercel means
+       ephemeral /tmp and they will reset. Surfaced in the panel so this is
+       never a silent surprise again. */
+    storage: storeBackend(),
+    durable: storeDurable(),
     onlineNow,
     today: todayTotal,
     yesterday: yesterdayTotal,

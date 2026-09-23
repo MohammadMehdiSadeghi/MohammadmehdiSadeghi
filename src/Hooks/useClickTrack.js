@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
 const SESSION_KEY = "visitor_session_id";
@@ -40,7 +40,6 @@ function throttleKey(targetType, targetId) {
  */
 export default function useClickTrack() {
   const location = useLocation();
-  const abortRef = useRef(null);
 
   const trackClick = useCallback(
     ({ targetType, targetId, targetLabel = "", referrer = "" }) => {
@@ -58,13 +57,6 @@ export default function useClickTrack() {
       if (last && now - last < 500) return;
       lastSent.set(key, now);
 
-      // Abort any in-flight click request
-      if (abortRef.current) {
-        abortRef.current.abort();
-      }
-      const controller = new AbortController();
-      abortRef.current = controller;
-
       const body = JSON.stringify({
         targetType,
         targetId: String(targetId).slice(0, 200),
@@ -74,12 +66,18 @@ export default function useClickTrack() {
         referrer: referrer || document.referrer?.slice(0, 500) || "",
       });
 
-      // Fire and forget — don't block the UI
+      /* Fire and forget — don't block the UI.
+
+         Do NOT abort the previous request here. Clicking A then B within one
+         network round-trip used to cancel A's beacon, so a large share of real
+         clicks never reached the server (the throttle above only de-duplicates
+         the SAME target, so two different targets both fire). `keepalive` also
+         lets the beacon finish if the click navigates away. */
       fetch("/api/admin/track-click", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
-        signal: controller.signal,
+        keepalive: true,
       }).catch(() => {});
     },
     [location.pathname],

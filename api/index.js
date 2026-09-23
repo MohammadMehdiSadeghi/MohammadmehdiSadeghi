@@ -39,7 +39,7 @@ import ubisoft from "./_ubisoft.js";
 import moodSearch from "./_mood-search.js";
 import sabz from "./_sabz.js";
 import blog from "./_blog.js";
-import { BUNDLED } from "./_data.js";
+import { BUNDLED, listData } from "./_data.js";
 import { loadConfig } from "./_lib.js";
 
 /* route path → handler(req, res) */
@@ -72,13 +72,20 @@ const ROUTES = {
 };
 
 /* raw public/api/*.json — these used to be static files, but /api/* now
-   lands in this function, so serve them from the bundled copies */
+   lands in this function, so serve them from the bundled copies.
+
+   These must go through `listData`, which prefers the admin overlay written
+   by _projects-admin/_skills-admin/_blog-admin. Reading BUNDLED directly made
+   every admin edit invisible on the live site: the panel listed it (it reads
+   the overlay) while the public endpoint kept serving the git-tracked file.
+   `listData` falls back to BUNDLED, so behaviour is unchanged when no overlay
+   exists. `music-analysis.json` has no editor, so it stays bundled. */
 const STATIC_JSON = {
-  "projects.json": () => BUNDLED["projects.json"],
-  "mini-projects.json": () => BUNDLED["mini-projects.json"],
-  "skills.json": () => BUNDLED["skills.json"],
+  "projects.json": () => listData("projects.json"),
+  "mini-projects.json": () => listData("mini-projects.json"),
+  "skills.json": () => listData("skills.json"),
   "music-analysis.json": () => BUNDLED["music-analysis.json"],
-  "blog.json": () => BUNDLED["blog.json"],
+  "blog.json": () => listData("blog.json"),
 };
 
 function notFound(res) {
@@ -158,7 +165,8 @@ export default async function handler(req, res) {
 
   if (Object.prototype.hasOwnProperty.call(STATIC_JSON, route)) {
     res.setHeader("Cache-Control", "no-store");
-    return res.json(STATIC_JSON[route]());
+    /* awaited: these now consult the store (overlay) before the bundled file */
+    return res.json(await STATIC_JSON[route]());
   }
 
   return notFound(res);

@@ -247,7 +247,18 @@ export default async function handler(req, res, resource) {
   }
 
   if (req.method === "POST") {
-    /* /api/admin/fs-delete → { path } */
+    /* /api/admin/fs-delete → { path }
+
+       Refuse the data root itself. safeJoin("") resolves to DATA_DIR and the
+       containment check passes (the root IS inside the root), so
+       POST {path:""} recursively removed the entire data directory —
+       messages, visits, clicks, the blog overlay and admin-auth.json.
+       server.js and the dev mock both refuse the root; this copy did not.
+       Scoped to POST on purpose: LISTING the root is legitimate and is what
+       the admin Database page does. */
+    if (dir === path.resolve(DATA_DIR)) {
+      return res.status(400).json({ error: "refusing to delete the data root" });
+    }
     try {
       const st = await fsp.stat(dir);
       if (st.isDirectory()) await fsp.rm(dir, { recursive: true, force: true });
@@ -263,7 +274,7 @@ export default async function handler(req, res, resource) {
     await fsp.mkdir(dir, { recursive: true });
     const items = await listDir(dir);
     return res.json({ path: String(target || ""), items });
-  } catch (e) {
+  } catch {
     return res.json({ path: String(target || ""), items: [] });
   }
 }
