@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export const SITE_DEFAULTS = {
   brand: "Mohammad-Mehdi-Sadeghi",
-  email: "mohammad12345sadeghi@gmail.com",
+  email: "mohammad.m.sadeghi09@gmail.com",
   phone: "+989150669620",
   phoneLabel: "+98 915 066 9620",
   github: "https://github.com/MohammadMehdiSadeghi",
