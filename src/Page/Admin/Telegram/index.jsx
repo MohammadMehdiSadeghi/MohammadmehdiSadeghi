@@ -34,6 +34,9 @@ export default function TelegramPage() {
   const [manualMessage, setManualMessage] = useState("");
   const [manualMsg, setManualMsg] = useState(null);
   const [manualBusy, setManualBusy] = useState(false);
+  const [inbox, setInbox] = useState([]);
+  const [inboxOpen, setInboxOpen] = useState(false);
+  const [pickedId, setPickedId] = useState(null);
 
   const load = useCallback(async () => {
     try {
@@ -49,11 +52,35 @@ export default function TelegramPage() {
     }
   }, [authFetch]);
 
+  const loadInbox = useCallback(async () => {
+    try {
+      const res = await authFetch("/api/admin/messages");
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to load messages");
+      setInbox(Array.isArray(json.messages) ? json.messages : []);
+    } catch {
+      /* inbox is optional for this tab */
+    }
+  }, [authFetch]);
+
   useEffect(() => {
     load();
-    const id = setInterval(() => load(), 10000);
+    loadInbox();
+    const id = setInterval(() => {
+      load();
+      loadInbox();
+    }, 10000);
     return () => clearInterval(id);
-  }, [load]);
+  }, [load, loadInbox]);
+
+  const pickFromInbox = (m) => {
+    setPickedId(m.id);
+    setManualName(m.name || "");
+    setManualPhone(m.phoneNumber || "");
+    setManualMessage(m.message || "");
+    setManualMsg(null);
+    setInboxOpen(false);
+  };
 
   const save = async () => {
     setBusy(true);
@@ -148,6 +175,7 @@ export default function TelegramPage() {
       setManualName("");
       setManualPhone("");
       setManualMessage("");
+      setPickedId(null);
       await load();
     } catch (err) {
       setManualMsg({ type: "err", text: err.message });
@@ -317,9 +345,62 @@ export default function TelegramPage() {
         <div>
           <p className="text-white text-[12px]">// manual compose</p>
           <p className="text-[#68768C] text-[11px] mt-0.5">
-            type the form fields yourself and push them to Telegram
+            pick a previous contact message, or type fields yourself
           </p>
         </div>
+
+        <div className="flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => setInboxOpen((v) => !v)}
+            className="text-[11px] px-3 py-1.5 rounded-md border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150"
+          >
+            {inboxOpen ? "hide inbox" : `pick from inbox (${inbox.length})`}
+          </button>
+          {pickedId != null && (
+            <button
+              type="button"
+              onClick={() => {
+                setPickedId(null);
+                setManualName("");
+                setManualPhone("");
+                setManualMessage("");
+              }}
+              className="text-[11px] text-[#68768C] hover:text-[#FF6B6B] duration-150"
+            >
+              clear
+            </button>
+          )}
+        </div>
+
+        {inboxOpen && (
+          <div className="rounded-md border border-[#314158] overflow-hidden max-h-52 overflow-y-auto">
+            {!inbox.length ? (
+              <p className="text-[11px] text-[#68768C] px-3 py-2">// inbox is empty</p>
+            ) : (
+              inbox.map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => pickFromInbox(m)}
+                  className={`w-full text-left px-3 py-2 text-[11px] flex flex-col gap-0.5 duration-150 border-b border-[#1E293B] last:border-b-0 ${
+                    pickedId === m.id
+                      ? "bg-[#615FFF33] text-white"
+                      : "text-[#90A1B9] hover:bg-[#7888a01a]"
+                  }`}
+                >
+                  <span className="flex items-center justify-between gap-2">
+                    <b>{m.name}</b>
+                    <span className="text-[#4B576D] tabular-nums shrink-0">
+                      {formatLogTime(m.date)}
+                    </span>
+                  </span>
+                  <span className="truncate text-[#68768C]">{m.message}</span>
+                </button>
+              ))
+            )}
+          </div>
+        )}
 
         <label className="flex flex-col gap-1.5">
           <p className="text-[#90A1B9] text-[12px]">_name</p>
