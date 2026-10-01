@@ -83,7 +83,7 @@ export default function MusicSearch() {
             style={{ border: `1px solid ${isFocused ? "#E2E8F0" : gray}` }}
             type="text"
             maxLength={255}
-            placeholder="مثلاً: خستم، شاد، شکست عشقی، آرامش..."
+            placeholder="e.g. happy vibe, feeling down, coding night, peaceful..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -126,7 +126,7 @@ export default function MusicSearch() {
           {detectedMood && (
             <div className="flex items-center justify-center gap-2 py-1.5 px-3 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-[12px] sm:text-[13px] text-center animate-fade-in">
               <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span>حس تشخیص‌داده‌شده: <strong>{detectedMood.fa}</strong></span>
+              <span>Detected Vibe: <strong>{detectedMood.en || detectedMood.fa}</strong></span>
             </div>
           )}
           <Music songData={songData} autoPlay={true} />

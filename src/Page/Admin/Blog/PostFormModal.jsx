@@ -76,7 +76,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
       setCover(json.url);
       setCoverUrlInput("");
       setImgNote(
-        `✓ uploaded${width ? ` · ${width}×${height}` : ""} · ${fmtBytes(bytes)}`,
+        `uploaded${width ? ` · ${width}×${height}` : ""} · ${fmtBytes(bytes)}`,
       );
     } catch (err) {
       setError(err.message || "image upload failed");
@@ -271,7 +271,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[#1E293B] pb-3">
               <div>
                 <p className="text-white text-[13px] font-semibold flex items-center gap-2">
-                  <span className="text-[#00D5BE]">✦</span> Post Content &amp; In-Text Media
+                  Post Content &amp; In-Text Media
                 </p>
                 <p className="text-[11px] text-[#68768C]">
                   Insert text, headings, and images anywhere in the article
@@ -334,7 +334,9 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                           className="p-1 text-[11px] text-[#90A1B9] hover:text-white disabled:opacity-30"
                           title="Move Up"
                         >
-                          ↑
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+                          </svg>
                         </button>
                         <button
                           type="button"
@@ -343,7 +345,9 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                           className="p-1 text-[11px] text-[#90A1B9] hover:text-white disabled:opacity-30"
                           title="Move Down"
                         >
-                          ↓
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
                         </button>
                         <button
                           type="button"
@@ -351,7 +355,9 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                           className="p-1 text-[12px] text-[#FF6B6B] hover:text-red-400 ml-1"
                           title="Delete Block"
                         >
-                          ✕
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
                         </button>
                       </div>
                     </div>
@@ -455,9 +461,11 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                                 const newItems = block.items.filter((_, i) => i !== itemIdx);
                                 updateBlock(idx, { items: newItems.length ? newItems : [""] });
                               }}
-                              className="text-[11px] text-[#68768C] hover:text-[#FF6B6B]"
+                              className="text-[11px] text-[#68768C] hover:text-[#FF6B6B] p-0.5"
                             >
-                              ✕
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                              </svg>
                             </button>
                           </div>
                         ))}

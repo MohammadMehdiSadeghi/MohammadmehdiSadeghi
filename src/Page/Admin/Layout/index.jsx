@@ -71,7 +71,9 @@ export default function AdminLayout() {
             className="md:hidden text-[#90A1B9] w-7 h-7 flex items-center justify-center shrink-0 relative"
             onClick={() => setMenuOpen((v) => !v)}
           >
-            <span className="text-[16px] leading-none">☰</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
             {unseenMessagesCount > 0 && (
               <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#FF5F56] ring-2 ring-[#0F172B]" />
             )}

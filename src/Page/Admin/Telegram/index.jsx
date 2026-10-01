@@ -42,7 +42,7 @@ export default function TelegramPage() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Save failed");
-      setMsg({ type: "ok", text: "saved ✓" });
+      setMsg({ type: "ok", text: "saved successfully" });
       setBotToken("");
       await load();
     } catch (err) {
@@ -59,7 +59,7 @@ export default function TelegramPage() {
       const res = await authFetch("/api/admin/telegram/test", { method: "POST" });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Test failed");
-      setMsg({ type: "ok", text: "test message sent — check Telegram ✓" });
+      setMsg({ type: "ok", text: "test message sent — check Telegram" });
     } catch (err) {
       setMsg({ type: "err", text: err.message });
     } finally {

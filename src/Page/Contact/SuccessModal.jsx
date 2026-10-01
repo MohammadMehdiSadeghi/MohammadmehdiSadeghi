@@ -58,7 +58,9 @@ export default function SuccessModal({ isOpen, onClose, senderName }) {
             className="w-7 h-7 rounded-lg text-[#90A1B9] hover:text-white hover:bg-[#1E293B] flex items-center justify-center transition-colors text-[14px]"
             title="Close (ESC)"
           >
-            ✕
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
 
@@ -108,7 +110,12 @@ export default function SuccessModal({ isOpen, onClose, senderName }) {
             </p>
 
             <div className="mt-3 pt-3 border-t border-[#1E293B] flex items-center justify-between text-[11px] text-[#68768C]">
-              <span className="font-mono text-[#00D5BE]">✓ Delivery Confirmed</span>
+              <span className="font-mono text-[#00D5BE] flex items-center gap-1">
+                <svg className="w-3 h-3 text-[#00D5BE]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Delivery Confirmed
+              </span>
               <span>Fast Response</span>
             </div>
           </div>

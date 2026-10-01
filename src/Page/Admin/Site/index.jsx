@@ -250,7 +250,7 @@ export default function SitePage() {
       {!meta.durable && (
         <div className="rounded-md border border-[#FFB86A55] bg-[#FFB86A0F] px-3 py-2.5 flex flex-col gap-1">
           <p className="text-[11px] text-[#FFB86A]">
-            ⚠ these edits are not stored permanently on this host
+            Notice: these edits are not stored permanently on this host
           </p>
           <p className="text-[10px] text-[#90A1B9]">
             storage: <span className="text-[#00D5BE]">{meta.storage || "file"}</span> —
@@ -290,7 +290,7 @@ export default function SitePage() {
                 />
                 {errors[f.key] ? (
                   <span className="text-[10px] text-[#FF6B6B]">
-                    ✕ {errors[f.key]}
+                    {errors[f.key]}
                   </span>
                 ) : f.hint ? (
                   <span className="text-[10px] text-[#4B576D]">{f.hint}</span>
@@ -340,7 +340,6 @@ export default function SitePage() {
             msg.type === "ok" ? "text-[#4ADE80]" : "text-[#FF6B6B]"
           }`}
         >
-          {msg.type === "ok" ? "✓ " : "✕ "}
           {msg.text}
         </p>
       )}

@@ -50,7 +50,7 @@ export default function MoodsPage() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "save failed");
-      setMsg({ type: "ok", text: "saved ✓" });
+      setMsg({ type: "ok", text: "saved successfully" });
       setEditing(null);
       await load();
     } catch (err) {
@@ -123,12 +123,14 @@ export default function MoodsPage() {
                     }`}
                   >
                     {row.lyricsStatus === "fetched_by_agent"
-                      ? "lyrics ✓"
+                      ? "lyrics loaded"
                       : row.lyricsStatus === "missing" || row.lyricsStatus === "none"
                         ? "audio-only"
                         : row.lyricsStatus}
                   </span>
-                  <span className="text-[#4B576D] text-[11px]">{editing === row.id ? "▲" : "▼"}</span>
+                  <svg className={`w-3 h-3 text-[#4B576D] transition-transform duration-200 ${editing === row.id ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
                 </span>
               </div>
               <div className="flex flex-wrap gap-1">

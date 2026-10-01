@@ -108,7 +108,6 @@ export default function SecurityPage() {
               msg.type === "ok" ? "text-[#4ADE80]" : "text-[#FF6B6B]"
             }`}
           >
-            {msg.type === "ok" ? "✓ " : "✕ "}
             {msg.text}
           </p>
         )}

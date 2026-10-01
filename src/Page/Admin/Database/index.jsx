@@ -395,12 +395,14 @@ export default function DatabasePage() {
         </div>
       </div>
 
-      {notice && (
         <div className="p-3 rounded-xl bg-[#615FFF]/15 border border-[#615FFF]/30 text-[12px] text-[#A5B4FC] flex items-center justify-between">
           <span>{notice}</span>
-          <button onClick={() => setNotice("")} className="text-[#90A1B9] hover:text-white cursor-pointer px-2">✕</button>
+          <button onClick={() => setNotice("")} className="text-[#90A1B9] hover:text-white cursor-pointer px-2 flex items-center">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-      )}
 
       {/* Tabs Navigation */}
       <div className="flex items-center gap-2 border-b border-[#1E293B]">
@@ -771,7 +773,7 @@ export default function DatabasePage() {
                   className="text-[12px] px-3 py-1.5 rounded-lg bg-[#615FFF]/20 text-[#A5B4FC] hover:bg-[#615FFF] hover:text-white duration-150 cursor-pointer flex items-center gap-1.5"
                 >
                   {copied ? (
-                    <span>✓ Copied!</span>
+                    <span>Copied!</span>
                   ) : (
                     <>
                       <CopyIcon className="w-3.5 h-3.5" />
@@ -791,8 +793,11 @@ export default function DatabasePage() {
                 <button
                   onClick={() => setInspectTarget(null)}
                   className="w-8 h-8 rounded-lg text-[#90A1B9] hover:text-white hover:bg-[#1E293B] flex items-center justify-center text-[15px] cursor-pointer"
+                  title="Close"
                 >
-                  ✕
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
             </div>

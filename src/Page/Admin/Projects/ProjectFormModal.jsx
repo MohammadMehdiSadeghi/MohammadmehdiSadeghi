@@ -68,7 +68,7 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
         finalUrl = upJson.url;
         setUrl(finalUrl);
         setUploadNote(
-          `✓ deployed → ${finalUrl} (${upJson.files} files) · archive auto-deleted`,
+          `deployed → ${finalUrl} (${upJson.files} files) · archive auto-deleted`,
         );
       }
       if (source === "none") finalUrl = "";
