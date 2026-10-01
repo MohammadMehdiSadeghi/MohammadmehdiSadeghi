@@ -2,11 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import useClickTrack from "../../Hooks/useClickTrack";
 
 /**
- * One shared Web-Audio graph for the whole player lifetime. Each <audio>
- * element may be attached to it only once (a second createMediaElementSource
- * on the same element throws) — React StrictMode double-invokes effects, and
- * the element itself persists across song changes, so we track attachments in
- * a WeakSet and never close the context while the page is alive.
+ * One shared Web-Audio graph for the whole player lifetime.
  */
 const sharedGraph = {
   ctx: null,
@@ -32,7 +28,7 @@ function ensureGraph(audio) {
       sharedGraph.analyser.connect(sharedGraph.ctx.destination);
       sharedGraph.attached.add(audio);
     } catch {
-      // element already wired elsewhere — analyser just stays silent
+      // element already attached elsewhere
     }
   }
   return sharedGraph.analyser;
@@ -48,7 +44,7 @@ function fillRoundedRect(g, x, y, w, h, r) {
   g.fillRect(x, y, w, h);
 }
 
-const BARS = 44;
+const BARS = 36;
 
 export default function Music({ songData, autoPlay = false }) {
   const [isPlaying, setIsPlaying] = useState(Boolean(autoPlay));
@@ -56,6 +52,7 @@ export default function Music({ songData, autoPlay = false }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
+  const [prevVolume, setPrevVolume] = useState(1);
   const [isDownloading, setIsDownloading] = useState(false);
 
   const audioRef = useRef(null);
@@ -111,7 +108,7 @@ export default function Music({ songData, autoPlay = false }) {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
 
-  // ── wire the shared Web-Audio graph (element → analyser → speakers) ──
+  // ── wire the shared Web-Audio graph ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -125,8 +122,7 @@ export default function Music({ songData, autoPlay = false }) {
     };
   }, [songData?.id]);
 
-  // ── real-time spectrum visualizer: the bars ARE the beat. Loud/energetic
-  //    passages push them up, quiet ones settle down — no fake labels. ──
+  // ── real-time spectrum visualizer ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -135,65 +131,66 @@ export default function Music({ songData, autoPlay = false }) {
     const prev = new Array(BARS).fill(0);
     const barCtx = canvas.getContext("2d");
 
-    // idle motion + response follow the track's REAL analysis (DSP), not just tags
     const an = songData?.analysis || null;
     const energetic = /dance|party|energetic|upbeat/i.test(
       (songData?.tags || []).join(" ")
     );
     const energyPct = an ? an.energy : energetic ? 70 : 40;
-    const hypeVibe = an?.vibe ? an.vibe.energetic : energetic ? 70 : 35;
-    const bpm = an?.bpm || (energetic ? 122 : 92);
-    const idleAmp = 0.03 + (energyPct / 100) * 0.10;       // calm piano breathes, loud tracks swell
-    const idleSpeed = 60000 / Math.max(60, Math.min(176, bpm)) / 2; // pulse at the song's real half-beat
-    const snappy = Math.min(1, Math.max(0, (hypeVibe - 20) / 60));  // 0 = floaty, 1 = punchy
-    const attack = 0.30 + snappy * 0.30;                    // energetic → bars jump fast
-    const release = 0.24 + (1 - snappy) * 0.14;             // calm → bars settle slowly
-    const gain = 1 + (1 - energyPct / 100) * 0.85;          // quiet masters still show their beat
+    const gain = 1 + (1 - energyPct / 100) * 0.85;
 
     const draw = () => {
       rafRef.current = requestAnimationFrame(draw);
-      const analyser = analyserRef.current;
-      if (!analyser) return;
 
-      const width = canvas.clientWidth || 300;
-      const height = canvas.clientHeight || 60;
+      const width = canvas.clientWidth || 96;
+      const height = canvas.clientHeight || 24;
       if (canvas.width !== Math.floor(width * dpr)) canvas.width = Math.floor(width * dpr);
       if (canvas.height !== Math.floor(height * dpr)) canvas.height = Math.floor(height * dpr);
       barCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       barCtx.clearRect(0, 0, width, height);
 
-      const binCount = analyser.frequencyBinCount;
-      const data = new Uint8Array(binCount);
-      analyser.getByteFrequencyData(data);
+      const analyser = analyserRef.current;
+      const active = isPlayingRef.current && analyser;
+      let data = null;
+      let binCount = 0;
+      if (active) {
+        binCount = analyser.frequencyBinCount;
+        data = new Uint8Array(binCount);
+        analyser.getByteFrequencyData(data);
+      }
 
-      const usable = Math.min(binCount, 512);
-      const active = isPlayingRef.current;
+      const usable = binCount ? Math.min(binCount, 512) : 1;
       const slot = width / BARS;
+      const now = Date.now();
 
       for (let b = 0; b < BARS; b++) {
-        const start = Math.max(Math.floor(Math.pow(b / BARS, 1.5) * usable), 0);
-        const end = Math.max(Math.floor(Math.pow((b + 1) / BARS, 1.5) * usable), start + 1);
-        let sum = 0;
-        for (let i = start; i < end; i++) sum += data[i];
-        const level = sum / (end - start) / 255;
+        let level = 0;
+        if (active && data) {
+          const start = Math.max(Math.floor(Math.pow(b / BARS, 1.5) * usable), 0);
+          const end = Math.max(Math.floor(Math.pow((b + 1) / BARS, 1.5) * usable), start + 1);
+          let sum = 0;
+          for (let i = start; i < end; i++) sum += data[i];
+          level = sum / (end - start) / 255;
+        }
+
         const target = active
           ? Math.min(1, level * gain)
-          : idleAmp * (0.5 + 0.5 * Math.sin(Date.now() / idleSpeed + b * 0.7));
-        // attack/release from the vibe: hype = jump fast, calm = glide slow
+          : 0.15 + 0.12 * Math.sin(now / 500 + b * 0.5);
+
+        const attack = 0.40;
+        const release = 0.25;
         const smoothed = prev[b] * (1 - (target > prev[b] ? attack : release)) + target * (target > prev[b] ? attack : release);
         prev[b] = smoothed;
 
-        const barH = Math.max(3, smoothed * height * 0.92);
-        const x = b * slot + slot * 0.18;
-        const w = slot * 0.64;
-        // palette: accent #615FFF → teal #00D5BE
-        const hue = 240 - (b / BARS) * 66;
-        const light = 66 - (b / BARS) * 24;
+        const barH = Math.max(2, smoothed * height * 0.88);
+        const x = b * slot + slot * 0.15;
+        const w = Math.max(1.5, slot * 0.70);
+        const hue = 240 - (b / BARS) * 60;
+        const light = 66 - (b / BARS) * 20;
         barCtx.fillStyle = active
           ? `hsla(${hue}, 95%, ${light}%, 0.95)`
-          : "hsla(240, 30%, 60%, 0.30)";
+          : `hsla(${hue}, 60%, 55%, 0.40)`;
         const y = height - barH;
-        const r = Math.min(w / 2, 2.5);
+        const r = Math.min(w / 2, 1.5);
         fillRoundedRect(barCtx, x, y, w, barH, r);
       }
     };
@@ -231,6 +228,15 @@ export default function Music({ songData, autoPlay = false }) {
   };
 
   const handleVolumeChange = (e) => setVolume(parseFloat(e.target.value));
+
+  const toggleMute = () => {
+    if (volume > 0) {
+      setPrevVolume(volume);
+      setVolume(0);
+    } else {
+      setVolume(prevVolume || 0.8);
+    }
+  };
 
   const formatTime = (time) => {
     if (isNaN(time)) return "0:00";
@@ -279,7 +285,62 @@ export default function Music({ songData, autoPlay = false }) {
   };
 
   return (
-    <div className="w-full mt-3 bg-[#0B1222]/90 rounded-xl p-3 sm:p-3.5 border border-[#1E293B] shadow-lg flex flex-col gap-2.5">
+    <div className="w-full mt-3 bg-[#0B1222]/95 rounded-xl p-3 sm:p-3.5 border border-[#1E293B] shadow-lg flex flex-col gap-2.5 overflow-hidden box-border">
+      <style>{`
+        .music-progress {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 6px;
+          border-radius: 9999px;
+          outline: none;
+        }
+        .music-progress::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #615FFF;
+          cursor: pointer;
+          box-shadow: 0 0 6px rgba(97,95,255,0.7);
+          border: 2px solid #ffffff;
+        }
+        .music-progress::-moz-range-thumb {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #615FFF;
+          cursor: pointer;
+          box-shadow: 0 0 6px rgba(97,95,255,0.7);
+          border: 2px solid #ffffff;
+        }
+        .music-vol {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 4px;
+          border-radius: 9999px;
+          outline: none;
+        }
+        .music-vol::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #A5B4FC;
+          cursor: pointer;
+          border: 1.5px solid #ffffff;
+        }
+        .music-vol::-moz-range-thumb {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #A5B4FC;
+          cursor: pointer;
+          border: 1.5px solid #ffffff;
+        }
+      `}</style>
+
       <audio
         ref={audioRef}
         src={songData.src}
@@ -288,7 +349,7 @@ export default function Music({ songData, autoPlay = false }) {
         onError={handleAudioError}
       />
 
-      {/* Track header */}
+      {/* Track header & visualizer */}
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0 flex-1">
           <h4 className="text-[13px] sm:text-[14px] font-semibold text-[#E2E8F0] truncate">
@@ -300,7 +361,7 @@ export default function Music({ songData, autoPlay = false }) {
         </div>
 
         {/* Visualizer canvas */}
-        <div className="w-24 sm:w-28 h-6 shrink-0 bg-[#020618] rounded border border-[#1E293B] overflow-hidden">
+        <div className="w-20 sm:w-24 h-6 shrink-0 bg-[#020618] rounded border border-[#1E293B] overflow-hidden">
           <canvas
             ref={canvasRef}
             className="w-full h-full block"
@@ -309,14 +370,14 @@ export default function Music({ songData, autoPlay = false }) {
       </div>
 
       {/* Progress slider */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 px-0.5">
         <input
           type="range"
           min="0"
           max={duration || 0}
           value={currentTime}
           onChange={handleTimeChange}
-          className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-[#615FFF]"
+          className="music-progress w-full cursor-pointer bg-[#1E293B]"
           style={{
             background: `linear-gradient(to right, #615FFF 0%, #615FFF ${
               (currentTime / duration) * 100 || 0
@@ -329,8 +390,8 @@ export default function Music({ songData, autoPlay = false }) {
         </div>
       </div>
 
-      {/* Action Controls */}
-      <div className="flex items-center justify-between gap-2 pt-0.5 border-t border-[#1E293B]/60">
+      {/* Action Controls & Volume */}
+      <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#1E293B]/60">
         <div className="flex items-center gap-2">
           <button
             onClick={togglePlayPause}
@@ -369,15 +430,31 @@ export default function Music({ songData, autoPlay = false }) {
           </button>
         </div>
 
-        {/* Volume Slider */}
-        <div className="flex items-center gap-1.5 w-20 sm:w-24 shrink-0">
-          <svg
-            className="w-3.5 h-3.5 text-[#68768C] shrink-0"
-            fill="currentColor"
-            viewBox="0 0 24 24"
+        {/* Bounded Volume Slider with zero overflow */}
+        <div className="flex items-center gap-1.5 px-1 shrink-0 max-w-[110px] sm:max-w-[130px]">
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="text-[#68768C] hover:text-[#90A1B9] p-1 rounded transition-colors cursor-pointer shrink-0"
+            title={volume === 0 ? "Unmute" : "Mute"}
           >
-            <path d="M3 10v4h4l5 5V5L7 10H3z" />
-          </svg>
+            {volume === 0 ? (
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+              </svg>
+            ) : volume < 0.5 ? (
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072" />
+              </svg>
+            ) : (
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728" />
+              </svg>
+            )}
+          </button>
           <input
             type="range"
             min="0"
@@ -385,7 +462,10 @@ export default function Music({ songData, autoPlay = false }) {
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-            className="flex-1 h-1 bg-[#1E293B] rounded-lg appearance-none cursor-pointer accent-[#615FFF]"
+            className="music-vol w-12 sm:w-16 cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #615FFF 0%, #615FFF ${volume * 100}%, #1E293B ${volume * 100}%, #1E293B 100%)`,
+            }}
             aria-label="Volume"
           />
         </div>
