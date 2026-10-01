@@ -1,23 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAdminAuth } from "../../../Hooks/useAdminAuth";
-
-function formatLogTime(iso) {
-  if (!iso) return "";
-  try {
-    const d = new Date(iso);
-    return d.toLocaleString("en-GB", {
-      year: "2-digit",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    });
-  } catch {
-    return iso;
-  }
-}
 
 export default function TelegramPage() {
   const { authFetch } = useAdminAuth();
@@ -25,20 +7,11 @@ export default function TelegramPage() {
   const [botToken, setBotToken] = useState("");
   const [chatId, setChatId] = useState("");
   const [enabled, setEnabled] = useState(false);
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState(null); // { type: "ok"|"err", text }
   const [busy, setBusy] = useState(false);
   const [detected, setDetected] = useState([]);
-  const [log, setLog] = useState([]);
-  const [manualName, setManualName] = useState("");
-  const [manualPhone, setManualPhone] = useState("");
-  const [manualMessage, setManualMessage] = useState("");
-  const [manualMsg, setManualMsg] = useState(null);
-  const [manualBusy, setManualBusy] = useState(false);
-  const [inbox, setInbox] = useState([]);
-  const [inboxOpen, setInboxOpen] = useState(false);
-  const [pickedId, setPickedId] = useState(null);
 
-  const load = useCallback(async () => {
+  const load = async () => {
     try {
       const res = await authFetch("/api/admin/telegram");
       const json = await res.json();
@@ -46,41 +19,15 @@ export default function TelegramPage() {
       setCfg(json);
       setChatId(json.chatId || "");
       setEnabled(!!json.enabled);
-      setLog(Array.isArray(json.log) ? json.log : []);
     } catch (err) {
       setMsg({ type: "err", text: err.message });
     }
-  }, [authFetch]);
-
-  const loadInbox = useCallback(async () => {
-    try {
-      const res = await authFetch("/api/admin/messages");
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Failed to load messages");
-      setInbox(Array.isArray(json.messages) ? json.messages : []);
-    } catch {
-      /* inbox is optional for this tab */
-    }
-  }, [authFetch]);
+  };
 
   useEffect(() => {
     load();
-    loadInbox();
-    const id = setInterval(() => {
-      load();
-      loadInbox();
-    }, 10000);
-    return () => clearInterval(id);
-  }, [load, loadInbox]);
-
-  const pickFromInbox = (m) => {
-    setPickedId(m.id);
-    setManualName(m.name || "");
-    setManualPhone(m.phoneNumber || "");
-    setManualMessage(m.message || "");
-    setManualMsg(null);
-    setInboxOpen(false);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const save = async () => {
     setBusy(true);
@@ -151,39 +98,6 @@ export default function TelegramPage() {
     }
   };
 
-  const sendManual = async (e) => {
-    e.preventDefault();
-    if (!manualName.trim() || !manualMessage.trim()) {
-      setManualMsg({ type: "err", text: "name and message are required" });
-      return;
-    }
-    setManualBusy(true);
-    setManualMsg(null);
-    try {
-      const res = await authFetch("/api/admin/telegram/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: manualName.trim(),
-          phoneNumber: manualPhone.trim(),
-          message: manualMessage.trim(),
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Send failed");
-      setManualMsg({ type: "ok", text: "sent to Telegram ✓" });
-      setManualName("");
-      setManualPhone("");
-      setManualMessage("");
-      setPickedId(null);
-      await load();
-    } catch (err) {
-      setManualMsg({ type: "err", text: err.message });
-    } finally {
-      setManualBusy(false);
-    }
-  };
-
   const inputClass =
     "bg-[#020618] py-2.5 px-3 border-0 outline-[#314158] outline-1 hover:outline-[#90A1B9] focus:text-[#90A1B9] duration-150 rounded-md w-full text-[#90a1b9c7]";
 
@@ -197,6 +111,7 @@ export default function TelegramPage() {
         </p>
       </div>
 
+      {/* how-to */}
       <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 text-[11px] text-[#90A1B9] leading-6">
         <p className="text-white text-[12px] mb-2">// setup in 4 steps</p>
         <ol className="list-decimal list-inside flex flex-col gap-1">
@@ -219,6 +134,7 @@ export default function TelegramPage() {
         </ol>
       </div>
 
+      {/* status */}
       {cfg && (
         <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] px-4 py-3 flex items-center gap-3 text-[11px]">
           <span
@@ -238,6 +154,7 @@ export default function TelegramPage() {
         </div>
       )}
 
+      {/* form */}
       <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-4">
         <label className="flex flex-col gap-1.5">
           <p className="text-[#90A1B9] text-[12px]">_bot-token</p>
@@ -336,200 +253,6 @@ export default function TelegramPage() {
             send-test-message
           </button>
         </div>
-      </div>
-
-      <form
-        onSubmit={sendManual}
-        className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-4"
-      >
-        <div>
-          <p className="text-white text-[12px]">// manual compose</p>
-          <p className="text-[#68768C] text-[11px] mt-0.5">
-            pick a previous contact message, or type fields yourself
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={() => setInboxOpen((v) => !v)}
-            className="text-[11px] px-3 py-1.5 rounded-md border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150"
-          >
-            {inboxOpen ? "hide inbox" : `pick from inbox (${inbox.length})`}
-          </button>
-          {pickedId != null && (
-            <button
-              type="button"
-              onClick={() => {
-                setPickedId(null);
-                setManualName("");
-                setManualPhone("");
-                setManualMessage("");
-              }}
-              className="text-[11px] text-[#68768C] hover:text-[#FF6B6B] duration-150"
-            >
-              clear
-            </button>
-          )}
-        </div>
-
-        {inboxOpen && (
-          <div className="rounded-md border border-[#314158] overflow-hidden max-h-52 overflow-y-auto">
-            {!inbox.length ? (
-              <p className="text-[11px] text-[#68768C] px-3 py-2">// inbox is empty</p>
-            ) : (
-              inbox.map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => pickFromInbox(m)}
-                  className={`w-full text-left px-3 py-2 text-[11px] flex flex-col gap-0.5 duration-150 border-b border-[#1E293B] last:border-b-0 ${
-                    pickedId === m.id
-                      ? "bg-[#615FFF33] text-white"
-                      : "text-[#90A1B9] hover:bg-[#7888a01a]"
-                  }`}
-                >
-                  <span className="flex items-center justify-between gap-2">
-                    <b>{m.name}</b>
-                    <span className="text-[#4B576D] tabular-nums shrink-0">
-                      {formatLogTime(m.date)}
-                    </span>
-                  </span>
-                  <span className="truncate text-[#68768C]">{m.message}</span>
-                </button>
-              ))
-            )}
-          </div>
-        )}
-
-        <label className="flex flex-col gap-1.5">
-          <p className="text-[#90A1B9] text-[12px]">_name</p>
-          <input
-            className={inputClass}
-            value={manualName}
-            onChange={(e) => setManualName(e.target.value)}
-            placeholder="Mohammad"
-            maxLength={100}
-          />
-        </label>
-
-        <label className="flex flex-col gap-1.5">
-          <p className="text-[#90A1B9] text-[12px]">_phone (optional)</p>
-          <input
-            className={`${inputClass} font-mono`}
-            value={manualPhone}
-            onChange={(e) => setManualPhone(e.target.value)}
-            placeholder="+98 912 …"
-            maxLength={30}
-          />
-        </label>
-
-        <label className="flex flex-col gap-1.5">
-          <p className="text-[#90A1B9] text-[12px]">_message</p>
-          <textarea
-            className={`${inputClass} min-h-[100px] resize-y`}
-            value={manualMessage}
-            onChange={(e) => setManualMessage(e.target.value)}
-            placeholder="hello from the admin panel…"
-            maxLength={5000}
-          />
-        </label>
-
-        {manualMsg && (
-          <p
-            className={`text-[11px] rounded-md px-3 py-2 w-fit ${
-              manualMsg.type === "err"
-                ? "text-[#FF6B6B] bg-[#FF6B6B14] border border-[#FF6B6B33]"
-                : "text-[#4ADE80] bg-[#4ADE8015] border border-[#4ADE8033]"
-            }`}
-          >
-            // {manualMsg.text}
-          </p>
-        )}
-
-        <div className="flex gap-3 pt-1">
-          <button
-            type="submit"
-            disabled={
-              manualBusy || !cfg?.botTokenSet || !manualName.trim() || !manualMessage.trim()
-            }
-            className="flex-1 text-[12px] py-2.5 rounded-md cursor-pointer duration-150 bg-[#615FFF] hover:bg-[#0E1528] outline-1 outline-[#615FFF] text-white hover:text-[#615FFF] disabled:opacity-40"
-          >
-            {manualBusy ? "sending…" : "send-to-telegram"}
-          </button>
-        </div>
-      </form>
-
-      <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-5 flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-white text-[12px]">// delivery log</p>
-            <p className="text-[#68768C] text-[11px] mt-0.5">
-              did the last contact/test message reach Telegram?
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => load()}
-            disabled={busy}
-            className="text-[11px] px-3 py-1.5 rounded-md border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150 disabled:opacity-40"
-          >
-            refresh
-          </button>
-        </div>
-
-        {!log.length ? (
-          <p className="text-[11px] text-[#68768C]">
-            // no delivery attempts yet — submit the contact form or send a test
-          </p>
-        ) : (
-          <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
-            {log.slice(0, 20).map((e, i) => (
-              <div
-                key={`${e.time}-${i}`}
-                className={`rounded-md border px-3 py-2 flex items-start gap-2.5 text-[11px] ${
-                  e.ok
-                    ? "border-[#4ADE8044] bg-[#4ADE800f]"
-                    : "border-[#FF6B6B44] bg-[#FF6B6B0f]"
-                }`}
-              >
-                <span
-                  className={`mt-0.5 w-2 h-2 rounded-full shrink-0 ${
-                    e.ok ? "bg-[#4ADE80]" : "bg-[#FF6B6B]"
-                  }`}
-                />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <b className={e.ok ? "text-[#4ADE80]" : "text-[#FF6B6B]"}>
-                      {e.ok ? "sent ✓" : e.skipped ? "skipped" : "failed ✗"}
-                    </b>
-                    <span className="text-[#68768C] uppercase text-[9px]">
-                      {e.kind || "contact"}
-                    </span>
-                    {e.messageId != null && (
-                      <span className="text-[#4B576D] tabular-nums">
-                        msg#{e.messageId}
-                      </span>
-                    )}
-                    <span className="text-[#4B576D] tabular-nums ml-auto shrink-0">
-                      {formatLogTime(e.time)}
-                    </span>
-                  </div>
-                  {e.name && (
-                    <p className="text-[#90A1B9] mt-0.5 truncate">
-                      from: {e.name}
-                    </p>
-                  )}
-                  {e.error && (
-                    <p className="text-[#FF6B6B]/80 mt-0.5 break-all">
-                      {e.error}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

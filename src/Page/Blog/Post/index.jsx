@@ -46,6 +46,7 @@ function Blocks({ content }) {
                   className="w-full max-h-[480px] object-cover"
                   loading="lazy"
                 />
+                {/* Tech corner accents */}
                 <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2" style={{ borderColor: "#615FFF" }} />
                 <div className="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2" style={{ borderColor: "#615FFF" }} />
                 <div className="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 border-b-2 border-l-2" style={{ borderColor: "#615FFF" }} />
@@ -137,16 +138,9 @@ export default function BlogPost() {
           fetch(`/api/blog?slug=${encodeURIComponent(slug)}`),
           fetch(`/api/blog`).catch(() => null),
         ]);
-        const json = await postRes.json().catch(() => null);
+        const json = await postRes.json();
         if (!alive) return;
-        if (!postRes.ok || !json?.post) {
-          throw new Error(
-            json?.error ||
-              (postRes.status === 404
-                ? "Post not found"
-                : "Could not load this article"),
-          );
-        }
+        if (!postRes.ok || !json.post) throw new Error(json.error || "Post not found");
         setPost(json.post);
 
         if (allRes && allRes.ok) {
@@ -166,24 +160,27 @@ export default function BlogPost() {
     };
   }, [slug]);
 
-  const content = post?.content;
+  const postContent = post?.content;
   const headings = useMemo(() => {
-    if (!content) return [];
-    const blocks = parseBlocks(content);
+    if (!postContent) return [];
+    const blocks = parseBlocks(postContent);
     return blocks
       .map((b, idx) => (b.type === "h" ? { text: b.text, id: `section-${idx}` } : null))
       .filter(Boolean);
-  }, [content]);
+  }, [postContent]);
 
   const titleRTL = isRTL(post?.title);
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
+      {/* ── Left SnakeBar ── */}
       <div className="hidden lg:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
 
-      <nav className="w-full lg:w-[400px] xl:w-[457px] shrink-0 border-b lg:border-b-0 lg:border-r border-[#90a1b977] lg:h-[calc(100vh-116px)] lg:overflow-y-auto text-[#90A1B9]">
+      {/* ── Middle Sidebar (Navigation, Outline & Related Articles) ── */}
+      <nav className="w-full md:w-60 lg:w-72 xl:w-[360px] 2xl:w-[457px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+        {/* Simple User-Friendly Back button */}
         <div className="p-4 border-b border-[#90a1b977]">
           <Link
             to="/blog"
@@ -204,6 +201,7 @@ export default function BlogPost() {
           </Link>
         </div>
 
+        {/* Outline / Table of contents */}
         {headings.length > 0 && (
           <div className="border-b border-[#90a1b977]">
             <h2
@@ -240,6 +238,7 @@ export default function BlogPost() {
           </div>
         )}
 
+        {/* Other articles */}
         {allPosts.length > 1 && (
           <div className="border-b border-[#90a1b977]">
             <h2
@@ -279,6 +278,7 @@ export default function BlogPost() {
           </div>
         )}
 
+        {/* Metadata section */}
         {post && (
           <div className="p-5 text-[11px] text-[#68768C] flex flex-col gap-2">
             <p className="text-[#90A1B9] font-semibold">// Article Info</p>
@@ -291,7 +291,8 @@ export default function BlogPost() {
         )}
       </nav>
 
-      <div className="flex-1 min-w-0 p-5 sm:p-8 lg:p-12 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
+      {/* ── Right Content / Article Body ── */}
+      <div className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 lg:p-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
         {loading ? (
           <div className="max-w-3xl mx-auto">
             <Loading variant="article" />
@@ -306,16 +307,18 @@ export default function BlogPost() {
             </Link>
           </div>
         ) : (
-          <article className="max-w-3xl mx-auto flex flex-col gap-8">
+          <article className="max-w-3xl mx-auto flex flex-col gap-6 sm:gap-8">
+            {/* Header */}
             <header className="flex flex-col gap-4">
               <h1
                 dir={titleRTL ? "rtl" : "ltr"}
-                className="text-white text-[24px] sm:text-[34px] font-bold leading-tight"
+                className="text-white text-[20px] sm:text-[26px] md:text-[30px] lg:text-[34px] font-bold leading-tight"
                 style={{ textAlign: titleRTL ? "right" : "left" }}
               >
                 {post.title}
               </h1>
 
+              {/* Post meta pills */}
               <div className="flex items-center gap-3 flex-wrap text-[12px] text-[#68768C] pt-1 border-b border-[#1E293B] pb-4">
                 <span className="text-[#90A1B9]">{formatDate(post.date)}</span>
                 <span>·</span>
@@ -343,6 +346,7 @@ export default function BlogPost() {
               </div>
             </header>
 
+            {/* Main Cover Image with tech frame */}
             {post.cover && (
               <div className="relative rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl">
                 <img
@@ -357,10 +361,12 @@ export default function BlogPost() {
               </div>
             )}
 
+            {/* Post Content Blocks (Paragraphs, Headings, In-text Images, Quotes, Lists) */}
             <div className="pt-2">
               <Blocks content={post.content} />
             </div>
 
+            {/* Bottom navigation */}
             <div className="mt-8 pt-6 border-t border-[#1E293B] flex items-center justify-between">
               <Link
                 to="/blog"

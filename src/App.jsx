@@ -16,13 +16,12 @@ import ErrorBoundary from "./Components/ErrorBoundary";
 import BootLoader from "./Components/BootLoader";
 import PageTransition from "./Components/PageTransition";
 import Cursor from "./Components/Cursor";
-import { SiteInfoProvider } from "./Hooks/useSiteInfo";
-
-const NAVIGATE_AFTER = 480;
 
 function PublicSite() {
   const location = useLocation();
 
+  // ---- Boot loader: run once per session (sessionStorage keeps it from
+  // re-appearing on every in-app navigation back to the site) ----
   const [booted, setBooted] = useState(() => {
     try {
       return sessionStorage.getItem("booted") === "1";
@@ -34,11 +33,12 @@ function PublicSite() {
     try {
       sessionStorage.setItem("booted", "1");
     } catch {
-      /* private mode / storage blocked — keep session-local boot flag */
+      /* private mode */
     }
     setBooted(true);
   }, []);
 
+  // Simple, clean route transition key
   const [transitioning, setTransitioning] = useState(false);
   const prevPath = useRef(location.pathname);
 
@@ -52,7 +52,7 @@ function PublicSite() {
   }, [location.pathname]);
 
   return (
-    <SiteInfoProvider>
+    <>
       <VisitTracker />
       {!booted && <BootLoader onDone={handleBooted} />}
       <Header />
@@ -71,7 +71,7 @@ function PublicSite() {
         </div>
       </ErrorBoundary>
       <Footer />
-    </SiteInfoProvider>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync, rmSync } from "fs";
 import { join } from "path";
 import { createHmac, createHash } from "crypto";
+import { executeMoodSearch } from "./src/lib/moodEngine.js";
 
 const DATA_DIR = join(process.cwd(), "public", "api", "admin", "data");
 const CONFIG_FILE = join(DATA_DIR, "config.json");
@@ -8,16 +9,20 @@ const VISITS_FILE = join(DATA_DIR, "visits.json");
 const MESSAGES_FILE = join(DATA_DIR, "messages.json");
 const ONLINE_FILE = join(DATA_DIR, "online.json");
 const CLICKS_FILE = join(DATA_DIR, "clicks.json");
-const TELEGRAM_LOG_FILE = join(DATA_DIR, "telegram-log.json");
-
-/* Day keys are LOCAL dates, matching dstr() in api/_lib.js. Using
-   toISOString() here keys days in UTC instead, so a visit just after local
-   midnight (Iran is UTC+3:30) was filed under the previous day in dev while
-   production filed it under the current day — the same visit landing on two
-   different days depending on which backend served it. */
-const pad2 = (n) => String(n).padStart(2, "0");
-const dstr = (d) =>
-  `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const JSON_DIR = join(process.cwd(), "public", "json");
+const PUBLIC_JSON = {
+  blog: join(JSON_DIR, "blog.json"),
+  projects: join(JSON_DIR, "projects.json"),
+  "mini-projects": join(JSON_DIR, "mini-projects.json"),
+  skills: join(JSON_DIR, "skills.json"),
+};
+const F = {
+  messages: MESSAGES_FILE,
+  visits: VISITS_FILE,
+  clicks: CLICKS_FILE,
+  telegram: join(DATA_DIR, "telegram.json"),
+};
+const ADMIN_DATA = DATA_DIR;
 
 // Mirrors the button-page attribution rules in PHP stats.php
 function buttonPageFrom(targetId, eventPath) {
@@ -43,7 +48,7 @@ function trackClick(payload) {
   if (!clicks.summary || typeof clicks.summary !== "object") clicks.summary = {};
 
   const now = new Date();
-  const today = dstr(now);
+  const today = now.toISOString().split("T")[0];
   const event = {
     time: now.toISOString(),
     targetType,
@@ -82,7 +87,7 @@ function trackClick(payload) {
   for (let i = 0; i < 7; i++) {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
-    const key = dstr(d);
+    const key = d.toISOString().split("T")[0];
     const c = entry.daily[key] || 0;
     if (i === 0) todayCount = c;
     weekCount += c;
@@ -91,7 +96,7 @@ function trackClick(payload) {
   entry.week = weekCount;
 
   // Prune daily entries older than 30 days
-  const cutoff = dstr(new Date(now.getTime() - 30 * 86400000));
+  const cutoff = new Date(now.getTime() - 30 * 86400000).toISOString().split("T")[0];
   for (const dKey of Object.keys(entry.daily)) {
     if (dKey < cutoff) delete entry.daily[dKey];
   }
@@ -118,108 +123,9 @@ function readJSON(path, fallback) {
   }
 }
 
-/* Word count for a blog post body, mirroring countWords() in
-   src/lib/blog.js and api/_blog.js. Keep the three in sync. */
-function countBlogWords(content) {
-  let text = "";
-  if (typeof content === "string") {
-    text = content;
-  } else if (Array.isArray(content)) {
-    text = content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
-  }
-  return String(text || "")
-    .replace(/!\[.*?\]\(.*?\)/g, "")
-    .replace(/^#{1,4}\s+/gm, "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
-}
-
 function writeJSON(path, data) {
   ensureDataDir();
   writeFileSync(path, JSON.stringify(data, null, 2));
-}
-
-// Contact form → Telegram (parity with server.js / api/admin/_messages.js)
-function appendTelegramLog(entry) {
-  try {
-    const store = readJSON(TELEGRAM_LOG_FILE, { entries: [] });
-    if (!Array.isArray(store.entries)) store.entries = [];
-    store.entries.unshift({ time: new Date().toISOString(), ...entry });
-    if (store.entries.length > 50) store.entries = store.entries.slice(0, 50);
-    writeJSON(TELEGRAM_LOG_FILE, store);
-  } catch {
-    /* never break the contact endpoint */
-  }
-}
-
-async function notifyTelegramContact(msg) {
-  try {
-    const cfg = readJSON(join(DATA_DIR, "telegram.json"), {});
-    if (!cfg.enabled || !cfg.botToken || !cfg.chatId) {
-      appendTelegramLog({
-        kind: "contact",
-        ok: false,
-        skipped: true,
-        messageId: msg?.id ?? null,
-        name: msg?.name || "",
-        error: "telegram disabled or not configured",
-      });
-      return;
-    }
-    const esc = (s) =>
-      String(s || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    const dt = new Date().toLocaleString("en-GB", { hour12: false });
-    const text = [
-      "🔔 <b>New Contact Message</b>",
-      "",
-      `👤 <b>Name:</b> ${esc(msg.name)}`,
-      msg.phoneNumber ? `📱 <b>Phone:</b> ${esc(msg.phoneNumber)}` : null,
-      "💬 <b>Message:</b>",
-      `<blockquote expandable>${esc(msg.message)}</blockquote>`,
-      "",
-      `🕐 <i>${esc(dt)}</i>`,
-    ]
-      .filter(Boolean)
-      .join("\n");
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 10000);
-    try {
-      const r = await fetch(`https://api.telegram.org/bot${cfg.botToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: cfg.chatId,
-          text,
-          parse_mode: "HTML",
-          disable_web_page_preview: true,
-        }),
-        signal: ctrl.signal,
-      });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || !j.ok) throw new Error(j.description || `Telegram HTTP ${r.status}`);
-      appendTelegramLog({
-        kind: "contact",
-        ok: true,
-        messageId: msg?.id ?? null,
-        name: msg?.name || "",
-      });
-    } finally {
-      clearTimeout(timer);
-    }
-  } catch (err) {
-    console.error("[telegram] notify failed:", err.message);
-    appendTelegramLog({
-      kind: "contact",
-      ok: false,
-      messageId: msg?.id ?? null,
-      name: msg?.name || "",
-      error: err.message || "send failed",
-    });
-  }
 }
 
 function getConfig() {
@@ -278,21 +184,16 @@ function seedDemoData() {
     for (let i = 30; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      const key = dstr(d);
+      const key = d.toISOString().split("T")[0];
       const base = Math.floor(Math.random() * 20) + 5;
-      const paths = {
-        "/": Math.floor(base * 0.4),
-        "/about": Math.floor(base * 0.2),
-        "/project": Math.floor(base * 0.25),
-        "/contact": Math.floor(base * 0.15),
-      };
-      /* Derive total from paths so the demo data satisfies the same
-         invariant real tracking does (total === sum of page views).
-         Hardcoding `base` here made seeded days sum short of their own
-         total, which looks like a counting bug in the panel. */
       days[key] = {
-        total: Object.values(paths).reduce((s, n) => s + n, 0),
-        paths,
+        total: base,
+        paths: {
+          "/": Math.floor(base * 0.4),
+          "/about": Math.floor(base * 0.2),
+          "/project": Math.floor(base * 0.25),
+          "/contact": Math.floor(base * 0.15),
+        },
       };
     }
     writeJSON(VISITS_FILE, { days });
@@ -345,17 +246,10 @@ function seedDemoData() {
 // Track a visit
 function trackVisit(path, sessionId) {
   const visits = readJSON(VISITS_FILE, { days: {} });
-  const today = dstr(new Date());
-  if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, visitors: [] };
-  if (!Array.isArray(visits.days[today].visitors)) visits.days[today].visitors = [];
+  const today = new Date().toISOString().split("T")[0];
+  if (!visits.days[today]) visits.days[today] = { total: 0, paths: {} };
   visits.days[today].total++;
   visits.days[today].paths[path] = (visits.days[today].paths[path] || 0) + 1;
-  if (sessionId && !visits.days[today].visitors.includes(sessionId)) {
-    visits.days[today].visitors.push(sessionId);
-    if (visits.days[today].visitors.length > 5000) {
-      visits.days[today].visitors = visits.days[today].visitors.slice(-5000);
-    }
-  }
   writeJSON(VISITS_FILE, visits);
 
   // Update online
@@ -379,7 +273,6 @@ function computeStats(customFrom, customTo) {
   // Day totals
   const dayTotals = {};
   const pathTotals = {};
-  const dayVisitorSets = {};
   for (const [date, info] of Object.entries(days)) {
     const total = typeof info === "object" ? (info.total || 0) : Number(info);
     dayTotals[date] = total;
@@ -388,31 +281,10 @@ function computeStats(customFrom, customTo) {
         pathTotals[path] = (pathTotals[path] || 0) + count;
       }
     }
-    if (info && typeof info === "object" && Array.isArray(info.visitors)) {
-      dayVisitorSets[date] = new Set(info.visitors.map(String));
-    }
   }
 
-  const uniqueOn = (dates) => {
-    const s = new Set();
-    for (const d of dates) {
-      const set = dayVisitorSets[d];
-      if (set) for (const id of set) s.add(id);
-    }
-    return s.size;
-  };
-  const datesBetween = (n) => {
-    const out = [];
-    for (let i = n - 1; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      out.push(dstr(d));
-    }
-    return out;
-  };
-
   const today = new Date();
-  /* uses the module-level dstr (local dates) so dev matches the API */
+  const dstr = (d) => d.toISOString().split("T")[0];
 
   // Last 7 days
   const last7 = [];
@@ -615,26 +487,10 @@ function computeStats(customFrom, customTo) {
   const thisYearTotal = yearTotals[String(today.getFullYear())] || 0;
   const yearDelta = pctDelta(thisYearTotal, yearTotals[String(today.getFullYear() - 1)] || 0);
 
-  const todayKey = dstr(today);
-  const yesterdayKey = dstr(new Date(today.getTime() - 86400000));
   return {
-    // dev writes to public/api/admin/data on a real disk, so it persists
-    storage: "file",
-    durable: true,
     onlineNow,
-    today: dayTotals[todayKey] || 0,
-    yesterday: dayTotals[yesterdayKey] || 0,
-    todayUnique: uniqueOn([todayKey]),
-    yesterdayUnique: uniqueOn([yesterdayKey]),
-    last7Unique: uniqueOn(datesBetween(7)),
-    last30Unique: uniqueOn(datesBetween(30)),
-    thisMonthUnique: uniqueOn(
-      Object.keys(dayVisitorSets).filter((d) => d.startsWith(todayKey.slice(0, 7)))
-    ),
-    thisYearUnique: uniqueOn(
-      Object.keys(dayVisitorSets).filter((d) => d.startsWith(String(today.getFullYear())))
-    ),
-    totalUnique: uniqueOn(Object.keys(dayVisitorSets)),
+    today: dayTotals[dstr(today)] || 0,
+    yesterday: dayTotals[dstr(new Date(today.getTime() - 86400000))] || 0,
     todayDelta,
     weekDelta,
     monthDelta,
@@ -861,23 +717,6 @@ export function mockApiHandler(req, res, next) {
     return;
   }
 
-  /* Site-wide identity / contact / social links (parity with the
-     STATIC_JSON entry in api/index.js and the /api/site.json route in
-     server.js). Explicit rather than letting Vite serve the raw public
-     file: the admin editor writes that file, and Vite's static handler
-     would hand back a cached copy, so an edit could appear to do nothing.
-     no-store makes every read see the current file. */
-  if (endpoint === "site.json" && !isAdmin && req.method === "GET") {
-    const siteFile = join(process.cwd(), "public", "api", "site.json");
-    const data = readJSON(siteFile, {});
-    res.writeHead(200, {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-store",
-    });
-    res.end(JSON.stringify(data && typeof data === "object" && !Array.isArray(data) ? data : {}));
-    return;
-  }
-
   // ── Mood Search (for /api/mood-search?q=...) ──
   if (endpoint === "mood-search" && !isAdmin && req.method === "GET") {
     const query = String(url.searchParams.get("q") || "").trim();
@@ -886,185 +725,16 @@ export function mockApiHandler(req, res, next) {
       res.end(JSON.stringify({ error: "Query is required" }));
       return;
     }
-    if (query.length < 3) {
+    if (query.length < 2) {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Query is too short (min 3 chars)" }));
+      res.end(JSON.stringify({ error: "Query is too short (min 2 chars)" }));
       return;
     }
-    if (query.length > 400) {
+    if (query.length > 500) {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Query is too long (max 400 chars)" }));
+      res.end(JSON.stringify({ error: "Query is too long (max 500 chars)" }));
       return;
     }
-
-    const EN_MOOD_LEX = {
-      // Sadness / Grief / Pain
-      sad: { sadness: 0.95 }, sadness: { sadness: 0.95 }, unhappy: { sadness: 0.8 },
-      sorrow: { sadness: 0.9 }, grief: { sadness: 0.95 }, pain: { sadness: 0.8, heartbreak: 0.5 },
-      hurting: { sadness: 0.8, heartbreak: 0.6 }, hurt: { sadness: 0.75, heartbreak: 0.5 },
-      tears: { sadness: 0.85 }, crying: { sadness: 0.9 }, cry: { sadness: 0.85 },
-      depressed: { sadness: 0.9, melancholy: 0.7 }, depression: { sadness: 0.9, melancholy: 0.7 },
-      down: { sadness: 0.6, melancholy: 0.5 }, gloomy: { melancholy: 0.85, sadness: 0.5 },
-
-      // Longing / Missing / Distance
-      longing: { longing: 0.95 }, miss: { longing: 0.9 }, missing: { longing: 0.9 },
-      yearn: { longing: 0.85 }, yearning: { longing: 0.9 }, wish: { longing: 0.6, hope: 0.4 },
-      distance: { longing: 0.7 },
-
-      // Nostalgia / Memories / Retro
-      nostalgia: { nostalgia: 0.95 }, nostalgic: { nostalgia: 0.95 }, memory: { nostalgia: 0.85 },
-      memories: { nostalgia: 0.9 }, reminisce: { nostalgia: 0.85 }, past: { nostalgia: 0.8 },
-      retro: { nostalgia: 0.8 }, vintage: { nostalgia: 0.75 }, childhood: { nostalgia: 0.85 },
-
-      // Heartbreak / Breakup
-      heartbreak: { heartbreak: 0.95, sadness: 0.7 }, heartbroken: { heartbreak: 0.95, sadness: 0.7 },
-      breakup: { heartbreak: 0.95, sadness: 0.6 }, divorce: { heartbreak: 0.85, sadness: 0.7 },
-      broken: { heartbreak: 0.8, sadness: 0.6 }, rejected: { heartbreak: 0.8, loneliness: 0.7 },
-      betrayal: { heartbreak: 0.8, anger: 0.7 }, cheated: { heartbreak: 0.85, anger: 0.75 },
-      ex: { heartbreak: 0.7, longing: 0.6 },
-
-      // Loneliness / Solitude
-      lonely: { loneliness: 0.95, sadness: 0.6 }, loneliness: { loneliness: 0.95, sadness: 0.6 },
-      alone: { loneliness: 0.9 }, solitude: { loneliness: 0.7, calm: 0.5 },
-      isolated: { loneliness: 0.85 }, empty: { loneliness: 0.8, sadness: 0.7 },
-
-      // Joy / Happiness
-      happy: { joy: 0.95 }, happiness: { joy: 0.95 }, joy: { joy: 0.95 }, joyful: { joy: 0.9 },
-      cheerful: { joy: 0.85 }, glad: { joy: 0.75 }, smile: { joy: 0.7, warmth: 0.5 },
-      delight: { joy: 0.85 }, sunshine: { joy: 0.8, warmth: 0.7 }, celebrate: { joy: 0.8, euphoria: 0.7 },
-
-      // Playfulness / Fun
-      playful: { playfulness: 0.9 }, fun: { playfulness: 0.8, joy: 0.6 }, silly: { playfulness: 0.8 },
-      quirky: { playfulness: 0.75 }, cheeky: { playfulness: 0.75 },
-
-      // Romance / Love
-      love: { romance: 0.9 }, romance: { romance: 0.95 }, romantic: { romance: 0.95 },
-      lover: { romance: 0.85 }, loving: { romance: 0.8, warmth: 0.6 }, crush: { romance: 0.8, longing: 0.5 },
-      kiss: { romance: 0.85, sensuality: 0.6 }, kissing: { romance: 0.85, sensuality: 0.6 },
-      sweetheart: { romance: 0.8, warmth: 0.6 },
-
-      // Sensuality
-      sensual: { sensuality: 0.9 }, sexy: { sensuality: 0.85 }, intimate: { sensuality: 0.8, romance: 0.6 },
-      passion: { sensuality: 0.8, energy: 0.5 }, desire: { sensuality: 0.85 }, seductive: { sensuality: 0.85 },
-
-      // Warmth / Comfort
-      warm: { warmth: 0.9, calm: 0.5 }, warmth: { warmth: 0.9 }, cozy: { warmth: 0.85, calm: 0.7 },
-      comfort: { warmth: 0.8, calm: 0.6 }, tender: { warmth: 0.8, romance: 0.6 }, gentle: { warmth: 0.75, calm: 0.75 },
-
-      // Anger / Rage / Hate
-      anger: { anger: 0.95 }, angry: { anger: 0.95 }, rage: { anger: 0.95, energy: 0.7 },
-      furious: { anger: 0.9 }, mad: { anger: 0.8 }, hate: { anger: 0.85 },
-      frustrated: { anger: 0.7, tension: 0.6 }, annoyed: { anger: 0.6 },
-
-      // Rebellion / Fight
-      rebel: { rebellion: 0.9 }, rebellion: { rebellion: 0.95 }, fight: { rebellion: 0.8, power: 0.7 },
-      protest: { rebellion: 0.85 }, riot: { rebellion: 0.9, energy: 0.8 },
-
-      // Power / Strength / Epic
-      power: { power: 0.95 }, powerful: { power: 0.95 }, strong: { power: 0.85 },
-      strength: { power: 0.85 }, epic: { power: 0.9, tension: 0.5 }, triumph: { power: 0.85, joy: 0.6 },
-      victory: { power: 0.9, joy: 0.7 }, unstoppable: { power: 0.9, energy: 0.8 },
-
-      // Defiance
-      defiant: { defiance: 0.9 }, defiance: { defiance: 0.95 }, fearless: { defiance: 0.85, power: 0.7 },
-      brave: { defiance: 0.8, power: 0.6 }, bold: { defiance: 0.8, energy: 0.6 },
-
-      // Calm / Peace / Sleep / Relax
-      calm: { calm: 0.95 }, peace: { calm: 0.9 }, peaceful: { calm: 0.95 }, quiet: { calm: 0.8 },
-      relax: { calm: 0.9 }, relaxing: { calm: 0.95 }, relaxed: { calm: 0.9 }, chill: { calm: 0.85 },
-      chilling: { calm: 0.85 }, sleep: { calm: 0.9 }, sleepy: { calm: 0.85 }, soothing: { calm: 0.9, warmth: 0.5 },
-      serene: { calm: 0.9 },
-
-      // Dreaminess
-      dream: { dreaminess: 0.9 }, dreamy: { dreaminess: 0.95 }, dreaming: { dreaminess: 0.9 },
-      ethereal: { dreaminess: 0.9 }, floating: { dreaminess: 0.85, calm: 0.5 }, stars: { dreaminess: 0.7 },
-      night: { dreaminess: 0.6, calm: 0.4 },
-
-      // Melancholy / Gloom / Rain
-      melancholy: { melancholy: 0.95 }, melancholic: { melancholy: 0.95 }, somber: { melancholy: 0.85 },
-      wistful: { melancholy: 0.8, nostalgia: 0.6 }, rain: { melancholy: 0.7, calm: 0.5 }, rainy: { melancholy: 0.7, calm: 0.5 },
-
-      // Hope / Optimism
-      hope: { hope: 0.95 }, hopeful: { hope: 0.95 }, optimism: { hope: 0.85, joy: 0.5 },
-      bright: { hope: 0.7, joy: 0.6 }, light: { hope: 0.7, warmth: 0.5 }, believe: { hope: 0.75, power: 0.5 },
-
-      // Darkness / Tension / Mystery
-      dark: { darkness: 0.9 }, darkness: { darkness: 0.95 }, shadow: { darkness: 0.8 },
-      tension: { tension: 0.9 }, tense: { tension: 0.9 }, dramatic: { tension: 0.85, power: 0.5 },
-      anxious: { tension: 0.8, darkness: 0.5 }, anxiety: { tension: 0.8, darkness: 0.5 },
-      stress: { tension: 0.75 }, stressed: { tension: 0.75 }, nervous: { tension: 0.7 },
-      mystery: { mystery: 0.95 }, mysterious: { mystery: 0.95 }, secret: { mystery: 0.8 },
-
-      // Energy / Workout / Hype
-      energy: { energy: 0.95 }, energetic: { energy: 0.95 }, hype: { energy: 0.9, euphoria: 0.7 },
-      hyped: { energy: 0.9, euphoria: 0.7 }, workout: { energy: 0.9 }, gym: { energy: 0.9 },
-      running: { energy: 0.85 }, upbeat: { energy: 0.85, joy: 0.7 },
-
-      // Euphoria / Party / Dance
-      euphoria: { euphoria: 0.95, joy: 0.7 }, euphoric: { euphoria: 0.95, joy: 0.7 },
-      party: { euphoria: 0.85, energy: 0.8 }, dance: { euphoria: 0.8, energy: 0.85 },
-      dancing: { euphoria: 0.8, energy: 0.85 }, club: { euphoria: 0.8, energy: 0.8 },
-
-      // Reflection / Focus / Study
-      reflection: { reflection: 0.95 }, reflective: { reflection: 0.95 }, thinking: { reflection: 0.85 },
-      thoughtful: { reflection: 0.85 }, focus: { reflection: 0.9, calm: 0.5 }, focusing: { reflection: 0.9, calm: 0.5 },
-      study: { reflection: 0.9, calm: 0.5 }, studying: { reflection: 0.9, calm: 0.5 },
-      reading: { reflection: 0.8, calm: 0.6 }, coding: { reflection: 0.85, focus: 0.9 },
-    };
-
-    const MOOD_DIM_EN = {
-      sadness: ["sad", "sorrow", "grief", "pain", "tears", "depressed", "unhappy", "crying"],
-      longing: ["longing", "miss", "missing", "yearning", "distance"],
-      nostalgia: ["nostalgia", "nostalgic", "memory", "memories", "past", "retro", "vintage", "childhood"],
-      heartbreak: ["heartbreak", "heartbroken", "breakup", "broken", "rejected", "betrayal"],
-      loneliness: ["lonely", "alone", "isolation", "solitude", "empty"],
-      joy: ["joy", "happy", "happiness", "cheerful", "glad", "delight", "smile"],
-      playfulness: ["playful", "fun", "silly", "quirky", "cheeky"],
-      romance: ["romance", "romantic", "love", "lover", "crush", "sweetheart", "kiss"],
-      sensuality: ["sensual", "intimate", "sexy", "passion", "desire"],
-      warmth: ["warm", "warmth", "cozy", "comfort", "gentle", "tender"],
-      anger: ["anger", "angry", "rage", "furious", "mad", "hate"],
-      rebellion: ["rebellion", "rebel", "fight", "protest", "riot"],
-      power: ["power", "powerful", "strength", "strong", "epic", "victory", "triumph"],
-      defiance: ["defiance", "defiant", "fearless", "brave", "bold"],
-      calm: ["calm", "peace", "peaceful", "quiet", "relax", "relaxing", "chill", "sleep", "soothing"],
-      dreaminess: ["dream", "dreamy", "dreaming", "ethereal", "floating", "stars"],
-      melancholy: ["melancholy", "melancholic", "gloomy", "somber", "wistful", "rain"],
-      hope: ["hope", "hopeful", "optimism", "bright", "future", "light", "believe"],
-      darkness: ["dark", "darkness", "shadow", "gothic"],
-      tension: ["tension", "tense", "drama", "dramatic", "suspense", "thrill", "anxiety", "stress"],
-      mystery: ["mystery", "mysterious", "secret", "hidden"],
-      energy: ["energy", "energetic", "hype", "fast", "workout", "gym", "pumped"],
-      euphoria: ["euphoria", "euphoric", "party", "dance", "celebration", "club"],
-      reflection: ["reflection", "reflective", "thinking", "thoughtful", "focus", "study", "reading"],
-    };
-
-    const DIM_TO_VIBE = {
-      sadness: { sad: 1 }, melancholy: { sad: 0.7, calm: 0.3 }, longing: { sad: 0.6, romantic: 0.4 },
-      heartbreak: { sad: 0.8, dark: 0.2 }, loneliness: { sad: 0.6, calm: 0.2 },
-      nostalgia: { sad: 0.4, calm: 0.3 },
-      joy: { happy: 1 }, playfulness: { happy: 0.7, energetic: 0.3 }, euphoria: { happy: 0.6, energetic: 0.4 },
-      romance: { romantic: 1 }, sensuality: { romantic: 0.6, dark: 0.2 }, warmth: { happy: 0.4, calm: 0.4 },
-      anger: { dark: 0.6, energetic: 0.4 }, rebellion: { energetic: 0.5, dark: 0.3 },
-      power: { epic: 0.8, energetic: 0.2 }, defiance: { epic: 0.5, energetic: 0.3 },
-      calm: { calm: 1 }, dreaminess: { calm: 0.5, romantic: 0.3 },
-      hope: { happy: 0.5, calm: 0.3 },
-      darkness: { dark: 1 }, tension: { dark: 0.5, epic: 0.3 }, mystery: { dark: 0.4, calm: 0.3 },
-      energy: { energetic: 1 }, reflection: { focus: 1 },
-    };
-
-    const qClean = query.toLowerCase().trim();
-    const lex = {};
-    for (const [w, dims] of Object.entries(EN_MOOD_LEX)) {
-      if (new RegExp("\\b" + w + "\\b", "i").test(qClean) || (w.length >= 4 && qClean.includes(w))) {
-        for (const [d, v] of Object.entries(dims)) lex[d] = Math.max(lex[d] || 0, v);
-      }
-    }
-
-    const qm = { moods: lex, energy: "medium", valence: "neutral" };
-    if (lex.energy || lex.joy || lex.euphoria) { qm.energy = "high"; qm.valence = "positive"; }
-    if (lex.calm || lex.sadness || lex.melancholy) { qm.energy = "low"; }
-    if (lex.sadness || lex.heartbreak || lex.anger || lex.loneliness) { qm.valence = "negative"; }
 
     const dbFile = join(process.cwd(), "public", "api", "music-database.json");
     const db = readJSON(dbFile, { songs: [] });
@@ -1078,83 +748,10 @@ export function mockApiHandler(req, res, next) {
     });
     const songs = existingSongs.length ? existingSongs : allSongs;
 
-    const scored = songs.map((song) => {
-      const sm = song.moods || {};
-      let sem = 0;
-      if (Object.keys(sm).length && Object.keys(qm.moods).length) {
-        let dot = 0, na = 0, nb = 0;
-        for (const [k, v] of Object.entries(qm.moods)) { na += v * v; if (sm[k]) dot += v * sm[k]; }
-        for (const v of Object.values(sm)) nb += v * v;
-        sem = (!na || !nb) ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
-      }
+    const result = executeMoodSearch(songs, query);
 
-      let aud = 0;
-      const vibe = song.analysis && song.analysis.vibe;
-      if (vibe && Object.keys(qm.moods).length) {
-        let acc = 0, wsum = 0;
-        for (const [dim, w] of Object.entries(qm.moods)) {
-          const mix = DIM_TO_VIBE[dim] || { [dim]: 1 };
-          let dv = 0;
-          for (const [vk, vw] of Object.entries(mix)) dv += ((vibe[vk] ?? 0) / 100) * vw;
-          acc += dv * w;
-          wsum += w;
-        }
-        aud = wsum ? Math.min(1, acc / wsum) : 0;
-      }
-
-      const tags = (song.tagsEn || song.tags || []).map((t) => String(t).toLowerCase());
-      let hit = 0, n = 0;
-      for (const [dim, v] of Object.entries(qm.moods)) {
-        n += v;
-        const enWords = MOOD_DIM_EN[dim] || [];
-        if (enWords.some((ew) => tags.some((tg) => tg.includes(ew)))) hit += v;
-      }
-      const tag = n ? hit / n : 0;
-
-      let score = 0.5 * sem + 0.3 * tag + 0.2 * aud;
-
-      // Title & Artist match bonus
-      const sName = String(song.name || "").toLowerCase();
-      const sArtist = String(song.artist || "").toLowerCase();
-      if (sName === qClean || sArtist === qClean) score += 1.5;
-      else if (sName.includes(qClean) || sArtist.includes(qClean)) score += 1.0;
-      else if (qClean.includes(sName) || qClean.includes(sArtist)) score += 0.8;
-
-      // Direct tag match bonus
-      if (tags.some((t) => t.includes(qClean) || qClean.includes(t))) score += 0.5;
-
-      return {
-        song,
-        finalScore: score,
-        parts: { semantic: Math.round(sem * 100) / 100, tags: Math.round(tag * 100) / 100, audio: Math.round(aud * 100) / 100 },
-      };
-    });
-
-    scored.sort((a, b) => b.finalScore - a.finalScore);
-    const top = scored.slice(0, 3);
-    const results = top.map(({ song, finalScore, parts }) => ({
-      id: song.id,
-      name: song.name,
-      artist: song.artist,
-      src: song.src,
-      tags: (song.tagsEn || song.tags || []).slice(0, 8),
-      analysis: song.analysis || null,
-      score: Math.round(finalScore * 100) / 100,
-      parts,
-      audioMoodTag: song.audioMoodEn || null,
-      summary: song.summaryEn || null,
-    }));
-    const best = results[0] ? results[0].score : 0;
-
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({
-      found: results.length > 0,
-      song: results[0] || null,
-      mood: { moods: qm.moods, energy: qm.energy, valence: qm.valence },
-      bestScore: best,
-      softMatch: best < 0.15,
-      results,
-    }));
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
+    res.end(JSON.stringify(result));
     return;
   }
 
@@ -1365,7 +962,7 @@ export function mockApiHandler(req, res, next) {
   if (endpoint === "messages" && req.method === "POST") {
     let body = "";
     req.on("data", (c) => (body += c));
-    req.on("end", async () => {
+    req.on("end", () => {
       try {
         const data = JSON.parse(body);
         const store = readJSON(MESSAGES_FILE, { messages: [], nextId: 1 });
@@ -1381,7 +978,6 @@ export function mockApiHandler(req, res, next) {
         store.messages.unshift(newMsg);
         store.nextId = (store.nextId || 1) + 1;
         writeJSON(MESSAGES_FILE, store);
-        await notifyTelegramContact(newMsg);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ ok: true, id: newMsg.id }));
       } catch {
@@ -1400,12 +996,7 @@ export function mockApiHandler(req, res, next) {
       .filter((p) => p && p.published !== false)
       .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
     const slug = url.searchParams.get("slug");
-    /* Set the status INSIDE each branch. This used to call writeHead(200)
-       unconditionally first and then writeHead(404) for an unknown slug, which
-       throws ERR_HTTP_HEADERS_SENT ("Cannot write headers after they are sent
-       to the client") — Vite then answered with its own HTML error page, so
-       the app tried to JSON.parse "<!DOCTYPE html>" and the user saw a raw
-       "Unexpected token '<'" instead of "post not found". */
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
     if (slug) {
       const post = posts.find((p) => p.slug === slug);
       if (!post) {
@@ -1413,17 +1004,9 @@ export function mockApiHandler(req, res, next) {
         res.end(JSON.stringify({ found: false, error: "post not found" }));
         return;
       }
-      res.writeHead(200, {
-        "Content-Type": "application/json",
-        "Cache-Control": "no-store",
-      });
       res.end(JSON.stringify({ found: true, post }));
       return;
     }
-    res.writeHead(200, {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-store",
-    });
     res.end(
       JSON.stringify({
         found: true,
@@ -1437,8 +1020,6 @@ export function mockApiHandler(req, res, next) {
           coverAlt: p.coverAlt || "",
           tags: p.tags || [],
           date: p.date || "",
-          // parity with api/_blog.js — the card needs a real reading time
-          words: countBlogWords(p.content),
         })),
       })
     );
@@ -1689,82 +1270,6 @@ export function mockApiHandler(req, res, next) {
       above — unreachable dead code, since the one above the barrier already
       answers it. Removed so there is exactly one public skills handler.) */
 
-  // ── Site Admin — parity with api/admin/_site-admin.js ──
-  if (endpoint === "site-admin") {
-    const siteFile = join(process.cwd(), "public", "api", "site.json");
-    const SITE_FIELDS = [
-      "brand", "email", "phone", "phoneLabel",
-      "github", "githubHandle", "linkedin",
-      "telegram", "telegramHandle", "instagram", "instagramHandle",
-    ];
-    const SITE_URL_FIELDS = ["github", "linkedin", "telegram", "instagram"];
-
-    if (req.method === "GET") {
-      const data = readJSON(siteFile, {});
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({
-        site: data && typeof data === "object" ? data : {},
-        storage: "file",
-        durable: true,
-      }));
-      return;
-    }
-
-    if (req.method === "PUT" || req.method === "POST") {
-      let body = "";
-      req.on("data", (c) => (body += c));
-      req.on("end", () => {
-        try {
-          const payload = JSON.parse(body || "{}");
-          const current = readJSON(siteFile, {});
-          const next = { ...(current && typeof current === "object" ? current : {}) };
-          for (const key of SITE_FIELDS) {
-            if (payload[key] != null) next[key] = String(payload[key]).trim();
-          }
-
-          // same validation as the serverless handler — a bad email or a
-          // javascript: URL must be rejected here too, not just in production
-          let problem = null;
-          if (next.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(next.email)) {
-            problem = "email is not a valid address";
-          }
-          const digits = String(next.phone || "").replace(/[^\d+]/g, "");
-          if (!problem && digits && !/^\+?\d{7,15}$/.test(digits)) {
-            problem = "phone must be 7-15 digits, optionally starting with +";
-          }
-          if (!problem) {
-            for (const key of SITE_URL_FIELDS) {
-              const u = String(next[key] || "");
-              if (!u) continue;
-              if (!/^https?:\/\//i.test(u)) {
-                problem = `${key} must start with http:// or https://`;
-                break;
-              }
-              try { new URL(u); } catch {
-                problem = `${key} is not a valid URL`;
-                break;
-              }
-            }
-          }
-          if (problem) {
-            res.writeHead(400, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ error: problem }));
-            return;
-          }
-
-          next.updatedAt = new Date().toISOString();
-          writeJSON(siteFile, next);
-          res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ ok: true, site: next }));
-        } catch {
-          res.writeHead(400, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ error: "invalid request body" }));
-        }
-      });
-      return;
-    }
-  }
-
   // ── Blog Admin — parity with api/admin/_blog-admin.js ──
   if (endpoint === "blog-admin") {
     const blogFile = join(process.cwd(), "public", "api", "blog.json");
@@ -1891,18 +1396,17 @@ export function mockApiHandler(req, res, next) {
           return raw ? JSON.parse(raw) : fallback;
         } catch { return fallback; }
       };
-      const PUBLIC_API = join(process.cwd(), "public", "api");
-      const blog = readOr(join(PUBLIC_API, "blog.json"), { posts: [] });
-      const projects = readOr(join(PUBLIC_API, "projects.json"), []);
-      const mini = readOr(join(PUBLIC_API, "mini-projects.json"), []);
-      const skills = readOr(join(PUBLIC_API, "skills.json"), []);
-      const messages = readOr(MESSAGES_FILE, []);
-      const visits = readOr(VISITS_FILE, {});
-      const clicks = readOr(CLICKS_FILE, []);
-      const moods = readOr(join(DATA_DIR, "moods.json"), {});
-      const telegram = readOr(join(DATA_DIR, "telegram.json"), {});
-      const sabzUsers = readOr(join(DATA_DIR, "sabz-users.json"), []);
-      const sabzComments = readOr(join(DATA_DIR, "sabz-comments.json"), []);
+      const blog = readOr(PUBLIC_JSON.blog, { posts: [] });
+      const projects = readOr(PUBLIC_JSON.projects, []);
+      const mini = readOr(PUBLIC_JSON["mini-projects"], []);
+      const skills = readOr(PUBLIC_JSON.skills, []);
+      const messages = readOr(F.messages, []);
+      const visits = readOr(F.visits, {});
+      const clicks = readOr(F.clicks, []);
+      const moods = readOr(join(ADMIN_DATA, "moods.json"), {});
+      const telegram = readOr(F.telegram, {});
+      const sabzUsers = readOr(join(ADMIN_DATA, "sabz-users.json"), []);
+      const sabzComments = readOr(join(ADMIN_DATA, "sabz-comments.json"), []);
 
       const blogPosts = Array.isArray(blog?.posts) ? blog.posts : Array.isArray(blog) ? blog : [];
       const projArr = Array.isArray(projects) ? projects : [];
@@ -2039,154 +1543,34 @@ export function mockApiHandler(req, res, next) {
   }
 
   // ── Telegram form → bot config (parity with api/admin/_telegram.js) ──
-  // Sub-paths: telegram/test, telegram/send, telegram/detect-chat, telegram/log
-  if (endpoint === "telegram" || endpoint.startsWith("telegram/")) {
+  if (endpoint === "telegram") {
     const json = (code, obj) => {
       res.writeHead(code, { "Content-Type": "application/json" });
       res.end(JSON.stringify(obj));
     };
     const FILE_TG = join(DATA_DIR, "telegram.json");
-    const sub = endpoint === "telegram" ? "" : endpoint.slice("telegram/".length);
-    const logEntries = () => {
-      const s = readJSON(TELEGRAM_LOG_FILE, { entries: [] });
-      return Array.isArray(s.entries) ? s.entries : [];
-    };
-    const escHtml = (s) =>
-      String(s || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
     if (req.method === "GET") {
       const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
-      if (sub === "log") return json(200, { entries: logEntries() });
       return json(200, {
         enabled: !!cfg.enabled,
         chatId: cfg.chatId || "",
         botTokenSet: !!cfg.botToken,
         botTokenMasked: cfg.botToken
-          ? cfg.botToken.slice(0, 6) + "…" + cfg.botToken.slice(-4)
+          ? cfg.botToken.slice(0, 6) + "\u2026" + cfg.botToken.slice(-4)
           : "",
-        log: logEntries(),
       });
     }
     let body = "";
     req.on("data", (c) => (body += c));
-    req.on("end", async () => {
+    req.on("end", () => {
       let payload = {};
       try { payload = JSON.parse(body || "{}"); } catch { /* default */ }
-      const appendLog = (entry) => appendTelegramLog(entry);
-      const sendTg = async (text) => {
-        const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
-        if (!cfg.botToken || !cfg.chatId) {
-          throw new Error("Save bot token and chat id first");
-        }
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 10000);
-        try {
-          const r = await fetch("https://api.telegram.org/bot" + cfg.botToken + "/sendMessage", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: cfg.chatId,
-              text,
-              parse_mode: "HTML",
-              disable_web_page_preview: true,
-            }),
-            signal: ctrl.signal,
-          });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok || !j.ok) throw new Error(j.description || "Telegram HTTP " + r.status);
-        } finally {
-          clearTimeout(timer);
-        }
-      };
-      /* manual compose: name/phone/message → Telegram */
-      if (sub === "send" && req.method === "POST") {
-        const name = String(payload.name || "").trim();
-        const phoneNumber = String(payload.phoneNumber || "").trim();
-        const message = String(payload.message || "").trim();
-        if (!name || !message) {
-          return json(400, { error: "name and message are required" });
-        }
-        if (name.length > 100 || message.length > 5000) {
-          return json(400, { error: "name or message too long" });
-        }
-        try {
-          const dt = new Date().toLocaleString("en-GB", { hour12: false });
-          await sendTg(
-            [
-              "✏️ <b>Manual Message</b>",
-              "",
-              "👤 <b>Name:</b> " + escHtml(name),
-              phoneNumber ? "📱 <b>Phone:</b> " + escHtml(phoneNumber) : null,
-              "💬 <b>Message:</b>",
-              "<blockquote expandable>" + escHtml(message) + "</blockquote>",
-              "",
-              "🕐 <i>" + escHtml(dt) + "</i>",
-            ]
-              .filter(Boolean)
-              .join("\n")
-          );
-          appendLog({ kind: "manual", ok: true, name });
-          return json(200, { ok: true });
-        } catch (err) {
-          appendLog({ kind: "manual", ok: false, name, error: err.message || "send failed" });
-          return json(502, { error: err.message || "Telegram request failed" });
-        }
-      }
-      if (sub === "test" && req.method === "POST") {
-        try {
-          const dt = new Date().toLocaleString("en-GB", { hour12: false });
-          await sendTg(
-            "✅ <b>Test message</b> — portfolio contact notifications are wired up.\n🕐 <i>" +
-              escHtml(dt) +
-              "</i>"
-          );
-          appendLog({ kind: "test", ok: true });
-          return json(200, { ok: true });
-        } catch (err) {
-          appendLog({ kind: "test", ok: false, error: err.message || "send failed" });
-          return json(502, { error: err.message || "Telegram request failed" });
-        }
-      }
-      if (sub === "detect-chat" && req.method === "POST") {
-        const cfg = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
-        const token = String(payload.botToken || "").trim() || cfg.botToken;
-        if (!token) return json(400, { error: "botToken required" });
-        try {
-          const ctrl = new AbortController();
-          const t = setTimeout(() => ctrl.abort(), 10000);
-          const r = await fetch("https://api.telegram.org/bot" + token + "/getUpdates?limit=10", {
-            signal: ctrl.signal,
-          });
-          clearTimeout(t);
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok || !j.ok) throw new Error(j.description || "Telegram HTTP " + r.status);
-          const chats = [];
-          for (const u of j.result || []) {
-            const m = u.message || u.edited_message || u.channel_post;
-            const chat = m && m.chat;
-            if (chat && !chats.some((c) => String(c.id) === String(chat.id))) {
-              chats.push({
-                id: String(chat.id),
-                title: chat.first_name
-                  ? (chat.first_name + " " + (chat.last_name || "")).trim()
-                  : chat.title || chat.username || "",
-              });
-            }
-          }
-          return json(200, { ok: true, chats });
-        } catch (err) {
-          return json(502, { error: err.message || "Telegram request failed" });
-        }
-      }
-      /* save config */
       const botToken = String(payload.botToken ?? "").trim();
       const chatId = String(payload.chatId ?? "").trim();
       const enabled = !!payload.enabled;
       if (enabled && !chatId) return json(400, { error: "chatId is required to enable" });
       if (botToken && !/^\d{6,}:[A-Za-z0-9_-]{30,}$/.test(botToken)) {
-        return json(400, { error: "botToken doesn't look valid (expected 123456:ABC…)" });
+        return json(400, { error: "botToken doesn't look valid (expected 123456:ABC\u2026)" });
       }
       const prev = readJSON(FILE_TG, { enabled: false, botToken: "", chatId: "" });
       const next = { enabled, botToken: botToken || prev.botToken, chatId: chatId || prev.chatId };
@@ -2196,7 +1580,6 @@ export function mockApiHandler(req, res, next) {
     });
     return;
   }
-
 
   // ── Mood QC (parity with api/admin/_moods.js) ──
   // Same shape as the serverless handler: one row per song with its mood

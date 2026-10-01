@@ -6,7 +6,6 @@ import {
   rateCheck,
   MESSAGE_STATUSES,
 } from "../_lib.js";
-import { notifyNewContactMessage } from "./_telegram.js";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -25,26 +24,20 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "name or message too long" });
     }
 
-    const newMsg = {
-      id: 0,
-      name,
-      phoneNumber,
-      message,
-      date: new Date().toISOString(),
-      status: "unseen",
-    };
     await withLock("messages", async () => {
       const store = await readStore("messages.json", { messages: [], nextId: 1 });
       if (!store.nextId) store.nextId = 1;
       if (!Array.isArray(store.messages)) store.messages = [];
-      newMsg.id = store.nextId++;
-      store.messages.unshift(newMsg);
+      store.messages.unshift({
+        id: store.nextId++,
+        name,
+        phoneNumber,
+        message,
+        date: new Date().toISOString(),
+        status: "unseen",
+      });
       await writeStore("messages.json", store);
     });
-    /* await (not fire-and-forget): Vercel may freeze the lambda right after
-       res.json(), which would drop the Telegram request. Errors are swallowed
-       inside notifyNewContactMessage. */
-    await notifyNewContactMessage(newMsg);
     return res.json({ ok: true });
   }
 

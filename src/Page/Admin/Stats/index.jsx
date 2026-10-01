@@ -21,14 +21,9 @@ const statIcons = {
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
     </svg>
   ),
-  visitors: (
-    <svg className="w-3.5 h-3.5 text-[#615FFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6-4a3 3 0 11-3-3" />
-    </svg>
-  ),
   week: (
     <svg className="w-3.5 h-3.5 text-[#C27AFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-6" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
     </svg>
   ),
   month: (
@@ -38,7 +33,9 @@ const statIcons = {
   ),
   year: (
     <svg className="w-3.5 h-3.5 text-[#4ADE80]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1" />
     </svg>
   ),
   total: (
@@ -58,6 +55,7 @@ function StatCard({ label, value, accent, icon, delta, small }) {
         small ? "" : ""
       }`}
     >
+      {/* subtle glow on hover */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
@@ -168,6 +166,7 @@ export default function StatsPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Header */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <p className="text-[#615FFF] text-[12px]">$ cat ./analytics/summary</p>
@@ -180,22 +179,6 @@ export default function StatsPage() {
           {lastUpdate && (
             <span className="text-[9px] text-[#4B576D] tabular-nums">
               updated {formatLastUpdate()}
-            </span>
-          )}
-          {data && (
-            <span
-              title={
-                data.durable
-                  ? "Views are stored durably — they survive restarts and redeploys"
-                  : "Storage is ephemeral on this host, so analytics reset when the server restarts. Set KV_REST_API_URL + KV_REST_API_TOKEN to keep them."
-              }
-              className={`text-[9px] px-2 py-0.5 rounded border cursor-help ${
-                data.durable
-                  ? "text-[#4ADE80] border-[#4ADE8044] bg-[#4ADE800f]"
-                  : "text-[#FF6B6B] border-[#FF6B6B44] bg-[#FF6B6B0f]"
-              }`}
-            >
-              {data.durable ? "saved" : "not saved"}
             </span>
           )}
           <div className="flex items-center gap-2">
@@ -230,6 +213,7 @@ export default function StatsPage() {
 
       {data && (
         <>
+          {/* Online Now Banner */}
           <div className="rounded-lg border border-[#4ADE8055] bg-[#4ADE800d] p-4 flex items-center gap-3">
             <span className="relative flex h-2.5 w-2.5 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ADE80] opacity-75" />
@@ -244,62 +228,47 @@ export default function StatsPage() {
             </p>
           </div>
 
+          {/* Stat Cards Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <StatCard
-              label="visitors (people)"
-              value={data.todayUnique ?? 0}
-              accent="#615FFF"
-              icon={statIcons.visitors}
-            />
-            <StatCard
-              label="page views (today)"
+              label="today"
               value={data.today}
               accent="#FFB86A"
               icon={statIcons.today}
               delta={data.todayDelta}
             />
             <StatCard
-              label="this week (views)"
+              label="this week"
               value={data.last7Total}
               accent="#C27AFF"
               icon={statIcons.week}
               delta={data.weekDelta}
             />
             <StatCard
-              label="this month (views)"
+              label="this month"
               value={data.thisMonth}
               accent="#615FFF"
               icon={statIcons.month}
               delta={data.monthDelta}
             />
             <StatCard
-              label="this year (views)"
+              label="this year"
               value={data.thisYear}
               accent="#4ADE80"
               icon={statIcons.year}
               delta={data.yearDelta}
             />
             <StatCard
-              label="total views (all time)"
+              label="total (all time)"
               value={data.totalAllTime}
               accent="#90A1B9"
               icon={statIcons.total}
             />
-            <StatCard
-              label="unique visitors (week)"
-              value={data.last7Unique ?? 0}
-              accent="#FFD166"
-              icon={statIcons.visitors}
-            />
-            <StatCard
-              label="unique visitors (all time)"
-              value={data.totalUnique ?? 0}
-              accent="#FF6B6B"
-              icon={statIcons.visitors}
-            />
           </div>
 
+          {/* Main Chart */}
           <div>
+            {/* Main Chart */}
             <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6">
               <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
                 <p className="text-white text-[13px] font-medium">
@@ -446,6 +415,7 @@ export default function StatsPage() {
             </div>
           </div>
 
+          {/* Top Pages */}
           <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <p className="text-white text-[13px] font-medium">top-pages</p>

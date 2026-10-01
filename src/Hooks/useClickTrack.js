@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const SESSION_KEY = "visitor_session_id";
@@ -19,30 +19,53 @@ function getSessionId() {
   }
 }
 
+// Throttle: at most one request per 500ms per unique key
 const lastSent = new Map();
 
 function throttleKey(targetType, targetId) {
   return `${targetType}::${targetId}`;
 }
 
+/**
+ * useClickTrack — returns a trackClick function and a withTracking HOF.
+ *
+ * Usage:
+ *   const { trackClick, withTracking } = useClickTrack();
+ *
+ *   // Manual tracking:
+ *   trackClick({ targetType: "project", targetId: "sabz-learn", targetLabel: "Sabz Learn" });
+ *
+ *   // HOF for event handlers:
+ *   <a onClick={withTracking({ targetType: "nav", targetId: "/about", targetLabel: "_About" }, originalHandler)}>
+ */
 export default function useClickTrack() {
   const location = useLocation();
+  const abortRef = useRef(null);
 
   const trackClick = useCallback(
     ({ targetType, targetId, targetLabel = "", referrer = "" }) => {
       if (!targetType || !targetId) return;
 
+      // If admin token is present, do not track clicks for admin
       try {
         if (localStorage.getItem("admin_token")) return;
       } catch {
-        /* storage blocked — still track clicks */
+        /* ignore storage access error */
       }
 
+      // Throttle: skip if same click was sent in last 500ms
       const key = throttleKey(targetType, targetId);
       const now = Date.now();
       const last = lastSent.get(key);
       if (last && now - last < 500) return;
       lastSent.set(key, now);
+
+      // Abort any in-flight click request
+      if (abortRef.current) {
+        abortRef.current.abort();
+      }
+      const controller = new AbortController();
+      abortRef.current = controller;
 
       const body = JSON.stringify({
         targetType,
@@ -53,11 +76,12 @@ export default function useClickTrack() {
         referrer: referrer || document.referrer?.slice(0, 500) || "",
       });
 
+      // Fire and forget — don't block the UI
       fetch("/api/admin/track-click", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
-        keepalive: true,
+        signal: controller.signal,
       }).catch(() => {});
     },
     [location.pathname],

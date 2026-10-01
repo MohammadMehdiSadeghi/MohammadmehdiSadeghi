@@ -1,32 +1,29 @@
+/* Shared helpers for the blog pages. */
 
+/* Persian/Arabic script → render RTL */
 const RTL_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
 export const isRTL = (text) => RTL_RE.test(String(text || ""));
 
-export function countWords(content) {
-  let text = "";
-  if (typeof content === "string") {
-    text = content;
-  } else if (Array.isArray(content)) {
-    text = content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
+/* ~200 wpm; Persian text is read a little slower */
+export function readTime(post) {
+  let contentText = "";
+  if (post && post.content) {
+    if (typeof post.content === "string") {
+      contentText = post.content;
+    } else if (Array.isArray(post.content)) {
+      contentText = post.content.map((b) => b.text || (b.items || []).join(" ")).join(" ");
+    }
+  } else if (post && post.excerpt) {
+    contentText = post.excerpt;
   }
-  return String(text || "")
+  const words = String(contentText || "")
     .replace(/!\[.*?\]\(.*?\)/g, "")
-    .replace(/^#{1,4}\s+/gm, "")
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
-}
-
-export function readTime(post) {
-  const listed = Number(post?.words);
-  const words =
-    Number.isFinite(listed) && listed > 0
-      ? listed
-      : countWords(post?.content || post?.excerpt || "");
-  const sample =
-    typeof post?.content === "string" ? post.content : post?.excerpt || "";
-  return `${Math.max(1, Math.round(words / (isRTL(sample) ? 170 : 200)))} min read`;
+  const mins = Math.max(1, Math.round(words / (words && isRTL(contentText) ? 170 : 200)));
+  return `${mins} min read`;
 }
 
 export function excerptFrom(post, len = 150) {
@@ -48,6 +45,7 @@ export function excerptFrom(post, len = 150) {
   return clean.length > len ? `${clean.slice(0, len).trimEnd()}…` : clean;
 }
 
+/* "2026-09-17" → "17 Sep 2026" */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 export function formatDate(value) {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value || ""));
@@ -56,16 +54,25 @@ export function formatDate(value) {
   return `${Number(d)} ${MONTHS[Number(mo) - 1] || mo} ${y}`;
 }
 
+/* Convert content into structured visual blocks for rendering and editing.
+   Supports:
+   - "p": Paragraph
+   - "h": Section Heading
+   - "img": In-content Image with URL, Alt text and optional Caption
+   - "ul" / "ol": Bullet / Numbered lists
+   - "quote": Callout quote box
+*/
 export function parseBlocks(content) {
   if (Array.isArray(content)) return content;
   if (!content) return [];
 
+  // If stored as JSON string of blocks
   if (typeof content === "string" && content.trim().startsWith("[") && content.trim().endsWith("]")) {
     try {
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) return parsed;
     } catch {
-      /* not a JSON array — fall through to the text parser */
+      // not json, proceed with markdown parse
     }
   }
 
@@ -87,6 +94,7 @@ export function parseBlocks(content) {
       }
     };
 
+    // Check for lists
     if (lines.every((l) => /^[-*•]\s+/.test(l))) {
       blocks.push({ type: "ul", items: lines.map((l) => l.replace(/^[-*•]\s+/, "")) });
       continue;
@@ -99,6 +107,7 @@ export function parseBlocks(content) {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
+      // Markdown image: ![alt text](url "optional caption")
       const imgMatch = /^!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)$/.exec(line);
       if (imgMatch) {
         flushParagraph();
@@ -111,12 +120,14 @@ export function parseBlocks(content) {
         continue;
       }
 
+      // Headings
       if (/^#{1,4}\s+/.test(line)) {
         flushParagraph();
         blocks.push({ type: "h", text: line.replace(/^#{1,4}\s+/, "") });
         continue;
       }
 
+      // Blockquotes
       if (/^>\s+/.test(line)) {
         flushParagraph();
         blocks.push({ type: "quote", text: line.replace(/^>\s+/, "") });
@@ -130,6 +141,7 @@ export function parseBlocks(content) {
   return blocks;
 }
 
+/* Convert blocks back to standard markdown string */
 export function blocksToMarkdown(blocks) {
   if (!Array.isArray(blocks)) return String(blocks || "");
   return blocks

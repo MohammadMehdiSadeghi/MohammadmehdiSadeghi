@@ -16,7 +16,7 @@ export default function Contact() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [statusMessage, setStatusMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submittedData, setSubmittedData] = useState({ name: "", phone: "" });
@@ -64,7 +64,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden relative">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden relative">
       <ContactBox />
       <Form
         name={name}

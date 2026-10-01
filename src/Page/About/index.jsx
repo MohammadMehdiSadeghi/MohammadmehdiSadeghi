@@ -10,9 +10,9 @@ export default function About() {
   });
 
   const [activeTab, setActiveTab] = useState("aboutMe");
-  const [personalInfoOpen, setPersonalInfoOpen] = useState(false);
+  const [personalInfoOpen, setPersonalInfoOpen] = useState(true);
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
       <SubjectBox
         setActiveTab={setActiveTab}
         activeTab={activeTab}

@@ -1,3 +1,7 @@
+/**
+ * SVG Donut chart — renders colored segments with labels.
+ * data: [{ label: string, value: number, color: string }]
+ */
 export default function DonutChart({ data, size = 180, thickness = 24 }) {
   const total = data.reduce((s, d) => s + d.value, 0) || 1;
   const radius = (size - thickness) / 2;
@@ -7,6 +11,7 @@ export default function DonutChart({ data, size = 180, thickness = 24 }) {
   return (
     <div className="flex items-center gap-6 flex-wrap">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        {/* background ring */}
         <circle
           cx={center}
           cy={center}
@@ -38,6 +43,7 @@ export default function DonutChart({ data, size = 180, thickness = 24 }) {
             />
           );
         })}
+        {/* center text */}
         <text
           x={center}
           y={center - 6}
@@ -57,6 +63,7 @@ export default function DonutChart({ data, size = 180, thickness = 24 }) {
           total
         </text>
       </svg>
+      {/* Legend */}
       <div className="flex flex-col gap-2">
         {data.map((d, i) => (
           <div key={i} className="flex items-center gap-2.5">

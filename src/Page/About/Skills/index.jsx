@@ -4,6 +4,7 @@ import useClickTrack from "../../../Hooks/useClickTrack";
 const gray = "#90A1B9";
 const purple = "#615FFF";
 
+// used only if the API request fails, so the section never renders empty
 const fallbackSkills = [
   { name: "HTML", img: "/assets/Images/html_1051277.png" },
   { name: "CSS", img: "/assets/Images/css_919826.png" },
@@ -33,8 +34,8 @@ export default function Skills() {
   }, []);
 
   return (
-    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
-      <div className="sm:px-12 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+    <div className="w-full min-w-0 py-6 sm:py-8 px-3 sm:px-6 md:px-8 lg:px-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3.5 sm:gap-4 lg:gap-5">
         {skills.map((skill, i) => (
           <div
             key={skill.name}

@@ -40,6 +40,7 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
       setError("Enter the project URL (or switch source)");
       return;
     }
+    // create with upload → zip required; edit with upload → optional redeploy
     if (source === "upload" && mode === "create" && !archive) {
       setError("Choose a .zip of your built dist folder");
       return;

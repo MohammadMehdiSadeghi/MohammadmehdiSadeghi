@@ -1,63 +1,41 @@
 import React from "react";
 
+const lines = [
+  "/**",
+  "* About me",
+  "* I'm a web developer with experience in building modern and",
+  "* responsive websites using HTML, CSS, JavaScript, React and WordPress.",
+  "*",
+  "* I have worked on educational platforms, startup projects and business",
+  "* websites, focusing on clean design, user experience and performance optimization.",
+  "*",
+  "* I focus on delivering real-world projects that improve user experience",
+  "* and solve practical problems.",
+  "*",
+  "* I also work with AI-powered tools for content production and digital solutions.",
+  "*",
+  "* Currently, I am expanding my knowledge in backend development and",
+  "* software architecture to become a full-stack developer in the future.",
+  "*/",
+];
+
 export default function AboutMe() {
   const gray = "#90A1B9";
   return (
-    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 lg:h-[calc(100vh-116px)] lg:overflow-y-auto lg:overflow-x-auto">
-      <p
-        className="sm:px-12 text-[12px] sm:text-[16px] leading-7 sm:leading-9"
+    <div className="w-full min-w-0 py-6 sm:py-8 px-3 sm:px-6 md:px-8 lg:px-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+      <div
+        className="flex flex-col gap-1 text-[12px] sm:text-[14px] lg:text-[15px] leading-6 sm:leading-7 font-mono"
         style={{ color: gray }}
       >
-        <span className="mr-3 sm:mr-5">01</span> /** <br />
-        <span className="mr-4 sm:mr-8">02</span> * About me
-        <br />
-        <span className="mr-4 sm:mr-8">03</span> * I'm a web developer with experience
-        in
-        <br />
-        <span className="mr-4 sm:mr-8">04</span> * building modern and responsive
-        websites
-        <br />
-        <span className="mr-4 sm:mr-8">05</span> * using HTML, CSS, JavaScript, React
-        and WordPress.
-        <br />
-        <span className="mr-4 sm:mr-8">06</span> *<br />
-        <span className="mr-4 sm:mr-8">07</span> * I have worked on educational
-        platforms,
-        <br />
-        <span className="mr-4 sm:mr-8">08</span> * startup projects and business
-        websites,
-        <br />
-        <span className="mr-4 sm:mr-8">09</span> * focusing on clean design, user
-        experience
-        <br />
-        <span className="mr-4 sm:mr-8">10</span> * and performance optimization.
-        <br />
-        <span className="mr-4 sm:mr-8">11</span> *<br />
-        <span className="mr-4 sm:mr-8">12</span> * I focus on delivering real-world
-        projects that
-        <br />
-        <span className="mr-4 sm:mr-8">13</span> * improve user experience and solve
-        practical problems.
-        <br />
-        <span className="mr-4 sm:mr-8">14</span> *<br />
-        <span className="mr-4 sm:mr-8">15</span> * I also work with AI-powered tools for
-        <br />
-        <span className="mr-4 sm:mr-8">16</span> * content production and digital
-        solutions.
-        <br />
-        <span className="mr-4 sm:mr-8">17</span> *<br />
-        <span className="mr-4 sm:mr-8">18</span> * Currently, I am expanding my
-        knowledge
-        <br />
-        <span className="mr-4 sm:mr-8">19</span> * in backend development and software
-        <br />
-        <span className="mr-4 sm:mr-8">20</span> * architecture to become a full-stack
-        <br />
-        <span className="mr-4 sm:mr-8">21</span> * developer in the future.
-        <br />
-        <span className="mr-3 sm:mr-5">22</span> */
-        <br />
-      </p>
+        {lines.map((text, idx) => (
+          <div key={idx} className="flex items-start gap-2.5 sm:gap-5">
+            <span className="text-[#3d4f6b] select-none text-[11px] sm:text-[13px] w-5 sm:w-6 text-right shrink-0 mt-0.5">
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <span className="flex-1 break-words">{text}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

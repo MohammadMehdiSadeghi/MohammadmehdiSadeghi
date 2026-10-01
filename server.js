@@ -18,6 +18,8 @@ import fsp from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
+import { executeMoodSearch, MOOD_DIMENSIONS } from "./src/lib/moodEngine.js";
+const MOOD_DIMS = MOOD_DIMENSIONS;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -480,236 +482,18 @@ function detectMood(qTokens) {
 }
 
 /* ══════════════════ MOOD SEARCH (semantic + audio vibe matching) ══════════════════ */
-/* Per spec: two-layer matching — LLM/lexical mood vector of the query vs each song's
-   LLM mood vector (semantic layer) + audio analysis.vibe percentiles (music layer).
-   Weighted final score, NO hard threshold: always rank, Top-3 returned. */
-
-const MOOD_DIMS = [
-  "sadness","longing","nostalgia","heartbreak","loneliness",
-  "joy","playfulness","romance","sensuality","warmth",
-  "anger","rebellion","power","defiance",
-  "calm","dreaminess","melancholy","hope",
-  "darkness","tension","mystery",
-  "energy","euphoria","reflection",
-];
-
-const FA_MOOD_LEX = {
-  "غم": { sadness: 0.9 }, "غمگین": { sadness: 0.9 }, "دلتنگ": { longing: 0.9, sadness: 0.6 },
-  "تنهایی": { loneliness: 0.9 }, "تنها": { loneliness: 0.8 }, "دلشکسته": { heartbreak: 0.9, sadness: 0.7 },
-  "شکست": { heartbreak: 0.8 }, "عشق": { romance: 0.85 }, "عاشقانه": { romance: 0.9 },
-  "عاشق": { romance: 0.8, longing: 0.4 }, "شاد": { joy: 0.9 }, "خوشحال": { joy: 0.9 },
-  "انرژی": { energy: 0.9 }, "هیجان": { energy: 0.8, euphoria: 0.5 }, "آرام": { calm: 0.9 },
-  "آروم": { calm: 0.9 }, "آرامش": { calm: 0.9 }, "خواب": { calm: 0.8 }, "حماسی": { power: 0.8, energy: 0.6 },
-  "اپیک": { power: 0.7, tension: 0.4 }, "تاریک": { darkness: 0.9 }, "نوستالژی": { nostalgia: 0.9 },
-  "خاطره": { nostalgia: 0.8 }, "امید": { hope: 0.9 }, "عصبانی": { anger: 0.9 },
-  "خشم": { anger: 0.9 }, "رویایی": { dreaminess: 0.9 }, "لطیف": { calm: 0.6, warmth: 0.5 },
-  "اشک": { sadness: 0.8 }, "گریه": { sadness: 0.85 }, "جدایی": { heartbreak: 0.85 },
-  "درد": { sadness: 0.7, heartbreak: 0.5 }, "ماه": { dreaminess: 0.4 }, "شب": { dreaminess: 0.3, calm: 0.3 },
-  "تمرکز": { reflection: 0.9 }, "مطالعه": { reflection: 0.85 }, "درس": { reflection: 0.85 },
-  "بارون": { melancholy: 0.6, calm: 0.3 }, "باران": { melancholy: 0.6, calm: 0.3 },
-  "خسته": { calm: 0.5, melancholy: 0.3 }, "بی‌حال": { calm: 0.5 }, "بی حال": { calm: 0.5 },
-  "جشن": { euphoria: 0.8, joy: 0.5 }, "رقص": { energy: 0.8 }, "حالم خوب": { joy: 0.8 },
-};
-const EN_MOOD_LEX = {
-  sad: { sadness: 0.9 }, happy: { joy: 0.9 }, lonely: { loneliness: 0.9 }, love: { romance: 0.85 },
-  calm: { calm: 0.9 }, angry: { anger: 0.9 }, epic: { power: 0.8 }, dark: { darkness: 0.9 },
-  energy: { energy: 0.9 }, dance: { energy: 0.7, euphoria: 0.6 }, sleep: { calm: 0.85 },
-  nostalgic: { nostalgia: 0.9 }, hope: { hope: 0.9 }, heartbroken: { heartbreak: 0.9, sadness: 0.7 },
-  cry: { sadness: 0.85 }, party: { euphoria: 0.8, energy: 0.8 }, dreamy: { dreaminess: 0.9 },
-  rain: { melancholy: 0.6, calm: 0.4 }, night: { dreaminess: 0.4, calm: 0.3 },
-};
-
-function moodLexical(query) {
-  const q = query.toLowerCase().replace(/\u200c/g, " ");
-  const out = {};
-  for (const [w, dims] of Object.entries(FA_MOOD_LEX)) {
-    if (q.includes(w)) for (const [d, v] of Object.entries(dims)) out[d] = Math.max(out[d] || 0, v);
-  }
-  for (const [w, dims] of Object.entries(EN_MOOD_LEX)) {
-    if (new RegExp("\\b" + w + "\\b").test(q)) for (const [d, v] of Object.entries(dims)) out[d] = Math.max(out[d] || 0, v);
-  }
-  return out;
-}
-
-function moodCosine(a, b) {
-  let dot = 0, na = 0, nb = 0;
-  for (const [k, v] of Object.entries(a)) { na += v * v; if (b[k]) dot += v * b[k]; }
-  for (const v of Object.values(b)) nb += v * v;
-  if (!na || !nb) return 0;
-  return dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
-
-/* LLM extraction of the query's mood vector (cached per query text) */
-const MOOD_QCACHE = path.join(ADMIN_DATA, "mood-queries.json");
-let llmCfgCache = null;
-function getLlmCfg() {
-  if (!llmCfgCache) {
-    try { llmCfgCache = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "llm.json"), "utf-8")); }
-    catch { return null; }
-  }
-  return llmCfgCache;
-}
-
-async function extractQueryMoodLLM(query) {
-  const cfg = getLlmCfg();
-  if (!cfg) return null;
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 15000);
-  try {
-    const user = 'The user typed this while looking for a song: "' + query + '"\n\n' +
-      "Return STRICT JSON only:\n" +
-      '{ "moods": { intensity 0.0-1.0 for ONLY dims that apply (>=0.15). Allowed keys: ' + MOOD_DIMS.join(", ") + ' },\n' +
-      '  "energy": "low|medium|high", "valence": "negative|neutral|positive" }';
-    const r = await fetch(cfg.baseUrl + "/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: "Bearer " + cfg.key },
-      body: JSON.stringify({
-        model: cfg.model,
-        messages: [
-          { role: "system", content: "You are a music-mood analyst. Reply with STRICT JSON only, no markdown." },
-          { role: "user", content: user },
-        ],
-        temperature: 0,
-        max_tokens: 1200,
-      }),
-      signal: ctrl.signal,
-    });
-    const j = await r.json();
-    const content = ((j.choices || [])[0] || {}).message?.content || "";
-    const m = String(content).match(/\{[\s\S]*\}/);
-    if (!m) return null;
-    const obj = JSON.parse(m[0]);
-    const moods = {};
-    for (const [k, v] of Object.entries(obj.moods || {})) {
-      const key = String(k).trim().toLowerCase();
-      if (MOOD_DIMS.includes(key)) {
-        const f = parseFloat(v);
-        if (!isNaN(f)) moods[key] = Math.max(0, Math.min(1, f));
-      }
-    }
-    return { moods, energy: obj.energy || "medium", valence: obj.valence || "neutral" };
-  } catch {
-    return null;
-  } finally {
-    clearTimeout(t);
-  }
-}
-
-async function getQueryMood(query) {
-  // 1) cache
-  let cache = {};
-  try { cache = JSON.parse(await fs.promises.readFile(MOOD_QCACHE, "utf-8")); } catch { /* cache miss or unreadable */ }
-  const k = query.trim().toLowerCase();
-  if (cache[k]) return cache[k];
-  // 2) LLM
-  let qm = await extractQueryMoodLLM(query);
-  // 3) merge with lexical layer (lexical can only ADD dims, never lower LLM's)
-  const lex = moodLexical(query);
-  if (!qm) qm = { moods: lex, energy: "medium", valence: "neutral" };
-  else for (const [d, v] of Object.entries(lex)) qm.moods[d] = Math.max(qm.moods[d] || 0, v);
-  // energy/valence hints become weak dims
-  if (qm.energy === "low") qm.moods.calm = Math.max(qm.moods.calm || 0, 0.35);
-  if (qm.energy === "high") qm.moods.energy = Math.max(qm.moods.energy || 0, 0.35);
-  if (qm.valence === "positive") qm.moods.joy = Math.max(qm.moods.joy || 0, 0.3);
-  if (qm.valence === "negative") qm.moods.sadness = Math.max(qm.moods.sadness || 0, 0.3);
-  cache[k] = qm;
-  try { await withLock("mood-queries", async () => { await writeJSON(MOOD_QCACHE, cache); }); } catch { /* best-effort cache write */ }
-  return qm;
-}
-
-/* map the 24 semantic dims onto the 8 DSP vibe keys (analysis.vibe, 0-100 percentile) */
-const DIM_TO_VIBE = {
-  sadness: { sad: 1 }, melancholy: { sad: 0.7, calm: 0.3 }, longing: { sad: 0.6, romantic: 0.4 },
-  heartbreak: { sad: 0.8, dark: 0.2 }, loneliness: { sad: 0.6, calm: 0.2 },
-  nostalgia: { sad: 0.4, calm: 0.3 },
-  joy: { happy: 1 }, playfulness: { happy: 0.7, energetic: 0.3 }, euphoria: { happy: 0.6, energetic: 0.4 },
-  romance: { romantic: 1 }, sensuality: { romantic: 0.6, dark: 0.2 }, warmth: { happy: 0.4, calm: 0.4 },
-  anger: { dark: 0.6, energetic: 0.4 }, rebellion: { energetic: 0.5, dark: 0.3 },
-  power: { epic: 0.8, energetic: 0.2 }, defiance: { epic: 0.5, energetic: 0.3 },
-  calm: { calm: 1 }, dreaminess: { calm: 0.5, romantic: 0.3 },
-  hope: { happy: 0.5, calm: 0.3 },
-  darkness: { dark: 1 }, tension: { dark: 0.5, epic: 0.3 }, mystery: { dark: 0.4, calm: 0.3 },
-  energy: { energetic: 1 }, reflection: { focus: 1 },
-};
-
-/* audio layer: analysis.vibe is 0-100 library percentile per dim */
-function audioVibeScore(qm, song) {
-  const vibe = song.analysis && song.analysis.vibe;
-  if (!vibe) return 0;
-  let acc = 0, wsum = 0;
-  for (const [dim, w] of Object.entries(qm.moods)) {
-    const mix = DIM_TO_VIBE[dim] || { [dim]: 1 };
-    let dv = 0;
-    for (const [vk, vw] of Object.entries(mix)) dv += ((vibe[vk] ?? 0) / 100) * vw;
-    acc += dv * w;
-    wsum += w;
-  }
-  if (!wsum) return 0;
-  let bonus = 0;
-  const an = song.analysis;
-  if (qm.energy === "high" && an.energy >= 60) bonus += 0.12;
-  if (qm.energy === "low" && an.energy <= 40) bonus += 0.12;
-  return Math.min(1, acc / wsum + bonus);
-}
 
 app.get("/api/mood-search", wrap(async (req, res) => {
   const query = String(req.query.q || "").trim();
   if (!query) return res.json({ error: "Query is required" });
-  const words = query.split(/\s+/).filter(Boolean).length;
-  if (query.length < 3) return res.json({ error: "Query is too short (min 3 chars)" });
-  if (words > 120 || query.length > 1200) return res.json({ error: "Query is too long (max 120 words)" });
+  if (query.length < 2) return res.json({ error: "Query is too short (min 2 chars)" });
+  if (query.length > 500) return res.json({ error: "Query is too long (max 500 chars)" });
 
   const db = await loadMusicDB();
   const songs = db.songs || [];
   if (!songs.length) return res.json({ found: false, results: [] });
 
-  const qm = await getQueryMood(query);
-
-  const scored = songs.map((song) => {
-    const sm = song.moods || {};
-    const hasSemantic = Object.keys(sm).length > 0;
-    /* weights per spec: text-backed song → 0.5 semantic + 0.3 tag + 0.2 audio; instrumental/no-lyrics → audio-dominant */
-    const instrumental = !song.lyrics || song.lyricsStatus === "missing";
-    const w = instrumental ? { s: 0.15, a: 0.85 } : { s: 0.5, a: 0.2, t: 0.3 };
-
-    const sem = hasSemantic ? Math.max(0, moodCosine(qm.moods, sm)) : 0;
-    const aud = audioVibeScore(qm, song);
-
-    /* tag overlap: shared fa tags (tag strings are fa vibe words) — weighted by query mood intensity */
-    let tag = 0;
-    if (!instrumental) {
-      const tags = (song.tags || []).map((t) => String(t));
-      let hit = 0, n = 0;
-      for (const [dim, v] of Object.entries(qm.moods)) {
-        n += v;
-        const faWords = MOOD_DIM_FA[dim] || [];
-        if (faWords.some((fw) => tags.some((tg) => tg.includes(fw)))) hit += v;
-      }
-      tag = n ? hit / n : 0;
-    }
-    const finalScore = w.s * sem + (w.t || 0) * tag + w.a * aud;
-    return {
-      song,
-      finalScore,
-      parts: { semantic: Math.round(sem * 100) / 100, tags: Math.round(tag * 100) / 100, audio: Math.round(aud * 100) / 100 },
-    };
-  });
-
-  scored.sort((a, b) => b.finalScore - a.finalScore);
-  const top = scored.slice(0, 3);
-  const results = top.map(({ song, finalScore, parts }) => ({
-    id: song.id,
-    name: song.name,
-    artist: song.artist,
-    src: song.src,
-    tags: (song.tagsEn || song.tags || []).slice(0, 8),
-    analysis: song.analysis || null,
-    score: Math.round(finalScore * 100) / 100,
-    parts,
-    audioMoodTag: song.audioMoodEn || null,
-    summary: song.summaryEn || null,
-  }));
-  const best = results[0] ? results[0].score : 0;
+  const result = executeMoodSearch(songs, query);
 
   /* search_logs (spec §4): keep last 500 for future weight tuning / feedback loop */
   try {
@@ -720,22 +504,17 @@ app.get("/api/mood-search", wrap(async (req, res) => {
       log.entries.unshift({
         at: new Date().toISOString(),
         query: query.slice(0, 400),
-        extractedMood: { moods: qm.moods, energy: qm.energy, valence: qm.valence },
-        topResultId: results[0] ? results[0].id : null,
-        topScore: best,
+        extractedMood: result.mood,
+        topResultId: result.song ? result.song.id : null,
+        topScore: result.bestScore,
       });
       log.entries = log.entries.slice(0, 500);
       await writeJSON(FLOG, log);
     });
   } catch { /* best-effort log write */ }
 
-  res.json({
-    found: results.length > 0,
-    mood: { moods: qm.moods, energy: qm.energy, valence: qm.valence },
-    bestScore: best,
-    softMatch: best < 0.15, // spec: «نزدیک‌ترین حسی که پیدا کردیم»
-    results,
-  });
+  res.setHeader("Cache-Control", "no-store");
+  res.json(result);
 }));
 
 /* fa words per mood dim, used for tag overlap scoring */

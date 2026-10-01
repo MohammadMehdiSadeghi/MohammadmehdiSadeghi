@@ -29,6 +29,7 @@ function CheckMark() {
   );
 }
 
+/* Modern Editorial / Magazine Thumbnail (Distinct from Project Cards) */
 function PostCover({ post, height = 180 }) {
   return (
     <div
@@ -43,10 +44,13 @@ function PostCover({ post, height = 180 }) {
             loading="lazy"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
+          {/* Subtle dark gradient overlay for legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#081224] via-transparent to-transparent opacity-80" />
         </>
       ) : (
+        /* Editorial Typography Pattern Cover */
         <div className="absolute inset-0 p-5 flex flex-col justify-between overflow-hidden">
+          {/* Background ambient lighting */}
           <div
             className="absolute -top-10 -right-10 w-44 h-44 rounded-full blur-2xl pointer-events-none"
             style={{ background: "radial-gradient(circle, rgba(97,95,255,0.25) 0%, transparent 70%)" }}
@@ -56,6 +60,7 @@ function PostCover({ post, height = 180 }) {
             style={{ background: "radial-gradient(circle, rgba(0,213,190,0.18) 0%, transparent 70%)" }}
           />
 
+          {/* Top header badge */}
           <div className="relative z-10 flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#615FFF]/20 text-[#A5B4FC] border border-[#615FFF]/30 backdrop-blur-sm">
               Article
@@ -66,6 +71,7 @@ function PostCover({ post, height = 180 }) {
             </div>
           </div>
 
+          {/* Center Graphic Symbol */}
           <div className="relative z-10 flex items-center gap-3 self-center my-auto">
             <div className="w-12 h-12 rounded-2xl bg-[#0F172B]/80 border border-[#314158] flex items-center justify-center text-white shadow-xl group-hover:border-[#615FFF] duration-300">
               <svg
@@ -84,6 +90,7 @@ function PostCover({ post, height = 180 }) {
             </div>
           </div>
 
+          {/* Bottom reading info */}
           <div className="relative z-10 flex items-center justify-between text-[11px] text-[#90A1B9]">
             <span className="font-medium text-[#E2E8F0] truncate max-w-[180px]">
               {post.tags?.[0] ? `#${post.tags[0]}` : "Mohammad Mehdi Sadeghi"}
@@ -93,6 +100,7 @@ function PostCover({ post, height = 180 }) {
         </div>
       )}
 
+      {/* Top neon indicator line */}
       <div
         className="absolute top-0 inset-x-0 h-[2px] transition-opacity duration-300 group-hover:opacity-100 opacity-40"
         style={{
@@ -196,7 +204,7 @@ export default function Blog() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [filterMode, setFilterMode] = useState("latest");
+  const [filterMode, setFilterMode] = useState("latest"); // "latest" | "popular"
   const [searchQuery, setSearchQuery] = useState("");
   const [filterOpen, setFilterOpen] = useState(true);
   const [recentOpen, setRecentOpen] = useState(true);
@@ -224,6 +232,7 @@ export default function Blog() {
   const visible = useMemo(() => {
     let list = [...posts];
 
+    // Search query filter
     const q = searchQuery.trim().toLowerCase();
     if (q) {
       list = list.filter(
@@ -234,6 +243,7 @@ export default function Blog() {
       );
     }
 
+    // Sort by Latest vs Popular
     if (filterMode === "latest") {
       list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
     } else if (filterMode === "popular") {
@@ -244,7 +254,7 @@ export default function Blog() {
   }, [posts, filterMode, searchQuery]);
 
   return (
-    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col lg:flex-row lg:h-[calc(100vh-116px)] lg:overflow-hidden">
+    <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
       <style>{`
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(12px); }
@@ -252,11 +262,14 @@ export default function Blog() {
         }
       `}</style>
 
+      {/* ── Left SnakeBar ── */}
       <div className="hidden lg:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
 
-      <nav className="w-full lg:w-[400px] xl:w-[457px] shrink-0 border-b lg:border-b-0 lg:border-r border-[#90a1b977] lg:h-[calc(100vh-116px)] lg:overflow-y-auto text-[#90A1B9]">
+      {/* ── Sidebar: Filters (Latest / Popular) & Recent Explorer ── */}
+      <nav className="w-full md:w-60 lg:w-72 xl:w-[360px] 2xl:w-[457px] shrink-0 border-b md:border-b-0 md:border-r border-[#90a1b977] md:h-[calc(100vh-116px)] md:overflow-y-auto text-[#90A1B9]">
+        {/* Search input */}
         <div className="p-4 border-b border-[#90a1b977]">
           <div className="relative">
             <input
@@ -290,6 +303,7 @@ export default function Blog() {
           </div>
         </div>
 
+        {/* Filters Accordion: Only Latest & Most Popular */}
         <div className="border-b border-[#90a1b977]">
           <h2
             onClick={() => setFilterOpen((prev) => !prev)}
@@ -310,6 +324,7 @@ export default function Blog() {
             />
           </h2>
           <ul className={`${filterOpen ? "flex" : "hidden"} flex-col pb-2`}>
+            {/* Option 1: Latest */}
             <li
               onClick={() => setFilterMode("latest")}
               className={`px-4 sm:px-12 py-3 cursor-pointer flex items-center justify-between duration-100 ${
@@ -332,6 +347,7 @@ export default function Blog() {
               </div>
             </li>
 
+            {/* Option 2: Most Popular */}
             <li
               onClick={() => setFilterMode("popular")}
               className={`px-4 sm:px-12 py-3 cursor-pointer flex items-center justify-between duration-100 ${
@@ -356,6 +372,7 @@ export default function Blog() {
           </ul>
         </div>
 
+        {/* Recent Posts file list */}
         <div className="border-b border-[#90a1b977]">
           <h2
             onClick={() => setRecentOpen((prev) => !prev)}
@@ -390,13 +407,16 @@ export default function Blog() {
           </ul>
         </div>
 
+        {/* Information note */}
         <div className="p-6 text-[12px] text-[#68768C] leading-5">
           <p className="text-[#90A1B9] mb-1">// articles &amp; insights</p>
           <p>Technical writing on web development, UI engineering, and modern frontend tools.</p>
         </div>
       </nav>
 
-      <div className="flex-1 min-w-0 py-6 sm:py-8 px-4 sm:px-6 lg:px-10 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
+      {/* ── Main Content Pane ── */}
+      <div className="flex-1 min-w-0 py-6 sm:py-8 px-3 sm:px-6 md:px-8 lg:px-10 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+        {/* Grid of articles */}
         {loading ? (
           <Loading variant="cards" count={4} />
         ) : error ? (
@@ -429,7 +449,7 @@ export default function Blog() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
             {visible.map((post, i) => (
               <PostCard key={post.id ?? post.slug} post={post} index={i} />
             ))}

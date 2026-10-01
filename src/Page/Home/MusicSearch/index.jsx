@@ -11,6 +11,7 @@ export default function MusicSearch() {
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [songData, setSongData] = useState(null);
+  const [detectedMood, setDetectedMood] = useState(null);
   const [searching, setSearching] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,14 +26,15 @@ export default function MusicSearch() {
     });
     setErrorMessage("");
     setSongData(null);
+    setDetectedMood(null);
 
     const q = searchTerm.trim();
     if (!q) {
       setErrorMessage("Please enter search text");
       return;
     }
-    if (q.length < 3) {
-      setErrorMessage("Please write at least 3 characters");
+    if (q.length < 2) {
+      setErrorMessage("Please write at least 2 characters");
       return;
     }
 
@@ -50,6 +52,13 @@ export default function MusicSearch() {
       const song = (data.results && data.results[0]) || data.song;
       if (song) {
         setSongData({ ...song, src: musicUrl(song.src) });
+        if (data.mood && (data.mood.labelFa || data.mood.labelEn)) {
+          setDetectedMood({
+            fa: data.mood.labelFa,
+            en: data.mood.labelEn,
+            energy: data.mood.energy,
+          });
+        }
       } else {
         setErrorMessage("No matching song found. Please change the input");
       }
@@ -61,7 +70,7 @@ export default function MusicSearch() {
   };
 
   return (
-    <div className="box-3d w-full max-w-[90vw] sm:max-w-md lg:w-lg bg-[#0F172B] py-8 px-6 sm:py-12 sm:px-12 rounded-3xl">
+    <div className="box-3d w-full max-w-full sm:max-w-md lg:max-w-lg bg-[#0F172B] py-6 px-4 sm:py-10 sm:px-8 lg:py-12 lg:px-10 rounded-2xl sm:rounded-3xl">
       <form
         onSubmit={handleSubmit}
         className="w-full flex flex-col gap-6 sm:gap-8 items-center justify-center"
@@ -74,6 +83,7 @@ export default function MusicSearch() {
             style={{ border: `1px solid ${isFocused ? "#E2E8F0" : gray}` }}
             type="text"
             maxLength={255}
+            placeholder="مثلاً: خستم، شاد، شکست عشقی، آرامش..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -84,11 +94,21 @@ export default function MusicSearch() {
           />
         </label>
         <button
-          className="rounded-lg bg-[#1D293D] w-full text-[14px] text-white py-3 px-3 cursor-pointer ring-2 ring-[#314158] hover:bg-[#0F172B] hover:ring-[#90A1B9] duration-200 disabled:opacity-50"
+          className="rounded-lg bg-[#1D293D] w-full text-[14px] text-white py-3 px-3 cursor-pointer ring-2 ring-[#314158] hover:bg-[#0F172B] hover:ring-[#90A1B9] duration-200 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
           type="submit"
           disabled={searching}
         >
-          {searching ? "Searching..." : "Search"}
+          {searching ? (
+            <>
+              <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+              <span>Analyzing emotion...</span>
+            </>
+          ) : (
+            "Search & Play"
+          )}
         </button>
       </form>
 
@@ -102,10 +122,17 @@ export default function MusicSearch() {
       )}
 
       {songData && !searching && !errorMessage && (
-        <div className="mt-6">
-          <Music songData={songData} />
+        <div className="mt-6 flex flex-col gap-3">
+          {detectedMood && (
+            <div className="flex items-center justify-center gap-2 py-1.5 px-3 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-[12px] sm:text-[13px] text-center animate-fade-in">
+              <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>حس تشخیص‌داده‌شده: <strong>{detectedMood.fa}</strong></span>
+            </div>
+          )}
+          <Music songData={songData} autoPlay={true} />
         </div>
       )}
     </div>
   );
 }
+

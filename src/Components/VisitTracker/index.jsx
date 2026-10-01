@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const SESSION_KEY = "visitor_session_id";
-const HEARTBEAT_MS = 25000;
+const HEARTBEAT_MS = 25000; // matches ONLINE_WINDOW_SECONDS on the backend with room to spare
 
 function getSessionId() {
   try {
@@ -20,38 +20,40 @@ function getSessionId() {
   }
 }
 
-function isAdmin() {
-  try {
-    return Boolean(localStorage.getItem("admin_token"));
-  } catch {
-    return false;
-  }
-}
-
 export default function VisitTracker() {
   const location = useLocation();
-  const lastCountedRef = useRef(null);
 
+  // record a page view (and mark the visitor online) whenever the route changes
   useEffect(() => {
-    if (isAdmin()) return;
+    // If admin token is present, exclude from visitor tracking so admin traffic is never counted
+    try {
+      if (localStorage.getItem("admin_token")) return;
+    } catch {
+      /* ignore storage access error */
+    }
 
-    const path = location.pathname;
-    if (lastCountedRef.current === path) return;
-    lastCountedRef.current = path;
-
+    const controller = new AbortController();
     fetch("/api/admin/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        path,
+        path: location.pathname,
         sessionId: getSessionId(),
       }),
-      keepalive: true,
+      signal: controller.signal,
     }).catch(() => {});
+    return () => controller.abort();
   }, [location.pathname]);
 
+  // keep sending lightweight heartbeats so "online now" stays accurate
+  // while the visitor stays on the same page
   useEffect(() => {
-    if (isAdmin()) return;
+    // If admin token is present, exclude from online presence
+    try {
+      if (localStorage.getItem("admin_token")) return;
+    } catch {
+      /* ignore storage access error */
+    }
 
     const interval = setInterval(() => {
       fetch("/api/admin/track", {

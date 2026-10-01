@@ -1,5 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 
+/**
+ * Live Activity Feed — shows a scrolling list of recent visitor activities.
+ * activities: [{ time: string, path: string, sessionId: string, type: "pageview"|"heartbeat" }]
+ */
 export default function LiveActivity({ activities = [], maxItems = 12 }) {
   const listRef = useRef(null);
   const [visible, setVisible] = useState([]);

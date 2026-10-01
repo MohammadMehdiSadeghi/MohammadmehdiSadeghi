@@ -12,8 +12,8 @@ export default function Home() {
 
   return (
     <>
-      <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] lg:h-[calc(100vh-116px)]">
-        <div className="home-page-div w-full flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16 px-4 sm:px-8 py-10 lg:py-0 lg:h-full">
+      <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] lg:h-[calc(100vh-116px)] flex items-center justify-center">
+        <div className="home-page-div w-full flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-10 lg:gap-12 xl:gap-16 px-4 sm:px-8 py-8 sm:py-12 lg:py-0 min-h-[calc(100vh-116px)] lg:min-h-0 lg:h-full">
           <InformationText />
           <MusicSearch />
         </div>

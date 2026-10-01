@@ -47,8 +47,8 @@ export default function Education() {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <div className="w-full min-w-0 py-6 sm:py-8 px-4 sm:pr-16 lg:h-[calc(100vh-116px)] lg:overflow-y-auto">
-      <div className="sm:px-12 flex flex-col gap-4 sm:gap-5 mt-4">
+    <div className="w-full min-w-0 py-6 sm:py-8 px-3 sm:px-6 md:px-8 lg:px-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
+      <div className="flex flex-col gap-3.5 sm:gap-4 lg:gap-5 mt-2">
         {timeline.map((item) => (
           <div
             key={item.id}

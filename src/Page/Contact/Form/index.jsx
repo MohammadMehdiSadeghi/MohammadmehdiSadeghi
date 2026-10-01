@@ -18,6 +18,9 @@ export default function Form({
 
   useEffect(() => {
     if (status === "success") {
+      // Reset only the controlled state. Avoid form.reset() because it
+      // resets the <select> DOM to its first option (e.g. AF) while React
+      // state still says IR, leaving the dropdown out of sync.
       setCountry("IR");
       setPhoneInput("");
     }
@@ -71,10 +74,10 @@ export default function Form({
   };
 
   return (
-    <div className="border-b lg:border-b-0 lg:border-r border-[#4B576D] w-full flex items-center justify-center py-10 px-4 sm:px-8 lg:py-0">
+    <div className="border-b md:border-b-0 md:border-r border-[#4B576D] w-full flex-1 min-w-0 flex items-center justify-center py-8 px-4 sm:px-6 md:px-8 lg:px-12 md:py-0 md:h-[calc(100vh-116px)] md:overflow-y-auto">
       <form
         onSubmit={onSubmit}
-        className="w-full max-w-[24rem] flex flex-col gap-6 sm:gap-8"
+        className="w-full max-w-[24rem] flex flex-col gap-5 sm:gap-7 my-auto"
       >
         <label className="flex flex-col gap-1.5">
           <p style={{ color: gray }}>_Name</p>
@@ -90,7 +93,7 @@ export default function Form({
           <p style={{ color: gray }}>_Phone-Number</p>
           <div className="flex gap-2">
             <select
-              className={`bg-[#020618] py-2.5 px-2 border-0 outline-[#314158] outline-1 hover:outline-[#90A1B9] focus:text-[#90A1B9] duration-150 rounded-md
+              className={`bg-[#020618] py-2.5 px-2 border-0 outline-[#314158] outline-1 hover:outline-[#90A1B9] focus:text-[#90A1B9] duration-150 rounded-md 
                  text-[#90a1b9c7] w-[90px] shrink-0 text-[13px] cursor-pointer`}
               value={country}
               onChange={handleCountryChange}

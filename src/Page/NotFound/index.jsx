@@ -16,14 +16,14 @@ export default function NotFoundCode() {
   const green = "#00D5BE";
 
   return (
-    <div className="w-full min-h-screen bg-[#0F172B] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-62 px-6 sm:px-16 py-12 text-center lg:text-left">
+    <div className="w-full min-h-[calc(100vh-116px)] bg-[#0F172B] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14 xl:gap-20 px-4 sm:px-10 py-10 text-center lg:text-left">
       <img
         src="/assets/Images/404.png"
         alt="404"
-        className="w-[160px] sm:w-[200px] lg:w-[260px]"
+        className="w-[140px] sm:w-[180px] lg:w-[240px] shrink-0"
       />
 
-      <p className="text-[12px] sm:text-[14px] lg:text-[16px] leading-7 sm:leading-9 text-left" style={{ color: gray }}>
+      <div className="text-[11px] sm:text-[13px] lg:text-[15px] leading-6 sm:leading-8 text-left font-mono max-w-full overflow-x-auto p-4 sm:p-6 rounded-xl bg-[#081224] lg:bg-transparent border border-[#314158]/60 lg:border-0" style={{ color: gray }}>
         <span className="mr-8">01</span>{" "}
         <span style={{ color: purple }}>const</span> page ={" "}
         <span style={{ color: red }}>findPage</span>(
@@ -84,7 +84,7 @@ export default function NotFoundCode() {
           home
         </Link>
         );
-      </p>
+      </div>
     </div>
   );
 }

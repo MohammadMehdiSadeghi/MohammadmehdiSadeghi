@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useClickTrack from "../../../../Hooks/useClickTrack";
 
+// Generate monogram from project title (e.g. "Ubisoft" → "Ub", "Sabz Learn" → "SL")
 const getMonogram = (title) => {
   const words = title?.trim().split(/\s+/);
   if (!words || words.length === 0) return "?";
@@ -11,6 +12,7 @@ const getMonogram = (title) => {
   return (words[0][0] + words[1][0]).toUpperCase();
 };
 
+// Uniform brand gradient for ALL monogram badges (keeps the wall consistent)
 const monogramGradient =
   "linear-gradient(135deg, #615FFF 0%, #7C6CF6 100%)";
 
@@ -32,12 +34,14 @@ export default function ProjectCard({ project, index }) {
         animation: "fadeSlideUp 0.4s ease forwards",
       }}
     >
+      {/* ─── Preview Area: Pure Logotype (no screenshots) ─── */}
       <div
         className="w-full h-[180px] relative overflow-hidden"
         style={{ background: "#0a1628" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
+        {/* Top accent line */}
         <div
           className="absolute top-0 left-0 right-0 h-[2px]"
           style={{
@@ -48,6 +52,7 @@ export default function ProjectCard({ project, index }) {
           }}
         />
 
+        {/* Purple glow */}
         <div
           className="absolute -top-12 -right-12 w-44 h-44 rounded-full blur-3xl"
           style={{
@@ -67,6 +72,7 @@ export default function ProjectCard({ project, index }) {
           }}
         />
 
+        {/* Faint grid texture */}
         <div
           className="absolute inset-0"
           style={{
@@ -76,6 +82,7 @@ export default function ProjectCard({ project, index }) {
           }}
         />
 
+        {/* Giant watermark monogram */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <span
             className="text-[128px] font-bold select-none leading-none"
@@ -85,7 +92,9 @@ export default function ProjectCard({ project, index }) {
           </span>
         </div>
 
+        {/* Logotype content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 px-4">
+          {/* App-icon monogram box */}
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-300"
             style={{
@@ -101,14 +110,16 @@ export default function ProjectCard({ project, index }) {
             </span>
           </div>
 
+          {/* Wordmark */}
           <h4
-            className="text-white text-[18px] sm:text-[20px] font-bold tracking-[0.08em] uppercase text-center truncate max-w-full transition-colors duration-300"
+            className="text-white text-[15px] sm:text-[18px] lg:text-[20px] font-bold tracking-[0.06em] uppercase text-center truncate max-w-full px-2 transition-colors duration-300"
             style={{ color: hovered ? "#fff" : "#E8ECF4" }}
           >
             {project.title}
           </h4>
         </div>
 
+        {/* Language badges (top center) */}
         <div className="absolute top-2.5 inset-x-0 z-20 flex items-center justify-center gap-1.5 flex-wrap px-6">
           {Array.isArray(project.category) &&
             project.category.map((cat) => (
@@ -127,6 +138,7 @@ export default function ProjectCard({ project, index }) {
             ))}
         </div>
 
+        {/* Corner brackets (techy frame) */}
         <div
           className="absolute top-2.5 left-2.5 w-4 h-4 border-t-2 border-l-2 transition-all duration-300"
           style={{ borderColor: "#615FFF66", opacity: hovered ? 1 : 0.6 }}
@@ -145,6 +157,7 @@ export default function ProjectCard({ project, index }) {
         />
       </div>
 
+      {/* ─── Info Section ─── */}
       <div className="p-5 flex flex-col gap-4 flex-1">
         <div>
           <p className="text-[11px] mb-2 text-[#615FFF]">
@@ -162,8 +175,8 @@ export default function ProjectCard({ project, index }) {
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[13px] inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg
-              text-[#90A1B9] border border-[#90a1b955] bg-[#0F172B]
+              className="text-[13px] inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg 
+              text-[#90A1B9] border border-[#90a1b955] bg-[#0F172B] 
               transition-all duration-150 hover:border-[#615FFF] hover:text-white hover:bg-[#615FFF11]"
               onClick={withTracking({
                 targetType: "project",

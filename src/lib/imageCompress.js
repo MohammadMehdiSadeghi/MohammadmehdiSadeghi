@@ -1,3 +1,9 @@
+/* Client-side cover compression.
+
+   A phone photo is 3–5MB; Vercel caps a serverless request body at ~4.5MB and
+   base64 inflates raw bytes by 4/3, so an uncompressed upload fails with an
+   opaque 413. Downscale + re-encode in the browser instead: the user sees
+   "compressing…" and the request stays comfortably small. */
 
 const MAX_DIM = 1600;
 const START_QUALITY = 0.82;
@@ -19,9 +25,13 @@ function loadImage(file) {
   });
 }
 
+/* → { dataUrl, bytes, width, height } */
 export async function compressImage(file, maxBytes = 2.4 * 1024 * 1024) {
   if (!file) throw new Error("no file selected");
   if (!/^image\//.test(file.type)) throw new Error("pick an image file (jpg, png, webp…)");
+  /* SVG is refused on purpose: covers are served from our own origin and an
+     SVG can carry <script>, which would run as the site (stored XSS). Ask for
+     a raster image instead — any screenshot/photo format works. */
   if (file.type === "image/svg+xml" || /\.svgz?$/i.test(file.name || "")) {
     throw new Error("SVG isn't allowed for covers — please use a JPG, PNG or WebP");
   }
@@ -37,6 +47,7 @@ export async function compressImage(file, maxBytes = 2.4 * 1024 * 1024) {
   const ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0, w, h);
 
+  /* step the quality down until it fits the budget */
   let quality = START_QUALITY;
   let dataUrl = canvas.toDataURL("image/webp", quality);
   while (dataUrl.length * 0.75 > maxBytes && quality > MIN_QUALITY) {

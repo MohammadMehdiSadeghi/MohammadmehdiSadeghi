@@ -9,10 +9,10 @@ const todayISO = () => new Date().toISOString().slice(0, 10);
 
 export default function PostFormModal({ mode, post, busy, onClose, onSave, authFetch }) {
   const [title, setTitle] = useState(post?.title || "");
-  const [excerpt] = useState(post?.excerpt || "");
+  const excerpt = post?.excerpt || "";
   const [tagsText, setTagsText] = useState((post?.tags || []).join(", "));
   const [date, setDate] = useState(post?.date || todayISO());
-  const [slug] = useState(post?.slug || "");
+  const slug = post?.slug || "";
   const [published, setPublished] = useState(post?.published !== false);
 
   const [cover, setCover] = useState(post?.cover || "");
@@ -27,7 +27,8 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef(null);
 
-  const [editorTab, setEditorTab] = useState("builder");
+  // ── Visual Block Builder State ──
+  const [editorTab, setEditorTab] = useState("builder"); // "builder" | "markdown"
   const [blocks, setBlocks] = useState(() => {
     const initial = parseBlocks(post?.content || "");
     if (initial.length === 0) {
@@ -37,11 +38,13 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
   });
   const [rawMarkdown, setRawMarkdown] = useState(() => post?.content || "");
 
+  // Sync builder to markdown
   const syncToMarkdown = (newBlocks) => {
     setBlocks(newBlocks);
     setRawMarkdown(blocksToMarkdown(newBlocks));
   };
 
+  // Switch between visual builder & raw markdown
   const handleTabSwitch = (newTab) => {
     if (newTab === "builder" && editorTab === "markdown") {
       const parsed = parseBlocks(rawMarkdown);
@@ -54,6 +57,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
 
   const previewSrc = coverUrlInput.trim() || cover;
 
+  // Cover image upload
   const handlePickCoverImage = async (file) => {
     if (!file) return;
     setError("");
@@ -82,6 +86,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
     }
   };
 
+  // Inline block image upload
   const handlePickBlockImage = async (file, blockIndex) => {
     if (!file) return;
     setError("");
@@ -103,6 +108,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
     }
   };
 
+  // Block Manipulation Functions
   const addBlock = (type) => {
     let newBlock = { id: `b-${Date.now()}`, type, text: "" };
     if (type === "img") {
@@ -174,6 +180,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-3 sm:p-6">
       <div className="w-full max-w-5xl xl:max-w-6xl rounded-xl border border-[#1E293B] bg-[#0F172B] overflow-hidden max-h-[95vh] flex flex-col shadow-2xl">
+        {/* Header */}
         <div className="h-11 shrink-0 flex items-center justify-between px-5 bg-[#0b1220] border-b border-[#1E293B]">
           <p className="text-[12px] font-mono text-white flex items-center gap-2">
             <span className="text-[#615FFF]">●</span>
@@ -188,6 +195,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 sm:p-6 flex flex-col gap-5 overflow-y-auto">
+          {/* Title */}
           <label className="flex flex-col gap-1.5">
             <p className="text-[#90A1B9] text-[12px] font-semibold">_Post Title *</p>
             <input
@@ -200,12 +208,10 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             />
           </label>
 
+          {/* ── Main Cover Image ── */}
           <div className="flex flex-col gap-2 rounded-lg border border-[#1E293B] bg-[#0b1220] p-4">
             <p className="text-[#90A1B9] text-[12px] font-semibold">_Main Cover Image</p>
 
-            {imgNote && (
-              <p className="text-[#00D5BE] text-[11px]">{imgNote}</p>
-            )}
             {previewSrc ? (
               <div className="relative w-full h-[150px] rounded-lg overflow-hidden border border-[#1E293B] bg-[#020618]">
                 <img
@@ -255,8 +261,12 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
               onChange={(e) => setCoverAlt(e.target.value)}
               className="bg-[#020618] py-2 px-3 border border-[#1E293B] rounded-md w-full text-[#90a1b9c7] text-[11px] outline-none focus:border-[#615FFF]"
             />
+            {imgNote && (
+              <p className="text-[11px] font-mono text-[#00D5BE] mt-0.5">{imgNote}</p>
+            )}
           </div>
 
+          {/* ── Visual Block Content Builder ── */}
           <div className="flex flex-col gap-3 rounded-lg border border-[#1E293B] bg-[#0b1220] p-4">
             <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[#1E293B] pb-3">
               <div>
@@ -268,6 +278,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                 </p>
               </div>
 
+              {/* Mode switch */}
               <div className="flex items-center gap-1 bg-[#020618] p-1 rounded-md border border-[#1E293B]">
                 <button
                   type="button"
@@ -296,11 +307,13 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
 
             {editorTab === "builder" ? (
               <div className="flex flex-col gap-3">
+                {/* Block List */}
                 {blocks.map((block, idx) => (
                   <div
                     key={block.id || idx}
                     className="p-3.5 rounded-lg border border-[#314158] bg-[#020618] flex flex-col gap-2.5 relative group"
                   >
+                    {/* Block Toolbar */}
                     <div className="flex items-center justify-between border-b border-[#1E293B] pb-2">
                       <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-[#1E293B] text-[#90A1B9]">
                         {block.type === "h"
@@ -343,6 +356,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                       </div>
                     </div>
 
+                    {/* Block Input based on Type */}
                     {block.type === "h" ? (
                       <input
                         type="text"
@@ -469,6 +483,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                   </div>
                 ))}
 
+                {/* Add Block Toolbar */}
                 <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-[#1E293B]">
                   <span className="text-[11px] text-[#68768C] mr-1">+ Insert:</span>
                   <button
@@ -519,6 +534,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             )}
           </div>
 
+          {/* Meta & Tags */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label className="flex flex-col gap-1.5">
               <p className="text-[#90A1B9] text-[12px]">_Tags (comma-separated)</p>
@@ -542,6 +558,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             </label>
           </div>
 
+          {/* Published Checkbox */}
           <label className="flex items-center gap-2.5 cursor-pointer select-none">
             <input
               type="checkbox"
@@ -558,6 +575,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
             </p>
           )}
 
+          {/* Submit Buttons */}
           <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#1E293B]">
             <button
               type="button"

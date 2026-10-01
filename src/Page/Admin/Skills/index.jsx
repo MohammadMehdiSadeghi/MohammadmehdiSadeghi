@@ -8,7 +8,7 @@ export default function SkillsPage() {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [modalState, setModalState] = useState(null);
+  const [modalState, setModalState] = useState(null); // null | { mode: "create"|"edit", skill? }
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -29,6 +29,7 @@ export default function SkillsPage() {
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSave = async (payload, mode, id) => {

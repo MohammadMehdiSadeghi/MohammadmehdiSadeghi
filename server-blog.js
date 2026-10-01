@@ -10,9 +10,7 @@
 import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
-
-/* Buffer is a Node.js global (no-undef) */
-/* global Buffer */
+import { Buffer } from "buffer";
 
 const MAX_IMAGE_BYTES = 2.5 * 1024 * 1024;
 

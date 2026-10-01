@@ -23,7 +23,6 @@ import password from "./admin/_password.js";
 import messages from "./admin/_messages.js";
 import projectsAdmin from "./admin/_projects-admin.js";
 import skillsAdmin from "./admin/_skills-admin.js";
-import siteAdmin from "./admin/_site-admin.js";
 import stats from "./admin/_stats.js";
 import track from "./admin/_track.js";
 import trackClick from "./admin/_track-click.js";
@@ -40,7 +39,7 @@ import ubisoft from "./_ubisoft.js";
 import moodSearch from "./_mood-search.js";
 import sabz from "./_sabz.js";
 import blog from "./_blog.js";
-import { BUNDLED, listData } from "./_data.js";
+import { BUNDLED } from "./_data.js";
 import { loadConfig } from "./_lib.js";
 
 /* route path → handler(req, res) */
@@ -51,7 +50,6 @@ const ROUTES = {
   "admin/messages": messages,
   "admin/projects-admin": projectsAdmin,
   "admin/skills-admin": skillsAdmin,
-  "admin/site-admin": siteAdmin,
   "admin/stats": stats,
   "admin/track": track,
   "admin/track-click": trackClick,
@@ -74,23 +72,13 @@ const ROUTES = {
 };
 
 /* raw public/api/*.json — these used to be static files, but /api/* now
-   lands in this function, so serve them from the bundled copies.
-
-   These must go through `listData`, which prefers the admin overlay written
-   by _projects-admin/_skills-admin/_blog-admin. Reading BUNDLED directly made
-   every admin edit invisible on the live site: the panel listed it (it reads
-   the overlay) while the public endpoint kept serving the git-tracked file.
-   `listData` falls back to BUNDLED, so behaviour is unchanged when no overlay
-   exists. `music-analysis.json` has no editor, so it stays bundled. */
+   lands in this function, so serve them from the bundled copies */
 const STATIC_JSON = {
-  "projects.json": () => listData("projects.json"),
-  "mini-projects.json": () => listData("mini-projects.json"),
-  "skills.json": () => listData("skills.json"),
+  "projects.json": () => BUNDLED["projects.json"],
+  "mini-projects.json": () => BUNDLED["mini-projects.json"],
+  "skills.json": () => BUNDLED["skills.json"],
   "music-analysis.json": () => BUNDLED["music-analysis.json"],
-  "blog.json": () => listData("blog.json"),
-  /* site-wide identity / contact / social links — edited in the admin panel,
-     so it must read the overlay too or the edit would never reach the site */
-  "site.json": () => listData("site.json"),
+  "blog.json": () => BUNDLED["blog.json"],
 };
 
 function notFound(res) {
@@ -170,8 +158,7 @@ export default async function handler(req, res) {
 
   if (Object.prototype.hasOwnProperty.call(STATIC_JSON, route)) {
     res.setHeader("Cache-Control", "no-store");
-    /* awaited: these now consult the store (overlay) before the bundled file */
-    return res.json(await STATIC_JSON[route]());
+    return res.json(STATIC_JSON[route]());
   }
 
   return notFound(res);

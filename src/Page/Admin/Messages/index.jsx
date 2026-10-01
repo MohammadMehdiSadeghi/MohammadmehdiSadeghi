@@ -47,6 +47,7 @@ export default function MessagesPage() {
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateStatus = async (id, status) => {
@@ -89,6 +90,10 @@ export default function MessagesPage() {
     }
   };
 
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("messages-updated", { detail: messages }));
+  }, [messages]);
+
   const filtered = useMemo(() => {
     if (tab === "archived") return messages.filter((m) => m.status === "archived");
     return messages.filter((m) => m.status !== "archived");
@@ -121,9 +126,9 @@ export default function MessagesPage() {
                   : "text-[#68768C] hover:text-white"
               }`}
             >
-              {t.label}
+              <span>{t.label}</span>
               {t.key === "inbox" && unseenCount > 0 && (
-                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#FFB86A] text-[#0E1528]">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#FF5F56] text-white shadow-[0_0_6px_rgba(255,95,86,0.6)] animate-pulse">
                   {unseenCount}
                 </span>
               )}

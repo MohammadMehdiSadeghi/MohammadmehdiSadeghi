@@ -49,7 +49,7 @@ export default function FilterBox({
   projects,
   loading,
 }) {
-  const [projectsOpen, setProjectsOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(true);
   const [miniOpen, setMiniOpen] = useState(false);
   const { trackClick } = useClickTrack();
 
@@ -62,12 +62,12 @@ export default function FilterBox({
   };
 
   return (
-    <section className="flex justify-start lg:h-full border-b lg:border-b-0 border-[#90a1b977]">
+    <section className="flex justify-start md:h-full border-b md:border-b-0 border-[#90a1b977]">
       <div className="hidden lg:block relative w-14 border-r border-[#90a1b977] h-[calc(100vh-116px)]">
         <SnakeBar />
       </div>
 
-      <nav className="w-full lg:hidden text-[#90A1B9]">
+      <nav className="w-full md:hidden text-[#90A1B9]">
         <h2
           onClick={() => {
             trackFilter("All Web Project");
@@ -178,9 +178,9 @@ export default function FilterBox({
         {miniOpen && <ProjectSection projects={projects} loading={loading} />}
       </nav>
 
-      <nav className="hidden lg:block lg:w-[400px] xl:w-[457px] shrink-0 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)] text-[#90A1B9]">
-        <ul className="flex flex-col ">
-          <h2 className="px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
+      <nav className="hidden md:block w-60 lg:w-72 xl:w-[360px] 2xl:w-[457px] shrink-0 border-r-[1px] border-[#90a1b977] h-[calc(100vh-116px)] text-[#90A1B9] overflow-y-auto">
+        <ul className="flex flex-col">
+          <h2 className="px-5 lg:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
             projects
             <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
@@ -190,12 +190,12 @@ export default function FilterBox({
               <li
                 key={cat.name}
                 onClick={() => { trackFilter(cat.name); setActiveCategory(cat.name); }}
-                className={`px-12 py-3 cursor-pointer flex gap-3 items-center  duration-100 ${
+                className={`px-5 lg:px-8 xl:px-12 py-3 cursor-pointer flex gap-3 items-center duration-100 ${
                   isActive ? "bg-[#7888a033] text-white" : "text-[#90A1B9]"
                 }`}
               >
                 <span
-                  className={`w-4 h-4 rounded-sm border flex items-center justify-center  duration-150 ${
+                  className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 duration-150 ${
                     isActive
                       ? "bg-[#615FFF] border-[#615FFF]"
                       : "border-[#90a1b966]"
@@ -206,7 +206,7 @@ export default function FilterBox({
                 {cat.img && (
                   <img
                     src={cat.img}
-                    className="w-6 h-6 object-contain"
+                    className="w-5 h-5 lg:w-6 lg:h-6 object-contain"
                     alt={cat.name}
                   />
                 )}
@@ -216,7 +216,7 @@ export default function FilterBox({
           })}
         </ul>
         <ul className="flex flex-col border-t-[1px] border-[#90a1b977]">
-          <h2 className="px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
+          <h2 className="px-5 lg:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
             mini-projects
             <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
@@ -225,12 +225,12 @@ export default function FilterBox({
             return (
               <li
                 onClick={() => { trackFilter(miniCategory.name); setActiveCategory(miniCategory.name); }}
-                className={`px-12 py-3 cursor-pointer flex gap-3 items-center  duration-100 ${
+                className={`px-5 lg:px-8 xl:px-12 py-3 cursor-pointer flex gap-3 items-center duration-100 ${
                   isActive ? "bg-[#7888a033] text-white" : "text-[#90A1B9]"
                 }`}
               >
                 <span
-                  className={`w-4 h-4 rounded-sm border flex items-center justify-center  duration-150 ${
+                  className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 duration-150 ${
                     isActive
                       ? "bg-[#615FFF] border-[#615FFF]"
                       : "border-[#90a1b966]"

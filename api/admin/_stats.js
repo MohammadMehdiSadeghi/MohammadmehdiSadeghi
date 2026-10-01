@@ -1,4 +1,4 @@
-import { requireAuth, storeBackend, storeDurable } from "../_lib.js";
+import { requireAuth } from "../_lib.js";
 import {
   readStore,
   dstr,
@@ -18,7 +18,6 @@ export default async function handler(req, res) {
 
   const dayTotals = {};
   const pathTotals = {};
-  const dayVisitorSets = {};
   for (const [date, info] of Object.entries(days)) {
     const total = typeof info === "object" ? info.total || 0 : Number(info) || 0;
     dayTotals[date] = total;
@@ -27,24 +26,7 @@ export default async function handler(req, res) {
         pathTotals[p] = (pathTotals[p] || 0) + c;
       }
     }
-    if (typeof info === "object" && Array.isArray(info.visitors)) {
-      dayVisitorSets[date] = new Set(info.visitors.map(String));
-    }
   }
-
-  const uniqueOn = (dates) => {
-    const s = new Set();
-    for (const d of dates) {
-      const set = dayVisitorSets[d];
-      if (set) for (const id of set) s.add(id);
-    }
-    return s.size;
-  };
-  const datesBetween = (n) => {
-    const out = [];
-    for (let i = n - 1; i >= 0; i--) out.push(dstr(daysAgo(i)));
-    return out;
-  };
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -102,20 +84,6 @@ export default async function handler(req, res) {
   const thisMonthKey = `${today.getFullYear()}-${pad(today.getMonth() + 1)}`;
   const thisMonthTotal = monthTotals[thisMonthKey] || 0;
   const thisYearTotal = yearTotals[String(today.getFullYear())] || 0;
-
-  /* unique people (sessionIds) vs raw page views */
-  const todayUnique = uniqueOn([todayKey]);
-  const yesterdayUnique = uniqueOn([yestKey]);
-  const last7Unique = uniqueOn(datesBetween(7));
-  const last30Unique = uniqueOn(datesBetween(30));
-  const allTimeUnique = uniqueOn(Object.keys(dayVisitorSets));
-  const thisMonthDates = Object.keys(dayVisitorSets)
-    .filter((d) => d.startsWith(`${today.getFullYear()}-${pad(today.getMonth() + 1)}`));
-  const thisYearDates = Object.keys(dayVisitorSets).filter((d) =>
-    d.startsWith(String(today.getFullYear()))
-  );
-  const thisMonthUnique = uniqueOn(thisMonthDates);
-  const thisYearUnique = uniqueOn(thisYearDates);
 
   const topPaths = Object.entries(pathTotals)
     .sort(([, a], [, b]) => b - a)
@@ -240,21 +208,9 @@ export default async function handler(req, res) {
   const yearDelta = pctDelta(thisYearTotal, yearTotals[prevYearKey] || 0);
 
   res.json({
-    /* "redis" means the numbers survive cold starts; "file" on Vercel means
-       ephemeral /tmp and they will reset. Surfaced in the panel so this is
-       never a silent surprise again. */
-    storage: storeBackend(),
-    durable: storeDurable(),
     onlineNow,
     today: todayTotal,
     yesterday: yesterdayTotal,
-    todayUnique,
-    yesterdayUnique,
-    last7Unique,
-    last30Unique,
-    thisMonthUnique,
-    thisYearUnique,
-    totalUnique: allTimeUnique,
     todayDelta,
     weekDelta,
     monthDelta,

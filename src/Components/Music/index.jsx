@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import useClickTrack from "../../Hooks/useClickTrack";
 
+/**
+ * One shared Web-Audio graph for the whole player lifetime. Each <audio>
+ * element may be attached to it only once (a second createMediaElementSource
+ * on the same element throws) — React StrictMode double-invokes effects, and
+ * the element itself persists across song changes, so we track attachments in
+ * a WeakSet and never close the context while the page is alive.
+ */
 const sharedGraph = {
   ctx: null,
   analyser: null,
@@ -25,7 +32,7 @@ function ensureGraph(audio) {
       sharedGraph.analyser.connect(sharedGraph.ctx.destination);
       sharedGraph.attached.add(audio);
     } catch {
-      /* audio element already attached to another context */
+      // element already wired elsewhere — analyser just stays silent
     }
   }
   return sharedGraph.analyser;
@@ -43,8 +50,8 @@ function fillRoundedRect(g, x, y, w, h, r) {
 
 const BARS = 44;
 
-export default function Music({ songData }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+export default function Music({ songData, autoPlay = false }) {
+  const [isPlaying, setIsPlaying] = useState(Boolean(autoPlay));
   const { trackClick } = useClickTrack();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -58,13 +65,15 @@ export default function Music({ songData }) {
   const runIdRef = useRef(0);
   const isPlayingRef = useRef(false);
 
+  // ── reset state whenever a new song arrives ──
   useEffect(() => {
-    setIsPlaying(false);
+    setIsPlaying(Boolean(autoPlay));
     setCurrentTime(0);
     setDuration(0);
     runIdRef.current++;
-  }, [songData?.id]);
+  }, [songData?.id, autoPlay]);
 
+  // ── audio element listeners ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -83,20 +92,26 @@ export default function Music({ songData }) {
     };
   }, [songData]);
 
+  // ── play / pause the element whenever isPlaying changes ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
+      if (sharedGraph.ctx && sharedGraph.ctx.state === "suspended") {
+        sharedGraph.ctx.resume().catch(() => {});
+      }
       audio.play().catch(() => {});
     } else {
       audio.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, songData?.src]);
 
+  // ── keep isPlaying readable inside the draw loop without re-subscribing ──
   useEffect(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
 
+  // ── wire the shared Web-Audio graph (element → analyser → speakers) ──
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -110,6 +125,8 @@ export default function Music({ songData }) {
     };
   }, [songData?.id]);
 
+  // ── real-time spectrum visualizer: the bars ARE the beat. Loud/energetic
+  //    passages push them up, quiet ones settle down — no fake labels. ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -118,6 +135,7 @@ export default function Music({ songData }) {
     const prev = new Array(BARS).fill(0);
     const barCtx = canvas.getContext("2d");
 
+    // idle motion + response follow the track's REAL analysis (DSP), not just tags
     const an = songData?.analysis || null;
     const energetic = /dance|party|energetic|upbeat/i.test(
       (songData?.tags || []).join(" ")
@@ -125,12 +143,12 @@ export default function Music({ songData }) {
     const energyPct = an ? an.energy : energetic ? 70 : 40;
     const hypeVibe = an?.vibe ? an.vibe.energetic : energetic ? 70 : 35;
     const bpm = an?.bpm || (energetic ? 122 : 92);
-    const idleAmp = 0.03 + (energyPct / 100) * 0.10;
-    const idleSpeed = 60000 / Math.max(60, Math.min(176, bpm)) / 2;
-    const snappy = Math.min(1, Math.max(0, (hypeVibe - 20) / 60));
-    const attack = 0.30 + snappy * 0.30;
-    const release = 0.24 + (1 - snappy) * 0.14;
-    const gain = 1 + (1 - energyPct / 100) * 0.85;
+    const idleAmp = 0.03 + (energyPct / 100) * 0.10;       // calm piano breathes, loud tracks swell
+    const idleSpeed = 60000 / Math.max(60, Math.min(176, bpm)) / 2; // pulse at the song's real half-beat
+    const snappy = Math.min(1, Math.max(0, (hypeVibe - 20) / 60));  // 0 = floaty, 1 = punchy
+    const attack = 0.30 + snappy * 0.30;                    // energetic → bars jump fast
+    const release = 0.24 + (1 - snappy) * 0.14;             // calm → bars settle slowly
+    const gain = 1 + (1 - energyPct / 100) * 0.85;          // quiet masters still show their beat
 
     const draw = () => {
       rafRef.current = requestAnimationFrame(draw);
@@ -161,12 +179,14 @@ export default function Music({ songData }) {
         const target = active
           ? Math.min(1, level * gain)
           : idleAmp * (0.5 + 0.5 * Math.sin(Date.now() / idleSpeed + b * 0.7));
+        // attack/release from the vibe: hype = jump fast, calm = glide slow
         const smoothed = prev[b] * (1 - (target > prev[b] ? attack : release)) + target * (target > prev[b] ? attack : release);
         prev[b] = smoothed;
 
         const barH = Math.max(3, smoothed * height * 0.92);
         const x = b * slot + slot * 0.18;
         const w = slot * 0.64;
+        // palette: accent #615FFF → teal #00D5BE
         const hue = 240 - (b / BARS) * 66;
         const light = 66 - (b / BARS) * 24;
         barCtx.fillStyle = active
@@ -297,19 +317,19 @@ export default function Music({ songData }) {
         </div>
       </div>
 
-      <div className="flex w-[65%] sm:w-[55%] mx-auto justify-between items-center gap-2">
+      <div className="flex w-full max-w-[280px] sm:max-w-xs mx-auto justify-between items-center gap-2 sm:gap-3">
         <button
           onClick={togglePlayPause}
-          className="bg-[#615FFF] hover:opacity-90 text-white rounded-full p-3 transition-all duration-200 transform cursor-pointer hover:scale-105"
+          className="bg-[#615FFF] hover:opacity-90 text-white rounded-full p-2.5 sm:p-3 transition-all duration-200 transform cursor-pointer hover:scale-105 shrink-0"
           aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
               <rect x="6" y="4" width="4" height="16" rx="1" />
               <rect x="14" y="4" width="4" height="16" rx="1" />
             </svg>
           ) : (
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
@@ -318,23 +338,23 @@ export default function Music({ songData }) {
         <button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="text-[#90A1B9] hover:text-white p-2.5 rounded-full hover:bg-[#314158]/60 transition-all duration-200 cursor-pointer disabled:opacity-50"
+          className="text-[#90A1B9] hover:text-white p-2 sm:p-2.5 rounded-full hover:bg-[#314158]/60 transition-all duration-200 cursor-pointer disabled:opacity-50 shrink-0"
           title="Download MP3"
           aria-label="Download MP3"
         >
           {isDownloading ? (
-            <svg className="w-5 h-5 animate-spin text-[#615FFF]" viewBox="0 0 24 24" fill="none">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 animate-spin text-[#615FFF]" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           ) : (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
           )}
         </button>
 
-        <div className="flex items-center gap-2 w-28 sm:w-32">
+        <div className="flex items-center gap-1.5 sm:gap-2 w-20 sm:w-28 shrink-0">
           <svg
             className="w-4 h-4 text-[#90A1B9]"
             fill="currentColor"

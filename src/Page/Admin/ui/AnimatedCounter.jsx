@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * Animated number counter — smoothly counts from 0 to `value`.
+ * Duration scales with magnitude (bigger numbers animate longer).
+ */
 export default function AnimatedCounter({ value, duration = 1200, className = "" }) {
   const [display, setDisplay] = useState(0);
   const prevRef = useRef(0);
@@ -16,6 +20,7 @@ export default function AnimatedCounter({ value, duration = 1200, className = ""
     function tick(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / dur, 1);
+      // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(from + (to - from) * eased);
       setDisplay(current);
