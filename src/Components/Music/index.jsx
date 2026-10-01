@@ -279,16 +279,7 @@ export default function Music({ songData, autoPlay = false }) {
   };
 
   return (
-    <div className="w-full mt-10 bg-[#1D293D] mx-auto rounded-2xl p-4 border border-[#314158]">
-      <div className="mb-3 text-center">
-        <h2 className="text-[16px] font-bold text-[#E2E8F0] truncate">
-          {songData.name || "Now playing"}
-        </h2>
-        {songData.artist && (
-          <p className="text-[13px] text-[#90A1B9] mt-1">{songData.artist}</p>
-        )}
-      </div>
-
+    <div className="w-full mt-3 bg-[#0B1222]/90 rounded-xl p-3 sm:p-3.5 border border-[#1E293B] shadow-lg flex flex-col gap-2.5">
       <audio
         ref={audioRef}
         src={songData.src}
@@ -297,66 +288,91 @@ export default function Music({ songData, autoPlay = false }) {
         onError={handleAudioError}
       />
 
-      <div className="mb-3">
+      {/* Track header */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0 flex-1">
+          <h4 className="text-[13px] sm:text-[14px] font-semibold text-[#E2E8F0] truncate">
+            {songData.name || "Track"}
+          </h4>
+          {songData.artist && (
+            <p className="text-[11px] text-[#90A1B9] truncate">{songData.artist}</p>
+          )}
+        </div>
+
+        {/* Visualizer canvas */}
+        <div className="w-24 sm:w-28 h-6 shrink-0 bg-[#020618] rounded border border-[#1E293B] overflow-hidden">
+          <canvas
+            ref={canvasRef}
+            className="w-full h-full block"
+          />
+        </div>
+      </div>
+
+      {/* Progress slider */}
+      <div className="flex flex-col gap-1">
         <input
           type="range"
           min="0"
           max={duration || 0}
           value={currentTime}
           onChange={handleTimeChange}
-          className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-[#615FFF]"
+          className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-[#615FFF]"
           style={{
             background: `linear-gradient(to right, #615FFF 0%, #615FFF ${
               (currentTime / duration) * 100 || 0
-            }%, #314158 ${(currentTime / duration) * 100 || 0}%, #314158 100%)`,
+            }%, #1E293B ${(currentTime / duration) * 100 || 0}%, #1E293B 100%)`,
           }}
         />
-        <div className="flex justify-between text-[#90A1B9] text-[11px] mt-1">
+        <div className="flex justify-between text-[#68768C] font-mono text-[10px]">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className="flex w-full max-w-[280px] sm:max-w-xs mx-auto justify-between items-center gap-2 sm:gap-3">
-        <button
-          onClick={togglePlayPause}
-          className="bg-[#615FFF] hover:opacity-90 text-white rounded-full p-2.5 sm:p-3 transition-all duration-200 transform cursor-pointer hover:scale-105 shrink-0"
-          aria-label={isPlaying ? "Pause" : "Play"}
-        >
-          {isPlaying ? (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-              <rect x="6" y="4" width="4" height="16" rx="1" />
-              <rect x="14" y="4" width="4" height="16" rx="1" />
-            </svg>
-          ) : (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          )}
-        </button>
+      {/* Action Controls */}
+      <div className="flex items-center justify-between gap-2 pt-0.5 border-t border-[#1E293B]/60">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={togglePlayPause}
+            className="bg-[#615FFF] hover:bg-[#7573FF] text-white rounded-lg p-2 transition-all duration-150 cursor-pointer shrink-0 flex items-center justify-center shadow-md active:scale-95"
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? (
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <rect x="6" y="4" width="4" height="16" rx="1" />
+                <rect x="14" y="4" width="4" height="16" rx="1" />
+              </svg>
+            ) : (
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
+          </button>
 
-        <button
-          onClick={handleDownload}
-          disabled={isDownloading}
-          className="text-[#90A1B9] hover:text-white p-2 sm:p-2.5 rounded-full hover:bg-[#314158]/60 transition-all duration-200 cursor-pointer disabled:opacity-50 shrink-0"
-          title="Download MP3"
-          aria-label="Download MP3"
-        >
-          {isDownloading ? (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 animate-spin text-[#615FFF]" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-          ) : (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-          )}
-        </button>
+          <button
+            onClick={handleDownload}
+            disabled={isDownloading}
+            className="text-[#90A1B9] hover:text-white p-2 rounded-lg hover:bg-[#1E293B] transition-all duration-150 cursor-pointer disabled:opacity-50 shrink-0"
+            title="Download MP3"
+            aria-label="Download MP3"
+          >
+            {isDownloading ? (
+              <svg className="w-3.5 h-3.5 animate-spin text-[#615FFF]" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+            ) : (
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            )}
+          </button>
+        </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 w-20 sm:w-28 shrink-0">
+        {/* Volume Slider */}
+        <div className="flex items-center gap-1.5 w-20 sm:w-24 shrink-0">
           <svg
-            className="w-4 h-4 text-[#90A1B9]"
+            className="w-3.5 h-3.5 text-[#68768C] shrink-0"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -369,17 +385,11 @@ export default function Music({ songData, autoPlay = false }) {
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-            className="flex-1 h-1 bg-[#314158] rounded-lg appearance-none cursor-pointer accent-[#615FFF]"
+            className="flex-1 h-1 bg-[#1E293B] rounded-lg appearance-none cursor-pointer accent-[#615FFF]"
             aria-label="Volume"
           />
         </div>
       </div>
-
-      <canvas
-        ref={canvasRef}
-        className="w-full h-14 block mt-4"
-        style={{ maxWidth: "100%" }}
-      />
     </div>
   );
 }
