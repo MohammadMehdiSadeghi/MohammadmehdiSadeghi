@@ -19,7 +19,7 @@ import path from "path";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
 import { executeMoodSearch, MOOD_DIMS } from "./src/lib/moodEngine.js";
-import { resolveCountry, formatCountryStats, getCountryFlag, getCountryName } from "./api/_country.js";
+import { resolveCountry, formatCountryStats } from "./api/_country.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
