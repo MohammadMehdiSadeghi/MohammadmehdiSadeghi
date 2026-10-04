@@ -69,7 +69,7 @@ export default function SubjectBox({
 
         {mobileContent}
 
-        <ul className="flex flex-col pb-3 gap-5 h-fit">
+        <ul className="flex flex-col pb-3 gap-1.5 h-fit">
           <h2
             onClick={() => setContactsOpen((prev) => !prev)}
             className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-t-[1px] text-white border-[#90a1b977] cursor-pointer select-none md:cursor-default"
@@ -81,11 +81,9 @@ export default function SubjectBox({
               alt=""
             />
           </h2>
-          <li
-            className={`px-4 sm:px-6 md:px-5 lg:px-8 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
-          >
+          <li className={`${contactsOpen ? "flex" : "hidden"} md:flex`}>
             <a
-              className="flex items-center gap-2.5 sm:gap-3 text-[12px] sm:text-[14px] hover:text-white transition-colors min-w-0 break-all"
+              className="w-full flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 md:px-5 lg:px-8 py-2.5 text-[12px] sm:text-[14px] hover:text-white hover:bg-[#7888a01a] transition-all duration-150 cursor-pointer min-w-0"
               href="mailto:mohammad12345sadeghi@gmail.com"
               onClick={() => trackClick({ targetType: "button", targetId: "contact-email", targetLabel: "Email Contact" })}
             >
@@ -97,10 +95,12 @@ export default function SubjectBox({
               <span className="truncate">mohammad12345sadeghi@gmail.com</span>
             </a>
           </li>
-          <li
-            className={`px-4 sm:px-6 md:px-5 lg:px-8 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
-          >
-            <a className="flex items-center gap-2.5 sm:gap-3 text-[12px] sm:text-[14px] hover:text-white transition-colors min-w-0" href="tel:+989150669620" onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}>
+          <li className={`${contactsOpen ? "flex" : "hidden"} md:flex`}>
+            <a
+              className="w-full flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 md:px-5 lg:px-8 py-2.5 text-[12px] sm:text-[14px] hover:text-white hover:bg-[#7888a01a] transition-all duration-150 cursor-pointer min-w-0"
+              href="tel:+989150669620"
+              onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}
+            >
               <img
                 className="w-5 shrink-0"
                 src="/assets/Images/icon phone.svg"
@@ -109,10 +109,14 @@ export default function SubjectBox({
               <span>+98 915 066 9620</span>
             </a>
           </li>
-          <li
-            className={`px-4 sm:px-6 md:px-5 lg:px-8 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
-          >
-            <a className="flex items-center gap-2.5 sm:gap-3 text-[12px] sm:text-[14px] hover:text-white transition-colors min-w-0" href="https://t.me/Mohammad_sadeghi34" onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}>
+          <li className={`${contactsOpen ? "flex" : "hidden"} md:flex`}>
+            <a
+              className="w-full flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 md:px-5 lg:px-8 py-2.5 text-[12px] sm:text-[14px] hover:text-white hover:bg-[#7888a01a] transition-all duration-150 cursor-pointer min-w-0"
+              href="https://t.me/Mohammad_sadeghi34"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}
+            >
               <img
                 className="w-5 shrink-0"
                 src="/assets/Images/BasilTelegramSolid.png"
@@ -121,10 +125,14 @@ export default function SubjectBox({
               <span className="truncate">@Mohammad_sadeghi34</span>
             </a>
           </li>
-          <li
-            className={`px-4 pb-4 border-b md:border-b-0 sm:px-6 md:px-5 lg:px-8 items-center gap-3 ${contactsOpen ? "flex" : "hidden"} md:flex`}
-          >
-            <a className="flex items-center gap-2.5 sm:gap-3 text-[12px] sm:text-[14px] hover:text-white transition-colors min-w-0" href="https://www.instagram.com/Mohammad_sadeghi3447" onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}>
+          <li className={`border-b md:border-b-0 ${contactsOpen ? "flex" : "hidden"} md:flex`}>
+            <a
+              className="w-full flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 md:px-5 lg:px-8 py-2.5 text-[12px] sm:text-[14px] hover:text-white hover:bg-[#7888a01a] transition-all duration-150 cursor-pointer min-w-0"
+              href="https://www.instagram.com/Mohammad_sadeghi3447"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}
+            >
               <img
                 className="w-5 shrink-0"
                 src="/assets/Images/TablerBrandInstagram.png"
