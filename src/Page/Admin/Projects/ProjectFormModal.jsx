@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 
 const SOURCES = [
-  { key: "none", label: "showcase only" },
-  { key: "link", label: "live link" },
-  { key: "upload", label: "upload dist.zip" },
+  { key: "link", label: "Live Project Link (URL)" },
+  { key: "upload", label: "Upload ZIP Archive (.zip)" },
+  { key: "none", label: "Showcase Only (No URL)" },
 ];
 
 export default function ProjectFormModal({ mode, project, busy, onClose, onSave, authFetch, projectType }) {
@@ -18,7 +18,7 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
   const [source, setSource] = useState(() => {
     if (project?.url && String(project.url).startsWith("/Projects/")) return "upload";
     if (project?.url && String(project.url).startsWith("http")) return "link";
-    return "none";
+    return "link";
   });
   const [archive, setArchive] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -157,8 +157,7 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
                 className="bg-[#020618] py-2 px-3 outline-[#314158] outline-1 hover:outline-[#90A1B9] duration-150 rounded-md w-full text-[#90a1b9c7] text-[11px] file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-[#615FFF33] file:text-[#90A1B9] file:text-[11px] file:cursor-pointer"
               />
               <p className="text-[10px] text-[#4B576D]">
-                // auto-deployed to /Projects/…/&lt;slug&gt;/ — the zip is extracted and
-                deleted automatically so it never takes up space
+                // auto-deployed to /Projects/…/&lt;slug&gt;/ — any root folder inside the zip is auto-flattened, index.html is placed at the project root, and the zip archive is deleted immediately.
               </p>
             </label>
           )}

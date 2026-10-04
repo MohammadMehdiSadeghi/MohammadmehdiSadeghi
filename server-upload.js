@@ -102,12 +102,31 @@ export function registerUploadRoutes(
         const entries = zip.getEntries().filter((e) => !e.isDirectory);
         if (!entries.length) throw new Error("archive is empty");
 
-        // find the common top folder (dist/ inside zip) so we don't nest twice
+        // Locate index.html inside archive (even if nested in a root folder) to determine base prefix
+        const cleanEntries = entries.filter((e) => {
+          const norm = e.entryName.replace(/\\/g, "/");
+          return !norm.split("/").includes("__MACOSX") && !path.basename(norm).startsWith("._");
+        });
+
+        const indexCandidates = cleanEntries.filter((e) =>
+          path.basename(e.entryName).toLowerCase() === "index.html"
+        );
+
         let prefix = "";
-        const firstParts = entries.map((e) => e.entryName.split(/[\\/]/));
-        if (firstParts.every((p) => p.length > 1)) {
-          const shared = firstParts[0][0];
-          if (firstParts.every((p) => p[0] === shared)) prefix = shared + "/";
+        if (indexCandidates.length > 0) {
+          // Choose the shallowest index.html
+          indexCandidates.sort((a, b) => a.entryName.split(/[\\/]/).length - b.entryName.split(/[\\/]/).length);
+          const chosenIndex = indexCandidates[0].entryName.replace(/\\/g, "/");
+          const idxParts = chosenIndex.split("/");
+          idxParts.pop(); // remove 'index.html'
+          prefix = idxParts.length > 0 ? idxParts.join("/") + "/" : "";
+        } else {
+          // Fallback to common root folder detection if index.html is somehow named differently
+          const firstParts = cleanEntries.map((e) => e.entryName.replace(/\\/g, "/").split("/"));
+          if (firstParts.length > 0 && firstParts.every((p) => p.length > 1)) {
+            const shared = firstParts[0][0];
+            if (firstParts.every((p) => p[0] === shared)) prefix = shared + "/";
+          }
         }
 
         // 1) extract into a TEMP dir first — old deployment stays live on any failure
@@ -120,14 +139,16 @@ export function registerUploadRoutes(
           ".cgi", ".pl", ".py", ".pyc", ".dll", ".so", ".jsp", ".jspx", ".asp", ".aspx"
         ]);
 
-        if (entries.length > 2500) {
+        if (cleanEntries.length > 2500) {
           throw new Error("archive contains too many files (max 2500)");
         }
 
-        for (const entry of entries) {
-          let rel = entry.entryName;
-          if (prefix && rel.startsWith(prefix)) rel = rel.slice(prefix.length);
-          rel = rel.replace(/\\/g, "/");
+        for (const entry of cleanEntries) {
+          let rel = entry.entryName.replace(/\\/g, "/");
+          if (prefix) {
+            if (!rel.startsWith(prefix)) continue; // ignore files outside the main project folder
+            rel = rel.slice(prefix.length);
+          }
           if (
             !rel ||
             rel.split("/").includes("__MACOSX") ||
@@ -142,7 +163,7 @@ export function registerUploadRoutes(
 
           const target = safeJoin(extractDir, rel);
           if (!target) continue; // zip-slip guard
-          if (/(^|\/)index\.html$/i.test(rel)) hasIndex = true;
+          if (path.basename(rel).toLowerCase() === "index.html") hasIndex = true;
 
           const data = entry.getData();
           totalBytes += data.length;
@@ -155,7 +176,7 @@ export function registerUploadRoutes(
           written++;
         }
         if (!written) throw new Error("no usable files in archive");
-        if (!hasIndex) throw new Error("archive has no index.html at its root");
+        if (!hasIndex) throw new Error("archive must contain an index.html file");
 
         // 2) atomic swap: remove old, rename temp into place
         await fsp.rm(destRoot, { recursive: true, force: true });
