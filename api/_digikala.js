@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   if (!data) {
     return res
       .status(400)
-      .json({ error: "نوع داده نامعتبر است", valid_types: Object.keys(DK_MAP) });
+      .json({ error: "Invalid data type", valid_types: Object.keys(DK_MAP) });
   }
   const out = JSON.parse(JSON.stringify(data));
   fixImagePaths(out);

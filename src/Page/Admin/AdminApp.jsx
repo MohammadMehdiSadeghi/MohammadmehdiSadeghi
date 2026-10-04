@@ -9,7 +9,7 @@ import ProjectsPage from "./Projects";
 import BlogPage from "./Blog";
 import SkillsPage from "./Skills";
 import MessagesPage from "./Messages";
-import DatabasePage from "./Database";
+import SitePage from "./Site";
 import TelegramPage from "./Telegram";
 import MoodsPage from "./Moods";
 import SecurityPage from "./Security";
@@ -20,7 +20,7 @@ function AdminRoutes() {
 
   usePageSEO({
     title: "Admin Dashboard | Mohammad Mehdi Sadeghi",
-    description: "Secure administrative console for content management, database explorer, and analytics.",
+    description: "Secure administrative console for content management and analytics.",
   });
   return (
     <ErrorBoundary key={location.pathname}>
@@ -38,8 +38,9 @@ function AdminRoutes() {
           <Route path="projects" element={<ProjectsPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="skills" element={<SkillsPage />} />
+          <Route path="site" element={<SitePage />} />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="database" element={<DatabasePage />} />
+          <Route path="database" element={<Navigate to="stats" replace />} />
           <Route path="telegram" element={<TelegramPage />} />
           <Route path="moods" element={<MoodsPage />} />
           <Route path="security" element={<SecurityPage />} />

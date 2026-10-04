@@ -11,23 +11,19 @@ import path from "node:path";
    ════════════════════════════════════════════════════════════════════ */
 
 export const DATA_DIR = process.env.VERCEL_DATA_DIR || "/tmp/portfolio-data";
-export const TOKEN_TTL = 60 * 60 * 24 * 365 * 10; // 10 years (parity with server.js)
+export const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (reduced from 10y for security)
 export const MESSAGE_STATUSES = new Set(["unseen", "seen", "archived"]);
 
 /* ── admin credentials ────────────────────────────────────────────────
-   The default login is baked in as a SHA-256 HASH (never plaintext).
-   A password changed from the dashboard is written to the ephemeral
-   store (admin-auth.json) and takes precedence while the instance is
-   warm; env vars still win when they are set.
-
-   The HMAC secret is generated randomly at cold start when
-   VERCEL_ADMIN_SECRET is absent, so tokens can never be forged with a
-   hard-coded key from this repo.
+   Credentials should be provided via environment variables:
+   - VERCEL_ADMIN_USERNAME
+   - VERCEL_ADMIN_PASSWORD_SHA256
+   - VERCEL_ADMIN_SECRET
    ──────────────────────────────────────────────────────────────────── */
 export const DEFAULT_ADMIN = {
-  username: "mohammad.m.sadeghi09@gmail.com",
-  /* sha256("moha3447") */
+  username: process.env.VERCEL_ADMIN_USERNAME || "mohammad.m.sadeghi09@gmail.com",
   password_sha256:
+    process.env.VERCEL_ADMIN_PASSWORD_SHA256 ||
     "b5935771f43bbca6b350f841baa5ed7fb25fbaa8168ebdff549fa16295f46680",
 };
 
@@ -247,9 +243,10 @@ const SOFT_BUDGET = 120, SOFT_WINDOW = 60; // soft: 120/min → silent drop
 const rate = new Map();
 
 export const clientIP = (req) => {
-  const xf = req.headers["x-forwarded-for"];
+  // In serverless (Vercel) x-forwarded-for or x-real-ip is trusted; fallback safely
+  const xf = req.headers["x-forwarded-for"] || req.headers["x-real-ip"];
   if (xf) return String(xf).split(",")[0].trim();
-  return req.socket?.remoteAddress || "unknown";
+  return req.socket?.remoteAddress || req.connection?.remoteAddress || "127.0.0.1";
 };
 
 export async function rateCheck(req, key, soft) {

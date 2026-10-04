@@ -11,7 +11,6 @@ const navItems = [
   { to: "/admin/messages", label: "messages.log", hint: "contact inbox", isInbox: true },
   { to: "/admin/telegram", label: "telegram.bot", hint: "form → telegram" },
   { to: "/admin/moods", label: "moods.json", hint: "vibe QC" },
-  { to: "/admin/database", label: "database", hint: "file manager" },
   { to: "/admin/security", label: "security.key", hint: "change password" },
 ];
 

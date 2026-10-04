@@ -112,7 +112,18 @@ export function registerUploadRoutes(
 
         // 1) extract into a TEMP dir first — old deployment stays live on any failure
         let hasIndex = false,
-          written = 0;
+          written = 0,
+          totalBytes = 0;
+        const MAX_UNCOMPRESSED_BYTES = 100 * 1024 * 1024; // 100MB Zip-Bomb guard
+        const FORBIDDEN_EXTS = new Set([
+          ".exe", ".bat", ".cmd", ".sh", ".bash", ".php", ".phtml", ".phar",
+          ".cgi", ".pl", ".py", ".pyc", ".dll", ".so", ".jsp", ".jspx", ".asp", ".aspx"
+        ]);
+
+        if (entries.length > 2500) {
+          throw new Error("archive contains too many files (max 2500)");
+        }
+
         for (const entry of entries) {
           let rel = entry.entryName;
           if (prefix && rel.startsWith(prefix)) rel = rel.slice(prefix.length);
@@ -123,11 +134,24 @@ export function registerUploadRoutes(
             path.basename(rel).startsWith(".")
           )
             continue;
+
+          const ext = path.extname(rel).toLowerCase();
+          if (FORBIDDEN_EXTS.has(ext)) {
+            throw new Error(`forbidden file extension in archive: ${ext}`);
+          }
+
           const target = safeJoin(extractDir, rel);
           if (!target) continue; // zip-slip guard
           if (/(^|\/)index\.html$/i.test(rel)) hasIndex = true;
+
+          const data = entry.getData();
+          totalBytes += data.length;
+          if (totalBytes > MAX_UNCOMPRESSED_BYTES) {
+            throw new Error("uncompressed archive size exceeded limit (max 100MB)");
+          }
+
           await fsp.mkdir(path.dirname(target), { recursive: true });
-          await fsp.writeFile(target, entry.getData());
+          await fsp.writeFile(target, data);
           written++;
         }
         if (!written) throw new Error("no usable files in archive");

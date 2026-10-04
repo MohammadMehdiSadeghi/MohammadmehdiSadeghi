@@ -97,7 +97,7 @@ const PUBLIC_JSON = {
   site: path.join(PUBLIC_DIR, "api", "site.json"),
 };
 
-const TOKEN_TTL = 60 * 60 * 24 * 365 * 10; // 10 years (permanent admin token)
+const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (reduced from 10y for security)
 let CONFIG = { username: "", password_sha256: "", secret: "changeme", token_version: 0 };
 
 let configReady = null;
@@ -161,9 +161,7 @@ const RATE_MAX = 5, RATE_WINDOW = 900;     // hard: 5 / 15min → 429
 const SOFT_BUDGET = 120, SOFT_WINDOW = 60; // soft: 120/min → silent drop
 
 const clientIP = (req) => {
-  const xf = req.headers["x-forwarded-for"];
-  if (xf) return String(xf).split(",")[0].trim();
-  return req.socket.remoteAddress || "unknown";
+  return req.ip || req.socket?.remoteAddress || req.connection?.remoteAddress || "127.0.0.1";
 };
 
 async function rateCheck(req, key, soft) {
@@ -205,10 +203,24 @@ async function rateSuccess(k) {
   });
 }
 
+/* ── Security Headers ── */
+function securityHeaders(req, res, next) {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  if (req.secure || req.headers["x-forwarded-proto"] === "https") {
+    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  }
+  next();
+}
+
 /* ══════════════════ APP ══════════════════ */
 
 const app = express();
+app.set("trust proxy", 1);
 app.disable("x-powered-by");
+app.use(securityHeaders);
 app.use(express.json({ limit: "6mb" })); // blog cover uploads arrive as base64
 app.use(sameOriginCORS);
 
@@ -1629,9 +1641,9 @@ function fixImagePaths(node) {
 app.get("/api/digikala", wrap(async (req, res) => {
   const type = String(req.query.type || "");
   const file = DK_MAP[type];
-  if (!file) return res.status(400).json({ error: "نوع داده نامعتبر است", valid_types: Object.keys(DK_MAP) });
+  if (!file) return res.status(400).json({ error: "Invalid data type", valid_types: Object.keys(DK_MAP) });
   const data = await readJSON(path.join(DK_DIR, file), null);
-  if (data === null) return res.status(404).json({ error: "فایل داده پیدا نشد", file });
+  if (data === null) return res.status(404).json({ error: "Data file not found", file });
   fixImagePaths(data);
   res.json(data);
 }));
@@ -1642,7 +1654,7 @@ app.get("/api/ubisoft", wrap(async (req, res) => {
   const type = String(req.query.type || "first");
   const file = type === "second" ? "top slider games data img second.json" : "top-slider-games-data.json";
   const data = await readJSON(path.join(UB_DIR, file), null);
-  if (data === null) return res.status(404).json({ error: "داده‌ای پیدا نشد", file });
+  if (data === null) return res.status(404).json({ error: "Data not found", file });
   if (Array.isArray(data)) {
     for (const item of data) {
       if (item && typeof item === "object" && typeof item.image === "string" && item.image.startsWith("/")) {
@@ -1761,9 +1773,20 @@ app.post("/api/admin/fs-delete", wrap(async (req, res) => {
   const r = resolveInRoot(body.path);
   if (!r) return res.status(400).json({ error: "path escapes project root" });
   if (!r.rel) return res.status(400).json({ error: "refusing to delete the project root itself" });
-  if (r.rel === ".git" || r.rel.startsWith(".git/")) {
-    return res.status(400).json({ error: "refusing to delete .git (repo history)" });
+
+  const PROTECTED_SYSTEM_PATHS = [
+    ".git", "src", "api", "node_modules", "dist", "tools",
+    "server.js", "server-blog.js", "server-upload.js", "package.json",
+    "package-lock.json", "vite.config.js", "vite-plugin-mock-api.js",
+    "eslint.config.js", "index.html", "vercel.json"
+  ];
+  const isProtected = PROTECTED_SYSTEM_PATHS.some(
+    (p) => r.rel === p || r.rel.startsWith(p + "/") || r.rel.startsWith(".env")
+  );
+  if (isProtected) {
+    return res.status(403).json({ error: "refusing to delete protected system file/directory" });
   }
+
   let st;
   try { st = await fsp.stat(r.abs); } catch { return res.status(404).json({ error: "not found" }); }
   await fsp.rm(r.abs, { recursive: true, force: true });

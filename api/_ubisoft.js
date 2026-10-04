@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
   const type = String(req.query.type || "first");
   const data = UB_MAP[type === "second" ? "second" : "first"];
-  if (!data) return res.status(404).json({ error: "داده‌ای پیدا نشد" });
+  if (!data) return res.status(404).json({ error: "Data not found" });
   const out = JSON.parse(JSON.stringify(data));
   if (Array.isArray(out)) {
     for (const item of out) {

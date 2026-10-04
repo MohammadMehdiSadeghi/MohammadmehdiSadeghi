@@ -4,7 +4,7 @@
       "id": 1,
       "name": "The Winner Takes It All",
       "artist": "ABBA",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/ABBA%20-%20The%20Winner%20Takes%20It%20All%20(SPOTISAVER).mp3",
+      "src": "/assets/Music/ABBA%20-%20The%20Winner%20Takes%20It%20All%20(SPOTISAVER).mp3",
       "tags": [
         "جدایی",
         "شکست عشقی",
@@ -110,7 +110,7 @@
       "id": 2,
       "name": "Rolling in the Deep",
       "artist": "Adele",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Adele%20-%20Rolling%20in%20the%20Deep.mp3",
+      "src": "/assets/Music/Adele%20-%20Rolling%20in%20the%20Deep.mp3",
       "tags": [
         "جدایی",
         "خیانت",
@@ -212,7 +212,7 @@
       "id": 3,
       "name": "Art Deco",
       "artist": "Lana Del Rey",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Art%20Deco%20-%20Lana%20Del%20Rey.mp3",
+      "src": "/assets/Music/Art%20Deco%20-%20Lana%20Del%20Rey.mp3",
       "tags": [
         "سینمایی",
         "قدیمی",
@@ -294,7 +294,7 @@
       "id": 4,
       "name": "As It Was",
       "artist": "Harry Styles",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/As%20It%20Was%20-%20Harry%20Styles.mp3",
+      "src": "/assets/Music/As%20It%20Was%20-%20Harry%20Styles.mp3",
       "tags": [
         "نوستالژی",
         "تغییر",
@@ -390,7 +390,7 @@
       "id": 5,
       "name": "Birds of a Feather",
       "artist": "Billie Eilish",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/BIRDS%20OF%20A%20FEATHER.mp3",
+      "src": "/assets/Music/BIRDS%20OF%20A%20FEATHER.mp3",
       "tags": [
         "عشق",
         "وفاداری",
@@ -482,7 +482,7 @@
       "id": 6,
       "name": "I Want It That Way",
       "artist": "Backstreet Boys",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Backstreet%20Boys%20-%20I%20Want%20It%20That%20Way.mp3",
+      "src": "/assets/Music/Backstreet%20Boys%20-%20I%20Want%20It%20That%20Way.mp3",
       "tags": [
         "عشق",
         "دلتنگی",
@@ -581,7 +581,7 @@
       "id": 7,
       "name": "Beanie",
       "artist": "Chezile",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Beanie%20-%20Chezile.mp3",
+      "src": "/assets/Music/Beanie%20-%20Chezile.mp3",
       "tags": [
         "لطیف",
         "عاشقانه",
@@ -662,7 +662,7 @@
       "id": 8,
       "name": "Believer",
       "artist": "Imagine Dragons",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Believer%20-%20Imagine%20Dragons.mp3",
+      "src": "/assets/Music/Believer%20-%20Imagine%20Dragons.mp3",
       "tags": [
         "مبارزه",
         "غلبه",
@@ -760,7 +760,7 @@
       "id": 9,
       "name": "Billie Jean",
       "artist": "Michael Jackson",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Billie%20Jean%20-%20Michael%20Jackson.mp3",
+      "src": "/assets/Music/Billie%20Jean%20-%20Michael%20Jackson.mp3",
       "tags": [
         "پاپ",
         "کلاسیک",
@@ -835,7 +835,7 @@
       "id": 10,
       "name": "Blinding Lights",
       "artist": "The Weeknd",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Blinding%20Lights.mp3",
+      "src": "/assets/Music/Blinding%20Lights.mp3",
       "tags": [
         "شب",
         "شهر",
@@ -933,7 +933,7 @@
       "id": 11,
       "name": "Can't Get You out of My Head",
       "artist": "Kylie Minogue",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Can't%20Get%20You%20out%20of%20My%20Head.mp3",
+      "src": "/assets/Music/Can't%20Get%20You%20out%20of%20My%20Head.mp3",
       "tags": [
         "وسواس",
         "میل",
@@ -1019,7 +1019,7 @@
       "id": 12,
       "name": "Cure For Me",
       "artist": "AURORA",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Cure%20For%20Me%20-%20AURORA%20(converted).mp3",
+      "src": "/assets/Music/Cure%20For%20Me%20-%20AURORA%20(converted).mp3",
       "tags": [
         "درمان",
         "خودپذیری",
@@ -1102,7 +1102,7 @@
       "id": 13,
       "name": "Lose Yourself",
       "artist": "Eminem",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Eminem%20-%20Lose%20Yourself.mp3",
+      "src": "/assets/Music/Eminem%20-%20Lose%20Yourself.mp3",
       "tags": [
         "جاه‌طلبی",
         "مبارزه زندگی",
@@ -1193,7 +1193,7 @@
       "id": 14,
       "name": "Flowers",
       "artist": "Miley Cyrus",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Flowers.mp3",
+      "src": "/assets/Music/Flowers.mp3",
       "tags": [
         "عشق به خود",
         "استقلال",
@@ -1282,7 +1282,7 @@
       "id": 15,
       "name": "Happier Than Ever",
       "artist": "Billie Eilish",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Happier%20Than%20Ever%20-%20Billie%20Eilish.mp3",
+      "src": "/assets/Music/Happier%20Than%20Ever%20-%20Billie%20Eilish.mp3",
       "tags": [
         "جدایی",
         "خشم",
@@ -1370,7 +1370,7 @@
       "id": 16,
       "name": "Heat Waves",
       "artist": "Glass Animals",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Heat%20Waves.mp3",
+      "src": "/assets/Music/Heat%20Waves.mp3",
       "tags": [
         "دلتنگی",
         "نوستالژی",
@@ -1461,7 +1461,7 @@
       "id": 17,
       "name": "Houdini",
       "artist": "Eminem",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Houdini.mp3",
+      "src": "/assets/Music/Houdini.mp3",
       "tags": [
         "رپ",
         "هیپ هاپ",
@@ -1541,7 +1541,7 @@
       "id": 18,
       "name": "I Was Made for Lovin' You",
       "artist": "KISS",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/I%20Was%20Made%20For%20Lovin%20%20You%20-%20KISS.mp3",
+      "src": "/assets/Music/I%20Was%20Made%20For%20Lovin%20%20You%20-%20KISS.mp3",
       "tags": [
         "راک",
         "دیسکو",
@@ -1621,7 +1621,7 @@
       "id": 19,
       "name": "Idea 10",
       "artist": "Gibran Alcocer",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Idea%2010%20-%20Gibran%20Alcocer.mp3",
+      "src": "/assets/Music/Idea%2010%20-%20Gibran%20Alcocer.mp3",
       "tags": [
         "پیانو",
         "بی کلام",
@@ -1703,7 +1703,7 @@
       "id": 20,
       "name": "Idea 22",
       "artist": "Gibran Alcocer",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Idea%2022.mp3",
+      "src": "/assets/Music/Idea%2022.mp3",
       "tags": [
         "پیانو",
         "بی کلام",
@@ -1787,7 +1787,7 @@
       "id": 21,
       "name": "Je veux",
       "artist": "ZAZ",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Je%20veux%20-%20ZAZ.mp3",
+      "src": "/assets/Music/Je%20veux%20-%20ZAZ.mp3",
       "tags": [
         "فرانسوی",
         "جاز",
@@ -1867,7 +1867,7 @@
       "id": 22,
       "name": "Let It Happen",
       "artist": "Tame Impala",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Let%20It%20Happen%20-%20Tame%20Impala.mp3",
+      "src": "/assets/Music/Let%20It%20Happen%20-%20Tame%20Impala.mp3",
       "tags": [
         "سایکدلیک",
         "هیپنوتیزم کننده",
@@ -1944,7 +1944,7 @@
       "id": 23,
       "name": "Nothing's New",
       "artist": "Rio Romeo",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Nothing%20s%20New%20-%20Rio%20Romeo.mp3",
+      "src": "/assets/Music/Nothing%20s%20New%20-%20Rio%20Romeo.mp3",
       "tags": [
         "عشق",
         "دلتنگی",
@@ -2035,7 +2035,7 @@
       "id": 24,
       "name": "On ira",
       "artist": "Zaz",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/On%20ira%20(converted).mp3",
+      "src": "/assets/Music/On%20ira%20(converted).mp3",
       "tags": [
         "فرانسوی",
         "امید",
@@ -2112,7 +2112,7 @@
       "id": 25,
       "name": "Apologize",
       "artist": "OneRepublic",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/OneRepublic%20-%20Apologize.mp3",
+      "src": "/assets/Music/OneRepublic%20-%20Apologize.mp3",
       "tags": [
         "پشیمانی",
         "عذرخواهی",
@@ -2203,7 +2203,7 @@
       "id": 26,
       "name": "Romantic Homicide",
       "artist": "d4vd",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Romantic%20Homicide%20-%20d4vd.mp3",
+      "src": "/assets/Music/Romantic%20Homicide%20-%20d4vd.mp3",
       "tags": [
         "دلشکستگی",
         "خشم",
@@ -2283,7 +2283,7 @@
       "id": 27,
       "name": "Save Your Tears",
       "artist": "The Weeknd",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Save%20Your%20Tears.mp3",
+      "src": "/assets/Music/Save%20Your%20Tears.mp3",
       "tags": [
         "جدایی",
         "پشیمانی",
@@ -2371,7 +2371,7 @@
       "id": 28,
       "name": "Hips Don't Lie",
       "artist": "Shakira",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Shakira%20-%20Hips%20Don%20t%20Lie.mp3",
+      "src": "/assets/Music/Shakira%20-%20Hips%20Don%20t%20Lie.mp3",
       "tags": [
         "رقص",
         "لاتین",
@@ -2458,7 +2458,7 @@
       "id": 29,
       "name": "Swing Lynn (Slowed)",
       "artist": "Harmless",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Slowed%20Version%20-%20Swing%20Lynn.mp3",
+      "src": "/assets/Music/Slowed%20Version%20-%20Swing%20Lynn.mp3",
       "tags": [
         "اسلو",
         "رویایی",
@@ -2538,7 +2538,7 @@
       "id": 30,
       "name": "Sweater Weather",
       "artist": "The Neighbourhood",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Sweater%20Weather.mp3",
+      "src": "/assets/Music/Sweater%20Weather.mp3",
       "tags": [
         "عاشقانه",
         "صمیمیت",
@@ -2624,7 +2624,7 @@
       "id": 31,
       "name": "The Fate of Ophelia",
       "artist": "Taylor Swift",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/The%20Fate%20of%20Ophelia.mp3",
+      "src": "/assets/Music/The%20Fate%20of%20Ophelia.mp3",
       "tags": [
         "داستانی",
         "شکسپیر",
@@ -2708,7 +2708,7 @@
       "id": 32,
       "name": "No One Noticed",
       "artist": "The Marías",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/The%20Marias%20-%20No%20One%20Noticed.mp3",
+      "src": "/assets/Music/The%20Marias%20-%20No%20One%20Noticed.mp3",
       "tags": [
         "تنهایی",
         "انزوا",
@@ -2797,7 +2797,7 @@
       "id": 33,
       "name": "Seven Nation Army",
       "artist": "The White Stripes",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/The%20White%20Stripes%20-%20Seven%20Nation%20Army.mp3",
+      "src": "/assets/Music/The%20White%20Stripes%20-%20Seven%20Nation%20Army.mp3",
       "tags": [
         "قدرت",
         "سرود",
@@ -2883,7 +2883,7 @@
       "id": 34,
       "name": "Thinking Out Loud (Piano Cover)",
       "artist": "Ed Sheeran Piano Covers",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Thinking%20Out%20Loud.mp3",
+      "src": "/assets/Music/Thinking%20Out%20Loud.mp3",
       "tags": [
         "عشق",
         "برای همیشه",
@@ -2974,7 +2974,7 @@
       "id": 35,
       "name": "Training Season",
       "artist": "Dua Lipa",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/Training%20Season.mp3",
+      "src": "/assets/Music/Training%20Season.mp3",
       "tags": [
         "رقص",
         "ریتم قوی",
@@ -3051,7 +3051,7 @@
       "id": 36,
       "name": "bad guy",
       "artist": "Billie Eilish",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/bad%20guy%20-%20Billie%20Eilish.mp3",
+      "src": "/assets/Music/bad%20guy%20-%20Billie%20Eilish.mp3",
       "tags": [
         "طغیان",
         "طنز تلخ",
@@ -3144,7 +3144,7 @@
       "id": 37,
       "name": "did i tell u that i miss u",
       "artist": "adore",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/did%20i%20tell%20u%20that%20i%20miss%20u%20-%20adore.mp3",
+      "src": "/assets/Music/did%20i%20tell%20u%20that%20i%20miss%20u%20-%20adore.mp3",
       "tags": [
         "دلتنگی",
         "لطیف",
@@ -3225,7 +3225,7 @@
       "id": 38,
       "name": "we fell in love in october",
       "artist": "girl in red",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/girl%20in%20red%20-%20we%20fell%20in%20love%20in%20october.mp3",
+      "src": "/assets/Music/girl%20in%20red%20-%20we%20fell%20in%20love%20in%20october.mp3",
       "tags": [
         "پاییز",
         "اکتبر",
@@ -3303,7 +3303,7 @@
       "id": 39,
       "name": "In the End (Piano Cover)",
       "artist": "Scott D. Davis",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/in%20the%20end.mp3",
+      "src": "/assets/Music/in%20the%20end.mp3",
       "tags": [
         "مبارزه",
         "پشیمانی",
@@ -3400,7 +3400,7 @@
       "id": 40,
       "name": "STAY",
       "artist": "The Kid LAROI & Justin Bieber",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/stay.mp3",
+      "src": "/assets/Music/stay.mp3",
       "tags": [
         "جدایی",
         "پشیمانی",
@@ -3488,7 +3488,7 @@
       "id": 41,
       "name": "Yellow (Fingerstyle Cover)",
       "artist": "Daniel Padim",
-      "src": "https://fahjtsbfzavburpvkhhp.supabase.co/storage/v1/object/public/music/yellow.mp3",
+      "src": "/assets/Music/yellow.mp3",
       "tags": [
         "عشق",
         "وفاداری",
@@ -3577,6 +3577,236 @@
       "valence": "positive",
       "summaryEn": "A wordless fingerstyle arrangement of Coldplay's 'Yellow' conveys devoted love and admiration for the beloved through warm, delicate acoustic guitar. Its dreamy, calm atmosphere evokes starry skies, sunlight, moonlight, and nostalgia for 2000s romance.",
       "audioMoodEn": "Calm-Romantic"
+    },
+    {
+      "id": 42,
+      "name": "Cornfield Chase",
+      "artist": "Hans Zimmer",
+      "src": "/assets/Music/Cornfield%20Chase.mp3",
+      "tags": [
+        "حماسی",
+        "سینمایی",
+        "تمرکز",
+        "فضا",
+        "کیهان",
+        "پیانو",
+        "ارگ",
+        "هیجان",
+        "انگیزشی",
+        "اینتراستلار",
+        "شاهکار",
+        "عمیق",
+        "آرامش",
+        "غم"
+      ],
+      "tagsEn": [
+        "epic",
+        "cinematic",
+        "focus",
+        "space",
+        "cosmos",
+        "interstellar",
+        "piano",
+        "organ",
+        "emotional",
+        "masterpiece",
+        "atmospheric",
+        "inspirational",
+        "soundtrack",
+        "zimmer"
+      ],
+      "analysis": {
+        "bpm": 98,
+        "energy": 88,
+        "dance": 15,
+        "bright": 75,
+        "vocals": 0,
+        "dyn": 95,
+        "vibe": {
+          "sad": 40,
+          "happy": 20,
+          "energetic": 85,
+          "calm": 30,
+          "focus": 95,
+          "epic": 100,
+          "romantic": 20,
+          "dark": 10
+        }
+      },
+      "lyrics": "[Instrumental / Cinematic Soundtrack]",
+      "lyricsStatus": "instrumental",
+      "lyricsSummary": "A breathtaking cinematic masterpiece composed by Hans Zimmer for the Interstellar soundtrack. Building steadily with pipe organ and strings, embodying wonder, human destiny, and cosmic scale.",
+      "moods": {
+        "epic": 1,
+        "focus": 0.95,
+        "motivation": 0.9,
+        "wonder": 0.95,
+        "intensity": 0.85
+      }
+    },
+    {
+      "id": 43,
+      "name": "Amour plastique",
+      "artist": "Videoclub",
+      "src": "/assets/Music/Amour%20plastique%20-%20Videoclub%2C%20Ad%C3%A8le%20Castillon%2C%20Mattyeux.mp3",
+      "tags": [
+        "عاشقانه",
+        "فرانسوی",
+        "نوستالژی",
+        "شادی",
+        "لطیف",
+        "ارامش",
+        "رویا",
+        "پاپ"
+      ],
+      "tagsEn": [
+        "romantic",
+        "french",
+        "nostalgic",
+        "dreamy",
+        "indie pop",
+        "synthpop",
+        "love",
+        "sweet",
+        "melodic",
+        "cozy",
+        "videoclub"
+      ],
+      "analysis": {
+        "bpm": 122,
+        "energy": 65,
+        "dance": 72,
+        "bright": 80,
+        "vocals": 70,
+        "dyn": 80,
+        "vibe": {
+          "sad": 10,
+          "happy": 80,
+          "energetic": 65,
+          "calm": 60,
+          "focus": 45,
+          "epic": 20,
+          "romantic": 95,
+          "dark": 0
+        }
+      },
+      "lyrics": "De tes yeux d un bleu ocean...",
+      "lyricsStatus": "available",
+      "lyricsSummary": "A dreamy French synth-pop track about youthful romance, nostalgia, and melancholic love.",
+      "moods": {
+        "romantic": 0.95,
+        "dreamy": 0.9,
+        "happy": 0.75,
+        "nostalgia": 0.8
+      }
+    },
+    {
+      "id": 44,
+      "name": "Cigarettes out the Window",
+      "artist": "TV Girl",
+      "src": "/assets/Music/Cigarettes%20out%20the%20Window%20-%20TV%20Girl.mp3",
+      "tags": [
+        "نوستالژی",
+        "غمگین",
+        "ارامش",
+        "تنهایی",
+        "شب",
+        "رویا",
+        "ایندی"
+      ],
+      "tagsEn": [
+        "nostalgic",
+        "indie pop",
+        "melancholy",
+        "chill",
+        "lo-fi",
+        "sad",
+        "night",
+        "vibing",
+        "tv girl",
+        "aesthetic"
+      ],
+      "analysis": {
+        "bpm": 110,
+        "energy": 52,
+        "dance": 68,
+        "bright": 65,
+        "vocals": 60,
+        "dyn": 70,
+        "vibe": {
+          "sad": 65,
+          "happy": 25,
+          "energetic": 45,
+          "calm": 70,
+          "focus": 55,
+          "epic": 10,
+          "romantic": 40,
+          "dark": 20
+        }
+      },
+      "lyrics": "Lilia was a girl of great complexity...",
+      "lyricsStatus": "available",
+      "lyricsSummary": "A signature TV Girl indie track filled with samples, vintage aesthetics, bittersweet heartbreak and late-night melancholia.",
+      "moods": {
+        "melancholy": 0.85,
+        "chill": 0.9,
+        "nostalgia": 0.8,
+        "loneliness": 0.7
+      }
+    },
+    {
+      "id": 45,
+      "name": "Counting Stars",
+      "artist": "OneRepublic",
+      "src": "/assets/Music/Counting%20Stars%20-%20OneRepublic.mp3",
+      "tags": [
+        "پرانرژی",
+        "شاد",
+        "انگیزشی",
+        "امید",
+        "رقص",
+        "پاپ",
+        "مبارزه"
+      ],
+      "tagsEn": [
+        "energetic",
+        "happy",
+        "motivation",
+        "hope",
+        "dance",
+        "pop rock",
+        "uplifting",
+        "onerepublic",
+        "powerful",
+        "singalong"
+      ],
+      "analysis": {
+        "bpm": 122,
+        "energy": 90,
+        "dance": 75,
+        "bright": 85,
+        "vocals": 85,
+        "dyn": 90,
+        "vibe": {
+          "sad": 10,
+          "happy": 90,
+          "energetic": 95,
+          "calm": 15,
+          "focus": 50,
+          "epic": 80,
+          "romantic": 20,
+          "dark": 0
+        }
+      },
+      "lyrics": "Lately I been, I been losing sleep, dreaming about the things that we could be...",
+      "lyricsStatus": "available",
+      "lyricsSummary": "An anthemic folk-pop hit about ambition, freedom, financial stress, and pursuing real passion over money.",
+      "moods": {
+        "energy": 0.95,
+        "motivation": 0.9,
+        "joy": 0.85,
+        "freedom": 0.9
+      }
     }
   ]
 }

@@ -53,7 +53,7 @@
     "id": 5,
     "url": "../Projects/Web-Project/konkortimer-dist/",
     "title": "Study Timer",
-    "description": "A study tracker and exam countdown app built with Next.js, React, and Supabase. Features task management, study session tracking, and a clean RTL Persian interface.",
+    "description": "A study tracker and exam countdown app built with Next.js, React, and Supabase. Features task management, study session tracking, and a clean modern interface.",
     "category": [
       "Next.js",
       "React",
@@ -66,7 +66,7 @@
     "id": 6,
     "url": "https://porskad.vercel.app",
     "title": "Porskad",
-    "description": "Porskad (پرسکاد) — a dedicated form and survey system for Rokad Institute. Built with React, Tailwind CSS, and Framer Motion, featuring an RTL Persian admin dashboard, embeddable forms, and a modern responsive UI.",
+    "description": "Porskad — a dedicated form and survey management system for educational institutes. Built with React, Tailwind CSS, and Framer Motion, featuring an interactive admin dashboard, embeddable forms, and a responsive UI.",
     "category": [
       "React",
       "Tailwind",
@@ -79,7 +79,7 @@
     "id": 7,
     "url": "../Projects/Web-Project/rokad-college/index.html",
     "title": "Rokad College",
-    "description": "Rokad College — a modern Persian learning platform landing page built with React 18, Tailwind CSS, and Swiper. Features a hero, course pillars, statistics, and responsive RTL design.",
+    "description": "Rokad College — a modern online learning platform landing page built with React 18, Tailwind CSS, and Swiper. Features hero sections, course pillars, statistics, and responsive design.",
     "category": [
       "React",
       "Tailwind",
@@ -92,7 +92,7 @@
     "id": 8,
     "url": "../Projects/Web-Project/rokad-web/index.html",
     "title": "Rokad Web",
-    "description": "Rokad — a modern Persian web design studio site built with Next.js 14, Tailwind CSS, and Framer Motion. Features honors, about, and RTL responsive pages.",
+    "description": "Rokad — a modern creative web design studio site built with Next.js 14, Tailwind CSS, and Framer Motion. Features portfolio showcase, honors, about, and responsive pages.",
     "category": [
       "Next.js",
       "React",

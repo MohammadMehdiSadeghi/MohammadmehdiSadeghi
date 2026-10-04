@@ -68,7 +68,7 @@ export default function TelegramPage() {
   };
 
   const detectChats = async () => {
-    if (!botToken.trim() && !cfg?.tokenSet) {
+    if (!botToken.trim() && !cfg?.botTokenSet && !cfg?.tokenSet) {
       setMsg({ type: "err", text: "Please enter your Bot Token first" });
       return;
     }

@@ -125,7 +125,7 @@ async function usersHandler(req, res) {
     const store = await readUsers();
     /* never leak passwords to the client */
     return res.json(
-      store.users.map(({ password, ...rest }) => ({ ...rest, password }))
+      store.users.map(({ password: _pw, ...safe }) => safe)
     );
   }
 
