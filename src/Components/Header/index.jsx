@@ -35,7 +35,7 @@ export default function Header() {
         <div className="flex items-center h-full min-w-0">
           <Link
             to="/"
-            className="text-[13px] sm:text-[15px] md:text-[16px] text-[#90A1B9] py-[16px] px-3 sm:px-5 md:px-5 lg:px-6 md:w-auto lg:w-[280px] xl:w-[360px] 2xl:w-[457px] shrink-0 md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[200px] sm:max-w-[280px] md:max-w-none"
+            className="text-[13px] sm:text-[15px] md:text-[16px] text-[#90A1B9] py-[16px] px-3 sm:px-5 md:px-5 lg:px-6 md:w-60 lg:w-[344px] xl:w-[416px] 2xl:w-[513px] shrink-0 md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[200px] sm:max-w-[280px] md:max-w-none"
           >
             Mohammad-Mehdi-Sadeghi
           </Link>
