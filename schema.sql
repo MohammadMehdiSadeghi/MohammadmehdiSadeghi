@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS site_visits (
     visit_date DATE NOT NULL DEFAULT CURRENT_DATE,
     visit_hour SMALLINT NOT NULL CHECK (visit_hour BETWEEN 0 AND 23),
     page_path VARCHAR(255) NOT NULL DEFAULT '/',
+    country_code VARCHAR(10) NOT NULL DEFAULT 'UNKNOWN',
     session_id VARCHAR(128) NOT NULL,
     ip_hash VARCHAR(64),
     user_agent TEXT,
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS site_visits (
 CREATE INDEX IF NOT EXISTS idx_visits_date ON site_visits(visit_date);
 CREATE INDEX IF NOT EXISTS idx_visits_session ON site_visits(session_id);
 CREATE INDEX IF NOT EXISTS idx_visits_path ON site_visits(page_path);
+CREATE INDEX IF NOT EXISTS idx_visits_country ON site_visits(country_code);
 
 -- 2. Table: Analytics Interactive Clicks
 CREATE TABLE IF NOT EXISTS site_clicks (

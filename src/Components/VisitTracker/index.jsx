@@ -20,6 +20,16 @@ function getSessionId() {
   }
 }
 
+function getClientGeoHints() {
+  try {
+    const timeZone = Intl?.DateTimeFormat?.()?.resolvedOptions?.()?.timeZone || "";
+    const locale = navigator?.language || "";
+    return { timeZone, locale };
+  } catch {
+    return {};
+  }
+}
+
 export default function VisitTracker() {
   const location = useLocation();
 
@@ -39,6 +49,7 @@ export default function VisitTracker() {
       body: JSON.stringify({
         path: location.pathname,
         sessionId: getSessionId(),
+        ...getClientGeoHints(),
       }),
       signal: controller.signal,
     }).catch(() => {});
@@ -63,6 +74,7 @@ export default function VisitTracker() {
           path: location.pathname,
           sessionId: getSessionId(),
           heartbeat: true,
+          ...getClientGeoHints(),
         }),
       }).catch(() => {});
     }, HEARTBEAT_MS);

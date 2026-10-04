@@ -43,6 +43,12 @@ const statIcons = {
       <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
     </svg>
   ),
+  country: (
+    <svg className="w-3.5 h-3.5 text-[#38BDF8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15.3 15.3 0 014 9 15.3 15.3 0 01-4 9 15.3 15.3 0 01-4-9 15.3 15.3 0 014-9z" />
+    </svg>
+  ),
 };
 
 function StatCard({ label, value, accent, icon, delta, small }) {
@@ -124,6 +130,7 @@ export default function StatsPage() {
   const [customFrom, setCustomFrom] = useState("");
   const [customTo, setCustomTo] = useState("");
   const [lastUpdate, setLastUpdate] = useState(null);
+  const [countryTab, setCountryTab] = useState("all");
 
   const load = useCallback(
     async (showLoading) => {
@@ -229,7 +236,7 @@ export default function StatsPage() {
           </div>
 
           {/* Stat Cards Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             <StatCard
               label="today"
               value={data.today}
@@ -259,10 +266,10 @@ export default function StatsPage() {
               delta={data.yearDelta}
             />
             <StatCard
-              label="total (all time)"
-              value={data.totalAllTime}
-              accent="#90A1B9"
-              icon={statIcons.total}
+              label="countries"
+              value={data.totalCountriesCount || (data.topCountries?.length || 0)}
+              accent="#38BDF8"
+              icon={statIcons.country}
             />
           </div>
 
@@ -415,51 +422,151 @@ export default function StatsPage() {
             </div>
           </div>
 
-          {/* Top Pages */}
-          <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-white text-[13px] font-medium">top-pages</p>
-              <span className="text-[10px] text-[#4B576D]">
-                {data.topPaths?.length || 0} pages
-              </span>
-            </div>
-            {!data.topPaths || data.topPaths.length === 0 ? (
-              <p className="text-[11px] text-[#68768C]">
-                // no visits recorded yet
-              </p>
-            ) : (
-              <div className="flex flex-col gap-2.5">
-                {data.topPaths.map((p, i) => {
-                  const max = data.topPaths[0].total || 1;
-                  const pct = Math.max(4, (p.total / max) * 100);
-                  return (
-                    <div
-                      key={p.path}
-                      className="flex items-center gap-3 group"
-                    >
-                      <span className="text-[9px] text-[#4B576D] w-5 text-right tabular-nums shrink-0">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="text-[11px] text-[#90A1B9] w-28 sm:w-40 truncate shrink-0 group-hover:text-white transition-colors">
-                        {p.path}
-                      </span>
-                      <div className="flex-1 h-2.5 rounded-full bg-[#020618] overflow-hidden">
+          {/* Grid of Top Pages and Geographic Distribution */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Top Pages */}
+            <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="text-white text-[13px] font-medium">top-pages</p>
+                  <span className="text-[10px] text-[#4B576D]">
+                    {data.topPaths?.length || 0} pages
+                  </span>
+                </div>
+                {!data.topPaths || data.topPaths.length === 0 ? (
+                  <p className="text-[11px] text-[#68768C] py-4">
+                    // no visits recorded yet
+                  </p>
+                ) : (
+                  <div className="flex flex-col gap-2.5">
+                    {data.topPaths.map((p, i) => {
+                      const max = data.topPaths[0].total || 1;
+                      const pct = Math.max(4, (p.total / max) * 100);
+                      return (
                         <div
-                          className="h-full rounded-full transition-all duration-700 ease-out"
-                          style={{
-                            width: `${pct}%`,
-                            background: `linear-gradient(90deg, #615FFF, #615FFF${Math.round(128 + pct * 1.27).toString(16)})`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-[11px] text-white w-10 text-right shrink-0 tabular-nums font-medium">
-                        {p.total}
-                      </span>
+                          key={p.path}
+                          className="flex items-center gap-3 group"
+                        >
+                          <span className="text-[9px] text-[#4B576D] w-5 text-right tabular-nums shrink-0">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="text-[11px] text-[#90A1B9] w-28 sm:w-36 truncate shrink-0 group-hover:text-white transition-colors">
+                            {p.path}
+                          </span>
+                          <div className="flex-1 h-2.5 rounded-full bg-[#020618] overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-700 ease-out"
+                              style={{
+                                width: `${pct}%`,
+                                background: `linear-gradient(90deg, #615FFF, #615FFF${Math.round(128 + pct * 1.27).toString(16)})`,
+                              }}
+                            />
+                          </div>
+                          <span className="text-[11px] text-white w-10 text-right shrink-0 tabular-nums font-medium">
+                            {p.total}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Visitors by Country */}
+            <div className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 sm:p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[14px]">🌍</span>
+                    <p className="text-white text-[13px] font-medium">visitors-by-country</p>
+                  </div>
+                  <div className="flex gap-1 rounded-md border border-[#1E293B] p-0.5">
+                    {[
+                      { key: "all", label: "all-time" },
+                      { key: "today", label: "today" },
+                      { key: "online", label: "live" },
+                    ].map((t) => (
+                      <button
+                        key={t.key}
+                        onClick={() => setCountryTab(t.key)}
+                        className={`text-[10px] px-2 py-0.5 rounded duration-150 ${
+                          countryTab === t.key
+                            ? "bg-[#38BDF822] text-[#38BDF8]"
+                            : "text-[#68768C] hover:text-white"
+                        }`}
+                      >
+                        {t.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Country List */}
+                {(() => {
+                  const list =
+                    countryTab === "today"
+                      ? data.todayCountries || []
+                      : countryTab === "online"
+                        ? data.onlineCountries || []
+                        : data.topCountries || [];
+
+                  if (!list || list.length === 0) {
+                    return (
+                      <p className="text-[11px] text-[#68768C] py-6 text-center">
+                        // no country data recorded for this view yet
+                      </p>
+                    );
+                  }
+
+                  const max = list[0]?.total || 1;
+
+                  return (
+                    <div className="flex flex-col gap-2.5">
+                      {list.slice(0, 8).map((c, i) => {
+                        const pct = Math.max(4, (c.total / max) * 100);
+                        return (
+                          <div
+                            key={c.code}
+                            className="flex items-center gap-3 group"
+                          >
+                            <span className="text-[9px] text-[#4B576D] w-5 text-right tabular-nums shrink-0">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                            <span className="text-[14px] shrink-0 select-none">{c.flag || "🌐"}</span>
+                            <div className="flex items-center gap-1.5 w-28 sm:w-36 truncate shrink-0">
+                              <span className="text-[11px] text-[#90A1B9] truncate group-hover:text-white transition-colors">
+                                {c.name}
+                              </span>
+                              <span className="text-[9px] font-mono text-[#4B576D] px-1 py-0.5 rounded bg-[#020618] border border-[#1E293B]">
+                                {c.code}
+                              </span>
+                            </div>
+                            <div className="flex-1 h-2.5 rounded-full bg-[#020618] overflow-hidden">
+                              <div
+                                className="h-full rounded-full transition-all duration-700 ease-out"
+                                style={{
+                                  width: `${pct}%`,
+                                  background: `linear-gradient(90deg, #38BDF8, #818CF8)`,
+                                }}
+                              />
+                            </div>
+                            <div className="flex items-center justify-end gap-1.5 shrink-0 text-right">
+                              <span className="text-[11px] text-white tabular-nums font-medium">
+                                {c.total}
+                              </span>
+                              <span className="text-[9px] text-[#4B576D] tabular-nums">
+                                ({c.percentage}%)
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   );
-                })}
+                })()}
               </div>
-            )}
+            </div>
           </div>
         </>
       )}

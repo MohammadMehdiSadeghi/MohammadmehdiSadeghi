@@ -5,6 +5,7 @@ import {
   daysAgo,
   pad,
 } from "../_lib.js";
+import { formatCountryStats } from "../_country.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -70,8 +71,14 @@ export default async function handler(req, res) {
   const online = await readStore("online.json", {});
   const nowSec = Math.floor(Date.now() / 1000);
   let onlineNow = 0;
-  for (const seen of Object.values(online)) {
-    if (nowSec - Number(seen) <= 60) onlineNow++;
+  const onlineCountriesMap = {};
+  for (const val of Object.values(online)) {
+    const seen = typeof val === "object" && val !== null ? val.seen : Number(val);
+    if (nowSec - Number(seen) <= 60) {
+      onlineNow++;
+      const c = typeof val === "object" && val !== null && val.country ? val.country : "UNKNOWN";
+      onlineCountriesMap[c] = (onlineCountriesMap[c] || 0) + 1;
+    }
   }
 
   const totalAllTime = Object.values(dayTotals).reduce((s, v) => s + v, 0);
@@ -207,8 +214,26 @@ export default async function handler(req, res) {
   const prevYearKey = String(today.getFullYear() - 1);
   const yearDelta = pctDelta(thisYearTotal, yearTotals[prevYearKey] || 0);
 
+  /* country distribution */
+  const countryTotals = {};
+  const countryTodayTotals = {};
+  for (const [date, info] of Object.entries(days)) {
+    if (typeof info === "object" && info.countries && typeof info.countries === "object") {
+      for (const [c, count] of Object.entries(info.countries)) {
+        countryTotals[c] = (countryTotals[c] || 0) + (Number(count) || 0);
+        if (date === todayKey) {
+          countryTodayTotals[c] = (countryTodayTotals[c] || 0) + (Number(count) || 0);
+        }
+      }
+    }
+  }
+  const topCountries = formatCountryStats(countryTotals, totalAllTime);
+  const todayCountries = formatCountryStats(countryTodayTotals, todayTotal);
+  const onlineCountries = formatCountryStats(onlineCountriesMap, onlineNow);
+
   res.json({
     onlineNow,
+    onlineCountries,
     today: todayTotal,
     yesterday: yesterdayTotal,
     todayDelta,
@@ -225,6 +250,9 @@ export default async function handler(req, res) {
     yearly,
     totalAllTime,
     topPaths,
+    topCountries,
+    todayCountries,
+    totalCountriesCount: topCountries.length,
     totalClicks,
     todayClicks,
     weekClicks,

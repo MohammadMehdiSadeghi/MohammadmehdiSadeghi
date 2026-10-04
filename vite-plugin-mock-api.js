@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSy
 import { join } from "path";
 import { createHmac, createHash } from "crypto";
 import { executeMoodSearch } from "./src/lib/moodEngine.js";
+import { resolveCountry, formatCountryStats } from "./api/_country.js";
 
 const DATA_DIR = join(process.cwd(), "public", "api", "admin", "data");
 const CONFIG_FILE = join(DATA_DIR, "config.json");
@@ -244,17 +245,22 @@ function seedDemoData() {
 }
 
 // Track a visit
-function trackVisit(path, sessionId) {
+function trackVisit(path, sessionId, req = {}, body = {}) {
   const visits = readJSON(VISITS_FILE, { days: {} });
   const today = new Date().toISOString().split("T")[0];
-  if (!visits.days[today]) visits.days[today] = { total: 0, paths: {} };
+  const country = resolveCountry(req, body);
+  if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, countries: {} };
+  if (!visits.days[today].countries) visits.days[today].countries = {};
   visits.days[today].total++;
   visits.days[today].paths[path] = (visits.days[today].paths[path] || 0) + 1;
+  if (country) {
+    visits.days[today].countries[country] = (visits.days[today].countries[country] || 0) + 1;
+  }
   writeJSON(VISITS_FILE, visits);
 
   // Update online
   const online = readJSON(ONLINE_FILE, {});
-  online[sessionId] = Math.floor(Date.now() / 1000);
+  online[sessionId] = { seen: Math.floor(Date.now() / 1000), country };
   writeJSON(ONLINE_FILE, online);
 }
 
@@ -266,8 +272,14 @@ function computeStats(customFrom, customTo) {
 
   // Online now
   let onlineNow = 0;
-  for (const [, ts] of Object.entries(online)) {
-    if (now - Number(ts) <= 60) onlineNow++;
+  const onlineCountriesMap = {};
+  for (const [, val] of Object.entries(online)) {
+    const seen = typeof val === "object" && val !== null ? val.seen : Number(val);
+    if (now - Number(seen) <= 60) {
+      onlineNow++;
+      const c = typeof val === "object" && val !== null && val.country ? val.country : "UNKNOWN";
+      onlineCountriesMap[c] = (onlineCountriesMap[c] || 0) + 1;
+    }
   }
 
   // Day totals
@@ -526,6 +538,35 @@ function computeStats(customFrom, customTo) {
     yearly,
     totalAllTime: Object.values(dayTotals).reduce((s, v) => s + v, 0),
     topPaths,
+    topCountries: (() => {
+      const countryTotals = {};
+      const totalAll = Object.values(dayTotals).reduce((s, v) => s + v, 0);
+      for (const [, info] of Object.entries(days)) {
+        if (typeof info === "object" && info.countries && typeof info.countries === "object") {
+          for (const [c, count] of Object.entries(info.countries)) {
+            countryTotals[c] = (countryTotals[c] || 0) + (Number(count) || 0);
+          }
+        }
+      }
+      return formatCountryStats(countryTotals, totalAll);
+    })(),
+    todayCountries: (() => {
+      const countryTodayTotals = {};
+      const todayKey = dstr(today);
+      const todayInfo = days[todayKey];
+      if (todayInfo && typeof todayInfo === "object" && todayInfo.countries) {
+        for (const [c, count] of Object.entries(todayInfo.countries)) {
+          countryTodayTotals[c] = (countryTodayTotals[c] || 0) + (Number(count) || 0);
+        }
+      }
+      return formatCountryStats(countryTodayTotals, dayTotals[todayKey] || 0);
+    })(),
+    onlineCountries: formatCountryStats(onlineCountriesMap, onlineNow),
+    totalCountriesCount: Object.keys(days).reduce((acc, d) => {
+      const c = days[d]?.countries;
+      if (c) Object.keys(c).forEach((k) => acc.add(k));
+      return acc;
+    }, new Set()).size,
     // Click analytics
     totalClicks,
     todayClicks,

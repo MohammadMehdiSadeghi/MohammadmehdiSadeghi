@@ -7,6 +7,7 @@ import {
   getBearer,
   verifyToken,
 } from "../_lib.js";
+import { resolveCountry } from "../_country.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -21,28 +22,34 @@ export default async function handler(req, res) {
   if (!p) p = "/";
   const sessionId = String(body.sessionId || "").trim().slice(0, 100);
   const heartbeat = !!body.heartbeat;
+  const country = resolveCountry(req, body);
 
   if (sessionId) {
     await withLock("online", async () => {
       const online = await readStore("online.json", {});
       const now = Math.floor(Date.now() / 1000);
-      online[sessionId] = now;
-      for (const [sid, seen] of Object.entries(online)) {
+      online[sessionId] = { seen: now, country };
+      for (const [sid, val] of Object.entries(online)) {
+        const seen = typeof val === "object" && val !== null ? val.seen : Number(val);
         if (now - seen > 60) delete online[sid];
       }
       await writeStore("online.json", online);
     });
   }
-  if (heartbeat) return res.json({ ok: true });
+  if (heartbeat) return res.json({ ok: true, country });
 
   const today = dstr(new Date());
   await withLock("visits", async () => {
     const visits = await readStore("visits.json", { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};
-    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {} };
+    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, countries: {} };
+    if (!visits.days[today].countries || typeof visits.days[today].countries !== "object") visits.days[today].countries = {};
     visits.days[today].total += 1;
     visits.days[today].paths[p] = (visits.days[today].paths[p] || 0) + 1;
+    if (country) {
+      visits.days[today].countries[country] = (visits.days[today].countries[country] || 0) + 1;
+    }
     await writeStore("visits.json", visits);
   });
-  res.json({ ok: true });
+  res.json({ ok: true, country });
 }

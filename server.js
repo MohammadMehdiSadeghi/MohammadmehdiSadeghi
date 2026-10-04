@@ -18,8 +18,8 @@ import fsp from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
-import { executeMoodSearch, MOOD_DIMENSIONS } from "./src/lib/moodEngine.js";
-const MOOD_DIMS = MOOD_DIMENSIONS;
+import { executeMoodSearch, MOOD_DIMS } from "./src/lib/moodEngine.js";
+import { resolveCountry, formatCountryStats, getCountryFlag, getCountryName } from "./api/_country.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -688,19 +688,21 @@ app.post("/api/admin/track", wrap(async (req, res) => {
   if (!p) p = "/";
   const sessionId = String(body.sessionId || "").trim().slice(0, 100);
   const heartbeat = !!body.heartbeat;
+  const country = resolveCountry(req, body);
 
   if (sessionId) {
     await withLock("online", async () => {
       const online = await readJSON(F.online, {});
-      const now = Math.floor(Date.now() / 1000);
-      online[sessionId] = now;
-      for (const [sid, seen] of Object.entries(online)) {
-        if (now - seen > 60) delete online[sid];
+      const nowSec = Math.floor(Date.now() / 1000);
+      online[sessionId] = { seen: nowSec, country };
+      for (const [sid, val] of Object.entries(online)) {
+        const seen = typeof val === "object" && val !== null ? val.seen : Number(val);
+        if (nowSec - seen > 60) delete online[sid];
       }
       await writeJSON(F.online, online);
     });
   }
-  if (heartbeat) return res.json({ ok: true });
+  if (heartbeat) return res.json({ ok: true, country });
 
   const now = new Date();
   const today = dstr(now);
@@ -708,12 +710,16 @@ app.post("/api/admin/track", wrap(async (req, res) => {
   await withLock("visits", async () => {
     const visits = await readJSON(F.visits, { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};
-    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, hours: {}, visitors: [] };
+    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, hours: {}, countries: {}, visitors: [] };
     if (!visits.days[today].hours || typeof visits.days[today].hours !== "object") visits.days[today].hours = {};
+    if (!visits.days[today].countries || typeof visits.days[today].countries !== "object") visits.days[today].countries = {};
     if (!Array.isArray(visits.days[today].visitors)) visits.days[today].visitors = [];
     visits.days[today].total += 1;
     visits.days[today].paths[p] = (visits.days[today].paths[p] || 0) + 1;
     visits.days[today].hours[hour] = (visits.days[today].hours[hour] || 0) + 1;
+    if (country) {
+      visits.days[today].countries[country] = (visits.days[today].countries[country] || 0) + 1;
+    }
     if (sessionId && !visits.days[today].visitors.includes(sessionId)) {
       visits.days[today].visitors.push(sessionId);
       if (visits.days[today].visitors.length > 5000) {
@@ -722,7 +728,7 @@ app.post("/api/admin/track", wrap(async (req, res) => {
     }
     await writeJSON(F.visits, visits);
   });
-  res.json({ ok: true });
+  res.json({ ok: true, country });
 }));
 
 /* was track-click.php */
@@ -1344,8 +1350,14 @@ app.get("/api/admin/stats", wrap(async (req, res) => {
   const online = await readJSON(F.online, {});
   const nowSec = Math.floor(Date.now() / 1000);
   let onlineNow = 0;
-  for (const seen of Object.values(online)) {
-    if (nowSec - Number(seen) <= 60) onlineNow++;
+  const onlineCountriesMap = {};
+  for (const val of Object.values(online)) {
+    const seen = typeof val === "object" && val !== null ? val.seen : Number(val);
+    if (nowSec - Number(seen) <= 60) {
+      onlineNow++;
+      const c = typeof val === "object" && val !== null && val.country ? val.country : "UNKNOWN";
+      onlineCountriesMap[c] = (onlineCountriesMap[c] || 0) + 1;
+    }
   }
 
   const totalAllTime = Object.values(dayTotals).reduce((s, v) => s + v, 0);
@@ -1530,8 +1542,26 @@ app.get("/api/admin/stats", wrap(async (req, res) => {
     custom = { from: qFrom, to: qTo, days: out, total: out.reduce((a, d) => a + d.total, 0) };
   }
 
+  /* country distribution */
+  const countryTotals = {};
+  const countryTodayTotals = {};
+  for (const [date, info] of Object.entries(days)) {
+    if (typeof info === "object" && info.countries && typeof info.countries === "object") {
+      for (const [c, count] of Object.entries(info.countries)) {
+        countryTotals[c] = (countryTotals[c] || 0) + (Number(count) || 0);
+        if (date === todayKey) {
+          countryTodayTotals[c] = (countryTodayTotals[c] || 0) + (Number(count) || 0);
+        }
+      }
+    }
+  }
+  const topCountries = formatCountryStats(countryTotals, totalAllTime);
+  const todayCountries = formatCountryStats(countryTodayTotals, todayTotal);
+  const onlineCountries = formatCountryStats(onlineCountriesMap, onlineNow);
+
   res.json({
     onlineNow,
+    onlineCountries,
     today: todayTotal,
     yesterday: yesterdayTotal,
     todayUnique,
@@ -1555,6 +1585,9 @@ app.get("/api/admin/stats", wrap(async (req, res) => {
     yearly,
     totalAllTime,
     topPaths,
+    topCountries,
+    todayCountries,
+    totalCountriesCount: topCountries.length,
     totalClicks, todayClicks, weekClicks,
     topClickItems,
     clicksByType,
