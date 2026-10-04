@@ -30,6 +30,10 @@ export default async function handler(req, res) {
     return res.json({ ok: true, project: entry });
   }
   if (req.method === "PUT") {
+    if (Array.isArray(body.projects)) {
+      await saveData(name, body.projects);
+      return res.json({ ok: true, projects: body.projects });
+    }
     const id = body.id;
     if (id == null) return res.status(400).json({ error: "id is required" });
     const p = projects.find((x) => String(x.id) === String(id));
