@@ -14,6 +14,14 @@ export const DATA_DIR = process.env.VERCEL_DATA_DIR || "/tmp/portfolio-data";
 export const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (reduced from 10y for security)
 export const MESSAGE_STATUSES = new Set(["unseen", "seen", "archived"]);
 
+export function storeBackend() {
+  return process.env.VERCEL ? "ephemeral-tmp" : "local-fs";
+}
+
+export function storeDurable() {
+  return !process.env.VERCEL;
+}
+
 /* ── admin credentials ────────────────────────────────────────────────
    Credentials should be provided via environment variables:
    - VERCEL_ADMIN_USERNAME

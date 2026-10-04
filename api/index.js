@@ -32,6 +32,7 @@ import fsAdmin from "./admin/_fs.js";
 import reset from "./admin/_reset.js";
 import blogAdmin from "./admin/_blog-admin.js";
 import blogUpload from "./admin/_blog-upload.js";
+import siteAdmin from "./admin/_site-admin.js";
 import search from "./_search.js";
 import skills from "./_skills.js";
 import digikala from "./_digikala.js";
@@ -59,6 +60,7 @@ const ROUTES = {
   "admin/reset": reset,
   "admin/blog-admin": blogAdmin,
   "admin/blog-upload": blogUpload,
+  "admin/site-admin": siteAdmin,
   "blog-image": blogUpload,
   "search": search,
   "skills": skills,
