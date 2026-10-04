@@ -106,6 +106,25 @@ CREATE TABLE IF NOT EXISTS admin_config (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- >>> Row Level Security (RLS) <<<
+ALTER TABLE site_visits ENABLE ROW LEVEL SECURITY;
+ALTER TABLE site_clicks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contact_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE skills ENABLE ROW LEVEL SECURITY;
+ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE admin_config ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can view published projects" ON projects FOR SELECT USING (is_published = true);
+CREATE POLICY "Public can view published blog posts" ON blog_posts FOR SELECT USING (is_published = true);
+CREATE POLICY "Public can view skills" ON skills FOR SELECT USING (true);
+CREATE POLICY "Public can view site settings" ON site_settings FOR SELECT USING (true);
+
+CREATE POLICY "Public can insert visits" ON site_visits FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public can insert clicks" ON site_clicks FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public can submit contact messages" ON contact_messages FOR INSERT WITH CHECK (true);
+
 -- >>> 002: Views <<<
 CREATE OR REPLACE VIEW view_daily_traffic AS
 SELECT 

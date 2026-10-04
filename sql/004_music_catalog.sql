@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS music_tracks (
 CREATE INDEX IF NOT EXISTS idx_music_artist ON music_tracks(artist);
 CREATE INDEX IF NOT EXISTS idx_music_title ON music_tracks(title);
 
+ALTER TABLE music_tracks ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can view music tracks" ON music_tracks FOR SELECT USING (true);
+
 INSERT INTO music_tracks (id, title, artist, audio_path, cover_image, mood_dimensions, acoustic_features) VALUES
 (1, 'Without Me', 'Eminem', '/assets/Music/Without Me.mp3', '', '{"energy": 0.95, "euphoria": 0.85, "playfulness": 0.9, "power": 0.88}'::jsonb, '{"bpm": 112, "valence": 0.85}'::jsonb),
 (2, 'Skyfall', 'Adele', '/assets/Music/Skyfall.mp3', '', '{"darkness": 0.88, "melancholy": 0.85, "power": 0.9, "tension": 0.85}'::jsonb, '{"bpm": 76, "valence": 0.35}'::jsonb),
