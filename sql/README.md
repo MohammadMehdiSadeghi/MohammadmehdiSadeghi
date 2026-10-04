@@ -4,7 +4,7 @@ This folder contains numbered, sequential SQL migrations for deploying the compl
 
 ---
 
-## 🚀 Execution Order (Run Step-by-Step)
+## Execution Order (Run Step-by-Step)
 
 You can run each file sequentially in order using any database client (PostgreSQL, Supabase SQL Editor, Neon, DBeaver, pgAdmin, MySQL):
 
@@ -26,7 +26,7 @@ You can run each file sequentially in order using any database client (PostgreSQ
 
 ---
 
-## ⚡ Option 2: Run All-In-One Script
+## Option 2: Run All-In-One Script
 
 If you prefer to execute everything in a single query:
 * Execute **[`run_all.sql`](file:///c:/Users/Mohammad/Documents/GitHub/MohammadmehdiSadeghi/sql/run_all.sql)**.

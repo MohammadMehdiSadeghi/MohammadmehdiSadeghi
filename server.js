@@ -861,14 +861,14 @@ async function notifyNewContactMessage(msg) {
     }
     const dt = new Date().toLocaleString("en-GB", { hour12: false });
     const html = [
-      `🔔 <b>New Contact Message</b>`,
+      `<b>[New Contact Message]</b>`,
       ``,
-      `👤 <b>Name:</b> ${escHtml(msg.name)}`,
-      msg.phoneNumber ? `📱 <b>Phone:</b> ${escHtml(msg.phoneNumber)}` : null,
-      `💬 <b>Message:</b>`,
+      `<b>Name:</b> ${escHtml(msg.name)}`,
+      msg.phoneNumber ? `<b>Phone:</b> ${escHtml(msg.phoneNumber)}` : null,
+      `<b>Message:</b>`,
       `<blockquote expandable>${escHtml(msg.message)}</blockquote>`,
       ``,
-      `🕐 <i>${dt}</i>`,
+      `<i>Time: ${dt}</i>`,
     ]
       .filter(Boolean)
       .join("\n");
@@ -954,14 +954,14 @@ app.post("/api/admin/telegram/send", wrap(async (req, res) => {
   try {
     const dt = new Date().toLocaleString("en-GB", { hour12: false });
     const html = [
-      "✏️ <b>Manual Message</b>",
+      "<b>[Manual Message]</b>",
       "",
-      `👤 <b>Name:</b> ${escHtml(name)}`,
-      phoneNumber ? `📱 <b>Phone:</b> ${escHtml(phoneNumber)}` : null,
-      `💬 <b>Message:</b>`,
+      `<b>Name:</b> ${escHtml(name)}`,
+      phoneNumber ? `<b>Phone:</b> ${escHtml(phoneNumber)}` : null,
+      `<b>Message:</b>`,
       `<blockquote expandable>${escHtml(message)}</blockquote>`,
       "",
-      `🕐 <i>${escHtml(dt)}</i>`,
+      `<i>Time: ${escHtml(dt)}</i>`,
     ]
       .filter(Boolean)
       .join("\n");

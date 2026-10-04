@@ -105,12 +105,46 @@ function ArticleSkeleton() {
   );
 }
 
-export function Loading({ variant = "cards", count = 4, className = "", props }) {
+function SkillCardSkeleton({ delay = 0 }) {
+  return (
+    <div
+      className="flex items-center gap-5 p-5 rounded-lg overflow-hidden"
+      style={{
+        background: CARD_BG,
+        border: `1px solid ${BORDER}`,
+      }}
+    >
+      <Bar w={44} h={44} r={8} delay={delay} />
+      <div className="flex flex-col gap-2 flex-1">
+        <Bar w="60%" h={14} r={4} delay={delay + 40} />
+        <Bar w="35%" h={9} r={3} delay={delay + 80} />
+      </div>
+    </div>
+  );
+}
+
+export function Loading({ variant = "cards", count = 4, className = "", ...props }) {
   if (variant === "article") {
     return (
       <div className={`w-full ${className}`} role="status" aria-live="polite" {...props}>
         <span className="sr-only">loading</span>
         <ArticleSkeleton />
+      </div>
+    );
+  }
+
+  if (variant === "skills") {
+    return (
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3.5 sm:gap-4 lg:gap-5 ${className}`}
+        role="status"
+        aria-live="polite"
+        {...props}
+      >
+        <span className="sr-only">loading</span>
+        {Array.from({ length: count || 6 }).map((_, i) => (
+          <SkillCardSkeleton key={i} delay={i * 80} />
+        ))}
       </div>
     );
   }

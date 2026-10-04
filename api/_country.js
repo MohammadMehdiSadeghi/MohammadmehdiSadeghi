@@ -138,16 +138,8 @@ const TIMEZONE_TO_COUNTRY = {
 };
 
 export function getCountryFlag(code) {
-  if (!code || code === "UNKNOWN" || code === "LOCAL") return "🌐";
-  const upper = String(code).toUpperCase().trim();
-  if (upper.length !== 2) return "🌐";
-  try {
-    return String.fromCodePoint(
-      ...[...upper].map((c) => 127397 + c.charCodeAt(0)),
-    );
-  } catch {
-    return "🌐";
-  }
+  if (!code || code === "UNKNOWN" || code === "LOCAL") return "";
+  return String(code).toUpperCase().trim();
 }
 
 export function getCountryName(code) {

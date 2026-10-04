@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useClickTrack from "../../../Hooks/useClickTrack";
+import Loading from "../../../Components/Loading";
 
 const gray = "#90A1B9";
 const purple = "#615FFF";
@@ -11,13 +12,14 @@ const fallbackSkills = [
   { name: "JavaScript", img: "/assets/Images/js_5968292.png" },
   { name: "React", img: "/assets/Images/react.png" },
   { name: "Tailwind CSS", img: "/assets/Images/tailwind.png" },
-    { name: "TypeScript", img: "/assets/Images/typescript.png" },
-    { name: "WordPress", img: "/assets/Images/wordpress_174881.png" },
+  { name: "TypeScript", img: "/assets/Images/typescript.png" },
+  { name: "WordPress", img: "/assets/Images/wordpress_174881.png" },
 ];
 
 export default function Skills() {
   const [hovered, setHovered] = useState(null);
   const [skills, setSkills] = useState(fallbackSkills);
+  const [loading, setLoading] = useState(true);
   const { withTracking } = useClickTrack();
 
   useEffect(() => {
@@ -29,13 +31,17 @@ export default function Skills() {
           setSkills(data.skills);
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
     return () => controller.abort();
   }, []);
 
   return (
     <div className="w-full min-w-0 py-6 sm:py-8 px-3 sm:px-6 md:px-8 lg:px-12 md:h-[calc(100vh-116px)] md:overflow-y-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3.5 sm:gap-4 lg:gap-5">
+      {loading ? (
+        <Loading variant="skills" count={6} />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3.5 sm:gap-4 lg:gap-5">
         {skills.map((skill, i) => (
           <div
             key={skill.name}
@@ -86,6 +92,7 @@ export default function Skills() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

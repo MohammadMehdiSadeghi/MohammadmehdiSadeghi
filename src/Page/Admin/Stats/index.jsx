@@ -478,7 +478,10 @@ export default function StatsPage() {
               <div>
                 <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-[14px]">🌍</span>
+                    <svg className="w-4 h-4 text-[#38BDF8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="9" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15.3 15.3 0 014 9 15.3 15.3 0 01-4 9 15.3 15.3 0 01-4-9 15.3 15.3 0 014-9z" />
+                    </svg>
                     <p className="text-white text-[13px] font-medium">visitors-by-country</p>
                   </div>
                   <div className="flex gap-1 rounded-md border border-[#1E293B] p-0.5">
@@ -533,13 +536,12 @@ export default function StatsPage() {
                             <span className="text-[9px] text-[#4B576D] w-5 text-right tabular-nums shrink-0">
                               {String(i + 1).padStart(2, "0")}
                             </span>
-                            <span className="text-[14px] shrink-0 select-none">{c.flag || "🌐"}</span>
+                            <span className="text-[10px] font-mono text-[#38BDF8] bg-[#38BDF815] border border-[#38BDF833] px-1.5 py-0.5 rounded shrink-0">
+                              {c.code}
+                            </span>
                             <div className="flex items-center gap-1.5 w-28 sm:w-36 truncate shrink-0">
                               <span className="text-[11px] text-[#90A1B9] truncate group-hover:text-white transition-colors">
                                 {c.name}
-                              </span>
-                              <span className="text-[9px] font-mono text-[#4B576D] px-1 py-0.5 rounded bg-[#020618] border border-[#1E293B]">
-                                {c.code}
                               </span>
                             </div>
                             <div className="flex-1 h-2.5 rounded-full bg-[#020618] overflow-hidden">
