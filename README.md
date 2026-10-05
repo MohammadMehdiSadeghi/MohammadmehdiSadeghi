@@ -35,11 +35,23 @@ Web developer with experience in building modern, responsive, and high-performan
 
 ### 📬 Connect with Me
 
-- 🌐 **Portfolio:** [mohammad-mehdi-sadeghi.vercel.app](https://mohammad-mehdi-sadeghi.vercel.app/)
-- 🔗 **LinkedIn:** [linkedin.com/in/mohammad-mehdi-sadeghi](https://linkedin.com/in/mohammad-mehdi-sadeghi)
-- ✈️ **Telegram:** [t.me/Mohammad_sadeghi34](https://t.me/Mohammad_sadeghi34)
-- 📸 **Instagram:** [instagram.com/Mohammad_sadeghi3447](https://instagram.com/Mohammad_sadeghi3447)
-- ✉️ **Email:** [mohammad.m.sadeghi09@gmail.com](mailto:mohammad.m.sadeghi09@gmail.com)
+<p align="left">
+  <a href="https://mohammad-mehdi-sadeghi.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" />
+  </a>
+  <a href="https://linkedin.com/in/mohammad-mehdi-sadeghi" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="https://t.me/Mohammad_sadeghi34" target="_blank">
+    <img src="https://img.shields.io/badge/Telegram-24A1DE?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" />
+  </a>
+  <a href="https://instagram.com/Mohammad_sadeghi3447" target="_blank">
+    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" />
+  </a>
+  <a href="mailto:mohammad.m.sadeghi09@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail" />
+  </a>
+</p>
 
 ---
 
