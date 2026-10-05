@@ -11,6 +11,7 @@ export default function Typewriter({
 }) {
   const elRef = useRef(null);
   const doneRef = useRef(onDone);
+  const hasCompletedRef = useRef(false);
 
   useEffect(() => {
     doneRef.current = onDone;
@@ -19,6 +20,17 @@ export default function Typewriter({
   useEffect(() => {
     const el = elRef.current;
     if (!el) return;
+
+    if (hasCompletedRef.current) {
+      el.textContent = text;
+      if (cursor) {
+        const caret = document.createElement("span");
+        caret.className = "ti-cursor";
+        caret.setAttribute("aria-hidden", "true");
+        el.appendChild(caret);
+      }
+      return;
+    }
 
     let shown = 0;
     let timer = null;
@@ -34,13 +46,14 @@ export default function Typewriter({
       }
     };
 
-    const next = () => (lifeLike ? speed * (0.5 + Math.random()) : speed);
+    const next = () => (lifeLike ? speed * (0.6 + Math.random() * 0.8) : speed);
 
     const step = () => {
       if (cancelled) return;
       shown += 1;
       paint();
       if (shown >= text.length) {
+        hasCompletedRef.current = true;
         doneRef.current?.();
         return;
       }
@@ -53,7 +66,6 @@ export default function Typewriter({
     return () => {
       cancelled = true;
       if (timer) clearTimeout(timer);
-      el.textContent = "";
     };
   }, [text, speed, lifeLike, cursor]);
 
