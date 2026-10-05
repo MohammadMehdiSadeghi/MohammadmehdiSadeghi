@@ -38,6 +38,7 @@ Web developer with experience in building modern, responsive, and high-performan
 - 🌐 **Portfolio:** [mohammad-mehdi-sadeghi.vercel.app](https://mohammad-mehdi-sadeghi.vercel.app/)
 - 🔗 **LinkedIn:** [linkedin.com/in/mohammad-mehdi-sadeghi](https://linkedin.com/in/mohammad-mehdi-sadeghi)
 - ✈️ **Telegram:** [t.me/Mohammad_sadeghi34](https://t.me/Mohammad_sadeghi34)
+- 📸 **Instagram:** [instagram.com/Mohammad_sadeghi3447](https://instagram.com/Mohammad_sadeghi3447)
 - ✉️ **Email:** [mohammad.m.sadeghi09@gmail.com](mailto:mohammad.m.sadeghi09@gmail.com)
 
 ---
