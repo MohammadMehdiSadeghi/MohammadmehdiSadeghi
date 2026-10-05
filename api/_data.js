@@ -59,11 +59,13 @@ export function fixImagePaths(node) {
   }
 }
 
-/* ephemeral admin edits win while the instance is warm; bundled data is
-   the durable baseline (full durability stays on the self-hosted server) */
+/* Durable admin edits live in Postgres (admin_settings, keyed by filename)
+   when SUPABASE_DB_URL is configured; the bundled JSON is the baseline and
+   the /tmp overlay is the fallback. Read order in readStore():
+   Postgres → /tmp file → caller fallback. */
 export async function listData(name) {
-  const overlay = await readStore(name, null);
-  if (overlay != null) return overlay;
+  const saved = await readStore(name, null);
+  if (saved != null) return saved;
   return BUNDLED[name];
 }
 

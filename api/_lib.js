@@ -1,12 +1,21 @@
 import crypto from "node:crypto";
 import fsp from "node:fs/promises";
 import path from "node:path";
+import { kvGet, kvSet, dbConfigured, dbReady } from "./_pg.js";
 
 /* ════════════════════════════════════════════════════════════════════
    Vercel serverless port of the local Node backend (server.js).
 
-   Storage lives in DATA_DIR (/tmp) — EPHEMERAL per instance. Durable
-   data + the zip project upload stay on the self-hosted server.
+   DURABLE storage is Supabase/Postgres (see _pg.js) — one row per key in
+   admin_settings, plus projects/skills/contact_messages tables. When
+   SUPABASE_DB_URL is set, reads and writes go there and survive cold
+   starts and redeploys.
+
+   DATA_DIR (/tmp) is now only the FALLBACK cache: used on the local dev
+   server, and on Vercel while no database is configured. /tmp is
+   per-instance and short-lived, which is exactly the "panel doesn't
+   save" bug this replaces.
+
    Admin credentials / HMAC secret come from env vars — never from git.
    ════════════════════════════════════════════════════════════════════ */
 
@@ -15,10 +24,15 @@ export const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (reduced from 10y for secur
 export const MESSAGE_STATUSES = new Set(["unseen", "seen", "archived"]);
 
 export function storeBackend() {
+  if (dbConfigured() && dbReady()) return "supabase-postgres";
+  if (dbConfigured()) return "supabase-postgres (connecting)";
   return process.env.VERCEL ? "ephemeral-tmp" : "local-fs";
 }
 
 export function storeDurable() {
+  /* Durable whenever a database is configured — that is the whole point.
+     Without one, only the self-hosted server writes to real disk. */
+  if (dbConfigured()) return true;
   return !process.env.VERCEL;
 }
 
@@ -96,7 +110,15 @@ export async function loadConfig() {
   let pwd = base.password_sha256;
   let uname = base.username;
   let ver = base.token_version;
-  const saved = await readJSON(path.join(DATA_DIR, "admin-auth.json"), null);
+  /* DB row wins over the /tmp file so a dashboard password change survives
+     a cold start. Env vars still win over both (they are read in baseConfig). */
+  let saved = null;
+  if (dbConfigured()) {
+    saved = await kvGet("admin_auth", null);
+  }
+  if (!saved || typeof saved !== "object") {
+    saved = await readJSON(path.join(DATA_DIR, "admin-auth.json"), null);
+  }
   if (saved && typeof saved === "object") {
     if (saved.password_sha256) pwd = String(saved.password_sha256);
     if (saved.username) uname = String(saved.username);
@@ -124,6 +146,7 @@ export async function saveAdminPassword(username, password_sha256) {
     token_version: cur.token_version || 0,
   };
   await writeJSON(path.join(DATA_DIR, "admin-auth.json"), next);
+  if (dbConfigured()) await kvSet("admin_auth", next);
   CFG = {
     ...baseConfig(),
     ...next,
@@ -166,10 +189,33 @@ export async function writeJSON(file, data) {
   await fsp.rename(tmp, file);
 }
 
-/* ephemeral store files (visits/online/clicks/messages/projects/…) */
+/* ── JSON store, DB-first with a file fallback ────────────────────────
+   Every panel document is stored as ONE row in admin_settings, keyed by
+   the same filename the file store uses ("telegram.json", "site.json",
+   "skills.json", …). Because the key is a PRIMARY KEY and every write is
+   an upsert, two concurrent lambdas writing different documents cannot
+   overwrite one another — the old read-modify-write of a whole file was
+   the reason one save could silently drop another.
+
+   Order of operations:
+     read  → Postgres if configured, else /tmp file
+     write → Postgres (source of truth) AND /tmp file (warm-instance
+             cache + graceful degradation if the DB hiccups)
+   ──────────────────────────────────────────────────────────────────── */
+
 export const storePath = (name) => path.join(DATA_DIR, name);
-export const readStore = (name, fallback) => readJSON(storePath(name), fallback);
-export const writeStore = (name, data) => writeJSON(storePath(name), data);
+
+export const readStore = async (name, fallback) => {
+  const fromDb = await kvGet(name, null);
+  if (fromDb !== null && fromDb !== undefined) return fromDb;
+  return readJSON(storePath(name), fallback);
+};
+
+export const writeStore = async (name, data) => {
+  await writeJSON(storePath(name), data);
+  const ok = await kvSet(name, data);
+  return ok;
+};
 
 /* ── dates ── */
 export const pad = (n) => String(n).padStart(2, "0");

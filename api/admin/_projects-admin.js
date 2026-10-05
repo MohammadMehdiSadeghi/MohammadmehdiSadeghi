@@ -1,5 +1,14 @@
 import { requireAuth } from "../_lib.js";
 import { listData, saveData } from "../_data.js";
+import {
+  dbConfigured,
+  pgListProjects,
+  pgReplaceProjects,
+} from "../_pg.js";
+
+/* Projects live in the `projects` table (project_type = 'web' | 'mini')
+   when Postgres is configured — a real row per project, ordered by
+   display_order, so reordering sticks across cold starts. */
 
 export default async function handler(req, res) {
   if (requireAuth(req, res) === null) return;
@@ -7,10 +16,24 @@ export default async function handler(req, res) {
   const type = req.query.type || body.type || "web";
   const name = type === "mini" ? "mini-projects.json" : "projects.json";
 
+  const load = async () => {
+    if (dbConfigured()) {
+      const rows = await pgListProjects(type);
+      if (rows) return rows;
+    }
+    return (await listData(name)) || [];
+  };
+
+  const persist = async (list) => {
+    await saveData(name, list);
+    if (dbConfigured()) await pgReplaceProjects(type, list);
+  };
+
   if (req.method === "GET") {
-    return res.json({ projects: (await listData(name)) || [] });
+    return res.json({ projects: await load() });
   }
-  const projects = (await listData(name)) || [];
+
+  const projects = await load();
   const nextId = () => projects.reduce((m, p) => Math.max(m, p.id || 0), 0) + 1;
 
   if (req.method === "POST") {
@@ -26,12 +49,12 @@ export default async function handler(req, res) {
       githubUrl: String(body.githubUrl || "").trim() || null,
     };
     projects.push(entry);
-    await saveData(name, projects);
+    await persist(projects);
     return res.json({ ok: true, project: entry });
   }
   if (req.method === "PUT") {
     if (Array.isArray(body.projects)) {
-      await saveData(name, body.projects);
+      await persist(body.projects);
       return res.json({ ok: true, projects: body.projects });
     }
     const id = body.id;
@@ -44,7 +67,7 @@ export default async function handler(req, res) {
     if (body.image != null) p.image = String(body.image).trim();
     if (body.githubUrl != null) p.githubUrl = String(body.githubUrl).trim() || null;
     if (Array.isArray(body.category)) p.category = body.category;
-    await saveData(name, projects);
+    await persist(projects);
     return res.json({ ok: true });
   }
   if (req.method === "DELETE") {
@@ -55,7 +78,7 @@ export default async function handler(req, res) {
     if (filtered.length === before) {
       return res.status(404).json({ error: "project not found" });
     }
-    await saveData(name, filtered);
+    await persist(filtered);
     return res.json({ ok: true });
   }
   res.status(405).json({ error: "method not allowed" });

@@ -6,6 +6,17 @@ import {
   rateCheck,
   MESSAGE_STATUSES,
 } from "../_lib.js";
+import {
+  dbConfigured,
+  pgListMessages,
+  pgInsertMessage,
+  pgSetMessageStatus,
+  pgDeleteMessage,
+} from "../_pg.js";
+
+/* Messages: when Postgres is configured they are real rows in
+   contact_messages, so an inquiry submitted before a cold start is still
+   there afterwards. Without a DB the JSON store is used as before. */
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -22,6 +33,11 @@ export default async function handler(req, res) {
     }
     if (name.length > 100 || message.length > 5000) {
       return res.status(400).json({ error: "name or message too long" });
+    }
+
+    if (dbConfigured()) {
+      const saved = await pgInsertMessage({ name, phoneNumber, message });
+      if (saved) return res.json({ ok: true, message: saved });
     }
 
     await withLock("messages", async () => {
@@ -44,6 +60,10 @@ export default async function handler(req, res) {
   if (requireAuth(req, res) === null) return;
 
   if (req.method === "GET") {
+    if (dbConfigured()) {
+      const rows = await pgListMessages();
+      if (rows) return res.json({ messages: rows });
+    }
     const store = await readStore("messages.json", { messages: [] });
     return res.json({ messages: store.messages || [] });
   }
@@ -52,6 +72,10 @@ export default async function handler(req, res) {
     const { id, status } = body;
     if (id == null || !MESSAGE_STATUSES.has(status)) {
       return res.status(400).json({ error: "id and a valid status are required" });
+    }
+    if (dbConfigured()) {
+      const ok = await pgSetMessageStatus(id, status);
+      if (ok) return res.json({ ok: true });
     }
     const store = await readStore("messages.json", { messages: [] });
     const m = (store.messages || []).find((x) => String(x.id) === String(id));
@@ -64,6 +88,10 @@ export default async function handler(req, res) {
     const body = req.body || {};
     const id = body.id ?? req.query.id;
     if (id == null) return res.status(400).json({ error: "id is required" });
+    if (dbConfigured()) {
+      const ok = await pgDeleteMessage(id);
+      if (ok) return res.json({ ok: true });
+    }
     const store = await readStore("messages.json", { messages: [] });
     const before = (store.messages || []).length;
     store.messages = (store.messages || []).filter(

@@ -254,8 +254,9 @@ export default function SitePage() {
           </p>
           <p className="text-[10px] text-[#90A1B9]">
             storage: <span className="text-[#00D5BE]">{meta.storage || "file"}</span> —
-            connect a Redis-compatible store (KV_REST_API_URL / KV_REST_API_TOKEN)
-            or run the self-hosted server, then edits survive restarts.
+            set SUPABASE_DB_URL in the Vercel project env vars (and run
+            sql/006_supabase_panel_store.sql once in Supabase), then edits
+            survive restarts and redeploys.
           </p>
         </div>
       )}
