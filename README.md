@@ -8,19 +8,27 @@ Frontend & Full-Stack Developer focused on building fast, modern, and high-perfo
 
 ---
 
+## 🛠️ Tech Stack & Skills
+
+<p align="left">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=react,nextjs,ts,js,tailwind,html,css,vite,nodejs,express,postgres,mongodb,python,wordpress,git,github,vercel,figma,postman" />
+  </a>
+</p>
+
+### 💻 Technologies & Frameworks
+- **Frontend Core:** `React.js` · `Next.js (App Router)` · `TypeScript` · `JavaScript (ES6+)` · `Tailwind CSS` · `HTML5` · `CSS3`
+- **Build Tools & Libraries:** `Vite` · `Redux Toolkit` · `Framer Motion` · `GSAP` · `Axios`
+- **Backend & Database:** `Node.js` · `Express.js` · `PostgreSQL` · `MongoDB` · `RESTful APIs`
+- **Tools & Ecosystem:** `Python` · `PyWebView` · `Git` · `GitHub` · `Vercel` · `WordPress` · `Figma` · `Postman`
+
+---
+
 ## 🚀 What I'm Working On & Building
 
 - **[CacheCleaner](https://github.com/MohammadMehdiSadeghi/CacheCleaner)** — A native Windows application cache manager with a modern GUI. Accurately discovers app caches, visualizes storage breakdown, and safely cleans disk space with multi-language support (English & Persian).
 - **[NetBridge](https://github.com/MohammadMehdiSadeghi/NetBridge)** — Lightweight Android utility to route and share secure VPN internet traffic directly to Windows desktop environments.
 - **[Portfolio & Interactive Platform](https://mohammad-mehdi-sadeghi.vercel.app/)** — Modern full-stack portfolio and web applications powered by React, Vite, Tailwind CSS, and custom Node.js backend services.
-
----
-
-## 🛠️ Tech Stack & Skills
-
-- **Frontend:** React, Next.js (App Router), TypeScript, JavaScript (ES6+), Tailwind CSS, Vite, HTML5/CSS3
-- **Backend & Data:** Node.js, Express, PostgreSQL, MongoDB, RESTful APIs
-- **Tools & Desktop:** Python, PyWebView, Git, GitHub, Vercel, Postman, Figma
 
 ---
 
