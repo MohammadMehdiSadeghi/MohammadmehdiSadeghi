@@ -123,6 +123,59 @@ function SkillCardSkeleton({ delay = 0 }) {
   );
 }
 
+/* matches the layout of <Music> in src/Components/Music:
+   outer card → header (title+artist | visualizer) → progress → controls */
+function MusicPlayerSkeleton() {
+  return (
+    <div
+      className="w-full mt-3 bg-[#0B1222]/95 rounded-xl p-3 sm:p-3.5 border border-[#1E293B] shadow-lg flex flex-col gap-2.5 overflow-hidden box-border"
+      aria-hidden="true"
+    >
+      {/* header + visualizer box */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0 flex-1 flex flex-col gap-2">
+          <Bar w="65%" h={12} r={3} />
+          <Bar w="35%" h={9} r={3} />
+        </div>
+        {/* the dark visualizer canvas sits in its own bordered square */}
+        <span
+          className="skeleton-bar block shrink-0"
+          style={{
+            width: 80,
+            height: 24,
+            borderRadius: 4,
+            backgroundColor: "#020618",
+            border: "1px solid #1E293B",
+          }}
+        />
+      </div>
+
+      {/* progress slider + time stamps */}
+      <div className="flex flex-col gap-1 px-0.5">
+        <Bar w="100%" h={6} r={999} />
+        <div className="flex justify-between">
+          <Bar w={28} h={8} r={3} />
+          <Bar w={28} h={8} r={3} />
+        </div>
+      </div>
+
+      {/* play / download / volume row */}
+      <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#1E293B]/60">
+        <div className="flex items-center gap-2">
+          {/* play button (purple square in the real one) */}
+          <Bar w={32} h={32} r={8} />
+          {/* download icon */}
+          <Bar w={32} h={32} r={8} />
+        </div>
+        <div className="flex items-center gap-1.5 px-1 shrink-0 max-w-[110px] sm:max-w-[130px]">
+          <Bar w={24} h={24} r={4} />
+          <Bar w={48} h={4} r={999} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Loading({ variant = "cards", count = 4, className = "", ...props }) {
   if (variant === "article") {
     return (
@@ -145,6 +198,15 @@ export function Loading({ variant = "cards", count = 4, className = "", ...props
         {Array.from({ length: count || 6 }).map((_, i) => (
           <SkillCardSkeleton key={i} delay={i * 80} />
         ))}
+      </div>
+    );
+  }
+
+  if (variant === "music") {
+    return (
+      <div className={`w-full ${className}`} role="status" aria-live="polite" {...props}>
+        <span className="sr-only">loading</span>
+        <MusicPlayerSkeleton />
       </div>
     );
   }

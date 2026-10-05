@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Music from "../../../Components/Music";
+import Loading from "../../../Components/Loading";
 import useClickTrack from "../../../Hooks/useClickTrack";
 import { musicUrl } from "../../../lib/musicUrl";
 
@@ -120,6 +121,8 @@ export default function MusicSearch() {
           <span>{errorMessage}</span>
         </div>
       )}
+
+      {searching && !errorMessage && <Loading variant="music" />}
 
       {songData && !searching && !errorMessage && (
         <div className="mt-3 flex flex-col gap-2">
