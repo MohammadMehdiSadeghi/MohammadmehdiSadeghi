@@ -1264,22 +1264,25 @@ export function mockApiHandler(req, res, next) {
       req.on("end", () => {
         try {
           const payload = JSON.parse(body);
-          const data = readJSON(skillsFile, []);
+          let data = readJSON(skillsFile, []);
 
-          if (req.method === "POST") {
+          if (req.method === "PUT" && Array.isArray(payload.skills)) {
+            data = payload.skills;
+          } else if (req.method === "POST") {
+            const nextId = () => data.reduce((m, s) => Math.max(m, s.id || 0), 0) + 1;
             data.push({
-              id: Date.now(),
+              id: nextId(),
               name: payload.name || "Untitled",
               img: payload.img || "",
             });
           } else {
-            const idx = data.findIndex((s) => s.id === payload.id);
+            const idx = data.findIndex((s) => String(s.id) === String(payload.id));
             if (idx >= 0) Object.assign(data[idx], payload);
           }
 
           writeJSON(skillsFile, data);
           res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ ok: true }));
+          res.end(JSON.stringify({ ok: true, skills: data }));
         } catch {
           res.writeHead(400, { "Content-Type": "application/json" });
           res.end(JSON.stringify({ error: "invalid request body" }));

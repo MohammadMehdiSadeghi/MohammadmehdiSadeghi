@@ -8,9 +8,14 @@ export default function SkillsPage() {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [modalState, setModalState] = useState(null); // null | { mode: "create"|"edit", skill? }
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [busy, setBusy] = useState(false);
+
+  // Drag and Drop state
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
 
   const load = async () => {
     setLoading(true);
@@ -31,6 +36,72 @@ export default function SkillsPage() {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const saveOrder = async (newOrder) => {
+    setBusy(true);
+    setSuccessMsg("");
+    try {
+      const res = await authFetch("/api/admin/skills-admin", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skills: newOrder }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to save order");
+      setSkills(newOrder);
+      setSuccessMsg("✓ Display order saved successfully!");
+      setTimeout(() => setSuccessMsg(""), 3000);
+    } catch (err) {
+      setError(err.message || "Failed to save display order");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", index);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e, targetIndex) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    const updated = [...skills];
+    const [movedItem] = updated.splice(draggedIndex, 1);
+    updated.splice(targetIndex, 0, movedItem);
+
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+    saveOrder(updated);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const moveItem = (index, direction) => {
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= skills.length) return;
+
+    const updated = [...skills];
+    const [movedItem] = updated.splice(index, 1);
+    updated.splice(targetIndex, 0, movedItem);
+
+    saveOrder(updated);
+  };
 
   const handleSave = async (payload, mode, id) => {
     setBusy(true);
@@ -76,7 +147,7 @@ export default function SkillsPage() {
           <p className="text-[#615FFF] text-[12px]">$ ls ./skills</p>
           <h1 className="text-white text-[20px] mt-1">Skills</h1>
           <p className="text-[#68768C] text-[11px] mt-1">
-            Add, edit and delete the skills shown on your About page
+            Add, edit, delete and drag-and-drop to reorder skills shown on your About page
           </p>
         </div>
         <button
@@ -86,6 +157,12 @@ export default function SkillsPage() {
           + new-skill
         </button>
       </div>
+
+      {successMsg && (
+        <p className="text-[11px] text-[#00D5BE] bg-[#00D5BE14] border border-[#00D5BE33] rounded-md px-3 py-2 w-fit transition-all duration-200">
+          {successMsg}
+        </p>
+      )}
 
       {error && (
         <p className="text-[11px] text-[#FF6B6B] bg-[#FF6B6B14] border border-[#FF6B6B33] rounded-md px-3 py-2 w-fit">
@@ -101,44 +178,107 @@ export default function SkillsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {skills.map((s) => (
-            <div
-              key={s.id}
-              className="rounded-lg border border-[#1E293B] bg-[#0F172B] p-4 flex items-center gap-4"
-            >
-              <div className="w-14 h-14 shrink-0 rounded-md bg-[#0a1628] flex items-center justify-center overflow-hidden">
-                {s.img ? (
-                  <img
-                    src={s.img}
-                    alt={s.name}
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                  />
-                ) : (
-                  <span className="text-[9px] text-[#4B576D]">// no icon</span>
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-white text-[13px] truncate">{s.name}</p>
-                <div className="mt-2 flex items-center gap-2">
-                  <button
-                    onClick={() => setModalState({ mode: "edit", skill: s })}
-                    className="flex-1 text-[11px] py-1.5 px-3 rounded-md border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150"
-                  >
-                    edit
-                  </button>
-                  <button
-                    onClick={() => setDeleteTarget(s)}
-                    className="flex-1 text-[11px] py-1.5 px-3 rounded-md border border-[#FF6B6B44] text-[#FF6B6B] hover:border-[#FF6B6B] duration-150"
-                  >
-                    delete
-                  </button>
+          {skills.map((s, index) => {
+            const isDragging = draggedIndex === index;
+            const isDragOver = dragOverIndex === index;
+
+            return (
+              <div
+                key={s.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
+                onDragEnd={handleDragEnd}
+                className={`rounded-lg border bg-[#0F172B] p-4 flex items-center gap-4 transition-all duration-200 cursor-grab active:cursor-grabbing relative ${
+                  isDragging
+                    ? "opacity-40 scale-95 border-dashed border-[#615FFF]"
+                    : isDragOver
+                    ? "border-[#615FFF] ring-2 ring-[#615FFF]/50 scale-[1.02]"
+                    : "border-[#1E293B] hover:border-[#314158]"
+                }`}
+              >
+                {/* Ranking Position Badge & Drag Handle */}
+                <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5 bg-[#091122]/90 backdrop-blur-md px-2 py-0.5 rounded-md border border-[#314158] shadow-sm">
+                  <span className="text-[10px] font-mono text-[#615FFF] font-bold">
+                    #{index + 1}
+                  </span>
+                  <span className="text-[#90A1B9] text-[11px] select-none" title="Drag to reorder">
+                    ⋮⋮
+                  </span>
+                </div>
+
+                <div className="w-14 h-14 shrink-0 rounded-md bg-[#0a1628] flex items-center justify-center overflow-hidden border border-[#1E293B]">
+                  {s.img ? (
+                    <img
+                      src={s.img}
+                      alt={s.name}
+                      className="w-full h-full object-contain p-1.5"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <span className="text-[9px] text-[#4B576D]">// no icon</span>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0 pr-12">
+                  <div className="flex items-center justify-between gap-1">
+                    <p className="text-white text-[13px] font-semibold truncate">{s.name}</p>
+                    {/* Quick Move Buttons */}
+                    <div className="flex items-center gap-1 shrink-0">
+                      <button
+                        type="button"
+                        disabled={index === 0 || busy}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          moveItem(index, -1);
+                        }}
+                        className="w-5 h-5 rounded bg-[#1E293B] hover:bg-[#314158] disabled:opacity-30 disabled:hover:bg-[#1E293B] text-[9px] text-white flex items-center justify-center transition-colors"
+                        title="Move Up"
+                      >
+                        ▲
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === skills.length - 1 || busy}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          moveItem(index, 1);
+                        }}
+                        className="w-5 h-5 rounded bg-[#1E293B] hover:bg-[#314158] disabled:opacity-30 disabled:hover:bg-[#1E293B] text-[9px] text-white flex items-center justify-center transition-colors"
+                        title="Move Down"
+                      >
+                        ▼
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-2.5 flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setModalState({ mode: "edit", skill: s });
+                      }}
+                      className="flex-1 text-[11px] py-1 px-2.5 rounded-md border border-[#314158] text-[#90A1B9] hover:border-[#90A1B9] hover:text-white duration-150"
+                    >
+                      edit
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteTarget(s);
+                      }}
+                      className="flex-1 text-[11px] py-1 px-2.5 rounded-md border border-[#FF6B6B44] text-[#FF6B6B] hover:border-[#FF6B6B] duration-150"
+                    >
+                      delete
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
