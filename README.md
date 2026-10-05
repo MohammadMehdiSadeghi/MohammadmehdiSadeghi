@@ -33,17 +33,6 @@ Web developer with experience in building modern, responsive, and high-performan
 
 ---
 
-### 🚀 Projects & Work
-
-- 🌐 **[Rokad Web](https://github.com/MohammadMehdiSadeghi/rokad-web)** — Creative web design studio site built with Next.js 14, React, Tailwind CSS, and Framer Motion.
-- 📝 **[Porskad](https://porskad.vercel.app)** — Dedicated form and survey management system for educational institutes built with React and Tailwind CSS.
-- 🎓 **[Rokad College](https://github.com/MohammadMehdiSadeghi/rokad-college)** — Modern online learning platform landing page built with React and Tailwind CSS.
-- 🧹 **[CacheCleaner](https://github.com/MohammadMehdiSadeghi/CacheCleaner)** — A native Windows application cache manager with a modern GUI and safe cleanup.
-- ⏱️ **Study Timer** — Study tracker and exam countdown app built with Next.js, React, and Supabase.
-- 📚 **Sabz Learn** — Responsive online learning platform interface built with React and Tailwind CSS.
-
----
-
 ### 📬 Connect with Me
 
 - 🌐 **Portfolio:** [mohammad-mehdi-sadeghi.vercel.app](https://mohammad-mehdi-sadeghi.vercel.app/)
