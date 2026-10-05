@@ -33,6 +33,13 @@ Web developer with experience in building modern, responsive, and high-performan
 
 ---
 
+### 🚀 Featured Projects
+
+- 🧹 **[CacheCleaner](https://github.com/MohammadMehdiSadeghi/CacheCleaner)** — A native Windows application cache manager with a modern GUI. Accurately discovers app caches, visualizes storage breakdown, and safely cleans disk space with multi-language support (English & Persian).
+- 🌐 **[NetBridge](https://github.com/MohammadMehdiSadeghi/NetBridge)** — Lightweight Android utility to route and share secure VPN internet traffic directly to Windows desktop environments.
+
+---
+
 ### 📬 Connect with Me
 
 - 🌐 **Portfolio:** [mohammad-mehdi-sadeghi.vercel.app](https://mohammad-mehdi-sadeghi.vercel.app/)
