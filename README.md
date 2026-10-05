@@ -12,7 +12,7 @@ Web developer with experience in building modern, responsive, and high-performan
 - 🚀 Worked on educational platforms, startup projects, and business websites, focusing on **clean design, user experience, and performance optimization**.
 - 🎯 Focus on delivering real-world projects that improve user experience and solve practical problems.
 - 🤖 Work with AI-powered tools for digital solutions and developer workflows.
-- 🎓 Student at **Rekad Startup School** (Web Design & Development).
+- 🎓 Student at **Rokad Startup School** (Web Design & Development).
 - 📈 Currently expanding knowledge in backend development and software architecture to grow towards full-stack engineering.
 
 ---

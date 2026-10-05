@@ -8,7 +8,7 @@ const timeline = [
   {
     id: "01",
     type: "school",
-    title: "Rekad Startup School",
+    title: "Rokad Startup School",
     field: "Web Design & Development",
     status: "In Progress",
     grade: "Grade 11",
