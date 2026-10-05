@@ -40,7 +40,7 @@ import ubisoft from "./_ubisoft.js";
 import moodSearch from "./_mood-search.js";
 import sabz from "./_sabz.js";
 import blog from "./_blog.js";
-import { BUNDLED } from "./_data.js";
+import { BUNDLED, listData } from "./_data.js";
 import { loadConfig } from "./_lib.js";
 
 /* route path → handler(req, res) */
@@ -73,14 +73,13 @@ const ROUTES = {
   "sabz/comments": sabz,
 };
 
-/* raw public/api/*.json — these used to be static files, but /api/* now
-   lands in this function, so serve them from the bundled copies */
+/* raw public/api/*.json — serve dynamically from listData so admin edits & reorders take effect */
 const STATIC_JSON = {
-  "projects.json": () => BUNDLED["projects.json"],
-  "mini-projects.json": () => BUNDLED["mini-projects.json"],
-  "skills.json": () => BUNDLED["skills.json"],
-  "music-analysis.json": () => BUNDLED["music-analysis.json"],
-  "blog.json": () => BUNDLED["blog.json"],
+  "projects.json": () => listData("projects.json"),
+  "mini-projects.json": () => listData("mini-projects.json"),
+  "skills.json": () => listData("skills.json"),
+  "music-analysis.json": () => listData("music-analysis.json"),
+  "blog.json": () => listData("blog.json"),
 };
 
 function notFound(res) {
@@ -160,7 +159,8 @@ export default async function handler(req, res) {
 
   if (Object.prototype.hasOwnProperty.call(STATIC_JSON, route)) {
     res.setHeader("Cache-Control", "no-store");
-    return res.json(STATIC_JSON[route]());
+    const data = await STATIC_JSON[route]();
+    return res.json(data);
   }
 
   return notFound(res);

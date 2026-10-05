@@ -1192,11 +1192,14 @@ export function mockApiHandler(req, res, next) {
           const payload = JSON.parse(body);
           const type = payload.type || "web";
           const file = type === "mini" ? miniFile : projectsFile;
-          const data = readJSON(file, []);
+          let data = readJSON(file, []);
 
-          if (req.method === "POST") {
+          if (req.method === "PUT" && Array.isArray(payload.projects)) {
+            data = payload.projects;
+          } else if (req.method === "POST") {
+            const nextId = () => data.reduce((m, p) => Math.max(m, p.id || 0), 0) + 1;
             const newProject = {
-              id: Date.now(),
+              id: nextId(),
               url: payload.url || "",
               title: payload.title || "Untitled",
               description: payload.description || "",
@@ -1206,13 +1209,13 @@ export function mockApiHandler(req, res, next) {
             };
             data.push(newProject);
           } else {
-            const idx = data.findIndex((p) => p.id === payload.id);
+            const idx = data.findIndex((p) => String(p.id) === String(payload.id));
             if (idx >= 0) Object.assign(data[idx], payload);
           }
 
           writeJSON(file, data);
           res.writeHead(200, { "Content-Type": "application/json" });
-          res.end(JSON.stringify({ ok: true }));
+          res.end(JSON.stringify({ ok: true, projects: data }));
         } catch {
           res.writeHead(400, { "Content-Type": "application/json" });
           res.end(JSON.stringify({ error: "invalid request body" }));
@@ -1231,7 +1234,7 @@ export function mockApiHandler(req, res, next) {
           const data = readJSON(file, []);
           writeJSON(
             file,
-            data.filter((p) => p.id !== id)
+            data.filter((p) => String(p.id) !== String(id))
           );
           res.writeHead(200, { "Content-Type": "application/json" });
           res.end(JSON.stringify({ ok: true }));

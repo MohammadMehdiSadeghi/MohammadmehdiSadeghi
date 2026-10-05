@@ -21,6 +21,10 @@ export default async function handler(req, res) {
     return res.json({ ok: true, skill: entry });
   }
   if (req.method === "PUT") {
+    if (Array.isArray(body.skills)) {
+      await saveData(name, body.skills);
+      return res.json({ ok: true, skills: body.skills });
+    }
     const id = body.id;
     if (id == null) return res.status(400).json({ error: "id is required" });
     const s = skills.find((x) => String(x.id) === String(id));
