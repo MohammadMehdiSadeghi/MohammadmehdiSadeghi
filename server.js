@@ -743,6 +743,18 @@ app.post("/api/admin/track", wrap(async (req, res) => {
   const now = new Date();
   const today = dstr(now);
   const hour = pad(now.getHours());
+  if (dbConfigured()) {
+    pgInsertVisit({
+      visitDate: today,
+      visitHour: now.getHours(),
+      pagePath: p,
+      countryCode: country || "UNKNOWN",
+      sessionId: sessionId || "anon",
+      ipHash: null,
+      userAgent: req.headers["user-agent"] || null,
+    }).catch(() => {});
+  }
+
   await withLock("visits", async () => {
     const visits = await readJSON(F.visits, { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};
@@ -763,6 +775,7 @@ app.post("/api/admin/track", wrap(async (req, res) => {
       }
     }
     await writeJSON(F.visits, visits);
+    if (dbConfigured()) await kvSet("visits.json", visits);
   });
   res.json({ ok: true, country });
 }));
@@ -785,6 +798,16 @@ app.post("/api/admin/track-click", wrap(async (req, res) => {
   const now = new Date();
   const today = dstr(now);
   const event = { time: now.toISOString(), targetType, targetId, targetLabel, path, sessionId, referrer };
+
+  if (dbConfigured()) {
+    pgInsertClick({
+      targetId,
+      targetType,
+      targetLabel,
+      pagePath: path,
+      sessionId,
+    }).catch(() => {});
+  }
 
   await withLock("clicks", async () => {
     const clicks = await readJSON(F.clicks, { events: [], summary: {} });
@@ -822,6 +845,7 @@ app.post("/api/admin/track-click", wrap(async (req, res) => {
       if (new Date(dk + "T00:00:00").getTime() < cutoff) delete s.daily[dk];
     }
     await writeJSON(F.clicks, clicks);
+    if (dbConfigured()) await kvSet("clicks.json", clicks);
   });
   res.json({ ok: true });
 }));
@@ -831,7 +855,8 @@ app.post("/api/admin/track-click", wrap(async (req, res) => {
 const TELEGRAM_API = "https://api.telegram.org";
 
 async function readTelegramCfg() {
-  const cfg = await readJSON(F.telegram, {});
+  const fromDb = await kvGet("telegram.json", null);
+  const cfg = fromDb || (await readJSON(F.telegram, {}));
   return {
     enabled: !!cfg.enabled,
     botToken: String(cfg.botToken || ""),
@@ -953,20 +978,24 @@ app.post("/api/admin/telegram", wrap(async (req, res) => {
   const botToken = String(body.botToken ?? "").trim();
   const chatId = String(body.chatId ?? "").trim();
   const enabled = !!body.enabled;
-  if (enabled && (!botToken || !chatId)) {
+  const prev = await readTelegramCfg();
+  const effectiveToken = botToken || prev.botToken;
+  const effectiveChatId = chatId || prev.chatId;
+
+  if (enabled && (!effectiveToken || !effectiveChatId)) {
     return res.status(400).json({ error: "botToken and chatId are required to enable" });
   }
   if (botToken && !/^\d{6,}:[A-Za-z0-9_-]{30,}$/.test(botToken)) {
     return res.status(400).json({ error: "botToken doesn't look valid (expected 123456:ABC…)" });
   }
-  const prev = await readTelegramCfg();
   const next = {
     enabled,
-    botToken: botToken || prev.botToken,
-    chatId: chatId || prev.chatId,
+    botToken: effectiveToken,
+    chatId: effectiveChatId,
   };
   await withLock("telegram", async () => {
     await writeJSON(F.telegram, next);
+    await kvSet("telegram.json", next);
   });
   res.json({ ok: true });
 }));

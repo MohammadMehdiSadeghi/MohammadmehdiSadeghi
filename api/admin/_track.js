@@ -55,12 +55,23 @@ export default async function handler(req, res) {
   await withLock("visits", async () => {
     const visits = await readStore("visits.json", { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};
-    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, countries: {} };
+    if (!visits.days[today]) visits.days[today] = { total: 0, paths: {}, hours: {}, countries: {}, visitors: [] };
+    if (!visits.days[today].paths || typeof visits.days[today].paths !== "object") visits.days[today].paths = {};
+    if (!visits.days[today].hours || typeof visits.days[today].hours !== "object") visits.days[today].hours = {};
     if (!visits.days[today].countries || typeof visits.days[today].countries !== "object") visits.days[today].countries = {};
+    if (!Array.isArray(visits.days[today].visitors)) visits.days[today].visitors = [];
     visits.days[today].total += 1;
     visits.days[today].paths[p] = (visits.days[today].paths[p] || 0) + 1;
+    const hour = String(new Date().getHours()).padStart(2, "0");
+    visits.days[today].hours[hour] = (visits.days[today].hours[hour] || 0) + 1;
     if (country) {
       visits.days[today].countries[country] = (visits.days[today].countries[country] || 0) + 1;
+    }
+    if (sessionId && !visits.days[today].visitors.includes(sessionId)) {
+      visits.days[today].visitors.push(sessionId);
+      if (visits.days[today].visitors.length > 5000) {
+        visits.days[today].visitors = visits.days[today].visitors.slice(-5000);
+      }
     }
     await writeStore("visits.json", visits);
   });

@@ -107,53 +107,131 @@ export function normalizeKey(k) {
   return KEY_MAP[s] || s.replace(/\.json$/i, "").replace(/-/g, "_");
 }
 
-/* ── generic JSON documents (admin_settings) ────────────────────────── */
+/* ── generic JSON documents (admin_settings & KV) ───────────────────── */
 
-export async function kvGet(key, fallback = null) {
-  const c = await pg();
-  if (!c) return fallback;
-  const k1 = key;
-  const k2 = normalizeKey(key);
+async function kvRestGet(key) {
+  const url = process.env.KV_REST_API_URL;
+  const tok = process.env.KV_REST_API_TOKEN;
+  if (!url) return null;
+  const ns = process.env.STORE_NAMESPACE ? `${process.env.STORE_NAMESPACE}:` : "";
   try {
-    const rows = await c`
-      SELECT value FROM admin_settings
-      WHERE key = ${k1} OR key = ${k2}
-      ORDER BY (key = ${k2}) DESC, updated_at DESC
-      LIMIT 1
-    `;
-    if (!rows.length) return fallback;
-    const v = rows[0].value;
-    return v == null ? fallback : v;
-  } catch (err) {
-    console.error(`[pg] kvGet(${key}) failed:`, err?.message || err);
-    return fallback;
+    const res = await fetch(`${url}/get/${encodeURIComponent(ns + key)}`, {
+      headers: tok ? { Authorization: `Bearer ${tok}` } : {},
+    });
+    const json = await res.json();
+    return json?.result ?? null;
+  } catch {
+    return null;
   }
 }
 
-export async function kvSet(key, value) {
-  const c = await pg();
-  if (!c) return false;
-  const norm = normalizeKey(key);
+async function kvRestSet(key, value) {
+  const url = process.env.KV_REST_API_URL;
+  const tok = process.env.KV_REST_API_TOKEN;
+  if (!url) return false;
+  const ns = process.env.STORE_NAMESPACE ? `${process.env.STORE_NAMESPACE}:` : "";
   try {
-    await c`
-      INSERT INTO admin_settings (key, value, updated_at)
-      VALUES (${norm}, ${c.json(value)}, NOW())
-      ON CONFLICT (key) DO UPDATE
-        SET value = EXCLUDED.value, updated_at = NOW()
-    `;
-    if (key !== norm) {
+    const res = await fetch(`${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(tok ? { Authorization: `Bearer ${tok}` } : {}),
+      },
+      body: JSON.stringify(["SET", ns + key, value]),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function kvRestDel(key) {
+  const url = process.env.KV_REST_API_URL;
+  const tok = process.env.KV_REST_API_TOKEN;
+  if (!url) return false;
+  const ns = process.env.STORE_NAMESPACE ? `${process.env.STORE_NAMESPACE}:` : "";
+  try {
+    const res = await fetch(`${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(tok ? { Authorization: `Bearer ${tok}` } : {}),
+      },
+      body: JSON.stringify(["DEL", ns + key]),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+export async function kvGet(key, fallback = null) {
+  const c = await pg();
+  if (c) {
+    const k1 = key;
+    const k2 = normalizeKey(key);
+    try {
+      const rows = await c`
+        SELECT value FROM admin_settings
+        WHERE key = ${k1} OR key = ${k2}
+        ORDER BY (key = ${k2}) DESC, updated_at DESC
+        LIMIT 1
+      `;
+      if (rows.length && rows[0].value != null) return rows[0].value;
+    } catch (err) {
+      console.error(`[pg] kvGet(${key}) failed:`, err?.message || err);
+    }
+  }
+  const restVal = await kvRestGet(key);
+  if (restVal !== null && restVal !== undefined) return restVal;
+  const restNorm = await kvRestGet(normalizeKey(key));
+  if (restNorm !== null && restNorm !== undefined) return restNorm;
+  return fallback;
+}
+
+export async function kvSet(key, value) {
+  let ok = false;
+  const c = await pg();
+  if (c) {
+    const norm = normalizeKey(key);
+    try {
       await c`
         INSERT INTO admin_settings (key, value, updated_at)
-        VALUES (${key}, ${c.json(value)}, NOW())
+        VALUES (${norm}, ${c.json(value)}, NOW())
         ON CONFLICT (key) DO UPDATE
           SET value = EXCLUDED.value, updated_at = NOW()
       `;
+      if (key !== norm) {
+        await c`
+          INSERT INTO admin_settings (key, value, updated_at)
+          VALUES (${key}, ${c.json(value)}, NOW())
+          ON CONFLICT (key) DO UPDATE
+            SET value = EXCLUDED.value, updated_at = NOW()
+        `;
+      }
+      ok = true;
+    } catch (err) {
+      console.error(`[pg] kvSet(${key}) failed:`, err?.message || err);
     }
-    return true;
-  } catch (err) {
-    console.error(`[pg] kvSet(${key}) failed:`, err?.message || err);
-    return false;
   }
+  const rOk = await kvRestSet(key, value);
+  return ok || rOk;
+}
+
+export async function kvDel(key) {
+  let ok = false;
+  const c = await pg();
+  if (c) {
+    const norm = normalizeKey(key);
+    try {
+      await c`DELETE FROM admin_settings WHERE key = ${key} OR key = ${norm}`;
+      ok = true;
+    } catch (err) {
+      console.error(`[pg] kvDel(${key}) failed:`, err?.message || err);
+    }
+  }
+  const rOk = await kvRestDel(key);
+  return ok || rOk;
 }
 
 /* ── analytics visits & clicks ───────────────────────────────────────── */

@@ -90,6 +90,12 @@ CREATE TABLE IF NOT EXISTS skills (
     display_order INT DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS admin_settings (
+    key         VARCHAR(64) PRIMARY KEY,
+    value       JSONB       NOT NULL DEFAULT '{}'::jsonb,
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE TABLE IF NOT EXISTS site_settings (
     id SERIAL PRIMARY KEY,
     key VARCHAR(80) UNIQUE NOT NULL,

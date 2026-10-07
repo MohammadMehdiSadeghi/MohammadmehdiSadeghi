@@ -113,13 +113,44 @@ export default function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
 
+  const articleSchema = useMemo(() => {
+    if (!post) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": post.title,
+      "description": post.excerpt || "",
+      "image": post.cover
+        ? (post.cover.startsWith("http") ? post.cover : `https://mohammad-mehdi-sadeghi.vercel.app${post.cover.startsWith("/") ? "" : "/"}${post.cover}`)
+        : "https://mohammad-mehdi-sadeghi.vercel.app/og-preview.png",
+      "datePublished": post.date || new Date().toISOString().slice(0, 10),
+      "author": {
+        "@type": "Person",
+        "name": "Mohammad Mehdi Sadeghi",
+        "url": "https://mohammad-mehdi-sadeghi.vercel.app"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Mohammad Mehdi Sadeghi",
+        "url": "https://mohammad-mehdi-sadeghi.vercel.app"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://mohammad-mehdi-sadeghi.vercel.app/blog/${post.slug}`
+      },
+      "keywords": Array.isArray(post.tags) ? post.tags.join(", ") : "Frontend, React, Web Development"
+    };
+  }, [post]);
+
   usePageSEO({
     title: post?.title
       ? `${post.title} | Mohammad Mehdi Sadeghi`
       : "Article | Mohammad Mehdi Sadeghi Blog",
     description: post?.excerpt || "Technical article by Mohammad Mehdi Sadeghi exploring frontend architecture, JavaScript, and modern web development.",
-    image: post?.cover || "/vite.svg",
+    canonical: `https://mohammad-mehdi-sadeghi.vercel.app/blog/${slug}`,
+    image: post?.cover || "/og-preview.png",
     type: "article",
+    schema: articleSchema,
   });
 
   const [allPosts, setAllPosts] = useState([]);

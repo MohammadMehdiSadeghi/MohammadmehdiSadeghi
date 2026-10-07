@@ -197,8 +197,22 @@ function PostCard({ post, index }) {
 
 export default function Blog() {
   usePageSEO({
-    title: "Blog & Engineering Insights | Mohammad Mehdi Sadeghi",
-    description: "Read frontend development insights, React architectural patterns, developer tips, and case studies by Mohammad Mehdi Sadeghi.",
+    title: "Blog & Frontend Insights | Mohammad Mehdi Sadeghi",
+    description: "Read frontend development insights, React architectural patterns, debugging stories, and UI engineering case studies by Mohammad Mehdi Sadeghi.",
+    canonical: "https://mohammad-mehdi-sadeghi.vercel.app/blog",
+    image: "/og-preview.png",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Engineering Blog by Mohammad Mehdi Sadeghi",
+      "description": "Technical insights on React, CSS debugging, and frontend engineering.",
+      "url": "https://mohammad-mehdi-sadeghi.vercel.app/blog",
+      "author": {
+        "@type": "Person",
+        "name": "Mohammad Mehdi Sadeghi",
+        "url": "https://mohammad-mehdi-sadeghi.vercel.app"
+      }
+    }
   });
 
   const [posts, setPosts] = useState([]);

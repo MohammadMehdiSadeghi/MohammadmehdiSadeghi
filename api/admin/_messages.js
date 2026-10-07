@@ -13,6 +13,7 @@ import {
   pgSetMessageStatus,
   pgDeleteMessage,
 } from "../_pg.js";
+import { notifyNewContactMessage } from "./_telegram.js";
 
 /* Messages: when Postgres is configured they are real rows in
    contact_messages, so an inquiry submitted before a cold start is still
@@ -34,6 +35,8 @@ export default async function handler(req, res) {
     if (name.length > 100 || message.length > 5000) {
       return res.status(400).json({ error: "name or message too long" });
     }
+
+    notifyNewContactMessage({ name, phoneNumber, message }).catch(() => {});
 
     if (dbConfigured()) {
       const saved = await pgInsertMessage({ name, phoneNumber, message });

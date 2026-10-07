@@ -8,6 +8,7 @@
 
 import { requireAuth, storePath } from "../_lib.js";
 import { resetSabzData } from "../_sabz.js";
+import { kvDel } from "../_pg.js";
 import fsp from "node:fs/promises";
 
 const VISIT_FILES = ["visits.json", "online.json", "clicks.json"];
@@ -34,6 +35,7 @@ export default async function handler(req, res) {
       } catch {
         /* already gone */
       }
+      await kvDel(f).catch(() => {});
     }
   }
 

@@ -92,6 +92,40 @@ export default async function handler(req, res) {
   const thisMonthTotal = monthTotals[thisMonthKey] || 0;
   const thisYearTotal = yearTotals[String(today.getFullYear())] || 0;
 
+  /* unique people (sessionIds) */
+  const dayVisitorSets = {};
+  for (const [date, info] of Object.entries(days)) {
+    if (info && typeof info === "object" && Array.isArray(info.visitors)) {
+      dayVisitorSets[date] = new Set(info.visitors.map(String));
+    }
+  }
+  const uniqueOn = (dates) => {
+    const s = new Set();
+    for (const d of dates) {
+      const set = dayVisitorSets[d];
+      if (set) for (const id of set) s.add(id);
+    }
+    return s.size;
+  };
+  const datesBetween = (n) => {
+    const out = [];
+    for (let i = n - 1; i >= 0; i--) out.push(dstr(daysAgo(i)));
+    return out;
+  };
+  const todayUnique = uniqueOn([todayKey]);
+  const yesterdayUnique = uniqueOn([dstr(daysAgo(1))]);
+  const last7Unique = uniqueOn(datesBetween(7));
+  const last30Unique = uniqueOn(datesBetween(30));
+  const allTimeUnique = uniqueOn(Object.keys(dayVisitorSets));
+  const thisMonthUnique = uniqueOn(
+    Object.keys(dayVisitorSets).filter((d) => d.startsWith(thisMonthKey))
+  );
+  const thisYearUnique = uniqueOn(
+    Object.keys(dayVisitorSets).filter((d) =>
+      d.startsWith(String(today.getFullYear()))
+    )
+  );
+
   const topPaths = Object.entries(pathTotals)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 8)
@@ -235,20 +269,27 @@ export default async function handler(req, res) {
     onlineNow,
     onlineCountries,
     today: todayTotal,
+    todayUnique,
     yesterday: yesterdayTotal,
+    yesterdayUnique,
     todayDelta,
     weekDelta,
     monthDelta,
     yearDelta,
     last7Days: last7,
     last7Total,
+    last7Unique,
     last30Days: last30,
     last30Total,
+    last30Unique,
     thisMonth: thisMonthTotal,
+    thisMonthUnique,
     thisYear: thisYearTotal,
+    thisYearUnique,
     monthly: last12Months,
     yearly,
     totalAllTime,
+    totalUnique: allTimeUnique,
     topPaths,
     topCountries,
     todayCountries,

@@ -9,7 +9,21 @@ import usePageSEO from "../../Hooks/usePageSEO";
 export default function Contact() {
   usePageSEO({
     title: "Contact | Get in Touch with Mohammad Mehdi Sadeghi",
-    description: "Send a message or connect directly with Mohammad Mehdi Sadeghi for frontend engineering contracts, collaborations, or inquiries.",
+    description: "Send a message or connect directly with Mohammad Mehdi Sadeghi for frontend development projects, collaborations, or inquiries.",
+    canonical: "https://mohammad-mehdi-sadeghi.vercel.app/contact",
+    image: "/og-preview.png",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact Mohammad Mehdi Sadeghi",
+      "url": "https://mohammad-mehdi-sadeghi.vercel.app/contact",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "Mohammad Mehdi Sadeghi",
+        "email": "mailto:mohammad.m.sadeghi09@gmail.com",
+        "url": "https://mohammad-mehdi-sadeghi.vercel.app"
+      }
+    }
   });
 
   const { trackClick } = useClickTrack();

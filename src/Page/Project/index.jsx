@@ -6,7 +6,21 @@ import usePageSEO from "../../Hooks/usePageSEO";
 export default function Project() {
   usePageSEO({
     title: "Projects & Portfolio | Mohammad Mehdi Sadeghi",
-    description: "Explore web projects, frontend applications, and full-stack interactive demos developed by Mohammad Mehdi Sadeghi.",
+    description: "Explore frontend web projects, interactive applications, and UI engineering demos developed by Mohammad Mehdi Sadeghi.",
+    canonical: "https://mohammad-mehdi-sadeghi.vercel.app/project",
+    image: "/og-preview.png",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Projects by Mohammad Mehdi Sadeghi",
+      "description": "Showcase of frontend development projects, web applications, and interactive user interfaces.",
+      "url": "https://mohammad-mehdi-sadeghi.vercel.app/project",
+      "author": {
+        "@type": "Person",
+        "name": "Mohammad Mehdi Sadeghi",
+        "url": "https://mohammad-mehdi-sadeghi.vercel.app"
+      }
+    }
   });
 
   const [activeCategory, setActiveCategory] = useState("All Web Project");

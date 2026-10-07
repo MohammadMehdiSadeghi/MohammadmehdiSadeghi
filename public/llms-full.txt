@@ -1,0 +1,36 @@
+# Mohammad Mehdi Sadeghi — Full Developer Dossier & Portfolio Context
+
+## Entity Overview
+- **Name**: Mohammad Mehdi Sadeghi
+- **Role**: Frontend Developer
+- **Education**: Rokad Startup School
+- **Location**: Iran
+- **Primary Website**: https://mohammad-mehdi-sadeghi.vercel.app/
+- **Email**: mohammad.m.sadeghi09@gmail.com
+- **Telegram**: https://t.me/Mohammad_sadeghi34
+- **LinkedIn**: https://www.linkedin.com/in/mohammad-mehdi-sadeghi
+- **GitHub**: https://github.com/MohammadMehdiSadeghi
+- **Instagram**: https://www.instagram.com/Mohammad_sadeghi3447
+
+## Core Technical Stack & Proficiencies
+1. **HTML & CSS**: Semantic HTML5 markup, responsive layouts, CSS Grid, Flexbox, CSS animations, monospace terminal design systems.
+2. **JavaScript (ES6+)**: Modern asynchronous programming, DOM APIs, Web Audio API, Canvas rendering, Web APIs.
+3. **TypeScript**: Type-safe component props, interface design, strict typing for frontend state management.
+4. **React**: Hooks, React 19, custom hook design (`usePageSEO`, `useClickTrack`), component composition, StrictMode lifecycles.
+5. **Tailwind CSS**: Tailwind CSS v3 and v4, responsive utility classes, custom design tokens, theme palettes.
+6. **WordPress**: Theme customization, CMS integrations.
+7. **Tooling & Build**: Vite, npm, Git, Chrome DevTools Protocol, Node.js.
+
+## Project Portfolio Catalog
+- **CacheCleaner**: Utility application for auditing and clearing application caches on Windows.
+- **NetBridge**: Network connectivity and routing helper tool for developers.
+- **Rokad Web**: Studio landing page and portfolio showcasing typography, Bento grid layout, responsive design, and smooth interactions.
+- **Porskad**: Survey and form builder application with interactive dashboard and embeddable widgets.
+- **Study Timer**: Countdown and focus tracker app built with clean UI.
+- **Sabz Learn**: Interactive web interface clone of learning management portal.
+- **Ubisoft**: Interactive web clone featuring game sliders and hero sections.
+- **DigiKala**: E-commerce clone with product carousels and filtering.
+
+## Technical Writing
+- **"Stop guessing at responsive bugs. Measure them."**: Detailed investigation into responsive viewport overflows, boundary ownership in CSS, and automating layout verification across multiple viewport widths.
+- **"The React StrictMode bug that looked like a browser glitch"**: Root cause analysis of effect cleanup bugs under React StrictMode double-mounting.

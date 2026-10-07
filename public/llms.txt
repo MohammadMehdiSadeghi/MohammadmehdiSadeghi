@@ -1,0 +1,38 @@
+# Mohammad Mehdi Sadeghi — Frontend Developer Portfolio
+
+> Personal portfolio and technical showcase of Frontend Developer Mohammad Mehdi Sadeghi.
+
+## Summary
+Mohammad Mehdi Sadeghi is a Frontend Developer specializing in React, TypeScript, JavaScript, Tailwind CSS, and WordPress. Educated at Rokad Startup School, he builds responsive, high-performance web applications, custom UI components, and modern interactive experiences.
+
+## Technical Skills
+- Core: HTML, CSS, JavaScript, TypeScript
+- Frameworks & Libraries: React, Tailwind CSS, Vite, Next.js
+- CMS: WordPress
+- Disciplines: Frontend Architecture, Responsive Web Design, Component Systems, UI/UX Engineering
+
+## Featured Projects
+- **CacheCleaner**: Windows utility for per-application cache cleanup and storage optimization.
+- **NetBridge**: Developer network proxy & bridging utility for reliable local routing.
+- **Rokad Web**: Modern creative design studio website built with Next.js and Tailwind CSS.
+- **Porskad**: Form and survey management system for educational institutions with responsive admin UI.
+- **Study Timer**: Study tracking and exam countdown web application.
+- **Sabz Learn**: Responsive online learning platform interface with course catalog.
+- **Ubisoft Clone**: Interactive web clone of Ubisoft website.
+- **DigiKala Clone**: Responsive e-commerce catalog clone.
+
+## Key Links
+- Portfolio: https://mohammad-mehdi-sadeghi.vercel.app/
+- Projects: https://mohammad-mehdi-sadeghi.vercel.app/project
+- Blog: https://mohammad-mehdi-sadeghi.vercel.app/blog
+- About: https://mohammad-mehdi-sadeghi.vercel.app/about
+- Contact: https://mohammad-mehdi-sadeghi.vercel.app/contact
+- GitHub: https://github.com/MohammadMehdiSadeghi
+- LinkedIn: https://www.linkedin.com/in/mohammad-mehdi-sadeghi
+- Telegram: https://t.me/Mohammad_sadeghi34
+- Instagram: https://www.instagram.com/Mohammad_sadeghi3447
+- Email: mohammad.m.sadeghi09@gmail.com
+
+## Articles
+- [Stop guessing at responsive bugs. Measure them.](https://mohammad-mehdi-sadeghi.vercel.app/blog/stop-guessing-at-responsive-bugs): Analysis of CSS overflow, border overlap, and real-browser viewport measurement techniques.
+- [The React StrictMode bug that looked like a browser glitch](https://mohammad-mehdi-sadeghi.vercel.app/blog/react-strictmode-cleanup-bug): Deep dive into React StrictMode double-mount lifecycle and effect cleanup edge cases.

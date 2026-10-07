@@ -12,9 +12,10 @@
 import { requireAuth, readStore, writeStore, withLock } from "../_lib.js";
 
 const FILE = "telegram.json";
+const LOG_FILE = "telegram-log.json";
 const TELEGRAM_API = "https://api.telegram.org";
 
-const readCfg = async () => {
+export const readCfg = async () => {
   const cfg = await readStore(FILE, {});
   return {
     enabled: !!cfg.enabled,
@@ -23,13 +24,13 @@ const readCfg = async () => {
   };
 };
 
-const escHtml = (s) =>
+export const escHtml = (s) =>
   String(s || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-async function sendMessage(cfg, html) {
+export async function sendMessage(cfg, html) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 10000);
   try {
@@ -49,6 +50,49 @@ async function sendMessage(cfg, html) {
     return { ok: true };
   } finally {
     clearTimeout(timer);
+  }
+}
+
+export async function recordTelegramLog(entry) {
+  await withLock("telegram-log", async () => {
+    const logStore = await readStore(LOG_FILE, { entries: [] });
+    if (!Array.isArray(logStore.entries)) logStore.entries = [];
+    logStore.entries.unshift(entry);
+    if (logStore.entries.length > 100) logStore.entries = logStore.entries.slice(0, 100);
+    await writeStore(LOG_FILE, logStore);
+  });
+}
+
+export async function notifyNewContactMessage(msg) {
+  const cfg = await readCfg();
+  const time = new Date().toISOString();
+  if (!cfg.enabled || !cfg.botToken || !cfg.chatId) {
+    await recordTelegramLog({ kind: "contact", skipped: true, time });
+    return;
+  }
+  const dt = new Date().toLocaleString("en-GB", { hour12: false });
+  const html = [
+    "📬 <b>New Contact Form Submission</b>",
+    "",
+    `<b>Name:</b> ${escHtml(msg.name)}`,
+    msg.phoneNumber ? `<b>Phone:</b> ${escHtml(msg.phoneNumber)}` : null,
+    `<b>Time:</b> <i>${escHtml(dt)}</i>`,
+    "",
+    `<b>Message:</b>`,
+    `<blockquote expandable>${escHtml(msg.message)}</blockquote>`,
+  ].filter(Boolean).join("\n");
+
+  try {
+    await sendMessage(cfg, html);
+    await recordTelegramLog({ kind: "contact", ok: true, time });
+  } catch (err) {
+    console.error("[telegram] notify failed:", err?.message || err);
+    await recordTelegramLog({
+      kind: "contact",
+      ok: false,
+      error: err?.message || "Telegram request failed",
+      time,
+    });
   }
 }
 
@@ -117,6 +161,7 @@ export default async function handler(req, res, resource) {
   /* ── GET config ── */
   if (req.method === "GET") {
     const cfg = await readCfg();
+    const logStore = await readStore(LOG_FILE, { entries: [] });
     return res.json({
       enabled: cfg.enabled,
       chatId: cfg.chatId,
@@ -124,6 +169,7 @@ export default async function handler(req, res, resource) {
       botTokenMasked: cfg.botToken
         ? cfg.botToken.slice(0, 6) + "…" + cfg.botToken.slice(-4)
         : "",
+      log: Array.isArray(logStore.entries) ? logStore.entries : [],
     });
   }
 
@@ -133,21 +179,22 @@ export default async function handler(req, res, resource) {
     const botToken = String(body.botToken ?? "").trim();
     const chatId = String(body.chatId ?? "").trim();
     const enabled = !!body.enabled;
-    if (enabled && !chatId) {
-      return res.status(400).json({ error: "chatId is required to enable" });
+    const prev = await readCfg();
+    const effectiveToken = botToken || prev.botToken;
+    const effectiveChatId = chatId || prev.chatId;
+
+    if (enabled && (!effectiveToken || !effectiveChatId)) {
+      return res.status(400).json({ error: "botToken and chatId are required to enable" });
     }
     if (botToken && !/^\d{6,}:[A-Za-z0-9_-]{30,}$/.test(botToken)) {
       return res.status(400).json({ error: "botToken doesn't look valid (expected 123456:ABC…)" });
     }
-    const prev = await readCfg();
+
     const next = {
       enabled,
-      botToken: botToken || prev.botToken,
-      chatId: chatId || prev.chatId,
+      botToken: effectiveToken,
+      chatId: effectiveChatId,
     };
-    if (enabled && !next.botToken) {
-      return res.status(400).json({ error: "botToken is required to enable" });
-    }
     await withLock("telegram", async () => {
       await writeStore(FILE, next);
     });

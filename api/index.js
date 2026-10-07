@@ -80,6 +80,8 @@ const STATIC_JSON = {
   "skills.json": () => listData("skills.json"),
   "music-analysis.json": () => listData("music-analysis.json"),
   "blog.json": () => listData("blog.json"),
+  "site.json": () => listData("site.json"),
+  "site": () => listData("site.json"),
 };
 
 function notFound(res) {
