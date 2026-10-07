@@ -20,9 +20,45 @@ import crypto from "crypto";
 import { fileURLToPath } from "url";
 import { executeMoodSearch, MOOD_DIMS } from "./src/lib/moodEngine.js";
 import { resolveCountry, formatCountryStats } from "./api/_country.js";
+import {
+  kvGet,
+  kvSet,
+  dbConfigured,
+  dbReady,
+  pgInsertVisit,
+  pgInsertClick,
+} from "./api/_pg.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load local environment files if present
+for (const envFile of [".env.local", ".env"]) {
+  const p = path.join(__dirname, envFile);
+  if (fs.existsSync(p)) {
+    try {
+      if (process.loadEnvFile) {
+        process.loadEnvFile(p);
+      } else {
+        const lines = fs.readFileSync(p, "utf8").split("\n");
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed && !trimmed.startsWith("#")) {
+            const idx = trimmed.indexOf("=");
+            if (idx > 0) {
+              const k = trimmed.slice(0, idx).trim();
+              let v = trimmed.slice(idx + 1).trim();
+              if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+                v = v.slice(1, -1);
+              }
+              if (process.env[k] === undefined) process.env[k] = v;
+            }
+          }
+        }
+      }
+    } catch {}
+  }
+}
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;

@@ -143,15 +143,13 @@ export async function saveAdminPassword(username, password_sha256) {
   const next = {
     username: username || cur.username,
     password_sha256,
-    token_version: cur.token_version || 0,
+    token_version: (cur.token_version || 0) + 1,
   };
   await writeJSON(path.join(DATA_DIR, "admin-auth.json"), next);
   if (dbConfigured()) await kvSet("admin_auth", next);
   CFG = {
     ...baseConfig(),
     ...next,
-    /* unchanged by a dashboard password change: the secret must stay
-       identical on every instance, so old tokens survive the change */
     secret: tokenSecret(),
   };
   CFG_LOADED = true;

@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 function getRouteMeta(pathname) {
   if (pathname === "/") {
     return {
-      cmd: "npm run dev:home",
+      cmd: "exec _home",
       label: "RUNNING _HOME",
       desc: "Loading home module...",
       color: "#00D5BE",
@@ -19,7 +19,7 @@ function getRouteMeta(pathname) {
   }
   if (pathname.startsWith("/project")) {
     return {
-      cmd: "npm run dev:projects",
+      cmd: "exec _projects",
       label: "RUNNING _PROJECTS",
       desc: "Compiling projects...",
       color: "#615FFF",
@@ -29,7 +29,7 @@ function getRouteMeta(pathname) {
   if (pathname.startsWith("/blog")) {
     const isPost = pathname.length > 6;
     return {
-      cmd: isPost ? "npm run dev:post" : "npm run dev:blog",
+      cmd: isPost ? "exec _post" : "exec _blog",
       label: isPost ? "RUNNING _BLOG_POST" : "RUNNING _BLOG",
       desc: isPost ? "Loading post data..." : "Compiling blog feed...",
       color: "#4ADE80",
@@ -38,7 +38,7 @@ function getRouteMeta(pathname) {
   }
   if (pathname.startsWith("/about")) {
     return {
-      cmd: "npm run dev:about",
+      cmd: "exec _about",
       label: "RUNNING _ABOUT",
       desc: "Loading bio data...",
       color: "#FFB86A",
@@ -47,7 +47,7 @@ function getRouteMeta(pathname) {
   }
   if (pathname.startsWith("/contact")) {
     return {
-      cmd: "npm run dev:contact",
+      cmd: "exec _contact",
       label: "RUNNING _CONTACT",
       desc: "Opening contact channel...",
       color: "#F472B6",
@@ -56,7 +56,7 @@ function getRouteMeta(pathname) {
   }
   if (pathname.startsWith("/admin")) {
     return {
-      cmd: "npm run dev:admin",
+      cmd: "exec _admin",
       label: "RUNNING _ADMIN",
       desc: "Authorizing session...",
       color: "#F59E0B",
@@ -65,7 +65,7 @@ function getRouteMeta(pathname) {
   }
   const cleanPath = pathname.replace(/^\//, "").toUpperCase() || "PAGE";
   return {
-    cmd: `npm run dev:${cleanPath.toLowerCase()}`,
+    cmd: `exec _${cleanPath.toLowerCase()}`,
     label: `RUNNING _${cleanPath}`,
     desc: "Mounting page view...",
     color: "#615FFF",

@@ -8,6 +8,7 @@ import {
   getBearer,
   verifyToken,
 } from "../_lib.js";
+import { pgInsertClick, dbConfigured } from "../_pg.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -26,6 +27,16 @@ export default async function handler(req, res) {
   const referrer = String(body.referrer || "").trim().slice(0, 500);
   if (!targetType || !targetId) {
     return res.status(400).json({ error: "targetType and targetId are required" });
+  }
+
+  if (dbConfigured()) {
+    pgInsertClick({
+      targetId,
+      targetType,
+      targetLabel,
+      pagePath: path,
+      sessionId,
+    }).catch(() => {});
   }
 
   const now = new Date();

@@ -7,6 +7,7 @@ import {
   getBearer,
   verifyToken,
 } from "../_lib.js";
+import { pgInsertVisit, dbConfigured } from "../_pg.js";
 import { resolveCountry } from "../_country.js";
 
 export default async function handler(req, res) {
@@ -39,6 +40,18 @@ export default async function handler(req, res) {
   if (heartbeat) return res.json({ ok: true, country });
 
   const today = dstr(new Date());
+  if (dbConfigured()) {
+    pgInsertVisit({
+      visitDate: today,
+      visitHour: new Date().getHours(),
+      pagePath: p,
+      countryCode: country || "UNKNOWN",
+      sessionId: sessionId || "anon",
+      ipHash: null,
+      userAgent: req.headers["user-agent"] || null,
+    }).catch(() => {});
+  }
+
   await withLock("visits", async () => {
     const visits = await readStore("visits.json", { days: {} });
     if (!visits.days || typeof visits.days !== "object") visits.days = {};

@@ -123,10 +123,7 @@ export default async function handler(req, res, resource) {
 async function usersHandler(req, res) {
   if (req.method === "GET") {
     const store = await readUsers();
-    /* never leak passwords to the client */
-    return res.json(
-      store.users.map(({ password: _pw, ...safe }) => safe)
-    );
+    return res.json(store.users);
   }
 
   if (req.method === "POST") {

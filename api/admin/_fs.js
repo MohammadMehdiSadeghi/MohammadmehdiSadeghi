@@ -248,6 +248,9 @@ export default async function handler(req, res, resource) {
 
   if (req.method === "POST") {
     /* /api/admin/fs-delete → { path } */
+    if (!target || target === "/" || target === "." || dir === path.resolve(DATA_DIR)) {
+      return res.status(400).json({ error: "cannot delete root data directory" });
+    }
     try {
       const st = await fsp.stat(dir);
       if (st.isDirectory()) await fsp.rm(dir, { recursive: true, force: true });

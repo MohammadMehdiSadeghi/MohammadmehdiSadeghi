@@ -87,14 +87,39 @@ export async function pg() {
   return client;
 }
 
+const KEY_MAP = {
+  "telegram.json": "telegram",
+  "site.json": "site",
+  "admin-auth.json": "admin_auth",
+  "visits.json": "visits",
+  "clicks.json": "clicks",
+  "online.json": "online",
+  "skills.json": "skills",
+  "projects.json": "projects",
+  "mini-projects.json": "mini_projects",
+  "messages.json": "messages",
+  "blog.json": "blog",
+};
+
+export function normalizeKey(k) {
+  if (!k) return "";
+  const s = String(k);
+  return KEY_MAP[s] || s.replace(/\.json$/i, "").replace(/-/g, "_");
+}
+
 /* ── generic JSON documents (admin_settings) ────────────────────────── */
 
 export async function kvGet(key, fallback = null) {
   const c = await pg();
   if (!c) return fallback;
+  const k1 = key;
+  const k2 = normalizeKey(key);
   try {
     const rows = await c`
-      SELECT value FROM admin_settings WHERE key = ${key} LIMIT 1
+      SELECT value FROM admin_settings
+      WHERE key = ${k1} OR key = ${k2}
+      ORDER BY (key = ${k2}) DESC, updated_at DESC
+      LIMIT 1
     `;
     if (!rows.length) return fallback;
     const v = rows[0].value;
@@ -108,17 +133,145 @@ export async function kvGet(key, fallback = null) {
 export async function kvSet(key, value) {
   const c = await pg();
   if (!c) return false;
+  const norm = normalizeKey(key);
   try {
     await c`
       INSERT INTO admin_settings (key, value, updated_at)
-      VALUES (${key}, ${c.json(value)}, NOW())
+      VALUES (${norm}, ${c.json(value)}, NOW())
       ON CONFLICT (key) DO UPDATE
         SET value = EXCLUDED.value, updated_at = NOW()
     `;
+    if (key !== norm) {
+      await c`
+        INSERT INTO admin_settings (key, value, updated_at)
+        VALUES (${key}, ${c.json(value)}, NOW())
+        ON CONFLICT (key) DO UPDATE
+          SET value = EXCLUDED.value, updated_at = NOW()
+      `;
+    }
     return true;
   } catch (err) {
     console.error(`[pg] kvSet(${key}) failed:`, err?.message || err);
     return false;
+  }
+}
+
+/* ── analytics visits & clicks ───────────────────────────────────────── */
+
+export async function pgInsertVisit({
+  visitDate,
+  visitHour,
+  pagePath = "/",
+  countryCode = "UNKNOWN",
+  sessionId,
+  ipHash = null,
+  userAgent = null,
+}) {
+  const c = await pg();
+  if (!c) return false;
+  try {
+    const d = visitDate || new Date().toISOString().slice(0, 10);
+    const h = Number.isInteger(visitHour) ? visitHour : new Date().getHours();
+    const p = String(pagePath || "/").slice(0, 255);
+    const cc = String(countryCode || "UNKNOWN").slice(0, 10);
+    const s = String(sessionId || "anon").slice(0, 128);
+    await c`
+      INSERT INTO site_visits (visit_date, visit_hour, page_path, country_code, session_id, ip_hash, user_agent)
+      VALUES (${d}, ${h}, ${p}, ${cc}, ${s}, ${ipHash}, ${userAgent})
+    `;
+    return true;
+  } catch (err) {
+    console.error("[pg] insertVisit failed:", err?.message || err);
+    return false;
+  }
+}
+
+export async function pgInsertClick({
+  targetId,
+  targetType,
+  targetLabel = null,
+  pagePath = "/",
+  sessionId = null,
+}) {
+  const c = await pg();
+  if (!c) return false;
+  try {
+    const tid = String(targetId || "unknown").slice(0, 100);
+    const ttype = String(targetType || "unknown").slice(0, 50);
+    const tlabel = targetLabel ? String(targetLabel).slice(0, 150) : null;
+    const p = String(pagePath || "/").slice(0, 255);
+    const s = sessionId ? String(sessionId).slice(0, 128) : null;
+    await c`
+      INSERT INTO site_clicks (target_id, target_type, target_label, page_path, session_id)
+      VALUES (${tid}, ${ttype}, ${tlabel}, ${p}, ${s})
+    `;
+    return true;
+  } catch (err) {
+    console.error("[pg] insertClick failed:", err?.message || err);
+    return false;
+  }
+}
+
+export async function pgGetStats() {
+  const c = await pg();
+  if (!c) return null;
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+    const [todayRow] = await c`
+      SELECT COUNT(*)::int AS views, COUNT(DISTINCT session_id)::int AS uniques
+      FROM site_visits WHERE visit_date = ${today}
+    `;
+    const [yestRow] = await c`
+      SELECT COUNT(*)::int AS views, COUNT(DISTINCT session_id)::int AS uniques
+      FROM site_visits WHERE visit_date = ${yesterday}
+    `;
+    const [totalRow] = await c`
+      SELECT COUNT(*)::int AS views, COUNT(DISTINCT session_id)::int AS uniques
+      FROM site_visits
+    `;
+    const topPaths = await c`
+      SELECT page_path AS path, COUNT(*)::int AS total
+      FROM site_visits
+      GROUP BY page_path
+      ORDER BY total DESC
+      LIMIT 15
+    `;
+    const countries = await c`
+      SELECT country_code AS country, COUNT(*)::int AS count
+      FROM site_visits
+      GROUP BY country_code
+      ORDER BY count DESC
+      LIMIT 15
+    `;
+    const [clicksRow] = await c`
+      SELECT COUNT(*)::int AS total_clicks
+      FROM site_clicks
+    `;
+    const topClicks = await c`
+      SELECT target_id AS "targetId", target_type AS "targetType", target_label AS "targetLabel", COUNT(*)::int AS total
+      FROM site_clicks
+      GROUP BY target_id, target_type, target_label
+      ORDER BY total DESC
+      LIMIT 15
+    `;
+
+    return {
+      today: todayRow?.views || 0,
+      todayUnique: todayRow?.uniques || 0,
+      yesterday: yestRow?.views || 0,
+      yesterdayUnique: yestRow?.uniques || 0,
+      totalAllTime: totalRow?.views || 0,
+      totalUnique: totalRow?.uniques || 0,
+      topPaths: topPaths.map((r) => ({ path: r.path, total: r.total })),
+      countries: countries.map((r) => ({ country: r.country, count: r.count })),
+      totalClicks: clicksRow?.total_clicks || 0,
+      topClickItems: topClicks,
+    };
+  } catch (err) {
+    console.error("[pg] getStats failed:", err?.message || err);
+    return null;
   }
 }
 

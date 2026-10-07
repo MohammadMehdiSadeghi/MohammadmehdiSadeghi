@@ -310,8 +310,8 @@ console.log("\n=== Database tab works on the serverless deployment (was 501) ===
   /* SAME CLASS OF BUG, new params: the blog feed reads ?slug= and the cover
      endpoint reads ?id=. A wildcard named after either one would clobber it,
      so assert both arrive intact. */
-  const bs = await invoke("GET", "/api/blog?slug=welcome-to-my-blog");
-  check("blog ?slug= survives the rewrite", bs.body?.post?.slug === "welcome-to-my-blog",
+  const bs = await invoke("GET", "/api/blog?slug=stop-guessing-at-responsive-bugs");
+  check("blog ?slug= survives the rewrite", bs.body?.post?.slug === "stop-guessing-at-responsive-bugs",
     `slug=${JSON.stringify(bs.body?.post?.slug)}`);
   const bi = await invoke("GET", "/api/blog-image?id=does-not-exist.png");
   check("blog-image ?id= survives the rewrite (404 = id was seen)",
