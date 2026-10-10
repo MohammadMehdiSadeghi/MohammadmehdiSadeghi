@@ -1,15 +1,6 @@
-<!-- HEADER -->
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24&height=220&section=header&text=Mohammad%20Mehdi%20Sadeghi&fontSize=44&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Front-end%20Developer%20%7C%20React%20%7C%20UI%2FUX&descAlignY=58&descSize=18" width="100%" />
-
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=800&color=24A1DE&center=true&vCenter=true&width=600&lines=Building+modern+%26+responsive+web+apps;Clean+design+%E2%80%A2+Great+UX+%E2%80%A2+Fast+performance;Student+at+Rokad+Startup+School;Growing+towards+Full-Stack+Engineering+%F0%9F%9A%80" alt="Typing SVG" />
-</a>
-
-<br/>
-
-<img src="https://komarev.com/ghpvc/?username=YOUR_GITHUB_USERNAME&label=Profile%20views&color=0e75b6&style=flat-square" alt="views" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24&height=200&section=header&text=Mohammad%20Mehdi%20Sadeghi&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Front-end%20Developer&descAlignY=60&descSize=20" width="100%" />
 
 </div>
 
@@ -17,13 +8,8 @@
 
 ## 👨‍💻 About Me
 
-```text
-> whoami
-Mohammad Mehdi Sadeghi, front-end developer
-```
-
 - 💻 I build modern, responsive web apps with **HTML, CSS, JavaScript, React and WordPress**
-- 🚀 I've worked on **educational platforms, startup projects and business websites**, focusing on clean design, UX and performance
+- 🚀 I've worked on **educational platforms, startup projects and business websites**, focusing on clean code and performance
 - 🎯 I like shipping real projects that solve practical problems
 - 🤖 I use **AI-powered tools** to speed up my developer workflow
 - 🎓 Student at **Rokad Startup School** (Web Design & Development)
@@ -35,28 +21,27 @@ Mohammad Mehdi Sadeghi, front-end developer
 
 <div align="center">
 
-<img src="https://skillicons.dev/icons?i=html,css,js,ts,react,tailwind,wordpress,vite,git,github,vercel,figma&perline=12" />
-
-</div>
-
-| Category | Technologies |
-| :--- | :--- |
-| 🧱 **Core & Languages** | `HTML5` · `CSS3` · `JavaScript (ES6+)` · `TypeScript` |
-| 🎨 **Frameworks & UI** | `React.js` · `Tailwind CSS` · `Framer Motion` · `Responsive Design` |
-| ⚙️ **CMS & Tools** | `WordPress` · `Vite` · `Git` · `GitHub` · `Vercel` · `Figma` |
-
----
-
-## 📊 GitHub Stats
-
-<div align="center">
-
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=YOUR_GITHUB_USERNAME&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_GITHUB_USERNAME&layout=compact&theme=tokyonight&hide_border=true" />
-
-<br/>
-
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=YOUR_GITHUB_USERNAME&theme=tokyonight&hide_border=true" />
+<table>
+  <tr>
+    <td align="center" width="33%"><b>🧱 Languages</b></td>
+    <td align="center" width="34%"><b>⚛️ Frameworks & Libraries</b></td>
+    <td align="center" width="33%"><b>🧰 Tools & Platforms</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://skillicons.dev/icons?i=html,css,js,ts&perline=4" /><br/>
+      <sub>HTML5 · CSS3 · JavaScript (ES6+) · TypeScript</sub>
+    </td>
+    <td align="center">
+      <img src="https://skillicons.dev/icons?i=react,tailwind,vite,framer&perline=4" /><br/>
+      <sub>React · Tailwind CSS · Vite · Framer Motion</sub>
+    </td>
+    <td align="center">
+      <img src="https://skillicons.dev/icons?i=wordpress,git,github,vercel,figma&perline=5" /><br/>
+      <sub>WordPress · Git · GitHub · Vercel · Figma</sub>
+    </td>
+  </tr>
+</table>
 
 </div>
 
@@ -92,8 +77,7 @@ const developer = {
   role: "Front-end developer",
   skills: ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS", "TypeScript", "WordPress"],
   learning: ["Backend", "Software Architecture"],
-  focus: "Clean design, UI/UX & performance optimization",
-  openToWork: true,
+  focus: "Clean code & performance optimization",
 };
 ```
 
