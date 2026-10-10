@@ -47,6 +47,27 @@
 
 ---
 
+## 💼 Experience
+
+- **Front-end Developer** at **Rokad Studio** (TODO: بازه‌ی زمانی، مثلاً 2025 – Present)
+  TODO: یک یا دو جمله از کارهایی که اونجا انجام دادی
+
+[Full experience on LinkedIn →](https://www.linkedin.com/in/mohammad-mehdi-sadeghi/)
+
+---
+
+## 🚀 Featured Projects
+
+| Project | Description | Tech | Links |
+| :--- | :--- | :--- | :--- |
+| 🌐 **Personal Website** | TODO: توضیح کوتاه | `React` `Tailwind CSS` | [Live](https://mohammad-mehdi-sadeghi.vercel.app/) · [Code](#) |
+| 📰 **PressCad** | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
+| 🔗 **NetBridge** | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
+| 🔗 **NetBridge** (TODO: اسم یا نسخه‌ی دوم) | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
+| 💸 **CleanCash** | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
+
+---
+
 ## 📬 Connect with Me
 
 <div align="center">
