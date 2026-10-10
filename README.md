@@ -60,11 +60,11 @@
 
 | Project | Description | Tech | Links |
 | :--- | :--- | :--- | :--- |
-| 🌐 **Personal Website** | TODO: توضیح کوتاه | `React` `Tailwind CSS` | [Live](https://mohammad-mehdi-sadeghi.vercel.app/) · [Code](#) |
-| 📰 **PressCad** | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
-| 🔗 **NetBridge** | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
-| 🔗 **NetBridge** (TODO: اسم یا نسخه‌ی دوم) | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
-| 💸 **CleanCash** | TODO: توضیح کوتاه | `TODO` | [Live](#) · [Code](#) |
+| 🌐 **Personal Website** | Personal portfolio — Vite + React | `React` `Vite` `Tailwind CSS` `JavaScript` | [Live](https://mohammad-mehdi-sadeghi.vercel.app/) · [Code](https://github.com/MohammadMehdiSadeghi/MohammadmehdiSadeghi) |
+| 📋 **پرس‌کاد (Porskad)** | Persian form-builder with slide-style UI, conditional logic, scoring, OTP & Persian-safe Excel export | `React` `Vite` `Tailwind CSS` `Supabase` `TypeScript` | [Live](https://porskad.vercel.app/) · [Code](https://github.com/MohammadMehdiSadeghi/porskad) |
+| 🌳 **Edukad** | Skill-tree learning platform for Rokad — DAG roadmaps, RBAC, real-world missions, mentor review | `Next.js` `NestJS` `TypeScript` `Prisma` `PostgreSQL` `React Flow` `Docker` | [Backend](https://edukad-backend.vercel.app) · [Code](https://github.com/MohammadMehdiSadeghi/Edukad) |
+| 📡 **NetBridge** | Share Android phone's internet (with active VPN tunnel) to Windows PC — no root, bilingual UI | `Kotlin` `Android` `TypeScript` | [Releases](https://github.com/MohammadMehdiSadeghi/NetBridge/releases) · [Code](https://github.com/MohammadMehdiSadeghi/NetBridge) |
+| 🧹 **CacheCleaner** | Windows cache cleaner with a real GUI — finds every app's cache, shows contents, safely clears them | `Python` `pywebview` | [Code](https://github.com/MohammadMehdiSadeghi/CacheCleaner) |
 
 ---
 
