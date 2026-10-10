@@ -49,8 +49,8 @@
 
 ## 💼 Experience
 
-- **Front-end Developer** at **Rokad Studio** (April 2025 – Present)
-  Building Rokad Startup School's web platforms and internal tools — including Porskad form-builder and Edukad skill-tree — with React, Next.js and TypeScript.
+- **Frontend Developer** at **Rokad Studio** (April 2026 – Present)
+  Developing modern, responsive, and interactive user interfaces using React.js, Next.js, TypeScript, and Tailwind CSS. Collaborating on web applications, design systems, and frontend optimization.
 
 [Full experience on LinkedIn →](https://www.linkedin.com/in/mohammad-mehdi-sadeghi/)
 
@@ -58,12 +58,12 @@
 
 ## 🚀 Featured Projects
 
-| Project | Description | Tech | Link |
-| :--- | :--- | :--- | :--- |
-| 🌐 **Personal Website** | Personal portfolio — Vite + React | `React` `Vite` `Tailwind CSS` `JavaScript` | [Live](https://mohammad-mehdi-sadeghi.vercel.app/) |
-| 📋 **Porskad** | Smart form-builder with slide-style UI, conditional logic, scoring, OTP auth, and Persian-safe Excel export | `React` `Vite` `Tailwind CSS` `Supabase` `TypeScript` | [Live](https://porskad.vercel.app/) |
-| 📡 **NetBridge** | Share Android phone's internet (with active VPN tunnel) to Windows PC — no root, bilingual UI | `Kotlin` `Android` `TypeScript` | [Code](https://github.com/MohammadMehdiSadeghi/NetBridge) |
-| 🧹 **CacheCleaner** | Windows cache cleaner with a real GUI — finds every app's cache, shows contents, safely clears them | `Python` `pywebview` | [Code](https://github.com/MohammadMehdiSadeghi/CacheCleaner) |
+| Project | Tech | Link |
+| :--- | :--- | :--- |
+| 🌐 **Personal Website** | `React` `Vite` `Tailwind CSS` `JavaScript` | [Live](https://mohammad-mehdi-sadeghi.vercel.app/) |
+| 📋 **Porskad** | `React` `Vite` `Tailwind CSS` `Supabase` `TypeScript` | [Live](https://porskad.vercel.app/) |
+| 📡 **NetBridge** | `Kotlin` `Android` `TypeScript` | [Code](https://github.com/MohammadMehdiSadeghi/NetBridge) |
+| 🧹 **CacheCleaner** | `Python` `pywebview` | [Code](https://github.com/MohammadMehdiSadeghi/CacheCleaner) |
 
 ---
 
