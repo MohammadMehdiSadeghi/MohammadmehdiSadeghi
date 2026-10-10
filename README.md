@@ -49,8 +49,8 @@
 
 ## 💼 Experience
 
-- **Front-end Developer** at **Rokad Studio** (2025 – Present)
-  Building and shipping Rokad Startup School's web platforms and internal tools — frontend and full-stack features with React, Next.js and TypeScript.
+- **Front-end Developer** at **Rokad Studio** (April 2025 – Present)
+  Building Rokad Startup School's web platforms and internal tools — including Porskad form-builder and Edukad skill-tree — with React, Next.js and TypeScript.
 
 [Full experience on LinkedIn →](https://www.linkedin.com/in/mohammad-mehdi-sadeghi/)
 
